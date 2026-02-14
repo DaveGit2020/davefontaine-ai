@@ -14,8 +14,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .header .sub{font-size:14px;opacity:.9;margin:0 0 2px}
 .header .detail{font-size:13px;opacity:.75;margin:0}
 .header .attr{margin-top:10px;font-size:11px;opacity:.6;font-style:italic}
-.tabs{display:flex;gap:8px;padding:16px 16px 8px;overflow-x:auto}
-.tab{padding:8px 14px;border-radius:20px;border:none;font-weight:600;font-size:13px;cursor:pointer;white-space:nowrap}
+.tabs{display:flex;gap:8px;padding:16px 16px 8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity}
+.tab{padding:8px 14px;border-radius:20px;border:none;font-weight:600;font-size:13px;cursor:pointer;white-space:nowrap;-webkit-tap-highlight-color:transparent;touch-action:manipulation;-webkit-appearance:none;appearance:none;scroll-snap-align:start}
 .content{padding:8px 16px 24px}
 .day-header{border-radius:12px;padding:14px 16px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center}
 .day-header h2{margin:0;font-size:18px;font-weight:700}
@@ -308,7 +308,7 @@ e("h1",null,data.header.title),
 e("p",{className:"sub"},data.header.subtitle),
 e("p",{className:"detail"},data.header.detail),
 e("div",{className:"attr"},"Tips from Dave, Sarah, Grace (6) and Lily (4) | Wait times are typical ranges")),
-e("div",{className:"tabs"},data.days.map(function(d,i){return e("button",{key:i,className:"tab",style:{background:activeDay===i?d.color:"#f3f4f6",color:activeDay===i?"#fff":"#6b7280"},onClick:function(){setActiveDay(i)}},d.emoji+" "+d.day)})),
+e("div",{className:"tabs"},data.days.map(function(d,i){return e("button",{key:i,className:"tab",style:{background:activeDay===i?d.color:"#f3f4f6",color:activeDay===i?"#fff":"#6b7280"},onClick:function(ev){ev.preventDefault();ev.stopPropagation();setActiveDay(i);setExpanded({});window.scrollTo(0,0)}},d.emoji+" "+d.day)})),
 e("div",{className:"content"},
 e("div",{className:"day-header",style:{background:"linear-gradient(135deg,"+day.color+"15,"+day.color+"08)",border:"1px solid "+day.color+"30"}},e("div",null,e("h2",{style:{color:day.color}},day.park),e("span",{className:"meta"},day.day+(day.pass?" | "+day.pass:""))),e("span",{className:"emoji"},day.emoji)),
 day.overview?e("div",{className:"info-box know"},e("b",null,"Know Before You Go: "),day.overview):null,
