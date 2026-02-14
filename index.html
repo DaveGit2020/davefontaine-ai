@@ -63,11 +63,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;
 
   <div class="access-gate" id="accessGate">
     <h2>Welcome</h2>
-    <p>Enter your access code to view projects</p>
+    <p>Enter your access code to continue</p>
     <div class="access-input-row">
-      <input class="access-input" id="accessCode" type="text" placeholder="Your access code" autocomplete="off" autocapitalize="off">
+      <input class="access-input" id="accessCode" type="text" placeholder="Access code" autocomplete="off" autocapitalize="off">
       <button class="access-btn" onclick="checkAccess()">Enter</button>
     </div>
+    <div style="color:#9ca3af;font-size:11px;margin-top:8px">Invite only — ask Dave for your code</div>
     <div class="access-error" id="accessError">Code not recognized. Check with Dave.</div>
   </div>
 
@@ -124,7 +125,7 @@ const PROJECTS = [
 ];
 
 // VIP codes see everything (no gate)
-const VIP_CODES = ["vip", "dave", "davefontaine", "sarah"];
+const VIP_CODES = ["vip", "dave", "davefontaine", "sarah", "beta"];
 
 // Web3Forms key for feedback (same as TagSale)
 const FEEDBACK_KEY = "e71b608c-ba69-4dc3-82d0-765910e81fc3";
