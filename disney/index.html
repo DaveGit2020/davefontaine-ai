@@ -297,7 +297,7 @@ function FirstStop({stop}){if(!stop)return null;return e("div",{className:"first
 
 function ItemCard({item,expanded,onToggle}){return e("div",{className:"item-card",onClick:onToggle},e("div",{className:"item-top"},e("span",{className:"item-name"},item.name),e("div",{className:"badges"},item.showtime?ShowBadge():null,item.dining?DiningBadge({type:item.dining}):null,RecBadge({rec:item.rec})),e("span",{className:"arrow"+(expanded?" open":"")},"\u25bc")),e("div",{className:"meta-row"},item.area?MetaBadge({icon:"",label:item.area}):null,item.exp?MetaBadge({icon:"",label:item.exp+" min exp"}):null,item.wait?MetaBadge({icon:"",label:item.wait[0]+"-"+item.wait[1]+" min wait"}):null,item.height?e("span",{className:"height-badge"},item.height+"+ to ride"):null),expanded?e("div",{className:"expand"},e("p",null,item.note),KidQuote({kq:item.kidQuote}),WaitBar({wait:item.wait})):null)}
 
-function CategorySection({cat,dayIdx,expanded,toggleItem}){var r=us(true),o=r[0],s=r[1];return e("div",{style:{marginBottom:20}},e("div",{className:"cat-header",onClick:function(){s(!o)}},e("span",{className:"icon"},cat.emoji),e("div",{style:{flex:1}},e("div",{className:"name"},cat.name),cat.description?e("div",{className:"desc"},cat.description):null),e("span",{className:"count"},cat.items.length),e("span",{className:"arrow"+(o?" open":"")},"\u25bc")),o?cat.items.map(function(item,ii){var k=dayIdx+"-"+cat.name+"-"+ii;return ItemCard({key:k,item:item,expanded:!!expanded[k],onToggle:function(){toggleItem(k)}})}):null)}
+function CategorySection({cat,dayIdx,expanded,toggleItem}){var r=us(true),o=r[0],s=r[1];return e("div",{style:{marginBottom:20}},e("div",{className:"cat-header",onClick:function(){s(!o)}},e("span",{className:"icon"},cat.emoji),e("div",{style:{flex:1}},e("div",{className:"name"},cat.name),cat.description?e("div",{className:"desc"},cat.description):null),e("span",{className:"count"},cat.items.length),e("span",{className:"arrow"+(o?" open":"")},"\u25bc")),o?cat.items.map(function(item,ii){var k=dayIdx+"-"+cat.name+"-"+ii;return e(ItemCard,{key:k,item:item,expanded:!!expanded[k],onToggle:function(){toggleItem(k)}})}):null)}
 
 function DisneyGuide(){var r=us(0),activeDay=r[0],setActiveDay=r[1];var r2=us({}),expanded=r2[0],setExpanded=r2[1];var day=data.days[activeDay];var toggleItem=function(k){setExpanded(function(p){var n={};for(var x in p)n[x]=p[x];n[k]=!p[k];return n})};
 
@@ -313,10 +313,10 @@ e("div",{className:"content"},
 e("div",{className:"day-header",style:{background:"linear-gradient(135deg,"+day.color+"15,"+day.color+"08)",border:"1px solid "+day.color+"30"}},e("div",null,e("h2",{style:{color:day.color}},day.park),e("span",{className:"meta"},day.day+(day.pass?" | "+day.pass:""))),e("span",{className:"emoji"},day.emoji)),
 day.overview?e("div",{className:"info-box know"},e("b",null,"Know Before You Go: "),day.overview):null,
 day.restNote?e("div",{className:"info-box rest"},e("b",null,"Rest & Recharge: "),day.restNote):null,
-LandsOverview({lands:day.lands}),
-FirstStop({stop:day.firstStop}),
+e(LandsOverview,{lands:day.lands}),
+e(FirstStop,{stop:day.firstStop}),
 day.scheduled&&day.scheduled.length>0?e("div",{style:{marginBottom:20}},e("div",{className:"sched-header"},e("span",{className:"icon"},"\ud83d\udcc5"),e("div",null,e("div",{className:"title"},"Scheduled"),e("div",{className:"sub"},"Already booked - build your day around these"))),day.scheduled.map(function(s,i){return e("div",{key:i,className:"sched-card",style:{borderLeft:"4px solid "+day.color}},e("div",{className:"time"},s.time+" - "+s.event),e("div",{className:"snote"},s.note),s.area?e("div",{style:{marginTop:6}},MetaBadge({icon:"",label:s.area})):null)})):null,
-day.categories?day.categories.map(function(cat,ci){return CategorySection({key:ci,cat:cat,dayIdx:activeDay,expanded:expanded,toggleItem:toggleItem})}):null
+day.categories?day.categories.map(function(cat,ci){return e(CategorySection,{key:activeDay+"-"+ci,cat:cat,dayIdx:activeDay,expanded:expanded,toggleItem:toggleItem})}):null
 )
 )}
 
