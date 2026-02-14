@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>The Anderson Family Guide - Disney World</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f9fafb;min-height:100vh}
+.app{max-width:480px;margin:0 auto;background:#f9fafb;min-height:100vh}
+.header{background:linear-gradient(135deg,#1e3a5f 0%,#4F46E5 50%,#7c3aed 100%);padding:28px 20px 20px;color:#fff;border-radius:0 0 20px 20px}
+.header .pre{font-size:11px;text-transform:uppercase;letter-spacing:2px;opacity:.8;margin-bottom:4px}
+.header h1{font-size:24px;font-weight:800;margin:0 0 4px}
+.header .sub{font-size:14px;opacity:.9;margin:0 0 2px}
+.header .detail{font-size:13px;opacity:.75;margin:0}
+.header .attr{margin-top:10px;font-size:11px;opacity:.6;font-style:italic}
+.tabs{display:flex;gap:8px;padding:16px 16px 8px;overflow-x:auto}
+.tab{padding:8px 14px;border-radius:20px;border:none;font-weight:600;font-size:13px;cursor:pointer;white-space:nowrap}
+.content{padding:8px 16px 24px}
+.day-header{border-radius:12px;padding:14px 16px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center}
+.day-header h2{margin:0;font-size:18px;font-weight:700}
+.day-header .meta{font-size:12px;color:#6b7280}
+.day-header .emoji{font-size:32px}
+.info-box{border-radius:10px;padding:12px 14px;margin-bottom:16px;font-size:13px;line-height:1.6}
+.info-box b{font-weight:700}
+.know{background:#eff6ff;border:1px solid #bfdbfe;color:#1e40af}
+.rest{background:#f0fdf4;border:1px solid #bbf7d0;color:#166534}
+.lands-toggle{background:#faf5ff;border:1px solid #e9d5ff;padding:12px 14px;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+.lands-toggle span{font-weight:700;font-size:14px;color:#7c3aed}
+.lands-content{background:#faf5ff;border:1px solid #e9d5ff;border-top:none;border-radius:0 0 10px 10px;padding:8px 14px 14px}
+.land-row{display:flex;gap:10px;margin-bottom:10px}
+.land-row:last-child{margin-bottom:0}
+.land-bar{width:4px;min-height:36px;border-radius:2px;flex-shrink:0;margin-top:2px}
+.land-name{font-weight:700;font-size:13px}
+.land-desc{font-size:12px;color:#6b7280;line-height:1.5}
+.first-stop{background:linear-gradient(135deg,#fef9c3,#fef3c7);border:1px solid #fde68a;border-radius:10px;padding:12px 14px;margin-bottom:16px}
+.first-stop .label{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#92400e;margin-bottom:4px}
+.first-stop .name{font-weight:700;font-size:15px;color:#78350f}
+.first-stop .note{font-size:13px;color:#78350f;line-height:1.5;margin-top:4px}
+.sched-header{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.sched-header .icon{font-size:22px}
+.sched-header .title{font-weight:700;font-size:16px}
+.sched-header .sub{font-size:12px;color:#9ca3af}
+.sched-card{background:#fff;border-radius:10px;padding:12px 14px;margin-bottom:8px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.sched-card .time{font-weight:700;font-size:14px}
+.sched-card .snote{font-size:13px;color:#6b7280;margin-top:2px}
+.cat-header{display:flex;align-items:center;gap:8px;margin-bottom:10px;cursor:pointer;user-select:none}
+.cat-header .icon{font-size:22px}
+.cat-header .name{font-weight:700;font-size:16px}
+.cat-header .desc{font-size:12px;color:#9ca3af}
+.cat-header .count{font-size:12px;color:#9ca3af}
+.item-card{background:#fff;border-radius:10px;padding:12px 14px;margin-bottom:8px;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid #e5e7eb}
+.item-top{display:flex;justify-content:space-between;align-items:center;gap:6px}
+.item-name{font-weight:600;font-size:14px;flex:1}
+.badges{display:flex;gap:4px;align-items:center;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end}
+.badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;white-space:nowrap}
+.badge-must{background:#dcfce7;color:#166534;border:1px solid #86efac}
+.badge-recommended{background:#dbeafe;color:#1e40af;border:1px solid #93c5fd}
+.badge-alternative{background:#f3f4f6;color:#4b5563;border:1px solid #d1d5db}
+.badge-if_open{background:#fef9c3;color:#854d0e;border:1px solid #fde047}
+.badge-mixed{background:#fef3c7;color:#92400e;border:1px solid #fcd34d}
+.badge-optional{background:#f3f4f6;color:#6b7280;border:1px solid #d1d5db}
+.badge-skip{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5}
+.badge-show{background:#fef3c7;color:#92400e;border:1px solid #fcd34d}
+.badge-dining-sit{background:#fdf4ff;color:#86198f;border:1px solid #e879f9}
+.badge-dining-take{background:#fff7ed;color:#9a3412;border:1px solid #fdba74}
+.badge-dining-quick{background:#ecfdf5;color:#065f46;border:1px solid #6ee7b7}
+.meta-row{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.meta-badge{font-size:11px;color:#6b7280;background:#f3f4f6;padding:3px 8px;border-radius:8;display:inline-flex;align-items:center;gap:3px;white-space:nowrap;font-weight:500;border-radius:8px}
+.height-badge{font-size:11px;color:#dc2626;background:#fef2f2;padding:3px 8px;border-radius:8px;font-weight:600;white-space:nowrap}
+.expand{margin-top:10px;border-top:1px solid #f3f4f6;padding-top:10px}
+.expand p{font-size:13px;color:#4b5563;line-height:1.6;margin:0}
+.kid-quote{margin-top:8px;background:#fef9c3;border:1px solid #fde68a;border-radius:8px;padding:8px 12px}
+.kid-quote .q{font-size:13px;color:#78350f;font-style:italic}
+.kid-quote .who{font-size:11px;color:#92400e;margin-left:6px;font-weight:600}
+.wait-bar{margin-top:8px}
+.wait-label{display:flex;justify-content:space-between;margin-bottom:3px}
+.wait-label span{font-size:11px;font-weight:600;color:#6b7280}
+.wait-track{height:6px;background:#f3f4f6;border-radius:3px;overflow:hidden;position:relative}
+.arrow{font-size:11px;color:#9ca3af;flex-shrink:0;margin-left:4px;transition:transform .15s;display:inline-block}
+.arrow.open{transform:rotate(180deg)}
+.back-nav{position:fixed;top:0;left:0;right:0;background:rgba(10,10,10,.95);backdrop-filter:blur(8px);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;z-index:100;max-width:480px;margin:0 auto}
+.back-link{color:#fff;text-decoration:none;font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px;opacity:.8;transition:opacity .2s}
+.back-link:hover{opacity:1}
+.fb-btn{background:linear-gradient(135deg,#4F46E5,#7c3aed);color:#fff;border:none;padding:6px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:opacity .2s}
+.fb-btn:hover{opacity:.9}
+.fb-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;display:none;align-items:flex-end;justify-content:center}
+.fb-overlay.show{display:flex}
+.fb-panel{background:#fff;border-radius:20px 20px 0 0;padding:24px 20px 32px;width:100%;max-width:480px}
+.fb-panel h3{font-size:18px;font-weight:700;margin-bottom:4px}
+.fb-panel p{font-size:13px;color:#6b7280;margin-bottom:16px}
+.fb-textarea{width:100%;padding:12px;border:1px solid #e5e7eb;border-radius:10px;font-size:14px;font-family:inherit;resize:none;min-height:100px;outline:none}
+.fb-textarea:focus{border-color:#4F46E5}
+.fb-actions{display:flex;gap:10px;margin-top:12px}
+.fb-cancel{flex:1;padding:12px;border-radius:10px;border:1px solid #e5e7eb;background:#fff;font-size:14px;font-weight:600;cursor:pointer;color:#6b7280}
+.fb-send{flex:1;padding:12px;border-radius:10px;border:none;background:linear-gradient(135deg,#4F46E5,#7c3aed);color:#fff;font-size:14px;font-weight:600;cursor:pointer}
+.fb-toast{position:fixed;top:60px;left:50%;transform:translateX(-50%) translateY(-80px);background:#22c55e;color:#fff;padding:10px 20px;border-radius:10px;font-size:13px;font-weight:600;z-index:300;transition:transform .3s;pointer-events:none}
+.fb-toast.visible{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="back-nav">
+  <a class="back-link" href="/">&larr; Back to Hub</a>
+  <button class="fb-btn" onclick="openFeedback()">Share Feedback</button>
+</div>
+<div style="height:42px"></div>
+<div id="root"></div>
+<div class="fb-overlay" id="fbOverlay" onclick="if(event.target===this)closeFeedback()">
+  <div class="fb-panel">
+    <h3>Share Your Thoughts</h3>
+    <p>What do you think of the guide? Any suggestions, questions, or things we should add?</p>
+    <textarea class="fb-textarea" id="fbText" placeholder="Type your feedback here..."></textarea>
+    <div class="fb-actions">
+      <button class="fb-cancel" onclick="closeFeedback()">Cancel</button>
+      <button class="fb-send" onclick="submitFeedback()">Send Feedback</button>
+    </div>
+  </div>
+</div>
+<div class="fb-toast" id="fbToast">Thanks! Your feedback was sent.</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script>
+const e=React.createElement,{useState:us}=React;
+
+const recLabels={must:"Don't Miss",recommended:"Recommended",alternative:"Alternative",if_open:"If Open",mixed:"Mixed Reviews",optional:"If You Have Time",skip:"Low Priority"};
+const diningLabels={"sit-down":"Sit-Down","takeaway":"Takeaway","quick-service":"Quick Service"};
+const diningClass={"sit-down":"badge-dining-sit","takeaway":"badge-dining-take","quick-service":"badge-dining-quick"};
+
+const data={header:{title:"The Anderson Family Guide",subtitle:"Kyle & Kaidy | Piper (7) & Poppy (4)",detail:"Mon-Thu | Polynesian Resort"},days:[
+{day:"Monday",park:"EPCOT",pass:"Premier Pass",color:"#4F46E5",emoji:"\ud83c\udf0d",overview:"EPCOT is a BIG park \u2014 you'll do a lot of walking. It's wide open with long stretches between attractions, especially around the World Showcase. Pace yourselves, wear good shoes, and plan breaks. The front half has the big rides, the back half (World Showcase) is a big loop of country pavilions with food, shops, characters, and experiences.",restNote:"Getting back to the Polynesian from EPCOT takes ~20 min (monorail transfer at Transportation Center). Doable for a mid-day break but not as quick as MK. If the girls are fading, head back for pool time \u2014 a rested family has way more fun than an exhausted one.",lands:null,firstStop:null,scheduled:null,categories:[
+{name:"Getting There",emoji:"\ud83d\ude9d",description:"Options from the Polynesian",items:[
+{name:"Monorail (Our Pick!)",note:"Take the monorail from Polynesian to Transportation Center, then transfer to the EPCOT monorail. About 20 min total. It's a fun ride itself \u2014 you pass right by Magic Kingdom. The girls will love it.",rec:"recommended",area:"Polynesian",exp:"20"},
+{name:"Minnie Van",note:"Disney-owned Chevy Tahoe SUVs with car seats built in. Book through the Lyft app. Door-to-door. More expensive but convenient.",rec:"alternative",area:"Polynesian",exp:"15"},
+{name:"Bus",note:"Standard Disney bus. Free, but less fun than the monorail and can be crowded.",rec:"alternative",area:"Polynesian",exp:"20"}
+]},{name:"Thrill Rides",emoji:"\ud83c\udfa2",description:"Use your Premier Pass here",items:[
+{name:"Guardians of the Galaxy: Cosmic Rewind",note:"The best roller coaster in all of Disney World. Indoor coaster, goes backwards, incredible soundtrack. Use Premier Pass. Use Rider Switch if one parent stays with the younger one. Experience time includes an awesome interactive pre-show \u2014 part of the fun, not just waiting.",rec:"must",area:"World Discovery",exp:"40",wait:[60,120],height:'42"'},
+{name:"Frozen Ever After",note:"THE ride for two little girls. Boat ride through Arendelle with Anna, Elsa, and all the Frozen characters. Use Premier Pass \u2014 consistently one of the longest lines.",rec:"must",area:"Norway",exp:"5",wait:[50,100]},
+{name:"Soarin' Around the World",note:"Hang-glider style seat, fly over world landmarks with wind, scents, and a giant screen. Incredible. The whole family will love it.",rec:"must",area:"World Nature (The Land)",exp:"25",wait:[30,60],height:'40"'},
+{name:"Test Track",note:"Design a car then ride it on a high-speed test course. Been under construction \u2014 if open, do it.",rec:"if_open",area:"World Discovery",exp:"10",wait:[40,80],height:'40"'},
+{name:"Ratatouille",note:"3D trackless ride, shrinks you to rat-size. Some kids love it, some hate it \u2014 can cause motion sickness.",rec:"mixed",area:"France",exp:"5",wait:[35,70]}
+]},{name:"Slow Rides",emoji:"\ud83d\udea4",description:"Great for breaks between the big stuff",items:[
+{name:"Spaceship Earth",note:"The ride inside the giant ball. Slow-moving journey through history. Surprisingly engaging \u2014 kids actually like it. Great AC break.",rec:"recommended",area:"Front of Park",exp:"15",wait:[15,30]},
+{name:"Three Caballeros (Mexico Boat Ride)",note:"Slow boat ride inside the Mexico building with Donald Duck. Right next to lunch and passport gift shop.",rec:"recommended",area:"Mexico",exp:"8",wait:[10,25]},
+{name:"The Seas with Nemo & Friends",note:"Slow ride through Finding Nemo scenes. Drops you into the Nemo Aquarium (see Experiences) \u2014 do them back to back.",rec:"recommended",area:"World Nature",exp:"5",wait:[15,30]},
+{name:"Living with the Land",note:"Slow boat ride through greenhouses. Chill. Can be boring for little kids.",rec:"optional",area:"World Nature (The Land)",exp:"15",wait:[10,25]},
+{name:"Journey into Imagination (Figment)",note:"Classic slow ride. Kind of goofy. Lowest priority.",rec:"skip",area:"World Nature",exp:"10",wait:[5,15]}
+]},{name:"Experiences",emoji:"\u2728",description:"The stuff between rides",items:[
+{name:"World Showcase Passports",note:"Buy a passport at the Mexico building gift shop, collect stamps at every country. The girls will love having a mission.",rec:"must",area:"World Showcase (all)",exp:"60"},
+{name:"Hidden Princesses",note:"Princesses tucked in country buildings \u2014 Mulan, Elsa, more. Ask cast members.",rec:"must",area:"World Showcase (various)",exp:"15"},
+{name:"Moana Water Feature",note:"Walk-through water play to the right past the ball. Free, no line. Kids WILL get soaked \u2014 bring extra clothes!",rec:"must",area:"World Nature",exp:"20"},
+{name:"Skyliner Gondola",note:"At the back of EPCOT near Ratatouille/World Showcase entrance. Aerial ride over to Hollywood Studios area. Cool time killer with great views.",rec:"recommended",area:"World Showcase (back gate)",exp:"30"},
+{name:"Nemo Aquarium (after Nemo ride)",note:"Massive real aquarium after the ride. Dolphins, sharks, sea turtles. Could spend 5 or 30+ min.",rec:"recommended",area:"World Nature",exp:"5-30"},
+{name:"Kids Playground",note:"Play area near front of park. Great for burning energy.",rec:"recommended",area:"Front of Park",exp:"5-30"},
+{name:"Face Painting Stations",note:"Multiple spots throughout. Fun between rides.",rec:"recommended",area:"Various",exp:"15"},
+{name:"CommuniCore Hall",note:"Interactive exhibit space near the ball. Creative activities, digital exhibits. Good break for little ones.",rec:"optional",area:"Front of Park",exp:"20"},
+{name:"Awesome Planet",note:"Short nature film in The Land building. Good AC time killer.",rec:"optional",area:"World Nature (The Land)",exp:"20"},
+{name:"Club Cool",note:"Free Coca-Cola samples from around the world. Kids love tasting weird sodas.",rec:"optional",area:"Front of Park",exp:"10"}
+]},{name:"Food",emoji:"\ud83c\udf55",description:"Where to eat and snack",items:[
+{name:"La Cantina de San Angel (Lunch Pick!)",note:"Sit-down Mexican inside the Mexico building, overlooking the lagoon. One of the BEST restaurants in all of Disney. Next to the boat ride and passport shop \u2014 do it all in one stop.",rec:"must",area:"Mexico",exp:"60",dining:"sit-down"},
+{name:"France Pavilion Pizza (Outdoor Window)",note:"Puffy French bread pizza from the OUTDOOR takeout window. Way better than inside. The takeout window is the move.",rec:"recommended",area:"France",exp:"15",dining:"takeaway"},
+{name:"Les Halles Boulangerie-Patisserie",note:"French bakery. Great pastries and sandwiches.",rec:"optional",area:"France",exp:"15",dining:"takeaway"},
+{name:"School Bread",note:"Famous pastry in Norway near the Frozen ride.",rec:"optional",area:"Norway",exp:"5",dining:"takeaway"}
+]},{name:"Probably Skip",emoji:"\ud83d\udeab",description:"Not worth it for this trip",items:[
+{name:"Mission: SPACE",note:"Motion sickness risk. Better for older kids.",rec:"skip",area:"World Discovery",exp:"5",wait:[15,30],height:'40"'},
+{name:"Fireworks (Luminous)",note:"Beautiful at 9pm but late and loud. You'll probably be gone.",rec:"skip",area:"World Showcase Lagoon",exp:"20"}
+]}]},
+{day:"Tuesday",park:"Magic Kingdom",pass:"Lightning Lane (for this day)",color:"#DC2626",emoji:"\ud83c\udff0",overview:"Magic Kingdom is THE classic Disney park. With young kids, you'll spend most of your time in Fantasyland and Tomorrowland. Adventureland is lower priority. You have Lightning Lane for this day \u2014 book individual rides, some up to a week in advance!",restNote:"The Polynesian is RIGHT there \u2014 one quick monorail stop from MK. Easiest park to pop back for a pool break or nap. With Bibbidi at noon and Royal Table at 5, you have natural breaks built in. Consider watching fireworks from the Polynesian beach instead of fighting the crowds inside the park.",lands:[
+{name:"Main Street U.S.A.",color:"#dc2626",desc:"Entrance. Shops, barbershop, parade route. Hit shops on the way OUT."},
+{name:"Adventureland",color:"#16a34a",desc:"Pirates, Jungle Cruise, Aladdin. Lower priority with young kids."},
+{name:"Frontierland",color:"#ca8a04",desc:"Tiana's Bayou Adventure. Worth the walk."},
+{name:"Liberty Square",color:"#2563eb",desc:"Haunted Mansion. Worth doing if the girls aren't too spooked."},
+{name:"Fantasyland",color:"#9333ea",desc:"WHERE YOU'LL SPEND MOST TIME. Castle, Mine Train, Peter Pan, Dumbo, Small World, Bibbidi Bobbidi, Royal Table."},
+{name:"Tomorrowland",color:"#0891b2",desc:"TRON, Buzz Lightyear, Speedway, PeopleMover. Your other main zone."}
+],firstStop:{name:"Pixie Dust at the Barbershop",note:"Walk in, turn left on Main Street. They'll spray pixie dust on the girls' heads. Quick, easy, magical. Do this FIRST.",area:"Main Street U.S.A."},scheduled:[
+{time:"12:00 PM",event:"Bibbidi Bobbidi Boutique",note:"Princess makeover. The actual makeover is fast (~20 min) but budget the full hour. THEN 20-30 min after for shopping and photos across the street. Total: ~90 min. Budget ~$1,000.",area:"Fantasyland (near Carousel & Sword in the Stone)"},
+{time:"5:00 PM",event:"Cinderella's Royal Table",note:"Dinner inside the castle! Build your afternoon around this.",area:"Fantasyland (inside Cinderella Castle)"}
+],categories:[
+{name:"Getting There",emoji:"\ud83d\ude9d",description:"Options from the Polynesian",items:[
+{name:"Monorail (Our Pick \u2014 There)",note:"Polynesian to Grand Floridian to MK. A few stops, ~10 min. Security at the monorail = easier park entry.",rec:"recommended",area:"Polynesian",exp:"10"},
+{name:"Boat (Fun for the Way Back)",note:"Scenic ride across the lake. Slower but fun. Great for the way home.",rec:"recommended",area:"Polynesian",exp:"20"},
+{name:"Minnie Van",note:"Chevy Tahoe SUVs with car seats. Book through Lyft. Door to door.",rec:"alternative",area:"Polynesian",exp:"10"}
+]},{name:"Thrill Rides",emoji:"\ud83c\udfa2",description:"Use Lightning Lane \u2014 book in advance!",items:[
+{name:"Seven Dwarfs Mine Train",note:"TOP PRIORITY. Book Lightning Lane in advance. Great coaster for kids \u2014 not too scary, just fast and fun.",rec:"must",area:"Fantasyland",exp:"5",wait:[60,120],height:'38"',kidQuote:{name:"Grace",age:6,quote:"That's the only one I feel like I can put my hands up!"}},
+{name:"Tiana's Bayou Adventure",note:"TOP PRIORITY. Definitely Lightning Lane. Old Splash Mountain, now Tiana-themed. The drop isn't bad \u2014 kids will be fine.",rec:"must",area:"Frontierland",exp:"30",wait:[60,120],height:'40"',kidQuote:{name:"Lily",age:4,quote:"I like the piano ride!"}},
+{name:"TRON Lightcycle / Run",note:"Newest coaster in Disney World. Motorcycle-style car with back restraint. Height req might be too tall for Poppy \u2014 check! Worth doing if Lightning Lane available.",rec:"recommended",area:"Tomorrowland",exp:"30",wait:[60,120],height:'48"'},
+{name:"Barnstormer",note:"Great little kids coaster. Small, rickety, perfect for little ones. Poppy will love this.",rec:"recommended",area:"Fantasyland (Storybook Circus)",exp:"5",wait:[15,30],height:'35"'}
+]},{name:"Slow Rides",emoji:"\ud83d\udea4",description:"The heart of the Magic Kingdom",items:[
+{name:"Peter Pan's Flight",note:"Classic. Use Lightning Lane. Same area as Small World and Pooh \u2014 knock out a lot here.",rec:"must",area:"Fantasyland",exp:"5",wait:[45,90]},
+{name:"Dumbo the Flying Elephant",note:"Disney classic. Goes up and down. Indoor playground nearby is separate (see Experiences).",rec:"must",area:"Fantasyland (Storybook Circus)",exp:"10",wait:[20,40]},
+{name:"it's a small world",note:"The Disney classic. Fantasyland cluster with Peter Pan and Pooh.",rec:"recommended",area:"Fantasyland",exp:"15",wait:[15,30]},
+{name:"Buzz Lightyear's Space Ranger Spin",note:"Shoot targets with laser guns. Kids love competing. Might be under renovation.",rec:"recommended",area:"Tomorrowland",exp:"10",wait:[30,60]},
+{name:"Tomorrowland Speedway",note:"Classic car racing on rails. Surprisingly fun. Get the driver's license photos after (see Experiences)!",rec:"recommended",area:"Tomorrowland",exp:"15",wait:[20,40]},
+{name:"Mad Tea Party (Teacups)",note:"Classic. Quick wait, no Lightning Lane needed.",rec:"recommended",area:"Fantasyland",exp:"5",wait:[15,30]},
+{name:"Prince Charming Regal Carousel",note:"Classic carousel right next to Bibbidi Bobbidi Boutique.",rec:"recommended",area:"Fantasyland",exp:"5",wait:[10,20]},
+{name:"PeopleMover",note:"One of our FAVORITE things in all of Disney. Sit back, breeze, relax. No Lightning Lane.",rec:"recommended",area:"Tomorrowland",exp:"15",wait:[10,25]},
+{name:"Haunted Mansion",note:"Depends on kids' scare tolerance. One time fine, another time scary. Exactly what you remember.",rec:"mixed",area:"Liberty Square",exp:"15",wait:[30,60]},
+{name:"Pirates of the Caribbean",note:"Scarier for kids than you'd expect. Some dark scenes and drops.",rec:"mixed",area:"Adventureland",exp:"15",wait:[30,60]},
+{name:"Magic Carpets of Aladdin",note:"Basically Dumbo. Pick Dumbo for the nearby playground.",rec:"optional",area:"Adventureland",exp:"5",wait:[15,30]},
+{name:"Many Adventures of Winnie the Pooh",note:"Fine time killer. Same zone as Peter Pan.",rec:"optional",area:"Fantasyland",exp:"10",wait:[20,45]},
+{name:"Under the Sea \u2014 Little Mermaid",note:"Characters singing. What you'd expect.",rec:"optional",area:"Fantasyland",exp:"10",wait:[15,30]},
+{name:"Space Mountain",note:"Super rickety now. Not as good as you remember. Low priority.",rec:"optional",area:"Tomorrowland",exp:"5",wait:[45,90],height:'44"'}
+]},{name:"Shows",emoji:"\ud83c\udfad",description:"Check showtimes in the Disney app",items:[
+{name:"Festival of Fantasy Parade",note:"Usually ~12/1pm and 3pm \u2014 check times. Starts near Frontierland, comes down Main Street. Get there 30 min early MINIMUM. People line up an hour ahead.",rec:"must",area:"Main Street / Frontierland",exp:"60",showtime:true,kidQuote:{name:"Lily",age:4,quote:"I love the parade!"}},
+{name:"Happily Ever After Fireworks (~9pm)",note:"Fantastic. Castle light projection is beautiful. BUT: shoulder to shoulder, intense. Options: (1) In the park (amazing but intense). (2) Polynesian across the lake \u2014 check if they play music. (3) Walk to Grand Floridian (~15 min, DON'T monorail during fireworks). Boat dock seating plays the music. Music is a MUST.",rec:"recommended",area:"Main Street / Off-site",exp:"20",showtime:true},
+{name:"Mickey's PhilharMagic",note:"3D show \u2014 big dark room. Some kids get frightened. Great show if your girls are OK with it.",rec:"optional",area:"Fantasyland",exp:"20",showtime:true}
+]},{name:"Experiences",emoji:"\u2728",description:"The magic between rides",items:[
+{name:"Bibbidi Bobbidi Boutique (12pm)",note:"Already booked! Makeover is fast (~20 min) but budget the hour. THEN 20-30 min for shopping and photos across the street. Total: ~90 min. Budget ~$1,000.",rec:"must",area:"Fantasyland (near Carousel)",exp:"90"},
+{name:"Dumbo Playground (Indoor, AC)",note:"Separate from the Dumbo ride. INDOOR AIR-CONDITIONED playground in Storybook Circus. Huge. 5-30 min. Great break from heat and lines.",rec:"must",area:"Fantasyland (Storybook Circus)",exp:"5-30"},
+{name:"Sword in the Stone",note:"Near the Carousel and Bibbidi Bobbidi. Have the girls try to pull it \u2014 it actually comes out sometimes!",rec:"recommended",area:"Fantasyland",exp:"5"},
+{name:"Speedway Driver's License Photos",note:"Photo booths at Speedway exit. ~$10 each. One of the best keepsakes from Disney.",rec:"recommended",area:"Tomorrowland",exp:"10"},
+{name:"Character Meet & Greets",note:"Characters walking around. If the girls have favorites, let us know.",rec:"recommended",area:"Various",exp:"15"},
+{name:"Face Painting Stations",note:"Multiple spots. Fun between rides.",rec:"optional",area:"Various",exp:"15"}
+]},{name:"Food",emoji:"\ud83c\udf55",description:"Eating at Cinderella's at 5pm \u2014 plan around that",items:[
+{name:"Cinderella's Royal Table (5pm)",note:"Already booked! Dinner inside the castle. Fresh off Bibbidi Bobbidi makeovers. Highlight of the trip.",rec:"must",area:"Fantasyland (Cinderella Castle)",exp:"75",dining:"sit-down"},
+{name:"Pinocchio Village Haus",note:"Quick service. Good tables overlook Small World. Order on Disney app, tap 'we are here' \u2014 food comes fast. Hard to find a table with stroller.",rec:"recommended",area:"Fantasyland",exp:"30",dining:"quick-service"},
+{name:"Cosmic Ray's Starlight Cafe",note:"Not bad, pretty quick. Burgers and chicken.",rec:"optional",area:"Tomorrowland",exp:"30",dining:"quick-service"}
+]},{name:"Shopping",emoji:"\ud83d\udecd\ufe0f",description:"Hit shops on the way OUT",items:[
+{name:"The Emporium (Main Street)",note:"Massive gift shop. Tons of apparel. Do this on the WAY OUT.",rec:"recommended",area:"Main Street U.S.A.",exp:"20-45"}
+]},{name:"Probably Skip",emoji:"\ud83d\udeab",description:"Not worth it on a one-day visit with young kids",items:[
+{name:"Big Thunder Mountain Railroad",note:"One day only? Not a great use of 45-60 min. Other attractions give way more enjoyment.",rec:"skip",area:"Frontierland",exp:"30",wait:[60,90],height:'40"'},
+{name:"Princess Fairytale Hall",note:"Just meeting princesses. If doing Royal Table, skip.",rec:"skip",area:"Fantasyland",exp:"20"},
+{name:"Jungle Cruise",note:"Fine but not great for one day.",rec:"skip",area:"Adventureland",exp:"15",wait:[45,90]},
+{name:"Carousel of Progress",note:"~45 min, boring for kids. They'll need to pee in the middle and you can't get off.",rec:"skip",area:"Tomorrowland",exp:"45"},
+{name:"Astro Orbiter",note:"Always broken or long line.",rec:"skip",area:"Tomorrowland",exp:"5",wait:[30,60]},
+{name:"Monsters Inc. Laugh Floor",note:"Never been.",rec:"skip",area:"Tomorrowland",exp:"20"},
+{name:"Enchanted Tiki Room",note:"Never been.",rec:"skip",area:"Adventureland",exp:"15"},
+{name:"Railroad",note:"~45 min, higher priority stuff.",rec:"skip",area:"Main Street U.S.A.",exp:"45"},
+{name:"Liberty Square Riverboat",note:"~30 min. Not sure.",rec:"skip",area:"Liberty Square",exp:"30"},
+{name:"Hall of Presidents",note:"~30 min. Haven't been.",rec:"skip",area:"Liberty Square",exp:"30"}
+]},{name:"Nearby (Off-Park)",emoji:"\ud83c\udfe8",description:"Worth doing during your stay",items:[
+{name:"Chef Mickey's (Contemporary)",note:"Our FAVORITE character dining. Breakfast buffet \u2014 Mickey, Minnie, Pluto, Goofy, Donald. Photo with every character. Fun, loud, vibrant. Best $60 buffet ever. Book in advance.",rec:"must",area:"Contemporary Resort",exp:"90",dining:"sit-down"},
+{name:"Grand Floridian Bath Store",note:"Second floor. Nice bath products \u2014 the girls might love it. Walk from Polynesian ~15 min or one monorail stop.",rec:"recommended",area:"Grand Floridian",exp:"20"},
+{name:"Contemporary Arcade",note:"Good arcade, first floor. Kill time if at Contemporary.",rec:"optional",area:"Contemporary Resort",exp:"15-30"}
+]}]},
+{day:"Wednesday",park:"Hollywood Studios",pass:"Premier Pass",color:"#D97706",emoji:"\ud83c\udfac",overview:"Day 3 \u2014 the kids have been going hard for two days, so pace accordingly. Hollywood Studios is harder to get to from Polynesian. Great mix of rides, shows, and immersive experiences. Lots of shows with set showtimes \u2014 check the Disney app!",restNote:"Hardest park to get back to the Polynesian from \u2014 no monorail, bus or Minnie Van only (~20-25 min). Plan to commit to the day or leave early rather than trying to bounce back and forth. If the girls are toast by 2pm after two big days, just head back. An amazing half-day beats a miserable full day.",lands:[
+{name:"Toy Story Land",color:"#16a34a",desc:"Toy Story Mania, Slinky Dog Dash, Alien Saucers. Great zone for kids."},
+{name:"Star Wars: Galaxy's Edge",color:"#1e3a5f",desc:"Rise of the Resistance, Millennium Falcon, cantina. Incredibly immersive."},
+{name:"Sunset Boulevard",color:"#dc2626",desc:"Tower of Terror, Rock n Roller Coaster. More for adults \u2014 Rider Switch friendly."},
+{name:"Animation Courtyard & More",color:"#9333ea",desc:"Runaway Railway, Frozen Sing-Along, Disney Junior, various shows."}
+],firstStop:null,scheduled:null,categories:[
+{name:"Getting There",emoji:"\ud83d\ude9d",description:"Harder to reach from Polynesian",items:[
+{name:"Minnie Van (Our Pick for This One)",note:"Chevy Tahoe SUVs with car seats. Book through Lyft. ~15 min from Polynesian. This park is harder to get to, so Minnie Van is worth it.",rec:"recommended",area:"Polynesian",exp:"15"},
+{name:"Hotel Shuttle (Bus)",note:"Standard Disney bus. Free and reliable.",rec:"alternative",area:"Polynesian",exp:"25"},
+{name:"Skyliner (from EPCOT)",note:"Not practical from Polynesian directly, but from EPCOT back gate (near Ratatouille) you can ride the gondola over. Cool aerial experience.",rec:"alternative",area:"EPCOT back gate",exp:"30"}
+]},{name:"Thrill Rides",emoji:"\ud83c\udfa2",description:"Use your Premier Pass here",items:[
+{name:"Slinky Dog Dash",note:"Family coaster in Toy Story Land. Very popular \u2014 use Premier Pass. Great for kids.",rec:"must",area:"Toy Story Land",exp:"10",wait:[60,100],height:'38"'},
+{name:"Tower of Terror",note:"Classic drop ride. Fun for adults \u2014 probably scary for girls. Good Rider Switch candidate. Quick once inside.",rec:"recommended",area:"Sunset Boulevard",exp:"20",wait:[45,90],height:'40"'},
+{name:"Rock n Roller Coaster",note:"Intense indoor coaster. Too much for the girls. Fun for adults with Rider Switch.",rec:"optional",area:"Sunset Boulevard",exp:"30",wait:[45,90],height:'48"'}
+]},{name:"Slow Rides",emoji:"\ud83d\udea4",description:"Interactive rides and immersive experiences",items:[
+{name:"Toy Story Mania!",note:"What you wish Buzz Lightyear could be. Pull a string to shoot balls at a screen \u2014 best interactive game ride at Disney. Adults will chase high scores.",rec:"must",area:"Toy Story Land",exp:"15",wait:[45,90]},
+{name:"Mickey & Minnie's Runaway Railway",note:"Supposed to be very good. Not a roller coaster, not too intense. Highly recommended.",rec:"recommended",area:"Animation Courtyard",exp:"30",wait:[45,90]},
+{name:"Alien Swirling Saucers",note:"Similar to teacups. Kid-friendly, easy on easy off.",rec:"recommended",area:"Toy Story Land",exp:"5",wait:[20,40],height:'32"'},
+{name:"Star Wars: Rise of the Resistance",note:"Massive, immersive \u2014 one of the most popular rides in all of Disney World. We haven't been (not big Star Wars people) but it's legendary.",rec:"recommended",area:"Galaxy's Edge",exp:"60",wait:[60,120],height:'40"'},
+{name:"Millennium Falcon: Smugglers Run",note:"You pilot the Millennium Falcon. Immersive simulator. Big deal for Star Wars fans.",rec:"optional",area:"Galaxy's Edge",exp:"60",wait:[45,90],height:'38"'}
+]},{name:"Shows",emoji:"\ud83c\udfad",description:"Check showtimes \u2014 theaters are big, rarely sell out",items:[
+{name:"Frozen Sing-Along Celebration",note:"TOP RECOMMENDATION. 45 min show in an auditorium. Fantastic. Show up for a showtime and you'll usually get in.",rec:"must",area:"Animation Courtyard",exp:"60",showtime:true},
+{name:"Indiana Jones Epic Stunt Spectacular",note:"Live action stunt show. Could be loud and scare kids.",rec:"optional",area:"Echo Lake",exp:"45",showtime:true},
+{name:"Disney Junior Play & Dance",note:"Live show for little kids. Could be great for Poppy.",rec:"optional",area:"Animation Courtyard",exp:"30",showtime:true},
+{name:"Voyage of the Little Mermaid",note:"Stage show. Don't know much.",rec:"optional",area:"Animation Courtyard",exp:"30",showtime:true},
+{name:"Lightning McQueen's Racing Academy",note:"Show. Don't know much.",rec:"optional",area:"Sunset area",exp:"20",showtime:true},
+{name:"MuppetVision 3D",note:"Classic 3D show.",rec:"optional",area:"Grand Avenue",exp:"25",showtime:true},
+{name:"Fantasmic!",note:"Big nighttime spectacular on water. 8 or 9pm. Heard good things but late and far from hotel.",rec:"optional",area:"Sunset Boulevard",exp:"30",showtime:true}
+]},{name:"Experiences",emoji:"\u2728",description:"Galaxy's Edge and more",items:[
+{name:"Galaxy's Edge (walking around)",note:"Even if you're not Star Wars fans, incredibly immersive. Worth walking through.",rec:"recommended",area:"Galaxy's Edge",exp:"20"},
+{name:"Oga's Cantina",note:"Themed lounge in Galaxy's Edge. Reservations recommended.",rec:"optional",area:"Galaxy's Edge",exp:"30"},
+{name:"Droid Depot",note:"Build your own droid. ~$100+.",rec:"optional",area:"Galaxy's Edge",exp:"30"},
+{name:"Savi's Workshop",note:"Build a lightsaber. ~$250+. Could be magical if girls are into Star Wars.",rec:"optional",area:"Galaxy's Edge",exp:"30"},
+{name:"Face Painting",note:"Multiple spots throughout.",rec:"optional",area:"Various",exp:"15"},
+{name:"Characters",note:"Star Wars characters in Galaxy's Edge plus others throughout.",rec:"optional",area:"Various",exp:"15"}
+]},{name:"Food",emoji:"\ud83c\udf55",description:"Several unique dining options",items:[
+{name:"Sci-Fi Dine-In Theater",note:"Sit in fake cars watching old sci-fi clips. Pretty dark. Fun unique experience.",rec:"recommended",area:"Commissary Lane",exp:"70",dining:"sit-down"},
+{name:"Woody's Lunch Box",note:"Quick service in Toy Story Land.",rec:"optional",area:"Toy Story Land",exp:"20",dining:"quick-service"},
+{name:"Docking Bay 7",note:"Quick service in Galaxy's Edge. Themed Star Wars food.",rec:"optional",area:"Galaxy's Edge",exp:"25",dining:"quick-service"},
+{name:"50's Prime Time Cafe",note:"Sit-down, 1950s kitchen themed. Servers boss you around (the act). Haven't been.",rec:"optional",area:"Echo Lake",exp:"60",dining:"sit-down"},
+{name:"Backlot Express",note:"Quick service, burgers.",rec:"optional",area:"Echo Lake",exp:"20",dining:"quick-service"}
+]},{name:"Probably Skip",emoji:"\ud83d\udeab",description:"Not essential",items:[
+{name:"Star Tours",note:"Motion simulator, Star Wars themed.",rec:"skip",area:"Echo Lake",exp:"15",wait:[20,40],height:'40"'}
+]}]},
+{day:"Thursday",park:"Departure Day",pass:"No park pass",color:"#059669",emoji:"\ud83c\udf3a",overview:"Last morning! Enjoy a relaxing character breakfast at the Polynesian before heading out. No rushing \u2014 just soak in the last bit of Disney magic.",restNote:"You made it! No park today. Let the girls sleep in if they need to. Character breakfast, maybe some pool time, and head out feeling happy instead of exhausted.",lands:null,firstStop:null,scheduled:[{time:"Morning",event:"Character Breakfast at Polynesian",note:"Characters come to your table. Relaxed, fun, perfect way to end the trip. Book in advance!",area:"Polynesian Resort"}],categories:[
+{name:"Before You Go",emoji:"\ud83e\uddf3",description:"Make the most of your last morning",items:[
+{name:"Character Breakfast",note:"Characters come to your table while you eat. Relaxed and fun \u2014 perfect closer after three big park days.",rec:"must",area:"Polynesian Resort",exp:"75",dining:"sit-down"},
+{name:"Polynesian Pool / Beach",note:"If you have time before checkout, let the girls splash around. Beautiful pool and beach area.",rec:"optional",area:"Polynesian Resort",exp:"30-60"},
+{name:"Resort Gift Shop",note:"Last chance for souvenirs.",rec:"optional",area:"Polynesian Resort",exp:"15"}
+]}]}
+]};
+
+function MetaBadge({icon,label,color}){return e("span",{className:"meta-badge",style:color?{color,background:color+"12"}:null},icon?" "+icon+" ":"",label)}
+function RecBadge({rec}){return e("span",{className:"badge badge-"+(rec||"optional")},recLabels[rec]||"If You Have Time")}
+function DiningBadge({type}){if(!type)return null;return e("span",{className:"badge "+(diningClass[type]||"")},diningLabels[type]||type)}
+function ShowBadge(){return e("span",{className:"badge badge-show"},"Showtime")}
+function KidQuote({kq}){if(!kq)return null;return e("div",{className:"kid-quote"},e("span",{className:"q"},"'"+kq.quote+"'"),e("span",{className:"who"},"- "+kq.name+", age "+kq.age))}
+function WaitBar({wait}){if(!wait)return null;var lo=wait[0],hi=wait[1],max=120,loP=Math.min(lo/max*100,100),hiP=Math.min(hi/max*100,100),c=hi>=80?"#ef4444":hi>=45?"#f59e0b":"#22c55e";return e("div",{className:"wait-bar"},e("div",{className:"wait-label"},e("span",null,"Typical Wait"),e("span",{style:{color:c,fontWeight:700}},lo+"-"+hi+" min")),e("div",{className:"wait-track"},e("div",{style:{position:"absolute",left:0,width:loP+"%",height:"100%",background:c,borderRadius:"3px 0 0 3px",opacity:.25}}),e("div",{style:{position:"absolute",left:loP+"%",width:(hiP-loP)+"%",height:"100%",background:c,borderRadius:3,opacity:.7}})))}
+
+function LandsOverview({lands}){var r=us(false),o=r[0],s=r[1];if(!lands)return null;return e("div",{style:{marginBottom:16}},e("div",{className:"lands-toggle",style:{borderRadius:o?"10px 10px 0 0":"10px"},onClick:function(){s(!o)}},e("span",null,"Lands Overview"),e("span",{className:"arrow"+(o?" open":"")},"\u25bc")),o?e("div",{className:"lands-content"},lands.map(function(l,i){return e("div",{className:"land-row",key:i},e("div",{className:"land-bar",style:{background:l.color}}),e("div",null,e("div",{className:"land-name",style:{color:l.color}},l.name),e("div",{className:"land-desc"},l.desc)))})):null)}
+
+function FirstStop({stop}){if(!stop)return null;return e("div",{className:"first-stop"},e("div",{className:"label"},"First Stop When You Walk In"),e("div",{className:"name"},stop.name),e("div",{className:"note"},stop.note),e("div",{style:{marginTop:6}},MetaBadge({icon:"",label:stop.area,color:"#92400e"})))}
+
+function ItemCard({item,expanded,onToggle}){return e("div",{className:"item-card",onClick:onToggle},e("div",{className:"item-top"},e("span",{className:"item-name"},item.name),e("div",{className:"badges"},item.showtime?ShowBadge():null,item.dining?DiningBadge({type:item.dining}):null,RecBadge({rec:item.rec})),e("span",{className:"arrow"+(expanded?" open":"")},"\u25bc")),e("div",{className:"meta-row"},item.area?MetaBadge({icon:"",label:item.area}):null,item.exp?MetaBadge({icon:"",label:item.exp+" min exp"}):null,item.wait?MetaBadge({icon:"",label:item.wait[0]+"-"+item.wait[1]+" min wait"}):null,item.height?e("span",{className:"height-badge"},item.height+"+ to ride"):null),expanded?e("div",{className:"expand"},e("p",null,item.note),KidQuote({kq:item.kidQuote}),WaitBar({wait:item.wait})):null)}
+
+function CategorySection({cat,dayIdx,expanded,toggleItem}){var r=us(true),o=r[0],s=r[1];return e("div",{style:{marginBottom:20}},e("div",{className:"cat-header",onClick:function(){s(!o)}},e("span",{className:"icon"},cat.emoji),e("div",{style:{flex:1}},e("div",{className:"name"},cat.name),cat.description?e("div",{className:"desc"},cat.description):null),e("span",{className:"count"},cat.items.length),e("span",{className:"arrow"+(o?" open":"")},"\u25bc")),o?cat.items.map(function(item,ii){var k=dayIdx+"-"+cat.name+"-"+ii;return ItemCard({key:k,item:item,expanded:!!expanded[k],onToggle:function(){toggleItem(k)}})}):null)}
+
+function DisneyGuide(){var r=us(0),activeDay=r[0],setActiveDay=r[1];var r2=us({}),expanded=r2[0],setExpanded=r2[1];var day=data.days[activeDay];var toggleItem=function(k){setExpanded(function(p){var n={};for(var x in p)n[x]=p[x];n[k]=!p[k];return n})};
+
+return e("div",{className:"app"},
+e("div",{className:"header"},
+e("div",{className:"pre"},"Walt Disney World 2025"),
+e("h1",null,data.header.title),
+e("p",{className:"sub"},data.header.subtitle),
+e("p",{className:"detail"},data.header.detail),
+e("div",{className:"attr"},"Tips from Dave, Sarah, Grace (6) and Lily (4) | Wait times are typical ranges")),
+e("div",{className:"tabs"},data.days.map(function(d,i){return e("button",{key:i,className:"tab",style:{background:activeDay===i?d.color:"#f3f4f6",color:activeDay===i?"#fff":"#6b7280"},onClick:function(){setActiveDay(i)}},d.emoji+" "+d.day)})),
+e("div",{className:"content"},
+e("div",{className:"day-header",style:{background:"linear-gradient(135deg,"+day.color+"15,"+day.color+"08)",border:"1px solid "+day.color+"30"}},e("div",null,e("h2",{style:{color:day.color}},day.park),e("span",{className:"meta"},day.day+(day.pass?" | "+day.pass:""))),e("span",{className:"emoji"},day.emoji)),
+day.overview?e("div",{className:"info-box know"},e("b",null,"Know Before You Go: "),day.overview):null,
+day.restNote?e("div",{className:"info-box rest"},e("b",null,"Rest & Recharge: "),day.restNote):null,
+LandsOverview({lands:day.lands}),
+FirstStop({stop:day.firstStop}),
+day.scheduled&&day.scheduled.length>0?e("div",{style:{marginBottom:20}},e("div",{className:"sched-header"},e("span",{className:"icon"},"\ud83d\udcc5"),e("div",null,e("div",{className:"title"},"Scheduled"),e("div",{className:"sub"},"Already booked - build your day around these"))),day.scheduled.map(function(s,i){return e("div",{key:i,className:"sched-card",style:{borderLeft:"4px solid "+day.color}},e("div",{className:"time"},s.time+" - "+s.event),e("div",{className:"snote"},s.note),s.area?e("div",{style:{marginTop:6}},MetaBadge({icon:"",label:s.area})):null)})):null,
+day.categories?day.categories.map(function(cat,ci){return CategorySection({key:ci,cat:cat,dayIdx:activeDay,expanded:expanded,toggleItem:toggleItem})}):null
+)
+)}
+
+ReactDOM.render(e(DisneyGuide),document.getElementById("root"));
+
+// Feedback & Analytics
+var FB_KEY="e71b608c-ba69-4dc3-82d0-765910e81fc3";
+function openFeedback(){document.getElementById("fbOverlay").classList.add("show")}
+function closeFeedback(){document.getElementById("fbOverlay").classList.remove("show")}
+function submitFeedback(){
+  var t=document.getElementById("fbText").value.trim();
+  if(!t)return;
+  fetch("https://api.web3forms.com/submit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({access_key:FB_KEY,subject:"Disney Guide Feedback",from_name:"Disney Guide Visitor",message:t,page:window.location.href})});
+  document.getElementById("fbText").value="";
+  closeFeedback();
+  var toast=document.getElementById("fbToast");toast.classList.add("visible");setTimeout(function(){toast.classList.remove("visible")},2500);
+}
+// Track page view
+fetch("https://api.web3forms.com/submit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({access_key:FB_KEY,subject:"Disney Guide View",from_name:"tracker",message:JSON.stringify({event:"pageview",timestamp:new Date().toISOString(),ua:navigator.userAgent,ref:document.referrer}),page:window.location.href})}).catch(function(){});
+</script>
+</body>
+</html>
