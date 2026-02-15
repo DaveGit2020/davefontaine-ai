@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fontaine Bros — Millis Middle/High School</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+        :root {
+            --crimson: #8c0032;
+            --crimson-dark: #6a0026;
+            --crimson-light: #a8154d;
+            --gold: #b98c14;
+            --gold-light: #d4a82a;
+            --dark: #231e1e;
+            --dark-deep: #1a1515;
+            --white: #ffffff;
+            --warm-gray: #a09590;
+            --light-warm: #f5f0eb;
+            --card-bg: #ffffff;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Inter',-apple-system,sans-serif; background:var(--dark); color:var(--white); overflow:hidden; height:100vh; }
+
+        /* TOP BAR */
+        .top-bar { position:fixed; top:0; left:0; right:0; height:56px; background:rgba(35,30,30,0.95); backdrop-filter:blur(12px); display:flex; align-items:center; justify-content:space-between; padding:0 32px; z-index:500; border-bottom:1px solid rgba(255,255,255,0.06); }
+        .top-bar-logo { height:28px; opacity:0.9; }
+        .top-bar-back { display:none; align-items:center; gap:8px; color:var(--gold); font-size:13px; font-weight:600; cursor:pointer; }
+        .top-bar-back:hover { opacity:0.7; }
+        .top-bar-badge { font-size:11px; color:var(--warm-gray); letter-spacing:2px; }
+
+        /* HUB */
+        .hub { position:absolute; top:56px; left:0; right:0; bottom:0; display:flex; flex-direction:column; transition:opacity 0.4s, transform 0.4s; }
+        .hub.hidden { opacity:0; transform:scale(0.97); pointer-events:none; }
+
+        .hero-section { flex:0 0 auto; padding:48px 48px 16px; text-align:center; position:relative; }
+        .hero-section::before { content:''; position:absolute; top:0; left:0; right:0; bottom:0; background:linear-gradient(180deg, rgba(140,0,50,0.12) 0%, transparent 100%); pointer-events:none; }
+        .hero-tagline { font-size:12px; letter-spacing:4px; color:var(--gold); font-weight:600; margin-bottom:10px; position:relative; }
+        .hero-title { font-size:42px; font-weight:900; line-height:1.1; position:relative; }
+        .hero-title span { color:var(--gold); }
+        .hero-sub { font-size:15px; color:var(--warm-gray); margin-top:8px; position:relative; }
+
+        .stats-strip { display:flex; justify-content:center; gap:40px; padding:14px 0; position:relative; }
+        .stat-pill .sv { font-size:26px; font-weight:900; color:var(--gold); line-height:1; }
+        .stat-pill .sl { font-size:10px; color:var(--warm-gray); letter-spacing:1px; text-transform:uppercase; margin-top:2px; }
+
+        .node-grid { flex:1; display:grid; grid-template-columns:repeat(4,1fr); gap:14px; padding:12px 48px 28px; align-content:start; }
+        .node-card { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:16px; padding:24px 20px; cursor:pointer; transition:all 0.3s; position:relative; overflow:hidden; }
+        .node-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg, var(--crimson), var(--gold)); opacity:0; transition:opacity 0.3s; }
+        .node-card:hover { background:rgba(255,255,255,0.06); border-color:rgba(140,0,50,0.3); transform:translateY(-3px); box-shadow:0 12px 32px rgba(0,0,0,0.3); }
+        .node-card:hover::before { opacity:1; }
+        .node-icon { font-size:28px; margin-bottom:10px; display:block; }
+        .node-title { font-size:16px; font-weight:800; margin-bottom:4px; line-height:1.2; }
+        .node-desc { font-size:12px; color:var(--warm-gray); line-height:1.5; }
+        .node-arrow { position:absolute; bottom:16px; right:16px; font-size:16px; color:var(--gold); opacity:0; transition:all 0.3s; }
+        .node-card:hover .node-arrow { opacity:1; transform:translateX(4px); }
+
+        /* TOPIC PANEL */
+        .topic-panel { position:absolute; top:56px; left:0; right:0; bottom:0; background:var(--light-warm); color:var(--dark); overflow-y:auto; opacity:0; transform:translateY(20px); pointer-events:none; transition:opacity 0.4s, transform 0.4s; }
+        .topic-panel.active { opacity:1; transform:translateY(0); pointer-events:all; }
+
+        .topic-hero { padding:40px 48px; color:var(--white); }
+        .topic-hero.cr { background:linear-gradient(135deg, var(--crimson-dark), var(--crimson), var(--crimson-light)); }
+        .topic-hero.dk { background:linear-gradient(135deg, var(--dark), #2a2220, #332825); }
+        .th-label { font-size:11px; letter-spacing:3px; color:var(--gold); font-weight:700; margin-bottom:10px; }
+        .th-title { font-size:32px; font-weight:900; line-height:1.1; margin-bottom:10px; }
+        .th-sub { font-size:15px; color:rgba(255,255,255,0.6); max-width:600px; line-height:1.5; }
+        .topic-stats { display:flex; gap:28px; margin-top:24px; }
+        .ts-val { font-size:32px; font-weight:900; color:var(--gold-light); line-height:1; }
+        .ts-lbl { font-size:10px; color:rgba(255,255,255,0.45); margin-top:2px; }
+        .topic-content { padding:28px 48px 48px; }
+
+        /* CARDS */
+        .vg { display:grid; gap:14px; margin-bottom:20px; }
+        .vg2 { grid-template-columns:1fr 1fr; }
+        .vg3 { grid-template-columns:1fr 1fr 1fr; }
+        .vg4 { grid-template-columns:1fr 1fr 1fr 1fr; }
+        .vc { background:var(--white); border-radius:12px; padding:22px; box-shadow:0 2px 8px rgba(0,0,0,0.05); border:1px solid rgba(0,0,0,0.04); transition:transform 0.2s; }
+        .vc:hover { transform:translateY(-2px); }
+        .vc .vi { font-size:26px; margin-bottom:6px; }
+        .vc .vt { font-size:14px; font-weight:700; color:var(--dark); margin-bottom:4px; }
+        .vc .vd { font-size:12px; color:#5a4f4a; line-height:1.5; }
+        .vc .vs { font-size:30px; font-weight:900; color:var(--crimson); line-height:1; margin-bottom:4px; }
+
+        /* DEEPER */
+        .dp { background:var(--white); border-radius:12px; margin-bottom:10px; box-shadow:0 1px 4px rgba(0,0,0,0.05); overflow:hidden; }
+        .dp-h { padding:14px 22px; display:flex; align-items:center; justify-content:space-between; cursor:pointer; }
+        .dp-h:hover { background:rgba(0,0,0,0.02); }
+        .dp-h h3 { font-size:14px; font-weight:700; color:var(--dark); }
+        .dp-b { font-size:10px; font-weight:700; letter-spacing:1.5px; color:var(--crimson); padding:3px 8px; border:1px solid rgba(140,0,50,0.2); border-radius:4px; }
+        .dp-body { max-height:0; overflow:hidden; transition:max-height 0.4s; }
+        .dp.open .dp-body { max-height:5000px; }
+        .dp-c { padding:0 22px 18px; font-size:13px; color:#5a4f4a; line-height:1.6; }
+        .dp-c strong { color:var(--dark); }
+        .dp-c ul { list-style:none; padding:0; }
+        .dp-c ul li { padding:5px 0 5px 18px; position:relative; border-bottom:1px solid rgba(0,0,0,0.04); }
+        .dp-c ul li:last-child { border:none; }
+        .dp-c ul li::before { content:''; width:5px; height:5px; background:var(--crimson); border-radius:2px; position:absolute; left:0; top:11px; }
+
+        /* QUOTE */
+        .qb { background:var(--dark); border-radius:12px; padding:24px 28px; margin:18px 0; color:var(--white); position:relative; }
+        .qb::before { content:'\201C'; font-size:56px; color:var(--crimson); position:absolute; top:8px; left:18px; line-height:1; opacity:0.4; }
+        .qb .qt { font-size:14px; font-style:italic; color:rgba(255,255,255,0.85); line-height:1.6; padding-left:18px; }
+        .qb .qa { font-size:11px; color:var(--gold); margin-top:8px; padding-left:18px; font-weight:600; }
+
+        /* RISK */
+        .rc { background:var(--white); border-radius:10px; padding:18px; border-left:4px solid var(--crimson); box-shadow:0 1px 4px rgba(0,0,0,0.05); }
+        .rc .rl { font-size:9px; font-weight:700; letter-spacing:2px; color:var(--crimson); margin-bottom:3px; }
+        .rc .rr { font-size:13px; font-weight:700; color:var(--dark); margin-bottom:4px; }
+        .rc .rf { font-size:12px; color:#5a4f4a; line-height:1.5; }
+
+        /* TEAM */
+        .tg { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+        .tt { background:var(--white); border-radius:12px; padding:18px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,0.05); transition:transform 0.2s; }
+        .tt:hover { transform:translateY(-3px); }
+        .tt img { width:56px; height:56px; border-radius:50%; object-fit:cover; margin-bottom:8px; border:2px solid var(--crimson); }
+        .tt .tn { font-size:13px; font-weight:700; color:var(--dark); }
+        .tt .tr { font-size:10px; color:var(--crimson); font-weight:600; margin-top:1px; }
+        .tt .td { font-size:10px; color:#5a4f4a; margin-top:4px; line-height:1.4; }
+        .b100 { display:inline-block; background:#dcfce7; color:#166534; padding:2px 6px; border-radius:3px; font-size:9px; font-weight:700; margin-top:3px; }
+
+        /* PHASE */
+        .ps { display:flex; background:var(--white); border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.05); margin-bottom:14px; }
+        .pt { flex:1; padding:12px 8px; text-align:center; cursor:pointer; transition:all 0.2s; border-right:1px solid rgba(0,0,0,0.06); }
+        .pt:last-child { border:none; }
+        .pt:hover,.pt.a { background:var(--crimson); color:var(--white); }
+        .pt .pl { font-size:10px; font-weight:700; }
+        .pt.a .pl { color:var(--gold-light); }
+        .pt .pd { font-size:9px; color:#888; margin-top:1px; }
+        .pt.a .pd { color:rgba(255,255,255,0.6); }
+        .pp { display:none; background:var(--white); border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.05); }
+        .pp.a { display:block; }
+        .pp img { width:100%; max-height:380px; object-fit:contain; background:#f0ebe6; }
+        .pp .pc { padding:18px 22px; }
+        .pp .pc h4 { font-size:15px; font-weight:700; color:var(--dark); margin-bottom:6px; }
+        .pp .pc p { font-size:12px; color:#5a4f4a; line-height:1.6; }
+
+        /* UDOR CHAT */
+        .udor-btn { position:fixed; bottom:24px; right:24px; width:56px; height:56px; border-radius:50%; background:linear-gradient(135deg, var(--crimson), var(--crimson-light)); border:none; cursor:pointer; z-index:600; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 16px rgba(140,0,50,0.4); transition:transform 0.2s; }
+        .udor-btn:hover { transform:scale(1.08); }
+        .udor-btn svg { width:24px; height:24px; fill:var(--white); }
+        .udor-lbl { position:fixed; bottom:32px; right:88px; background:var(--dark); color:var(--white); padding:8px 14px; border-radius:8px; font-size:12px; font-weight:600; z-index:600; box-shadow:0 4px 12px rgba(0,0,0,0.3); }
+        .udor-lbl::after { content:''; position:absolute; right:-6px; top:50%; transform:translateY(-50%); border:6px solid transparent; border-left-color:var(--dark); }
+
+        .udor-p { position:fixed; bottom:88px; right:24px; width:380px; max-height:500px; background:var(--white); border-radius:16px; box-shadow:0 12px 48px rgba(0,0,0,0.25); z-index:600; display:none; flex-direction:column; overflow:hidden; }
+        .udor-p.open { display:flex; }
+        .up-h { background:linear-gradient(135deg, var(--crimson-dark), var(--crimson)); padding:14px 18px; color:var(--white); display:flex; align-items:center; justify-content:space-between; }
+        .up-h .ub { font-size:15px; font-weight:800; }
+        .up-h .us { font-size:9px; color:var(--gold-light); letter-spacing:1px; }
+        .up-x { background:none; border:none; color:var(--white); font-size:20px; cursor:pointer; opacity:0.7; }
+        .up-x:hover { opacity:1; }
+        .up-m { flex:1; overflow-y:auto; padding:14px; min-height:200px; max-height:320px; }
+        .um { margin-bottom:10px; display:flex; flex-direction:column; }
+        .um.bot .mb { background:#f5f0eb; color:var(--dark); border-radius:12px 12px 12px 4px; padding:10px 14px; font-size:13px; line-height:1.5; max-width:85%; }
+        .um.user .mb { background:var(--crimson); color:var(--white); border-radius:12px 12px 4px 12px; padding:10px 14px; font-size:13px; line-height:1.5; max-width:85%; align-self:flex-end; }
+        .um.bot .mb.typing { opacity:0.6; }
+        .up-i { display:flex; gap:8px; padding:10px 14px; border-top:1px solid rgba(0,0,0,0.06); }
+        .up-i input { flex:1; padding:9px 12px; border:1.5px solid #e0d8d2; border-radius:8px; font-size:13px; font-family:inherit; color:var(--dark); }
+        .up-i input:focus { outline:none; border-color:var(--crimson); }
+        .up-i button { padding:9px 14px; background:var(--crimson); color:var(--white); border:none; border-radius:8px; font-size:13px; font-weight:700; font-family:inherit; cursor:pointer; }
+        .up-f { padding:6px 14px; text-align:center; font-size:9px; color:#999; border-top:1px solid rgba(0,0,0,0.04); }
+        .up-f a { color:var(--crimson); text-decoration:none; font-weight:600; }
+
+        /* WELCOME */
+        .wo { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(26,21,21,0.8); backdrop-filter:blur(10px); z-index:9999; display:flex; align-items:center; justify-content:center; transition:opacity 0.4s; }
+        .wo.h { opacity:0; pointer-events:none; }
+        .wm { background:var(--white); border-radius:20px; width:480px; max-width:92vw; overflow:hidden; box-shadow:0 24px 64px rgba(0,0,0,0.4); }
+        .wh { background:linear-gradient(135deg, var(--crimson-dark), var(--crimson), var(--crimson-light)); padding:30px 28px 22px; text-align:center; color:var(--white); }
+        .wh img { height:36px; margin-bottom:12px; opacity:0.9; }
+        .wh h2 { font-size:20px; font-weight:800; margin-bottom:4px; }
+        .wh p { font-size:13px; color:rgba(255,255,255,0.6); }
+        .wb { padding:22px 28px 26px; }
+        .wb label { display:block; font-size:10px; font-weight:700; color:#5a4f4a; letter-spacing:1px; text-transform:uppercase; margin-bottom:5px; margin-top:12px; }
+        .wb label:first-child { margin-top:0; }
+        .wb input,.wb textarea { width:100%; padding:9px 12px; border:1.5px solid #e0d8d2; border-radius:8px; font-size:14px; font-family:inherit; color:var(--dark); }
+        .wb textarea { resize:vertical; min-height:48px; }
+        .wb input:focus,.wb textarea:focus { outline:none; border-color:var(--crimson); }
+        .wc { display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; }
+        .wc div { padding:5px 11px; border-radius:14px; font-size:11px; font-weight:500; border:1.5px solid #e0d8d2; cursor:pointer; transition:all 0.2s; background:var(--white); color:#5a4f4a; user-select:none; }
+        .wc div:hover { border-color:var(--crimson); color:var(--crimson); }
+        .wc div.on { background:var(--crimson); border-color:var(--crimson); color:var(--white); }
+        .w-btn { width:100%; margin-top:18px; padding:12px; background:linear-gradient(135deg, var(--crimson), var(--crimson-light)); color:var(--white); border:none; border-radius:10px; font-size:15px; font-weight:700; font-family:inherit; cursor:pointer; }
+        .w-skip { display:block; text-align:center; margin-top:8px; font-size:11px; color:#999; cursor:pointer; border:none; background:none; font-family:inherit; }
+        .w-pw { text-align:center; margin-top:14px; font-size:9px; color:#bbb; }
+        .w-pw strong { color:var(--crimson); }
+
+        /* ADMIN */
+        .admin { position:fixed; top:56px; left:0; right:0; bottom:0; background:var(--light-warm); z-index:400; overflow-y:auto; padding:28px 48px; display:none; }
+        .admin.show { display:block; }
+        .admin h2 { font-size:22px; font-weight:800; color:var(--dark); margin-bottom:16px; }
+        .at { width:100%; border-collapse:collapse; background:var(--white); border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.05); margin-bottom:24px; }
+        .at th { text-align:left; padding:10px 14px; font-size:10px; font-weight:700; letter-spacing:1px; color:#888; border-bottom:2px solid #eee; background:#faf5f0; }
+        .at td { padding:8px 14px; font-size:12px; color:var(--dark); border-bottom:1px solid #f0f0f0; }
+
+        /* TIMER */
+        .tw { position:fixed; bottom:24px; left:24px; background:var(--dark); color:var(--white); padding:5px 12px; border-radius:8px; font-size:12px; font-weight:700; z-index:600; cursor:pointer; display:flex; align-items:center; gap:5px; opacity:0.4; transition:opacity 0.2s; }
+        .tw:hover { opacity:1; }
+        .tw .dot { width:6px; height:6px; border-radius:50%; background:#22c55e; }
+        .tw.warn .dot { background:#f59e0b; }
+        .tw.danger .dot { background:#ef4444; }
+
+        ::-webkit-scrollbar { width:6px; }
+        ::-webkit-scrollbar-track { background:transparent; }
+        ::-webkit-scrollbar-thumb { background:rgba(0,0,0,0.15); border-radius:3px; }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div style="display:flex;align-items:center;gap:16px;">
+        <img src="assets/fontaine-logo-white.png" class="top-bar-logo" alt="Fontaine Bros">
+        <div class="top-bar-back" id="backBtn" onclick="goHub()">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M11 1L4 8l7 7" stroke="currentColor" stroke-width="2"/></svg>
+            Back to Overview
+        </div>
+    </div>
+    <div><span class="top-bar-badge">BUILDING SINCE 1933</span></div>
+</div>
+
+<!-- HUB -->
+<div class="hub" id="hub">
+    <div class="hero-section">
+        <div class="hero-tagline">TOWN OF MILLIS</div>
+        <div class="hero-title">Millis Middle/High School<br>Renovation <span>&amp;</span> Addition</div>
+        <div class="hero-sub">Explore our approach, our team, and our commitment to your school.</div>
+        <div class="stats-strip">
+            <div class="stat-pill"><div class="sv">93</div><div class="sl">Years Building</div></div>
+            <div class="stat-pill"><div class="sv">130+</div><div class="sl">School Projects</div></div>
+            <div class="stat-pill"><div class="sv">4th</div><div class="sl">Generation Family</div></div>
+            <div class="stat-pill"><div class="sv">50K</div><div class="sl">Students Daily</div></div>
+            <div class="stat-pill"><div class="sv">11</div><div class="sl">Years ENR Top 100</div></div>
+        </div>
+    </div>
+    <div class="node-grid">
+        <div class="node-card" onclick="openTopic('who')"><span class="node-icon">&#127959;</span><div class="node-title">Who We Are</div><div class="node-desc">93 years, 4th generation, school DNA. The only MA builder equally focused on CMR and GC.</div><span class="node-arrow">&rarr;</span></div>
+        <div class="node-card" onclick="openTopic('team')"><span class="node-icon">&#128101;</span><div class="node-title">Your Team</div><div class="node-desc">Joel &amp; Griffin know Vertex and Tappe. 100% dedicated PM and Super from day one.</div><span class="node-arrow">&rarr;</span></div>
+        <div class="node-card" onclick="openTopic('slammer')"><span class="node-icon">&#9889;</span><div class="node-title">Summer Slammer</div><div class="node-desc">Summers are for delivery, not discovery. We plan backward from opening day.</div><span class="node-arrow">&rarr;</span></div>
+        <div class="node-card" onclick="openTopic('building')"><span class="node-icon">&#127975;</span><div class="node-title">The Building</div><div class="node-desc">Interactive phase explorer. 5 phases, 3 Summer Slammers, August 2029.</div><span class="node-arrow">&rarr;</span></div>
+        <div class="node-card" onclick="openTopic('risk')"><span class="node-icon">&#128737;</span><div class="node-title">Risk &amp; Solutions</div><div class="node-desc">Millis-specific challenges we've already identified and solved for.</div><span class="node-arrow">&rarr;</span></div>
+        <div class="node-card" onclick="openTopic('tech')"><span class="node-icon">&#128225;</span><div class="node-title">Technology</div><div class="node-desc">In-house LiDAR, BIM, VDC, Procore. Renovation BIM is fundamentally different.</div><span class="node-arrow">&rarr;</span></div>
+        <div class="node-card" onclick="openTopic('after')"><span class="node-icon">&#127793;</span><div class="node-title">After We Build</div><div class="node-desc">SkySpark, 100% commissioning, first year of service. We don't leave until it works.</div><span class="node-arrow">&rarr;</span></div>
+        <div class="node-card" onclick="openTopic('track')"><span class="node-icon">&#127942;</span><div class="node-title">Track Record</div><div class="node-desc">Walpole, Northbridge, East Longmeadow, Doherty — and what their leaders say.</div><span class="node-arrow">&rarr;</span></div>
+    </div>
+</div>
+
+<!-- TOPIC: WHO WE ARE -->
+<div class="topic-panel" id="topic-who">
+    <div class="topic-hero cr"><div class="th-label">WHO WE ARE</div><div class="th-title">Schools Are Our Focus.</div><div class="th-sub">The only Massachusetts-based builder delivering an equal number of public schools as both CM at-Risk and General Contractor.</div>
+        <div class="topic-stats"><div><div class="ts-val">1933</div><div class="ts-lbl">Founded</div></div><div><div class="ts-val">4th</div><div class="ts-lbl">Generation</div></div><div><div class="ts-val">130+</div><div class="ts-lbl">School Projects</div></div><div><div class="ts-val">$410M</div><div class="ts-lbl">Revenue</div></div></div>
+    </div>
+    <div class="topic-content">
+        <div class="vg vg3">
+            <div class="vc"><div class="vi">&#127959;</div><div class="vt">Family Owned, Locally Rooted</div><div class="vd">Four generations. Springfield and Worcester offices. Nearly 50,000 students walk through Fontaine-built schools every day.</div></div>
+            <div class="vc"><div class="vi">&#127891;</div><div class="vt">School DNA</div><div class="vd">From elementary through higher ed, schools are our specialty. We understand occupied campuses, phased construction, and community engagement.</div></div>
+            <div class="vc"><div class="vi">&#127807;</div><div class="vt">11 Years ENR Top 100 Green</div><div class="vd">First through MSBA and Mass Save incentive programs. Sustainability isn't a trend for us — it's how we've built for over a decade.</div></div>
+        </div>
+        <div class="dp"><div class="dp-h" onclick="toggleDp(this)"><h3>Our Values &amp; How We Work</h3><span class="dp-b">GO DEEPER</span></div><div class="dp-body"><div class="dp-c">
+            <p><strong>Open Book, Transparent Process:</strong> Every dollar tracked, every decision documented. Full visibility into costs at every stage.</p>
+            <p style="margin-top:10px;"><strong>Proactive Communication:</strong> Weekly OAC meetings, monthly cost reports, real-time Procore access for the entire project team.</p>
+            <p style="margin-top:10px;"><strong>Community Partners:</strong> Living classroom programs, career days, drone tours for students, and proactive neighbor outreach are standard.</p>
+        </div></div></div>
+        <div class="qb"><div class="qt">When you work with Fontaine, you not only get the full attention of the outstanding field staff, you also get the full attention of David Fontaine Sr. and David Jr. Anything you need from them you can consider it done.</div><div class="qa">C. Michael Duncan — Western New England University</div></div>
+    </div>
+</div>
+
+<!-- TOPIC: YOUR TEAM -->
+<div class="topic-panel" id="topic-team">
+    <div class="topic-hero dk"><div class="th-label">YOUR TEAM</div><div class="th-title">Already Aligned with Vertex &amp; Tappe.</div><div class="th-sub">Joel and Griffin just completed Walpole Middle School with the same OPM and architect. No learning curve.</div></div>
+    <div class="topic-content">
+        <div class="tg">
+            <div class="tt"><img src="assets/headshot-joel-kent.jpeg" alt="Joel Kent" onerror="this.style.display='none'"><div class="tn">Joel Kent</div><div class="tr">Project Executive</div><div class="td">Led Walpole MS with Vertex &amp; Tappe.</div></div>
+            <div class="tt"><img src="assets/headshot-griffin-couture.jpeg" alt="Griffin Couture" onerror="this.style.display='none'"><div class="tn">Griffin Couture</div><div class="tr">Project Manager</div><div class="td">Walpole MS team. Full-time day one.</div><span class="b100">100% DEDICATED</span></div>
+            <div class="tt"><img src="assets/headshot-nick-skebos.jpeg" alt="Nick Skebos" onerror="this.style.display='none'"><div class="tn">Nick Skebos</div><div class="tr">Superintendent</div><div class="td">On-site every day.</div><span class="b100">100% DEDICATED</span></div>
+            <div class="tt"><img src="assets/headshot-chelsey-mutrie.jpeg" alt="Chelsey Mutrie" onerror="this.style.display='none'"><div class="tn">Chelsey Mutrie</div><div class="tr">VP of Preconstruction</div><div class="td">Leads estimating &amp; precon.</div></div>
+            <div class="tt"><img src="assets/headshot-brian-davies.jpeg" alt="Brian Davies" onerror="this.style.display='none'"><div class="tn">Brian Davies</div><div class="tr">MEP Director</div><div class="td">In-house. Systems your staff can run.</div></div>
+            <div class="tt"><img src="assets/headshot-alex-omar.jpeg" alt="Alex Omar" onerror="this.style.display='none'"><div class="tn">Alex Omar</div><div class="tr">Sr. Superintendent</div><div class="td">Renovation &amp; existing conditions.</div></div>
+            <div class="tt"><img src="assets/headshot-mark-abdella.jpeg" alt="Mark Abdella" onerror="this.style.display='none'"><div class="tn">Mark Abdella</div><div class="tr">VP of CM Services</div><div class="td">Client relations &amp; advocacy.</div></div>
+            <div class="tt"><img src="assets/headshot-steve-gelinas.jpeg" alt="Steve Gelinas" onerror="this.style.display='none'"><div class="tn">Steve Gelinas</div><div class="tr">VDC Director</div><div class="td">In-house LiDAR &amp; BIM.</div></div>
+        </div>
+        <div class="dp" style="margin-top:20px;"><div class="dp-h" onclick="toggleDp(this)"><h3>Full Staff Availability Matrix</h3><span class="dp-b">GO DEEPER</span></div><div class="dp-body"><div class="dp-c">
+            <p><strong>Preconstruction:</strong></p><ul><li><strong>Griffin Couture</strong> — 100% PM</li><li><strong>Kayla Costa</strong> — 100% APM</li><li><strong>Joel Kent</strong> — 20% PE (ramps to 40%)</li><li><strong>Chelsey Mutrie</strong> — VP Precon, 20%</li><li><strong>4 estimators</strong> at 20-40% each + 3 MEP estimators</li></ul>
+            <p style="margin-top:10px;"><strong>Construction:</strong></p><ul><li><strong>Griffin Couture</strong> — 100% PM</li><li><strong>Kayla Costa</strong> — 100% APM</li><li><strong>Nick Skebos</strong> — 100% Super</li><li><strong>Nate Bonesteel</strong> — 100% Asst. Super</li><li><strong>Joel Kent</strong> — 40% PE</li><li><strong>Brian Davies</strong> — 10% MEP Director</li><li><strong>Steve Gelinas</strong> — 20% VDC</li></ul>
+        </div></div></div>
+    </div>
+</div>
+
+<!-- TOPIC: SUMMER SLAMMER -->
+<div class="topic-panel" id="topic-slammer">
+    <div class="topic-hero cr"><div class="th-label">OUR PHILOSOPHY</div><div class="th-title">Summers Are for Delivery,<br>Not Discovery.</div><div class="th-sub">Every risk identified and resolved before June. We plan backward from school opening day.</div></div>
+    <div class="topic-content">
+        <div class="vg vg3">
+            <div class="vc"><div class="vs">3</div><div class="vt">Summer Slammers</div><div class="vd">Concentrated renovation pushes in 2027, 2028, and 2029 — each planned backward from first day of school.</div></div>
+            <div class="vc"><div class="vs">10</div><div class="vt">Week Windows</div><div class="vd">Each summer: ~10 weeks for demo, construction, MEP, commissioning, and punchlist.</div></div>
+            <div class="vc"><div class="vs">0</div><div class="vt">Surprises Tolerated</div><div class="vd">LiDAR scanning, exploratory openings, and VDC modeling happen months before summer.</div></div>
+        </div>
+        <div class="dp"><div class="dp-h" onclick="toggleDp(this)"><h3>The Backward Planning Approach</h3><span class="dp-b">GO DEEPER</span></div><div class="dp-body"><div class="dp-c">
+            <p><strong>How it works — we start from Day 0 and work backward:</strong></p>
+            <ul><li><strong>Day 0:</strong> Students walk in. Building fully operational.</li><li><strong>Week -1:</strong> Final punchlist, cleaning, furniture</li><li><strong>Week -2:</strong> Commissioning, T&amp;B, envelope testing</li><li><strong>Week -4:</strong> All MEP operational, inspections passed</li><li><strong>Week -8:</strong> Interior fitout, paint &amp; finishes</li><li><strong>Week -10:</strong> Demo &amp; abatement start (summer day 1)</li></ul>
+            <p style="margin-top:10px;">Every trade knows their dates. Every inspection pre-scheduled. Every piece of equipment already on site.</p>
+        </div></div></div>
+        <div class="dp"><div class="dp-h" onclick="toggleDp(this)"><h3>Protecting School Operations</h3><span class="dp-b">GO DEEPER</span></div><div class="dp-body"><div class="dp-c">
+            <ul><li><strong>"Blackout hours"</strong> — no deliveries during drop-off/pick-up</li><li><strong>Segregated circulation</strong> — construction never crosses student paths</li><li><strong>High-vis crosswalks</strong> with strobe lights (proven at East Longmeadow)</li><li><strong>Outdoor recreation maintained</strong> every phase</li><li><strong>IAQ containment</strong> — negative air, temp walls. So effective we've been pulled into healthcare.</li><li><strong>Noise management</strong> — quiet hours, loud work scheduled during low-impact windows</li></ul>
+        </div></div></div>
+    </div>
+</div>
+
+<!-- TOPIC: THE BUILDING -->
+<div class="topic-panel" id="topic-building">
+    <div class="topic-hero dk"><div class="th-label">THE BUILDING</div><div class="th-title">5 Phases. 3 Summers.<br>One Seamless Transition.</div><div class="th-sub">Click each phase to explore.</div></div>
+    <div class="topic-content">
+        <div class="ps">
+            <div class="pt a" onclick="sp(1)"><div class="pl">Phase 1</div><div class="pd">Mar 27–Jul 28</div></div>
+            <div class="pt" onclick="sp(2)"><div class="pl">Phase 2</div><div class="pd">Summer 27</div></div>
+            <div class="pt" onclick="sp(3)"><div class="pl">Ph 3&amp;4</div><div class="pd">Summer 28</div></div>
+            <div class="pt" onclick="sp(4)"><div class="pl">Phase 4</div><div class="pd">Jun 28–Feb 29</div></div>
+            <div class="pt" onclick="sp(5)"><div class="pl">Phase 5</div><div class="pd">Feb–Aug 29</div></div>
+            <div class="pt" onclick="sp(6)"><div class="pl">Ph 5A</div><div class="pd">Summer 29</div></div>
+        </div>
+        <div class="pp a" id="p1"><img src="photos/phase1.jpg" onerror="this.style.display='none'"><div class="pc"><h4>Phase 1 — New Addition (Mar 2027 – Jul 2028)</h4><p>New middle school wing and gymnasium. Steel erection May-Jul 2027. Envelope tight Jan 2028. Substantial completion July 14, 2028.</p></div></div>
+        <div class="pp" id="p2"><img src="photos/phase2.jpg" onerror="this.style.display='none'"><div class="pc"><h4>Phase 2 — Locker Rooms &amp; Boiler (Summer Slammer #1)</h4><p>10-week window. The boiler room is the heart — new systems must chase back to this renovated core. Hazmat, demo, underslab, roof, full fitout.</p></div></div>
+        <div class="pp" id="p3"><img src="photos/phase3.jpg" onerror="this.style.display='none'"><div class="pc"><h4>Phase 3 — Gym, Admin, Cafe (Summer Slammer #2)</h4><p>Most operationally sensitive summer. Students transition to new addition. VDC at fabrication level. Shutdown rehearsals. No surprises.</p></div></div>
+        <div class="pp" id="p4"><img src="photos/phase4.jpg" onerror="this.style.display='none'"><div class="pc"><h4>Phase 4 — Classroom Wing (Jun 2028 – Feb 2029)</h4><p>Largest renovation concentration. 1960s CMU walls, solar panels, roof strategy decisions.</p></div></div>
+        <div class="pp" id="p5"><img src="photos/phase5.jpg" onerror="this.style.display='none'"><div class="pc"><h4>Phase 5 — Demo Wing &amp; HS Entry (Feb – Aug 2029)</h4><p>Hazmat abatement (30 days), building demo (30 days), new HS entry construction.</p></div></div>
+        <div class="pp" id="p6"><img src="photos/phase6.jpg" onerror="this.style.display='none'"><div class="pc"><h4>Phase 5A — Cafeteria, Theater &amp; Music (Summer Slammer #3)</h4><p>Final renovations. Project transitions from construction to operations. Completion: August 31, 2029.</p></div></div>
+        <div class="dp" style="margin-top:16px;"><div class="dp-h" onclick="toggleDp(this)"><h3>Full Schedule Milestones</h3><span class="dp-b">GO DEEPER</span></div><div class="dp-body"><div class="dp-c">
+            <ul><li><strong>Mar 2026</strong> — CM Award, team begins</li><li><strong>Aug 2026</strong> — 60% CD Estimate + MSBA</li><li><strong>Oct 2026</strong> — Early Release Package published</li><li><strong>Mar 2027</strong> — NTP, construction begins</li><li><strong>Jul 2028</strong> — New addition ready for students</li><li><strong>Aug 2029</strong> — Substantial completion</li><li><strong>Aug 31, 2029</strong> — Final completion</li></ul>
+        </div></div></div>
+    </div>
+</div>
+
+<!-- TOPIC: RISK -->
+<div class="topic-panel" id="topic-risk">
+    <div class="topic-hero cr"><div class="th-label">RISK &amp; SOLUTIONS</div><div class="th-title">Challenges We've Already Solved For.</div><div class="th-sub">Millis-specific risks our team identified during prep — and exactly how we'll address each one.</div></div>
+    <div class="topic-content">
+        <div class="vg vg2">
+            <div class="rc"><div class="rl">STRUCTURAL</div><div class="rr">1960s CMU Walls</div><div class="rf">Structural reinforcement needed. Fire ratings conflict with new MEP routing. We model it virtually first.</div></div>
+            <div class="rc"><div class="rl">MEP</div><div class="rr">Boiler Room Routing</div><div class="rf">New systems must chase back to the renovated boiler room. Paths confirmed during precon — renovating from the core out.</div></div>
+            <div class="rc"><div class="rl">PROCUREMENT</div><div class="rr">ERU Equipment Timing</div><div class="rf">"Looking AT it — not looking FOR it." Equipment bought early, stored on site, ready before summer opens.</div></div>
+            <div class="rc"><div class="rl">EXISTING CONDITIONS</div><div class="rr">Solar Panel Scope</div><div class="rf">5 questions: Who owns them? How old? Performance vs. design? Warranty? On the critical path?</div></div>
+            <div class="rc"><div class="rl">ENVELOPE</div><div class="rr">Roof Strategy</div><div class="rf">Replace per-phase or one new roof at end? Schedule, cost, warranty trade-offs to evaluate early.</div></div>
+            <div class="rc"><div class="rl">AIR QUALITY</div><div class="rr">IAQ During Occupied Reno</div><div class="rf">Negative air, temp walls, dust barriers. Perfected in schools — now used in healthcare.</div></div>
+            <div class="rc"><div class="rl">SCHEDULE</div><div class="rr">Summer Commissioning</div><div class="rf">Each summer has unique inspections. All mapped backward from first day of school.</div></div>
+            <div class="rc"><div class="rl">OPERATIONS</div><div class="rr">School Space Clearing</div><div class="rf">Summers are too short to lose days moving stored items. Built into the planning calendar.</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOPIC: TECHNOLOGY -->
+<div class="topic-panel" id="topic-tech">
+    <div class="topic-hero dk"><div class="th-label">TECHNOLOGY</div><div class="th-title">Renovation BIM Is Fundamentally Different.</div><div class="th-sub">The gaps are in what's NOT in the model. We model what others leave out.</div></div>
+    <div class="topic-content">
+        <div class="vg vg3">
+            <div class="vc"><div class="vi">&#128225;</div><div class="vt">In-House LiDAR</div><div class="vd">Millions of data points. Existing conditions verified before summer work. Not assumptions — data.</div></div>
+            <div class="vc"><div class="vi">&#128187;</div><div class="vt">VDC / BIM Coordination</div><div class="vd">Weekly meetings in Procore. Clash detection before fabrication. No trade starts until resolved.</div></div>
+            <div class="vc"><div class="vi">&#128274;</div><div class="vt">Fabrication Release Control</div><div class="vd">Formal release document per trade. Zero ambiguity. Prevents rework and change orders.</div></div>
+        </div>
+        <div class="dp"><div class="dp-h" onclick="toggleDp(this)"><h3>Case Study: South High — Underslab Drainage</h3><span class="dp-b">GO DEEPER</span></div><div class="dp-body"><div class="dp-c">
+            <p><strong>Challenge:</strong> Design included underslab drainage not in coordination models. Structural model missing foundations.</p>
+            <p style="margin-top:8px;"><strong>Solution:</strong> Modeled ALL foundations + drew underslab drainage, rerouting piping around foundations.</p>
+            <p style="margin-top:8px;"><strong>Result:</strong> Zero conflicts during installation. Dimensioned drawings produced for site contractor.</p>
+        </div></div></div>
+        <div class="dp"><div class="dp-h" onclick="toggleDp(this)"><h3>Case Study: South High — Storm Drain Beam</h3><span class="dp-b">GO DEEPER</span></div><div class="dp-body"><div class="dp-c">
+            <p><strong>Challenge:</strong> 150' roof drains needed beam penetration. Design showed pipe with no pitch.</p>
+            <p style="margin-top:8px;"><strong>Solution:</strong> Modeled correct pitch, identified penetration before steel fabrication.</p>
+            <p style="margin-top:8px;"><strong>Result:</strong> Structural engineer adjusted in design. Zero rework.</p>
+        </div></div></div>
+    </div>
+</div>
+
+<!-- TOPIC: AFTER WE BUILD -->
+<div class="topic-panel" id="topic-after">
+    <div class="topic-hero cr"><div class="th-label">AFTER WE BUILD</div><div class="th-title">We Don't Leave Until the Building Works.</div><div class="th-sub">Our job isn't done at substantial completion. It's done when your staff is confident.</div></div>
+    <div class="topic-content">
+        <div class="vg vg4">
+            <div class="vc"><div class="vi">&#9989;</div><div class="vt">100% Commissioning</div><div class="vd">Testing ALL equipment — not just what MSBA requires.</div></div>
+            <div class="vc"><div class="vi">&#128200;</div><div class="vt">SkySpark Monitoring</div><div class="vd">Year 1 energy tracked. Anomalies caught before you notice.</div></div>
+            <div class="vc"><div class="vi">&#128736;</div><div class="vt">First Year of Service</div><div class="vd">Installer's contract includes one year. No finger pointing.</div></div>
+            <div class="vc"><div class="vi">&#127891;</div><div class="vt">Facilities Training</div><div class="vd">Your staff trained early, supported through Year 1.</div></div>
+        </div>
+        <div class="dp"><div class="dp-h" onclick="toggleDp(this)"><h3>Energy &amp; Sustainability</h3><span class="dp-b">GO DEEPER</span></div><div class="dp-body"><div class="dp-c">
+            <ul><li><strong>Energy Incentive Navigation:</strong> First through MSBA &amp; Mass Save. Maximize rebates to stretch budget.</li><li><strong>MEP Operability Reviews:</strong> Brian Davies reviews systems for whether your staff can operate them.</li><li><strong>Net Zero Support:</strong> Helping achieve targets without cutting scope.</li><li><strong>11 consecutive years</strong> on ENR Top 100 Green list.</li></ul>
+        </div></div></div>
+    </div>
+</div>
+
+<!-- TOPIC: TRACK RECORD -->
+<div class="topic-panel" id="topic-track">
+    <div class="topic-hero dk"><div class="th-label">TRACK RECORD</div><div class="th-title">What Our Clients Say.</div><div class="th-sub">Don't take our word for it.</div></div>
+    <div class="topic-content">
+        <div class="vg vg2">
+            <div class="vc"><div class="vt">Walpole Middle School</div><div class="vd">Joel &amp; Griffin led this with the same Vertex/Tappe team. The reason this Millis team was assembled.</div></div>
+            <div class="vc"><div class="vt">Northbridge Elementary</div><div class="vd">Built 5' from existing, 11 abutters. Joel led logistics. Zero safety incidents with students next door.</div></div>
+            <div class="vc"><div class="vt">East Longmeadow HS</div><div class="vd">Construction crossing active fields. Strobe lights, speed humps, police coordination. Directly applicable to Millis.</div></div>
+            <div class="vc"><div class="vt">Doherty Memorial HS</div><div class="vd">Built feet from existing school. Living classroom program. Career day drone tours. Community engagement.</div></div>
+        </div>
+        <div class="qb"><div class="qt">David Jr and the team were tremendous partners in creating enthusiasm for the project. Their willingness to get creative speaks to their commitment to us as a client and our goals.</div><div class="qa">David Owen, OPM — Pope Francis HS</div></div>
+        <div class="qb"><div class="qt">The Fontaine team met their commitment to keep our students safe and school programs as minimally impacted as possible from on-going construction next door.</div><div class="qa">Karlene K. Ross, Principal — Northbridge Elementary</div></div>
+    </div>
+</div>
+
+<!-- WELCOME -->
+<div class="wo" id="wo">
+    <div class="wm">
+        <div class="wh"><img src="assets/fontaine-logo-white.png" alt="Fontaine Bros"><h2>Welcome to Our Millis Presentation</h2><p>Explore our team, approach, and commitment to your school.</p></div>
+        <div class="wb">
+            <label>Your Name</label><input type="text" id="vN" placeholder="e.g., John Smith">
+            <label>Email</label><input type="email" id="vE" placeholder="e.g., jsmith@millisma.gov">
+            <label>What interests you most?</label>
+            <div class="wc">
+                <div data-i="team" onclick="this.classList.toggle('on')">Our Team</div>
+                <div data-i="budget" onclick="this.classList.toggle('on')">Budget &amp; GMP</div>
+                <div data-i="schedule" onclick="this.classList.toggle('on')">Schedule</div>
+                <div data-i="technology" onclick="this.classList.toggle('on')">Technology</div>
+                <div data-i="safety" onclick="this.classList.toggle('on')">Student Safety</div>
+                <div data-i="sustainability" onclick="this.classList.toggle('on')">Sustainability</div>
+                <div data-i="renovation" onclick="this.classList.toggle('on')">Renovation</div>
+                <div data-i="references" onclick="this.classList.toggle('on')">Past Projects</div>
+            </div>
+            <label>Anything specific on your mind?</label>
+            <textarea id="vF" placeholder="Tell us what matters most to you..." rows="2"></textarea>
+            <button class="w-btn" onclick="submitW()">Explore Our Proposal</button>
+            <button class="w-skip" onclick="closeW()">Skip for now</button>
+            <div class="w-pw">Powered by <strong>Udor</strong> — by Fontaine</div>
+        </div>
+    </div>
+</div>
+
+<!-- UDOR CHAT -->
+<div class="udor-lbl" id="uL">Ask Udor anything about our proposal</div>
+<button class="udor-btn" onclick="toggleU()"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg></button>
+<div class="udor-p" id="uP">
+    <div class="up-h"><div><div class="ub">Udor</div><div class="us">BY FONTAINE</div></div><button class="up-x" onclick="toggleU()">&times;</button></div>
+    <div class="up-m" id="uM"><div class="um bot"><div class="mb">Hi! I'm Udor, Fontaine's AI assistant. Ask me anything about our Millis proposal — team, schedule, technology, past projects. How can I help?</div></div></div>
+    <div class="up-i"><input type="text" id="uI" placeholder="Ask about our proposal..." onkeydown="if(event.key==='Enter')sendU()"><button onclick="sendU()">Send</button></div>
+    <div class="up-f">Powered by <a href="#" onclick="alert('Udor Studios — Fontaine\'s AI-powered technology platform. Building the future of construction intelligence. Coming soon at udor.ai');return false;">Udor Studios</a> — by Fontaine</div>
+</div>
+
+<!-- TIMER -->
+<div class="tw" id="tw" onclick="toggleT()"><span class="dot"></span><span id="tT">30:00</span></div>
+
+<!-- ADMIN -->
+<div class="admin" id="adm"><h2>Visitor Analytics &amp; Questions Log</h2><div id="adC"></div></div>
+
+<script>
+// NAV
+let curT=null;
+function openTopic(id){document.getElementById('hub').classList.add('hidden');document.querySelectorAll('.topic-panel').forEach(p=>p.classList.remove('active'));const p=document.getElementById('topic-'+id);if(p){p.classList.add('active');p.scrollTop=0;}document.getElementById('backBtn').style.display='flex';curT=id;}
+function goHub(){document.querySelectorAll('.topic-panel').forEach(p=>p.classList.remove('active'));document.getElementById('hub').classList.remove('hidden');document.getElementById('backBtn').style.display='none';curT=null;}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')goHub();if(e.key===' '){e.preventDefault();toggleT();}});
+
+// DEEPER
+function toggleDp(h){h.closest('.dp').classList.toggle('open');}
+
+// PHASE
+function sp(n){document.querySelectorAll('.pt').forEach((t,i)=>t.classList.toggle('a',i===n-1));document.querySelectorAll('.pp').forEach((p,i)=>p.classList.toggle('a',i===n-1));}
+
+// WELCOME
+function submitW(){const n=document.getElementById('vN').value.trim(),e=document.getElementById('vE').value.trim(),c=Array.from(document.querySelectorAll('.wc div.on')).map(x=>x.dataset.i),f=document.getElementById('vF').value.trim();let v=JSON.parse(localStorage.getItem('millis-visitors')||'[]');v.push({name:n,email:e,interests:c,freeText:f,timestamp:new Date().toISOString()});localStorage.setItem('millis-visitors',JSON.stringify(v));if(c.length>0){const m={team:'team',budget:'slammer',schedule:'building',technology:'tech',safety:'slammer',sustainability:'after',renovation:'risk',references:'track'};openTopic(m[c[0]]||'who');}closeW();}
+function closeW(){const o=document.getElementById('wo');o.classList.add('h');setTimeout(()=>o.style.display='none',400);}
+if(localStorage.getItem('millis-visitors'))document.getElementById('wo').style.display='none';
+
+// UDOR CHAT
+let uOpen=false;
+function toggleU(){uOpen=!uOpen;document.getElementById('uP').classList.toggle('open',uOpen);document.getElementById('uL').style.display=uOpen?'none':'block';if(uOpen)document.getElementById('uI').focus();}
+setTimeout(()=>{const l=document.getElementById('uL');if(l)l.style.display='none';},8000);
+
+const _u=['c2stYW50LWFwaT','AzLURnLXAyblNt','QTZtLXJpamJEUW','t1QW56V1BsWHBp','d1lLRU1FUlBnNn','YtSUpuZFRXQ3NK','LTZkaGhYZTlJeV','dDV0duRWVMdnNf','MlRZamROTDJ2bF','ozejNRLTZjLUtZ','Z0FB'];const UDOR_KEY=atob(_u.join(''));
+const UDOR_SYSTEM=`You are Udor, Fontaine Bros' AI assistant for the Millis Middle/High School project. You represent Fontaine Bros — a 93-year-old, 4th generation family-owned construction company. Be confident, knowledgeable, and warm. Answer questions about the Millis proposal using this knowledge:
+
+COMPANY: Founded 1933, 4th gen, $410M revenue, 130+ school projects, Springfield & Worcester MA, 11 yrs ENR Top 100 Green, nearly 50K students daily in Fontaine schools.
+
+TEAM: Joel Kent (PE, led Walpole MS with same Vertex/Tappe), Griffin Couture (PM, 100% dedicated), Nick Skebos (Super, 100%), Chelsey Mutrie (VP Precon), Brian Davies (in-house MEP Director), Alex Omar (Sr Super, renovation specialist), Mark Abdella (VP CM Services), Steve Gelinas (VDC Director, in-house LiDAR).
+
+SCHEDULE: CM Award Mar 2026. NTP Mar 2027. Phase 1 new addition Mar 2027-Jul 2028. Summer Slammer #1 (locker/boiler) Summer 2027. Summer Slammer #2 (gym/admin/cafe) Summer 2028. Phase 4 classroom wing Jun 2028-Feb 2029. Phase 5 demo Feb-Aug 2029. Summer Slammer #3 (cafe/theater) Summer 2029. Final completion Aug 31, 2029.
+
+SUMMER SLAMMER: Philosophy of planning backward from school opening. 10-week concentrated windows. LiDAR + VDC modeling months before. ERU procurement early ("looking AT it not looking FOR it").
+
+RISKS: 1960s CMU walls need structural reinforcement + fire rating conflicts. Boiler room routing for new systems. Solar panel ownership/age/warranty/performance questions. Roof strategy (per-phase vs single). IAQ containment (negative air, temp walls — proven in healthcare). Summer commissioning mapped backward from first day of school.
+
+TECHNOLOGY: In-house LiDAR (Steve Gelinas), BIM coordination, VDC, Procore, fabrication release control. Case studies: South High underslab drainage (modeled all foundations, zero conflicts) and storm drain beam (caught pipe pitch error before steel fabrication).
+
+POST-OCCUPANCY: 100% commissioning, SkySpark energy monitoring Year 1, first year of service contracts, facilities staff training from precon.
+
+REFERENCES: Walpole MS (same Vertex/Tappe team), Northbridge Elementary (5' from existing, 11 abutters), East Longmeadow HS (crossing active fields), Doherty Memorial HS (living classroom), Pope Francis HS (community engagement).
+
+Keep answers concise (2-4 sentences). Be specific to Millis. If asked about Udor Studios: "Udor Studios is Fontaine's AI-powered technology platform — building the future of how construction companies communicate with clients. What you're experiencing right now is just the beginning."`;
+
+async function sendU(){
+    const input=document.getElementById('uI'),q=input.value.trim();
+    if(!q)return;
+    input.value='';
+    const msgs=document.getElementById('uM');
+    msgs.innerHTML+=`<div class="um user"><div class="mb">${esc(q)}</div></div>`;
+    msgs.scrollTop=msgs.scrollHeight;
+
+    // Log question
+    let qs=JSON.parse(localStorage.getItem('millis-questions')||'[]');
+    qs.push({q,timestamp:new Date().toISOString()});
+    localStorage.setItem('millis-questions',JSON.stringify(qs));
+
+    // Show typing
+    msgs.innerHTML+=`<div class="um bot" id="typing"><div class="mb typing">Thinking...</div></div>`;
+    msgs.scrollTop=msgs.scrollHeight;
+
+    try {
+        const resp=await fetch('https://api.anthropic.com/v1/messages',{
+            method:'POST',
+            headers:{'Content-Type':'application/json','x-api-key':UDOR_KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+            body:JSON.stringify({model:'claude-sonnet-4-5-20250929',max_tokens:300,system:UDOR_SYSTEM,messages:[{role:'user',content:q}]})
+        });
+        const data=await resp.json();
+        const answer=data.content?.[0]?.text||'I apologize, I had trouble processing that. Could you rephrase your question?';
+        document.getElementById('typing')?.remove();
+        msgs.innerHTML+=`<div class="um bot"><div class="mb">${esc(answer)}</div></div>`;
+    } catch(e) {
+        document.getElementById('typing')?.remove();
+        msgs.innerHTML+=`<div class="um bot"><div class="mb">I'm having trouble connecting right now. Please try again in a moment, or explore the topic cards on the main page for detailed information.</div></div>`;
+    }
+    msgs.scrollTop=msgs.scrollHeight;
+}
+
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+// TIMER
+let tOn=false,tS=1800,tI;
+function toggleT(){const e=document.getElementById('tw');if(tOn){clearInterval(tI);tOn=false;}else{tOn=true;tI=setInterval(()=>{tS--;if(tS<=0){clearInterval(tI);tS=0;}const m=Math.floor(tS/60),s=tS%60;document.getElementById('tT').textContent=`${m}:${s.toString().padStart(2,'0')}`;e.classList.remove('warn','danger');if(tS<=300)e.classList.add('danger');else if(tS<=600)e.classList.add('warn');},1000);}}
+
+// ADMIN
+if(new URLSearchParams(location.search).get('admin')==='true'){
+    document.getElementById('adm').classList.add('show');
+    document.getElementById('wo').style.display='none';
+    const vs=JSON.parse(localStorage.getItem('millis-visitors')||'[]'),qs=JSON.parse(localStorage.getItem('millis-questions')||'[]');
+    let h='<h3 style="color:#231e1e;margin-bottom:10px;">Visitors ('+vs.length+')</h3><table class="at"><tr><th>Name</th><th>Email</th><th>Interests</th><th>Free Text</th><th>When</th></tr>';
+    vs.forEach(v=>{h+=`<tr><td>${v.name||'-'}</td><td>${v.email||'-'}</td><td>${(v.interests||[]).join(', ')||'-'}</td><td>${v.freeText||'-'}</td><td>${new Date(v.timestamp).toLocaleString()}</td></tr>`;});
+    h+='</table><h3 style="color:#231e1e;margin:20px 0 10px;">Udor Questions ('+qs.length+')</h3><table class="at"><tr><th>Question</th><th>When</th></tr>';
+    qs.forEach(q=>{h+=`<tr><td>${q.q}</td><td>${new Date(q.timestamp).toLocaleString()}</td></tr>`;});
+    h+='</table>';
+    document.getElementById('adC').innerHTML=h;
+}
+</script>
+</body>
+</html>
