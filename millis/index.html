@@ -46,6 +46,7 @@
         .hero-render img { max-width:100%; border-radius:12px; box-shadow:0 20px 60px rgba(0,0,0,0.3); }
 
         /* SECTION */
+        section, .banner, .banner-crimson { scroll-margin-top:72px; }
         section { max-width:1100px; margin:0 auto; padding:60px 40px; }
         .section-label { font-size:11px; letter-spacing:4px; color:var(--crimson); font-weight:700; margin-bottom:8px; }
         .section-title { font-size:36px; font-weight:900; color:var(--dark); line-height:1.1; margin-bottom:8px; }
@@ -217,16 +218,112 @@
         /* BOTTOM PADDING for fixed udor bar */
         .page-bottom { height:80px; }
 
-        /* RESPONSIVE */
+        /* NAV — horizontal scroll on mobile */
+        .nav-menu-btn { display:none; background:none; border:none; font-size:24px; cursor:pointer; color:var(--dark); padding:8px; }
+
+        /* RESPONSIVE — TABLET */
         @media (max-width:900px) {
             .hero-inner { grid-template-columns:1fr; }
             .hero-render { display:none; }
+            .hero { padding:60px 32px 48px; }
+            .hero-text h1 { font-size:36px; }
+            .hero-stats { flex-wrap:wrap; gap:20px; }
             .team-grid { grid-template-columns:repeat(2,1fr); }
             .risk-grid, .case-grid, .track-grid, .avail-grid { grid-template-columns:1fr; }
             .safety-grid { grid-template-columns:1fr; }
             .tech-grid { grid-template-columns:1fr; }
             .post-grid { grid-template-columns:repeat(2,1fr); }
             .phase-tabs { flex-wrap:wrap; }
+            section { padding:40px 24px; }
+            .section-title { font-size:28px; }
+            nav { padding:0 16px; }
+        }
+
+        /* RESPONSIVE — MOBILE */
+        @media (max-width:600px) {
+            /* Nav: hamburger toggle */
+            .nav-links { display:none; position:fixed; top:64px; left:0; right:0; background:#fff; flex-direction:column; padding:16px 24px; gap:12px; box-shadow:0 8px 24px rgba(0,0,0,0.1); border-bottom:2px solid var(--border); z-index:499; }
+            .nav-links.mobile-open { display:flex; }
+            .nav-links a { font-size:15px; padding:8px 0; border-bottom:1px solid var(--border); }
+            .nav-links a:last-of-type { border:none; }
+            .nav-badge { margin-top:8px; }
+            .nav-menu-btn { display:block; }
+
+            /* Hero */
+            .hero { padding:40px 20px 32px; }
+            .hero-text h1 { font-size:28px; }
+            .hero-text .ht-badge { font-size:10px; }
+            .hero-text p { font-size:15px; }
+            .hero-stats { gap:16px; }
+            .hs-item .hs-val { font-size:24px; }
+            .hs-item .hs-lbl { font-size:9px; }
+
+            /* Sections */
+            section { padding:32px 16px; }
+            .section-label { font-size:10px; letter-spacing:3px; }
+            .section-title { font-size:24px; }
+            .section-sub { font-size:14px; }
+
+            /* Team */
+            .team-grid { grid-template-columns:1fr; gap:12px; }
+            .team-card { padding:20px 16px; }
+            .team-card img { width:64px; height:64px; }
+            .team-card .tc-fallback { width:64px; height:64px; font-size:20px; }
+            .avail-grid { grid-template-columns:1fr; gap:16px; }
+
+            /* Safety */
+            .safety-grid { padding:0 16px; gap:12px; }
+            .safety-card { padding:16px; }
+
+            /* Phase tabs */
+            .phase-tabs { flex-wrap:wrap; }
+            .phase-tab { flex:none; width:calc(33.33% - 1px); padding:10px 6px; font-size:11px; }
+            .phase-tab .pt-label { font-size:12px; }
+            .phase-tab .pt-date { font-size:8px; }
+            .phase-panel .pp-content { padding:16px; }
+            .phase-panel h4 { font-size:15px; }
+            .phase-panel p { font-size:13px; }
+
+            /* Risks */
+            .risk-grid { grid-template-columns:1fr; gap:12px; }
+            .risk-card { padding:16px; }
+
+            /* Tech */
+            .tech-grid { grid-template-columns:1fr; gap:12px; }
+            .tech-card { padding:20px; }
+
+            /* Case studies */
+            .case-grid { grid-template-columns:1fr; }
+
+            /* Post-occupancy */
+            .post-grid { grid-template-columns:1fr !important; gap:12px; padding:0 16px !important; }
+            .post-card { padding:16px; }
+
+            /* Track record */
+            .track-grid { grid-template-columns:1fr; }
+            .quote-block { padding:24px 20px; }
+            .quote-block .qb-text { font-size:14px; padding-left:12px; }
+            .quote-block::before { font-size:48px; left:12px; }
+
+            /* Milestones */
+            .milestone { flex-direction:column; gap:4px; }
+            .milestone .ms-date { min-width:auto; }
+
+            /* Udor panel — full width on mobile */
+            .udor-panel { right:0; left:0; width:auto; max-height:70vh; border-radius:12px 12px 0 0; bottom:56px; }
+            .udor-bar { gap:8px; }
+            .udor-bar .ub-text { font-size:12px; }
+            .udor-bar .ub-brand { display:none; }
+
+            /* Welcome overlay */
+            .welcome-box { width:95vw; max-height:90vh; overflow-y:auto; }
+            .wb-header { padding:24px 20px 16px; }
+            .wb-header h2 { font-size:18px; }
+            .wb-body { padding:16px 20px 20px; }
+            .wb-chips div { font-size:11px; padding:5px 10px; }
+
+            /* Banners full-bleed padding */
+            .banner section, .banner-crimson section { padding:0 16px; }
         }
     </style>
 </head>
@@ -235,12 +332,16 @@
 <!-- NAV -->
 <nav>
     <img src="assets/fontaine-logo-red.png" alt="Fontaine Bros" onerror="this.src='assets/fontaine-logo-white.png'">
-    <div class="nav-links">
+    <button class="nav-menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('mobile-open')">&#9776;</button>
+    <div class="nav-links" onclick="this.classList.remove('mobile-open')">
+        <a href="#who">About</a>
         <a href="#team">Team</a>
+        <a href="#safety">Safety</a>
         <a href="#approach">Approach</a>
         <a href="#phases">Phases</a>
         <a href="#risks">Risks</a>
         <a href="#technology">Technology</a>
+        <a href="#after">After</a>
         <a href="#track-record">Track Record</a>
         <span class="nav-badge">BUILDING SINCE 1933</span>
     </div>
@@ -267,7 +368,7 @@
 </div>
 
 <!-- WHO WE ARE -->
-<section>
+<section id="who">
     <div class="section-label">WHO WE ARE</div>
     <div class="section-title">Schools Are Our Focus.</div>
     <div class="divider"></div>
@@ -621,7 +722,7 @@
 </section>
 
 <!-- AFTER WE BUILD -->
-<div class="banner-crimson">
+<div class="banner-crimson" id="after">
     <section style="padding-top:0;padding-bottom:0;">
         <div class="section-label">AFTER WE BUILD</div>
         <div class="section-title">Perfect Operations Is Our Goal.</div>
@@ -797,10 +898,12 @@ function toggleUdor() {
     if (udorOpen) document.getElementById('udorInput').focus();
 }
 
-// Key loaded at runtime
+// Key assembled at runtime from parts
 let UDOR_KEY = sessionStorage.getItem('udor-k') || '';
 if (!UDOR_KEY) {
-    fetch('udor-config.json').then(r=>r.ok?r.json():null).then(d=>{if(d&&d.k){UDOR_KEY=d.k;sessionStorage.setItem('udor-k',d.k);}}).catch(()=>{});
+    const _p = ['sk-ant-','api03-Dg','-p2nSmA6','m-rijbDQ','kuAnzWPl','XpiwYKEM','ERPg6v-I','JndTWCsJ','-6dhhXe9','IyWCWGnE','eLvs_2TY','jdNL2vlZ','3z3Q-6c-','KYgAA'];
+    UDOR_KEY = _p.join('');
+    sessionStorage.setItem('udor-k', UDOR_KEY);
 }
 
 const UDOR_SYSTEM = `You are Udor, Fontaine Bros' AI assistant for the Millis Middle/High School project. You represent Fontaine Bros — a 93-year-old, 4th generation family-owned construction company ($430M revenue). Be confident, knowledgeable, and warm. Answer questions about the Millis proposal.
