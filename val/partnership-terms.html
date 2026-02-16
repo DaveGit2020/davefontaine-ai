@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>340 Main Street — Partnership Terms Summary</title>
+    <meta name="robots" content="noindex, nofollow">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0a0a0a;
+            --card-bg: #141414;
+            --card-border: #2a2a2a;
+            --orange: #ff6b35;
+            --orange-dim: rgba(255, 107, 53, 0.12);
+            --blue: #45b7d1;
+            --blue-dim: rgba(69, 183, 209, 0.12);
+            --green: #4ecdc4;
+            --green-dim: rgba(78, 205, 196, 0.12);
+            --red: #e74c3c;
+            --red-dim: rgba(231, 76, 60, 0.10);
+            --yellow: #f7dc6f;
+            --yellow-dim: rgba(247, 220, 111, 0.10);
+            --text: #e0e0e0;
+            --text-muted: #888;
+            --text-dim: #555;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            line-height: 1.6;
+        }
+
+        /* CONFIDENTIAL WATERMARK */
+        body::before {
+            content: 'CONFIDENTIAL';
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-35deg);
+            font-size: 120px;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.015);
+            letter-spacing: 20px;
+            pointer-events: none;
+            z-index: 0;
+            white-space: nowrap;
+            user-select: none;
+        }
+
+        .wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 40px 80px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* HEADER */
+        .page-header {
+            margin-bottom: 40px;
+            padding-bottom: 32px;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .header-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-dim);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .page-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .page-header h1 span {
+            color: var(--orange);
+        }
+
+        .header-parties {
+            font-size: 16px;
+            color: var(--blue);
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .header-dates {
+            font-size: 13px;
+            color: var(--text-dim);
+        }
+
+        .header-tdc {
+            display: inline-block;
+            margin-top: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--blue);
+            background: var(--blue-dim);
+            padding: 6px 14px;
+            border-radius: 6px;
+        }
+
+        /* TABLE OF CONTENTS */
+        .toc {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 28px 32px;
+            margin-bottom: 40px;
+        }
+
+        .toc h2 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--orange);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 16px;
+        }
+
+        .toc ol {
+            list-style: none;
+            counter-reset: toc-counter;
+            columns: 2;
+            column-gap: 32px;
+        }
+
+        .toc li {
+            counter-increment: toc-counter;
+            margin-bottom: 8px;
+            break-inside: avoid;
+        }
+
+        .toc li a {
+            font-size: 14px;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+
+        .toc li a::before {
+            content: counter(toc-counter) ".";
+            color: var(--orange);
+            font-weight: 700;
+            font-size: 13px;
+            min-width: 22px;
+        }
+
+        .toc li a:hover {
+            color: var(--orange);
+        }
+
+        /* SECTIONS */
+        .section {
+            margin-bottom: 40px;
+            scroll-margin-top: 24px;
+        }
+
+        .section-head {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--orange);
+        }
+
+        .section-num {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--bg);
+            background: var(--orange);
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .section-head h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .section p, .section li {
+            font-size: 15px;
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        .section ul, .section ol {
+            padding-left: 20px;
+            margin-bottom: 16px;
+        }
+
+        .section li {
+            margin-bottom: 6px;
+        }
+
+        .section p + p,
+        .section p + ul,
+        .section ul + p {
+            margin-top: 12px;
+        }
+
+        /* DATA CARDS */
+        .data-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .data-row:last-child {
+            border-bottom: none;
+        }
+
+        .data-label {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .data-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--blue);
+        }
+
+        .data-value.orange {
+            color: var(--orange);
+        }
+
+        .data-value.green {
+            color: var(--green);
+        }
+
+        .data-value.red {
+            color: var(--red);
+        }
+
+        .data-value.yellow {
+            color: var(--yellow);
+        }
+
+        /* CALLOUT BOXES */
+        .callout {
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin: 16px 0;
+            font-size: 14px;
+            line-height: 1.6;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .callout-icon {
+            flex-shrink: 0;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .callout-yellow {
+            background: var(--yellow-dim);
+            border-left: 3px solid var(--yellow);
+            color: var(--yellow);
+        }
+
+        .callout-red {
+            background: var(--red-dim);
+            border-left: 3px solid var(--red);
+            color: var(--red);
+        }
+
+        .callout-green {
+            background: var(--green-dim);
+            border-left: 3px solid var(--green);
+            color: var(--green);
+        }
+
+        .callout-blue {
+            background: var(--blue-dim);
+            border-left: 3px solid var(--blue);
+            color: var(--blue);
+        }
+
+        /* WARNING BOX (more prominent) */
+        .warning-box {
+            background: var(--red-dim);
+            border: 1px solid rgba(231, 76, 60, 0.3);
+            border-left: 4px solid var(--red);
+            border-radius: 8px;
+            padding: 20px 24px;
+            margin: 20px 0;
+        }
+
+        .warning-box .warning-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--red);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .warning-box p {
+            font-size: 14px;
+            color: #ccc;
+            line-height: 1.7;
+        }
+
+        /* TABLES */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 14px;
+        }
+
+        .data-table thead th {
+            text-align: left;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--orange);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 10px 16px;
+            border-bottom: 2px solid var(--card-border);
+            background: var(--card-bg);
+        }
+
+        .data-table tbody td {
+            padding: 12px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            color: var(--text);
+        }
+
+        .data-table tbody td:last-child {
+            text-align: right;
+            font-weight: 600;
+            color: var(--blue);
+        }
+
+        .data-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .data-table tbody tr.table-highlight td {
+            color: var(--orange);
+            font-weight: 700;
+            border-top: 2px solid var(--card-border);
+        }
+
+        .data-table tbody tr.table-gap td {
+            color: var(--red);
+            font-weight: 700;
+        }
+
+        .data-table tbody tr.table-gap td:last-child {
+            color: var(--red);
+        }
+
+        /* TWO COLUMN LAYOUT */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 16px 0;
+        }
+
+        .col-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 24px;
+        }
+
+        .col-card.red-col {
+            border-top: 3px solid var(--red);
+        }
+
+        .col-card.green-col {
+            border-top: 3px solid var(--green);
+        }
+
+        .col-card h3 {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .col-card.red-col h3 {
+            color: var(--red);
+        }
+
+        .col-card.green-col h3 {
+            color: var(--green);
+        }
+
+        .col-card ol {
+            padding-left: 18px;
+        }
+
+        .col-card li {
+            font-size: 14px;
+            color: var(--text);
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        /* GUARANTEE LIST */
+        .guarantee-list {
+            list-style: none;
+            padding: 0;
+            margin: 16px 0;
+        }
+
+        .guarantee-list li {
+            background: var(--red-dim);
+            border-left: 3px solid var(--red);
+            border-radius: 0 6px 6px 0;
+            padding: 10px 16px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--red);
+            font-weight: 500;
+        }
+
+        /* RECOMMENDATION LIST */
+        .rec-list {
+            list-style: none;
+            padding: 0;
+            margin: 16px 0;
+            counter-reset: rec-counter;
+        }
+
+        .rec-list li {
+            counter-increment: rec-counter;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 3px solid var(--orange);
+            border-radius: 0 8px 8px 0;
+            padding: 14px 20px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: var(--text);
+            line-height: 1.6;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .rec-list li::before {
+            content: counter(rec-counter);
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--orange);
+            color: var(--bg);
+            font-size: 12px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* SUB HEADINGS */
+        .sub-head {
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            margin: 20px 0 12px;
+        }
+
+        /* INLINE HIGHLIGHTS */
+        .hl-blue { color: var(--blue); font-weight: 600; }
+        .hl-orange { color: var(--orange); font-weight: 600; }
+        .hl-green { color: var(--green); font-weight: 600; }
+        .hl-red { color: var(--red); font-weight: 600; }
+        .hl-yellow { color: var(--yellow); font-weight: 600; }
+
+        /* FOOTER */
+        .page-footer {
+            margin-top: 60px;
+            padding-top: 24px;
+            border-top: 1px solid var(--card-border);
+            text-align: center;
+        }
+
+        .page-footer p {
+            font-size: 12px;
+            color: var(--text-dim);
+            margin-bottom: 4px;
+        }
+
+        .page-footer .conf-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: var(--red);
+            background: var(--red-dim);
+            padding: 6px 14px;
+            border-radius: 6px;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            margin-top: 12px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .wrapper {
+                padding: 24px 20px 60px;
+            }
+
+            .page-header h1 {
+                font-size: 24px;
+            }
+
+            .section-head h2 {
+                font-size: 18px;
+            }
+
+            .toc ol {
+                columns: 1;
+            }
+
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+
+            .data-row {
+                flex-direction: column;
+                gap: 2px;
+            }
+
+            .data-table {
+                font-size: 13px;
+            }
+
+            .data-table thead th,
+            .data-table tbody td {
+                padding: 10px 12px;
+            }
+
+            body::before {
+                font-size: 60px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-header h1 {
+                font-size: 20px;
+            }
+
+            .section-head {
+                flex-wrap: wrap;
+            }
+        }
+
+        /* PRINT STYLES */
+        @media print {
+            div[style*="position:fixed"] { display: none !important; }
+            body {
+                background: #fff;
+                color: #111;
+            }
+
+            body::before {
+                display: none;
+            }
+
+            .wrapper {
+                max-width: 100%;
+                padding: 20px;
+            }
+
+            .page-header {
+                border-bottom-color: #ccc;
+            }
+
+            .page-header h1 {
+                color: #111;
+            }
+
+            .page-header h1 span {
+                color: #d45a2a;
+            }
+
+            .header-parties {
+                color: #333;
+            }
+
+            .header-dates {
+                color: #666;
+            }
+
+            .header-tdc {
+                background: #eee;
+                color: #333;
+            }
+
+            .toc {
+                background: #f9f9f9;
+                border-color: #ddd;
+            }
+
+            .toc h2 {
+                color: #d45a2a;
+            }
+
+            .toc li a {
+                color: #333;
+            }
+
+            .toc li a::before {
+                color: #d45a2a;
+            }
+
+            .section-head {
+                border-bottom-color: #d45a2a;
+            }
+
+            .section-num {
+                background: #d45a2a;
+                color: #fff;
+            }
+
+            .section-head h2 {
+                color: #111;
+            }
+
+            .section p, .section li {
+                color: #222;
+            }
+
+            .data-card {
+                background: #f9f9f9;
+                border-color: #ddd;
+            }
+
+            .data-label {
+                color: #555;
+            }
+
+            .data-value {
+                color: #1a5276;
+            }
+
+            .data-value.orange {
+                color: #d45a2a;
+            }
+
+            .data-value.green {
+                color: #1e8449;
+            }
+
+            .data-value.red {
+                color: #c0392b;
+            }
+
+            .data-value.yellow {
+                color: #7d6608;
+            }
+
+            .callout-yellow {
+                background: #fef9e7;
+                border-left-color: #d4ac0d;
+                color: #7d6608;
+            }
+
+            .callout-red {
+                background: #fdedec;
+                border-left-color: #c0392b;
+                color: #922b21;
+            }
+
+            .callout-green {
+                background: #eafaf1;
+                border-left-color: #1e8449;
+                color: #1e8449;
+            }
+
+            .callout-blue {
+                background: #ebf5fb;
+                border-left-color: #2e86c1;
+                color: #1a5276;
+            }
+
+            .warning-box {
+                background: #fdedec;
+                border-color: #c0392b;
+            }
+
+            .warning-box .warning-title {
+                color: #c0392b;
+            }
+
+            .warning-box p {
+                color: #333;
+            }
+
+            .data-table thead th {
+                background: #f0f0f0;
+                color: #d45a2a;
+                border-bottom-color: #ccc;
+            }
+
+            .data-table tbody td {
+                color: #222;
+                border-bottom-color: #eee;
+            }
+
+            .data-table tbody td:last-child {
+                color: #1a5276;
+            }
+
+            .data-table tbody tr.table-highlight td {
+                color: #d45a2a;
+                border-top-color: #ccc;
+            }
+
+            .data-table tbody tr.table-gap td,
+            .data-table tbody tr.table-gap td:last-child {
+                color: #c0392b;
+            }
+
+            .col-card {
+                background: #f9f9f9;
+                border-color: #ddd;
+            }
+
+            .col-card.red-col {
+                border-top-color: #c0392b;
+            }
+
+            .col-card.red-col h3 {
+                color: #c0392b;
+            }
+
+            .col-card.green-col {
+                border-top-color: #1e8449;
+            }
+
+            .col-card.green-col h3 {
+                color: #1e8449;
+            }
+
+            .col-card li {
+                color: #222;
+            }
+
+            .guarantee-list li {
+                background: #fdedec;
+                border-left-color: #c0392b;
+                color: #922b21;
+            }
+
+            .rec-list li {
+                background: #f9f9f9;
+                border-color: #ddd;
+                border-left-color: #d45a2a;
+                color: #222;
+            }
+
+            .rec-list li::before {
+                background: #d45a2a;
+                color: #fff;
+            }
+
+            .sub-head {
+                color: #111;
+            }
+
+            .hl-blue { color: #1a5276; }
+            .hl-orange { color: #d45a2a; }
+            .hl-green { color: #1e8449; }
+            .hl-red { color: #c0392b; }
+            .hl-yellow { color: #7d6608; }
+
+            .page-footer {
+                border-top-color: #ccc;
+            }
+
+            .page-footer p {
+                color: #666;
+            }
+
+            .page-footer .conf-tag {
+                background: #fdedec;
+                color: #c0392b;
+            }
+
+            .section {
+                break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+
+    <!-- HEADER -->
+    <div class="page-header">
+        <div class="header-label">Confidential &mdash; Internal Review</div>
+        <h1>340 Main Street &mdash; <span>Partnership Terms Summary</span></h1>
+        <div class="header-parties">Trinity Financial (75%) + Fontaine Bros (25%)</div>
+        <div class="header-dates">Draft: January 16, 2026 &nbsp;|&nbsp; Analysis: February 2026</div>
+        <div class="header-tdc">Total Development Costs: $118,817,179</div>
+    </div>
+
+    <!-- TABLE OF CONTENTS -->
+    <nav class="toc">
+        <h2>Table of Contents</h2>
+        <ol>
+            <li><a href="#ownership">Ownership &amp; Control</a></li>
+            <li><a href="#capital">Capital Requirements</a></li>
+            <li><a href="#fees">Developer Fees</a></li>
+            <li><a href="#cashflow">Cash Flow &amp; Distributions</a></li>
+            <li><a href="#gc">GC Contract</a></li>
+            <li><a href="#guarantees">Guarantees</a></li>
+            <li><a href="#purchase">Purchase Terms</a></li>
+            <li><a href="#financing">Financing Stack</a></li>
+            <li><a href="#risk">Risk Matrix</a></li>
+            <li><a href="#negotiation">Negotiation Recommendations</a></li>
+        </ol>
+    </nav>
+
+    <!-- SECTION 1: OWNERSHIP & CONTROL -->
+    <div class="section" id="ownership">
+        <div class="section-head">
+            <div class="section-num">1</div>
+            <h2>Ownership &amp; Control</h2>
+        </div>
+
+        <div class="data-card">
+            <div class="data-row">
+                <span class="data-label">Trinity Financial</span>
+                <span class="data-value orange">75%</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Fontaine Bros</span>
+                <span class="data-value">25%</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Managing General Partner</span>
+                <span class="data-value orange">Trinity Financial</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Decision Authority</span>
+                <span class="data-value red">Trinity makes ALL decisions</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Fontaine Input</span>
+                <span class="data-value">Input on major decisions, NO veto</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Dispute Resolution</span>
+                <span class="data-value">Pre-construction "buy/sell" right</span>
+            </div>
+        </div>
+
+        <div class="callout callout-yellow">
+            <span class="callout-icon">&#9888;</span>
+            <span>Fontaine is a minority partner with no blocking rights. Trinity controls the project.</span>
+        </div>
+    </div>
+
+    <!-- SECTION 2: CAPITAL REQUIREMENTS -->
+    <div class="section" id="capital">
+        <div class="section-head">
+            <div class="section-num">2</div>
+            <h2>Capital Requirements</h2>
+        </div>
+
+        <div class="data-card">
+            <div class="data-row">
+                <span class="data-label">Pre-construction working capital (total)</span>
+                <span class="data-value">$3&ndash;4M</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Fontaine share (25%)</span>
+                <span class="data-value orange">$750K&ndash;$1M</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Capital call frequency</span>
+                <span class="data-value">Monthly during pre-development</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Reimbursement</span>
+                <span class="data-value green">Through construction loan proceeds once closed</span>
+            </div>
+        </div>
+
+        <div class="callout callout-red">
+            <span class="callout-icon">&#9888;</span>
+            <span><strong>RED FLAG &mdash; Dilution:</strong> Miss a capital call, lose ownership percentage. Failure to meet capital calls results in dilution of your equity stake.</span>
+        </div>
+    </div>
+
+    <!-- SECTION 3: DEVELOPER FEES -->
+    <div class="section" id="fees">
+        <div class="section-head">
+            <div class="section-num">3</div>
+            <h2>Developer Fees</h2>
+        </div>
+
+        <div class="data-card">
+            <div class="data-row">
+                <span class="data-label">Total developer fee</span>
+                <span class="data-value">$11,607,179</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Trinity overhead (3% of TDC, taken FIRST)</span>
+                <span class="data-value red">~$3.56M</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Remaining fee pool</span>
+                <span class="data-value">~$8.05M</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Split</span>
+                <span class="data-value">75% Trinity / 25% Fontaine</span>
+            </div>
+        </div>
+
+        <p class="sub-head">Fontaine Developer Fee: <span class="hl-blue">~$2.01M</span></p>
+
+        <div class="data-card">
+            <div class="data-row">
+                <span class="data-label">Cash portion (~50%)</span>
+                <span class="data-value green">~$1.0M &mdash; paid during/after construction</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Deferred portion (~50%)</span>
+                <span class="data-value yellow">~$1.0M &mdash; paid over Years 1&ndash;15 from cash flow</span>
+            </div>
+        </div>
+
+        <div class="callout callout-green">
+            <span class="callout-icon">&#10003;</span>
+            <span>The cash developer fee roughly covers your capital outlay &mdash; you're playing with house money after that.</span>
+        </div>
+    </div>
+
+    <!-- SECTION 4: CASH FLOW & DISTRIBUTIONS -->
+    <div class="section" id="cashflow">
+        <div class="section-head">
+            <div class="section-num">4</div>
+            <h2>Cash Flow &amp; Distributions</h2>
+        </div>
+
+        <div class="data-card">
+            <div class="data-row">
+                <span class="data-label">Year 1 NOI</span>
+                <span class="data-value">$1,027,717</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Debt Service</span>
+                <span class="data-value red">($896,402)</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Net Cash Flow</span>
+                <span class="data-value">$131,314</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Fontaine 25% share</span>
+                <span class="data-value orange">~$32,828/year (growing ~2%/yr)</span>
+            </div>
+        </div>
+
+        <ul>
+            <li>Refinancing proceeds: split <span class="hl-blue">75/25</span></li>
+            <li>Sale proceeds: split <span class="hl-blue">75/25</span></li>
+            <li>Less seller kicker: <span class="hl-red">15% of all fees/distributions to seller (&ldquo;Aaron&rdquo;)</span></li>
+        </ul>
+
+        <div class="callout callout-yellow">
+            <span class="callout-icon">&#9888;</span>
+            <span>Annual cash flow is negligible. The money is in developer fees, GC contract, and Year 15+ equity.</span>
+        </div>
+    </div>
+
+    <!-- SECTION 5: GC CONTRACT -->
+    <div class="section" id="gc">
+        <div class="section-head">
+            <div class="section-num">5</div>
+            <h2>GC Contract &mdash; Not Guaranteed</h2>
+        </div>
+
+        <div class="data-card">
+            <div class="data-row">
+                <span class="data-label">Fontaine Bros as GC</span>
+                <span class="data-value red">NOT locked in</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Bidding requirement</span>
+                <span class="data-value">Public funding = competitive bidding</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Fontaine advantage</span>
+                <span class="data-value orange">"LAST LOOK" &mdash; can match lowest bidder</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Pre-construction services</span>
+                <span class="data-value green">Paid even if not chosen as GC</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Construction hard costs</span>
+                <span class="data-value">$81.95M</span>
+            </div>
+        </div>
+
+        <div class="callout callout-red">
+            <span class="callout-icon">&#9888;</span>
+            <span>You could invest $1M in capital, guarantee the project, and STILL lose the GC bid. The last-look provision helps but doesn't guarantee it.</span>
+        </div>
+
+        <div class="callout callout-blue">
+            <span class="callout-icon">&#8594;</span>
+            <span><strong>Negotiation recommendation:</strong> Push for a meaningful break fee or commitment letter before signing. At minimum, the pre-construction services fee should cover your risk.</span>
+        </div>
+    </div>
+
+    <!-- SECTION 6: GUARANTEES -->
+    <div class="section" id="guarantees">
+        <div class="section-head">
+            <div class="section-num">6</div>
+            <h2>Guarantees &mdash; Highest Risk Item</h2>
+        </div>
+
+        <ul class="guarantee-list">
+            <li>1. Construction completion guarantee</li>
+            <li>2. Stabilization and conversion guarantee</li>
+            <li>3. Operating deficit guarantee</li>
+            <li>4. Tax credit compliance guarantee</li>
+            <li>5. Environmental indemnities</li>
+        </ul>
+
+        <p class="sub-head">Key Details</p>
+        <ul>
+            <li>Investor (bank) will likely require <span class="hl-red">JOINT AND SEVERAL</span> liability</li>
+            <li>Side agreement between Trinity/Fontaine to make proportional (<span class="hl-blue">75/25</span>)</li>
+            <li>Joint &amp; several means lender can pursue <span class="hl-red">Fontaine for 100%</span> regardless of side agreement</li>
+            <li>Side agreement ONLY governs between the partners &mdash; useless if Trinity can&rsquo;t pay</li>
+        </ul>
+
+        <div class="warning-box">
+            <div class="warning-title">&#128680; CRITICAL WARNING</div>
+            <p>Joint and several on a $119M project means the bank can come after Fontaine for the ENTIRE obligation, not just 25%. If Trinity defaults, Fontaine is on the hook for everything. This COULD destroy bonding capacity.</p>
+        </div>
+    </div>
+
+    <!-- SECTION 7: PURCHASE TERMS -->
+    <div class="section" id="purchase">
+        <div class="section-head">
+            <div class="section-num">7</div>
+            <h2>Purchase Terms (Offer 2/16/26)</h2>
+        </div>
+
+        <div class="data-card">
+            <div class="data-row">
+                <span class="data-label">Purchase price</span>
+                <span class="data-value">~$11M (redlined from counter)</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Earnest money deposit</span>
+                <span class="data-value green">$200K (refundable during 6-month due diligence)</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Seller kicker</span>
+                <span class="data-value yellow">15% of all fees/distributions to JV members</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Historic tax credits</span>
+                <span class="data-value">$4.2M MA HTCs &mdash; buyer assists transfer within 18 months</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Exclusivity</span>
+                <span class="data-value orange">45 days for P&amp;S negotiation</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">LOI status</span>
+                <span class="data-value">Non-binding</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Deadline</span>
+                <span class="data-value red">Wed 2/18/26</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 8: FINANCING STACK -->
+    <div class="section" id="financing">
+        <div class="section-head">
+            <div class="section-num">8</div>
+            <h2>Financing Stack</h2>
+        </div>
+
+        <div class="data-card" style="padding: 0; overflow: hidden;">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Source</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>First Mortgage (MassHousing permanent)</td>
+                        <td>$12,500,000</td>
+                    </tr>
+                    <tr>
+                        <td>LIHTC + Historic Tax Credit Equity</td>
+                        <td>~$50,300,000</td>
+                    </tr>
+                    <tr>
+                        <td>EOHLC Private Housing subordinate</td>
+                        <td>$8,250,000</td>
+                    </tr>
+                    <tr>
+                        <td>MassHousing subordinate</td>
+                        <td>$2,500,000</td>
+                    </tr>
+                    <tr>
+                        <td>State LIHTCs</td>
+                        <td>$2,500,000&ndash;$3,000,000</td>
+                    </tr>
+                    <tr>
+                        <td>City of Worcester subordinate</td>
+                        <td>$3,000,000</td>
+                    </tr>
+                    <tr>
+                        <td>City PILOT agreement</td>
+                        <td>TBD</td>
+                    </tr>
+                    <tr class="table-highlight">
+                        <td>Total Identified</td>
+                        <td>$80,570,086</td>
+                    </tr>
+                    <tr class="table-gap">
+                        <td>GAP &mdash; EOHLC Public Housing</td>
+                        <td>($38,247,093)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="callout callout-yellow">
+            <span class="callout-icon">&#9888;</span>
+            <span>There's a $38.2M gap that needs to be filled by EOHLC public housing funds. This requires a Worcester Housing Authority partnership. If the gap doesn't close, the project doesn't go.</span>
+        </div>
+    </div>
+
+    <!-- SECTION 9: RISK MATRIX -->
+    <div class="section" id="risk">
+        <div class="section-head">
+            <div class="section-num">9</div>
+            <h2>Risk Matrix</h2>
+        </div>
+
+        <div class="two-col">
+            <div class="col-card red-col">
+                <h3>&#9888; Red Flags</h3>
+                <ol>
+                    <li>Joint &amp; several personal guarantees (bonding capacity risk)</li>
+                    <li>Minority partner with no veto/control</li>
+                    <li>GC contract not guaranteed (could lose bid)</li>
+                    <li>Long capital lockup (3&ndash;5 years to stabilize)</li>
+                    <li>Tax credit recapture risk</li>
+                    <li>$38.2M funding gap</li>
+                </ol>
+            </div>
+            <div class="col-card green-col">
+                <h3>&#10003; Green Flags</h3>
+                <ol>
+                    <li>Union development access (currently shut out)</li>
+                    <li>Move up value chain (builder &rarr; development partner)</li>
+                    <li>Political capital (Secretary + Lt. Governor relationship)</li>
+                    <li>Replicable model for future deals</li>
+                    <li>Trinity is experienced (Curtis Apartments track record)</li>
+                    <li>Phase 2 upside (144 more units)</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 10: NEGOTIATION RECOMMENDATIONS -->
+    <div class="section" id="negotiation">
+        <div class="section-head">
+            <div class="section-num">10</div>
+            <h2>Negotiation Recommendations</h2>
+        </div>
+
+        <ol class="rec-list">
+            <li>Hard dollar caps on guarantee exposure (not just percentage)</li>
+            <li>Lock GC contract or meaningful break fee before committing capital</li>
+            <li>Consider 10&ndash;15% stake with capped guarantees as alternative</li>
+            <li>Structure through Fontaine-controlled LLC (ring-fence liability from personal assets and surety)</li>
+            <li>Guarantee release triggers tied to project milestones</li>
+            <li>Pre-construction capital protected by first-money-out provisions</li>
+        </ol>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="page-footer">
+        <p>Confidential &mdash; Prepared for Fontaine Bros internal review | February 2026</p>
+        <p>Source: Draft Partnership Term Sheet dated January 16, 2026</p>
+        <div class="conf-tag">&#128274; CONFIDENTIAL &mdash; DO NOT DISTRIBUTE</div>
+    </div>
+
+</div>
+
+<!-- Floating action buttons -->
+<div style="position:fixed;bottom:24px;right:24px;display:flex;gap:10px;z-index:100;">
+  <a href="index.html" style="background:#222;color:#999;border:1px solid #333;border-radius:8px;padding:10px 16px;font-size:13px;text-decoration:none;cursor:pointer;transition:all .2s;"
+     onmouseover="this.style.background='#333';this.style.color='#fff'" onmouseout="this.style.background='#222';this.style.color='#999'">&larr; Deal Room</a>
+  <button onclick="window.print()" style="background:#ff6b35;color:#fff;border:none;border-radius:8px;padding:10px 18px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;box-shadow:0 2px 12px rgba(255,107,53,0.3);"
+     onmouseover="this.style.background='#ff8555'" onmouseout="this.style.background='#ff6b35'">&#128424; Save as PDF</button>
+</div>
+</body>
+</html>

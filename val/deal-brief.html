@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>340 Main Street — Full Deal Brief | Fontaine Bros</title>
+<style>
+  /* ====== RESET & BASE ====== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0a;
+    --bg-card: #141414;
+    --bg-card-alt: #1a1a1a;
+    --border: #2a2a2a;
+    --text: #e0e0e0;
+    --text-muted: #999;
+    --text-dim: #777;
+    --orange: #ff6b35;
+    --blue: #45b7d1;
+    --green: #4ecdc4;
+    --red: #e74c3c;
+    --yellow: #f7dc6f;
+    --orange-dim: rgba(255, 107, 53, 0.12);
+    --blue-dim: rgba(69, 183, 209, 0.10);
+    --green-dim: rgba(78, 205, 196, 0.08);
+    --red-dim: rgba(231, 76, 60, 0.10);
+    --yellow-dim: rgba(247, 220, 111, 0.10);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 15px;
+    padding: 0;
+    position: relative;
+  }
+
+  /* ====== CONFIDENTIAL WATERMARK ====== */
+  body::before {
+    content: 'CONFIDENTIAL';
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-35deg);
+    font-size: 8vw;
+    font-weight: 900;
+    color: rgba(255, 107, 53, 0.03);
+    letter-spacing: 0.3em;
+    pointer-events: none;
+    z-index: 0;
+    white-space: nowrap;
+  }
+
+  /* ====== CONFIDENTIAL BANNER ====== */
+  .confidential-banner {
+    background: linear-gradient(90deg, var(--red), #c0392b);
+    color: #fff;
+    text-align: center;
+    padding: 8px 20px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  /* ====== CONTAINER ====== */
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 24px 60px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ====== HEADER ====== */
+  .doc-header {
+    padding: 48px 0 36px;
+    border-bottom: 3px solid var(--orange);
+    margin-bottom: 40px;
+  }
+  .doc-header h1 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 6px;
+    letter-spacing: -0.02em;
+  }
+  .doc-header h1 span { color: var(--orange); }
+  .doc-header .subtitle {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+  }
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-top: 18px;
+  }
+  .meta-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 16px;
+  }
+  .meta-item .label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+  }
+  .meta-item .value {
+    font-size: 14px;
+    color: #fff;
+    font-weight: 600;
+  }
+  .meta-item .value.status-active { color: var(--orange); }
+
+  /* ====== TABLE OF CONTENTS ====== */
+  .toc {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--orange);
+    border-radius: 8px;
+    padding: 28px 32px;
+    margin-bottom: 48px;
+  }
+  .toc h2 {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 16px;
+  }
+  .toc ol {
+    list-style: none;
+    counter-reset: toc-counter;
+    columns: 2;
+    column-gap: 32px;
+  }
+  .toc li {
+    counter-increment: toc-counter;
+    margin-bottom: 8px;
+    break-inside: avoid;
+  }
+  .toc li a {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 14px;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    transition: color 0.2s;
+  }
+  .toc li a::before {
+    content: counter(toc-counter, decimal-leading-zero);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--orange);
+    min-width: 20px;
+  }
+  .toc li a:hover { color: var(--orange); }
+
+  /* ====== SECTION STYLING ====== */
+  .section {
+    margin-bottom: 52px;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 28px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--border);
+  }
+  .section-number {
+    background: var(--orange);
+    color: #000;
+    font-size: 13px;
+    font-weight: 800;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .section-header h2 {
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.01em;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--orange);
+    margin: 28px 0 14px;
+  }
+  h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--yellow);
+    margin: 20px 0 10px;
+  }
+
+  p { margin-bottom: 14px; }
+  strong { color: #fff; font-weight: 700; }
+  em { color: var(--text-muted); }
+
+  /* ====== CARDS ====== */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .card.highlight-orange { border-left: 4px solid var(--orange); }
+  .card.highlight-blue { border-left: 4px solid var(--blue); }
+  .card.highlight-green { border-left: 4px solid var(--green); }
+  .card.highlight-yellow { border-left: 4px solid var(--yellow); background: var(--yellow-dim); }
+
+  /* ====== RISK FLAGS ====== */
+  .risk-flag {
+    background: var(--red-dim);
+    border: 1px solid var(--red);
+    border-left: 5px solid var(--red);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 20px 0;
+  }
+  .risk-flag .risk-label {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 8px;
+  }
+  .risk-flag p { color: var(--text); margin-bottom: 8px; }
+  .risk-flag p:last-child { margin-bottom: 0; }
+
+  /* ====== KEY INSIGHT ====== */
+  .key-insight {
+    background: var(--green-dim);
+    border: 1px solid var(--green);
+    border-left: 5px solid var(--green);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 20px 0;
+  }
+  .key-insight .insight-label {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 8px;
+  }
+
+  /* ====== TABLES ====== */
+  .table-wrap {
+    overflow-x: auto;
+    margin: 16px 0 24px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  thead th {
+    background: var(--bg-card-alt);
+    color: var(--orange);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 2px solid var(--border);
+    white-space: nowrap;
+  }
+  tbody td {
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: rgba(255,255,255,0.02); }
+  .row-total td {
+    font-weight: 700;
+    color: #fff;
+    border-top: 2px solid var(--border);
+    background: rgba(255, 107, 53, 0.05);
+  }
+  .financial { color: var(--blue); font-weight: 600; font-variant-numeric: tabular-nums; }
+  .financial-negative { color: var(--red); font-weight: 600; font-variant-numeric: tabular-nums; }
+  .financial-positive { color: var(--green); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+  /* ====== LISTS ====== */
+  ul, ol {
+    margin: 10px 0 16px 24px;
+  }
+  li { margin-bottom: 6px; }
+  li::marker { color: var(--orange); }
+
+  /* ====== BLOCKQUOTE ====== */
+  blockquote {
+    border-left: 3px solid var(--orange);
+    padding: 16px 20px;
+    margin: 16px 0;
+    background: var(--orange-dim);
+    border-radius: 0 8px 8px 0;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.8;
+  }
+
+  /* ====== Q&A STYLING ====== */
+  .qa-block {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+  .qa-block .question {
+    color: var(--yellow);
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .qa-block .answer-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 8px;
+  }
+
+  /* ====== ACTION TABLE ====== */
+  .action-table thead th { background: var(--orange-dim); }
+  .status-new {
+    background: var(--blue-dim);
+    color: var(--blue);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 12px;
+    display: inline-block;
+  }
+  .status-critical {
+    background: var(--red-dim);
+    color: var(--red);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 12px;
+    display: inline-block;
+    animation: pulse-red 2s infinite;
+  }
+  @keyframes pulse-red {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
+
+  /* ====== GAP CALLOUT ====== */
+  .gap-callout {
+    background: var(--red-dim);
+    border: 2px solid var(--red);
+    border-radius: 8px;
+    padding: 16px 24px;
+    margin: 16px 0;
+    text-align: center;
+  }
+  .gap-callout .gap-amount {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--red);
+  }
+  .gap-callout .gap-note {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  /* ====== PATH CARDS ====== */
+  .path-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .path-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    border-top: 3px solid var(--orange);
+  }
+  .path-card.active { border-top-color: var(--green); background: var(--green-dim); }
+  .path-card h4 { margin-top: 0; color: #fff; font-size: 0.95rem; }
+  .path-card ul { margin-left: 16px; font-size: 13px; }
+  .path-card li { margin-bottom: 4px; }
+
+  /* ====== CONTACT TABLE ====== */
+  .contact-table td { font-size: 13px; }
+  .contact-table td:first-child { color: var(--orange); font-weight: 600; white-space: nowrap; }
+  .contact-table td:nth-child(2) { color: #fff; font-weight: 600; }
+
+  /* ====== FOOTER ====== */
+  .doc-footer {
+    margin-top: 60px;
+    padding: 24px 0;
+    border-top: 2px solid var(--border);
+    text-align: center;
+  }
+  .doc-footer p {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+  }
+  .doc-footer .confidential-note {
+    color: var(--red);
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: 12px;
+  }
+
+  /* ====== BACK TO TOP ====== */
+  .back-to-top {
+    display: inline-block;
+    color: var(--orange);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    margin-top: 24px;
+    transition: color 0.2s;
+  }
+  .back-to-top:hover { color: #fff; }
+
+  /* ====== RESPONSIVE ====== */
+  @media (max-width: 700px) {
+    .container { padding: 0 16px 40px; }
+    .doc-header h1 { font-size: 1.5rem; }
+    .toc ol { columns: 1; }
+    .meta-grid { grid-template-columns: 1fr; }
+    .path-grid { grid-template-columns: 1fr; }
+    table { font-size: 13px; }
+    thead th, tbody td { padding: 8px 10px; }
+    .section-header h2 { font-size: 1.15rem; }
+  }
+
+  /* ====== PRINT STYLES ====== */
+  @media print {
+    div[style*="position:fixed"] { display: none !important; }
+    body {
+      background: #fff !important;
+      color: #222 !important;
+      font-size: 11pt;
+      line-height: 1.5;
+    }
+    body::before { display: none; }
+    .confidential-banner {
+      position: static;
+      background: #fff !important;
+      color: #c0392b !important;
+      border: 2px solid #c0392b;
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
+    }
+    .container { max-width: 100%; padding: 0 20px; }
+    .doc-header { border-bottom-color: #333; }
+    .doc-header h1 { color: #111 !important; }
+    .doc-header h1 span { color: #333 !important; }
+    .toc { break-after: page; border-color: #ccc; background: #f9f9f9 !important; }
+    .toc h2 { color: #333 !important; }
+    .toc li a { color: #222 !important; }
+    .toc li a::before { color: #333 !important; }
+    .section { break-inside: avoid; }
+    .section-header { border-bottom-color: #ccc; }
+    .section-header h2 { color: #111 !important; }
+    .section-number { background: #333 !important; color: #fff !important; }
+    h3 { color: #333 !important; }
+    h4 { color: #555 !important; }
+    strong { color: #111 !important; }
+    .card, .qa-block, .risk-flag, .key-insight, .gap-callout, .path-card {
+      background: #f9f9f9 !important;
+      border-color: #ccc !important;
+      break-inside: avoid;
+    }
+    .risk-flag { border-left-color: #c0392b !important; }
+    .risk-flag .risk-label { color: #c0392b !important; }
+    .key-insight { border-left-color: #27ae60 !important; }
+    .key-insight .insight-label { color: #27ae60 !important; }
+    table { font-size: 10pt; }
+    thead th { background: #eee !important; color: #333 !important; }
+    tbody td { border-color: #ddd !important; }
+    .row-total td { background: #f0f0f0 !important; }
+    .financial, .financial-positive { color: #2471a3 !important; }
+    .financial-negative { color: #c0392b !important; }
+    .status-new { background: #eee !important; color: #2471a3 !important; }
+    .status-critical { background: #fde8e8 !important; color: #c0392b !important; animation: none !important; }
+    blockquote { background: #f5f5f5 !important; border-left-color: #333 !important; }
+    .gap-callout { border-color: #c0392b !important; }
+    .gap-callout .gap-amount { color: #c0392b !important; }
+    .doc-footer .confidential-note { color: #c0392b !important; }
+    .back-to-top { display: none; }
+    a { color: #222 !important; text-decoration: none !important; }
+    .meta-item { background: #f5f5f5 !important; border-color: #ccc !important; }
+    .meta-item .value { color: #111 !important; }
+    .meta-item .value.status-active { color: #c0392b !important; }
+    .qa-block .question { color: #333 !important; border-bottom-color: #ccc !important; }
+    .qa-block .answer-label { color: #333 !important; }
+    .contact-table td:first-child { color: #333 !important; }
+    .contact-table td:nth-child(2) { color: #111 !important; }
+    .path-card { border-top-color: #333 !important; }
+    .path-card.active { border-top-color: #27ae60 !important; background: #f0faf0 !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="confidential-banner" id="top">CONFIDENTIAL &mdash; FOR INTERNAL FONTAINE BROS REVIEW ONLY</div>
+
+<div class="container">
+
+<!-- ============ HEADER ============ -->
+<header class="doc-header">
+  <h1><span>340 Main Street</span> &mdash; Full Deal Brief</h1>
+  <p class="subtitle">Worcester, MA &bull; Trinity / Fontaine JV Partnership</p>
+  <div class="meta-grid">
+    <div class="meta-item">
+      <div class="label">Distribution</div>
+      <div class="value">CFO, Sam Fortsch, Seth Stratton</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">Prepared By</div>
+      <div class="value">Dave Fontaine + Claude Code</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">Status</div>
+      <div class="value status-active">Revised offer submitted 2/14 &mdash; Seller deadline Wed 2/18</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">Date</div>
+      <div class="value">February 15, 2026</div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ TABLE OF CONTENTS ============ -->
+<nav class="toc">
+  <h2>Table of Contents</h2>
+  <ol>
+    <li><a href="#section1">Deal Overview</a></li>
+    <li><a href="#section2">Actual Pro Forma Numbers</a></li>
+    <li><a href="#section3">Dave's Questions &amp; Answers</a></li>
+    <li><a href="#section4">Fontaine 25% Pro Forma Model</a></li>
+    <li><a href="#section5">Risk Analysis</a></li>
+    <li><a href="#section6">Strategic Assessment</a></li>
+    <li><a href="#section7">Action Items</a></li>
+    <li><a href="#section8">Negotiation Language &mdash; Locking the GC Contract</a></li>
+    <li><a href="#section9">How Tax Credits Work (CFO Reference)</a></li>
+    <li><a href="#section10">Year 15+ Exit Scenarios</a></li>
+    <li><a href="#appendix">Key Contacts</a></li>
+  </ol>
+</nav>
+
+<!-- ============ SECTION 1 ============ -->
+<section class="section" id="section1">
+  <div class="section-header">
+    <div class="section-number">1</div>
+    <h2>Deal Overview</h2>
+  </div>
+
+  <h3>Property</h3>
+  <ul>
+    <li><strong>340 Main Street, Worcester, MA</strong> &mdash; Two historic buildings (front + rear)</li>
+    <li><strong>Seller:</strong> Aaron Popowitz / 5 Slater, LLC &mdash; carrying $1.2M/yr in costs</li>
+    <li><strong>Buyer:</strong> Trinity/Fontaine JV partnership</li>
+  </ul>
+
+  <h3>Partnership</h3>
+  <div class="card highlight-orange">
+    <ul>
+      <li><strong>75% Trinity Financial</strong> (Managing GP, developer, staffing)</li>
+      <li><strong>25% Fontaine Bros</strong> (capital partner, GC candidate)</li>
+      <li><strong>Trinity makes all decisions.</strong> Fontaine gets good-faith input on major decisions, no veto.</li>
+    </ul>
+  </div>
+
+  <h3>Project Scope (Phase 1 Only &mdash; Front Building)</h3>
+  <ul>
+    <li>110 units: 40 studios, 47 1BR, 23 2BR</li>
+    <li>55 affordable (28 Restore-Rebuild, 5 LIHTC @ 80% AMI, 22 Section 8)</li>
+    <li>55 market rate</li>
+    <li>~5,000 SF retail + small museum</li>
+    <li>Phase 2 (rear building, 144 units) is a separate subsequent phase</li>
+  </ul>
+
+  <h3>Purchase Terms (Offer Letter 2/16/26)</h3>
+  <div class="card highlight-blue">
+    <ul>
+      <li><strong>Purchase price: ~$11M</strong> (redlined from seller's counter)</li>
+      <li><strong>EMD: $200K</strong> with P&amp;S signing (refundable during 6-month due diligence)</li>
+      <li>Buyer assumes carrying costs on P&amp;S execution</li>
+      <li>Pays back taxes/fines/invoices up to $1M within 30 days (credited to purchase price)</li>
+      <li>$50K/month payments to seller (credited to purchase price)</li>
+      <li><strong>Seller "kicker": 15% of all fees/distributions</strong> to JV members (no voting rights)</li>
+      <li>$4.2M MA Historic Tax Credits &mdash; buyer assists transfer within 18 months</li>
+      <li><strong>Exclusivity: 45 days</strong> for P&amp;S negotiation</li>
+      <li><strong>Non-binding LOI</strong> &mdash; no deal until P&amp;S is executed</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ SECTION 2 ============ -->
+<section class="section" id="section2">
+  <div class="section-header">
+    <div class="section-number">2</div>
+    <h2>Actual Pro Forma Numbers</h2>
+  </div>
+  <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 24px;">Source: Trinity Financial, 02-14-26</p>
+
+  <h3>Sources &amp; Uses &mdash; Phase 1</h3>
+
+  <h4>USES (Total Development Costs): <span class="financial">$118,817,179</span></h4>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Category</th><th style="text-align:right">Amount</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Acquisition</td><td style="text-align:right" class="financial">$11,200,000</td></tr>
+        <tr><td>Hard Costs (incl. 10% contingency)</td><td style="text-align:right" class="financial">$81,950,000</td></tr>
+        <tr><td>Soft Costs</td><td style="text-align:right" class="financial">$12,920,000</td></tr>
+        <tr><td>Operating Reserve</td><td style="text-align:right" class="financial">$1,140,000</td></tr>
+        <tr><td>Developer Fees (total)</td><td style="text-align:right" class="financial">$11,607,179</td></tr>
+        <tr class="row-total"><td><strong>TOTAL</strong></td><td style="text-align:right"><strong class="financial">$118,817,179</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4>SOURCES: <span class="financial">$80,570,086</span></h4>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Source</th><th style="text-align:right">Amount</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>First Mortgage (MassHousing)</td><td style="text-align:right" class="financial">$12,500,000</td></tr>
+        <tr><td>Tax-Exempt Construction Loan</td><td style="text-align:right" class="financial">TBD</td></tr>
+        <tr><td>EOHLC Private Housing</td><td style="text-align:right" class="financial">$8,250,000</td></tr>
+        <tr><td>MassHousing Subordinate</td><td style="text-align:right" class="financial">$2,500,000</td></tr>
+        <tr><td>City of Worcester</td><td style="text-align:right" class="financial">$3,000,000</td></tr>
+        <tr><td>LIHTC + Historic Tax Credit Equity</td><td style="text-align:right" class="financial">~$50,300,000</td></tr>
+        <tr><td>State LIHTCs</td><td style="text-align:right" class="financial">$2,500,000&ndash;$3,000,000</td></tr>
+        <tr><td>Other identified sources</td><td style="text-align:right" class="financial">Balance</td></tr>
+        <tr class="row-total"><td><strong>TOTAL IDENTIFIED</strong></td><td style="text-align:right"><strong class="financial">$80,570,086</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="gap-callout">
+    <div class="gap-amount">GAP (SHORTFALL): ($38,247,093)</div>
+    <div class="gap-note">Trinity expects EOHLC Public Housing Division to fill this gap.</div>
+  </div>
+
+  <h3>Developer Fee Breakdown</h3>
+  <div class="card highlight-blue">
+    <p><strong>Total developer fee: <span class="financial">$11,607,179</span></strong></p>
+    <p>In LIHTC deals, developer fees are typically split:</p>
+    <ul>
+      <li>~50% paid at construction closing or during construction (the "cash" portion)</li>
+      <li>~50% deferred over the 15-year compliance period (the "deferred" portion)</li>
+    </ul>
+    <p>Based on Dave's info that Fontaine's share would be ~$952,569:</p>
+    <ul>
+      <li>Total fee paid upfront (cash portion): ~$5.8M (50%)</li>
+      <li>Fontaine 25% of cash portion: <strong class="financial-positive">~$1,452,000</strong> at/during construction</li>
+      <li>Total deferred fee: ~$5.8M (50%)</li>
+      <li>Fontaine 25% of deferred: <strong class="financial-positive">~$1,452,000</strong> over 15 years</li>
+      <li><strong>BUT</strong> the seller gets a 15% "kicker" off the top of all fees/distributions</li>
+    </ul>
+    <p style="margin-top: 16px;">Adjusted for seller kicker:</p>
+    <ul>
+      <li>Cash developer fee to JV: ~$4.93M &rarr; Fontaine 25% = <strong class="financial-positive">~$1,233,000</strong></li>
+      <li>Deferred developer fee to JV: ~$4.93M &rarr; Fontaine 25% = <strong class="financial-positive">~$1,233,000</strong> over 15 years</li>
+    </ul>
+    <div class="key-insight" style="margin-top: 16px;">
+      <div class="insight-label">Validation</div>
+      <p><strong>Dave's $952K estimate is reasonable</strong> &mdash; the exact split depends on how the fee schedule is structured and when the kicker applies.</p>
+    </div>
+  </div>
+
+  <h3>Operating Pro Forma (Annual)</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Line Item</th><th style="text-align:right">Year 1</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Gross Revenue</td><td style="text-align:right" class="financial">$2,406,717</td></tr>
+        <tr><td>Operating Expenses</td><td style="text-align:right" class="financial-negative">($1,379,000)</td></tr>
+        <tr class="row-total"><td><strong>Net Operating Income (NOI)</strong></td><td style="text-align:right"><strong class="financial-positive">$1,027,717</strong></td></tr>
+        <tr><td>Debt Service</td><td style="text-align:right" class="financial-negative">($896,402)</td></tr>
+        <tr class="row-total"><td><strong>Net Cash Flow</strong></td><td style="text-align:right"><strong class="financial-positive">$131,314</strong></td></tr>
+        <tr><td>DSCR</td><td style="text-align:right" class="financial">1.15x</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card highlight-yellow">
+    <p><strong>Fontaine 25% of Year 1 Net Cash Flow:</strong> <span class="financial">~$32,829</span> (before seller kicker)</p>
+    <p><strong>After 15% seller kicker:</strong> <span class="financial">~$27,905/year</span></p>
+  </div>
+
+  <div class="risk-flag">
+    <div class="risk-label">Risk Flag</div>
+    <p>The DSCR at 1.15x is <strong>thin</strong>. This project generates almost no distributable cash flow in early years.</p>
+  </div>
+
+  <h3>Debt Terms</h3>
+  <ul>
+    <li>First Mortgage: <span class="financial">$12,500,000</span></li>
+    <li>Rate: 6.61%</li>
+    <li>Term: 40-year amortization</li>
+    <li>Annual debt service: <span class="financial">$896,402</span></li>
+  </ul>
+</section>
+
+<!-- ============ SECTION 3 ============ -->
+<section class="section" id="section3">
+  <div class="section-header">
+    <div class="section-number">3</div>
+    <h2>Dave's Questions &amp; Answers</h2>
+  </div>
+
+  <!-- Q1 -->
+  <div class="qa-block">
+    <div class="question">Q1: "Do we get our cash back for the up front cost? If we put in $1M we just get our money back after construction?"</div>
+    <div class="answer-label">Short Answer: Not exactly. Here's how it works:</div>
+    <p>Your $750K&ndash;$1M in pre-construction working capital is a <strong>capital contribution to the partnership</strong>, not a loan. It doesn't get "paid back" like a loan would. Instead:</p>
+    <ol>
+      <li><strong>At construction loan closing:</strong> The construction loan should reimburse the partnership for pre-development costs already spent. Your share of that reimbursement flows back to you &mdash; but only if the partnership agreement allows partner distributions at that stage (many don't until stabilization).</li>
+      <li><strong>Through developer fees:</strong> Your ~$952K&ndash;$1.2M cash developer fee is separate from your capital contribution. That's your compensation for being a development partner. It gets paid during/after construction per the investor-approved schedule.</li>
+      <li><strong>Through refinancing or sale:</strong> Eventually, when the property is stabilized and refinanced (or sold), your 25% equity gets a liquidation event. That's where your capital contribution gets returned + appreciation.</li>
+    </ol>
+    <div class="risk-flag">
+      <div class="risk-label">Capital Risk</div>
+      <p>If the project fails before construction loan closing, your pre-construction capital is at risk. If the project succeeds, you get it back through the capital waterfall &mdash; but the timeline could be <strong>2&ndash;5 years</strong>.</p>
+    </div>
+    <div class="card highlight-yellow" style="margin-top: 16px;">
+      <p><strong>Question for Seth Stratton:</strong> The partnership agreement needs to clearly define the capital account and distribution waterfall. When exactly can Fontaine recover its pre-construction capital? Is it first in the waterfall or pro-rata?</p>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="qa-block">
+    <div class="question">Q2: "Can I refinance separate from Trinity? Otherwise my equity is locked up."</div>
+    <div class="answer-label">Short Answer: Almost certainly no.</div>
+    <p>In a LIHTC partnership:</p>
+    <ul>
+      <li>The <strong>partnership</strong> owns the property, not the individual partners</li>
+      <li>You can't put a separate mortgage on 25% of a building</li>
+      <li>Refinancing is a partnership-level decision that Trinity (as Managing GP) controls</li>
+      <li>The LIHTC investor will have restrictions on refinancing during the 15-year compliance period</li>
+      <li>You cannot independently refinance your partnership interest</li>
+    </ul>
+    <h4>Your Options to Unlock Equity:</h4>
+    <ol>
+      <li><strong>Sell your partnership interest</strong> &mdash; But the investor and Trinity will have right of first refusal, and there's limited market for minority interests in LIHTC deals</li>
+      <li><strong>Partnership-level refinancing</strong> &mdash; If the property appreciates and can support more debt, the partnership can refinance and distribute proceeds pro-rata. But Trinity decides when/if.</li>
+      <li><strong>After Year 15</strong> &mdash; The LIHTC compliance period ends and the investor typically exits. That's when the real equity event happens (sale or recap).</li>
+      <li><strong>Buy/sell provision</strong> &mdash; The partnership terms include a pre-construction "buy/sell" right. This could be your exit if things aren't working.</li>
+    </ol>
+    <div class="risk-flag">
+      <div class="risk-label">Equity Lock-Up</div>
+      <p><strong>Your equity IS locked up for a long time.</strong> This is typical for LIHTC deals. Plan accordingly.</p>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="qa-block">
+    <div class="question">Q3: "Do I get 25% of the equity in the whole deal that is 'equity'? How does the equity work?"</div>
+    <div class="answer-label">How LIHTC Equity Works:</div>
+    <p>The $50.3M in "tax credit equity" is <strong>NOT</strong> equity in the traditional sense. Here's the structure:</p>
+    <ol>
+      <li><strong>A tax credit investor (syndicator)</strong> &mdash; typically a bank or financial institution &mdash; buys into the partnership for ~$50.3M</li>
+      <li><strong>In exchange, they get 99.99% of the tax credits and tax losses</strong> for 15 years</li>
+      <li><strong>They get almost zero economic interest</strong> (typically 0.01% of cash flow and residual value)</li>
+      <li><strong>Trinity + Fontaine retain the economic interest</strong> (99.99% of cash flow and residual value as the "GP interest")</li>
+      <li><strong>After Year 15,</strong> the investor exits (usually for a nominal amount like $100), and the GP partners own the building free and clear</li>
+    </ol>
+    <div class="card highlight-green" style="margin-top: 16px;">
+      <p><strong>So your 25% means:</strong></p>
+      <ul>
+        <li>25% of the GP's share of cash flow (which is 99.99% of total cash flow) &mdash; so effectively 25% of all cash flow</li>
+        <li>25% of residual value after the investor exits in Year 15+</li>
+        <li>25% of developer fees</li>
+        <li>25% of any refinancing proceeds</li>
+        <li><strong>But NOT 25% of the $50.3M in tax credit equity &mdash; that goes to the investor in exchange for the credits</strong></li>
+      </ul>
+    </div>
+    <div class="key-insight" style="margin-top: 16px;">
+      <div class="insight-label">The Long Game</div>
+      <p>After Year 15, you own 25% of a stabilized, debt-reduced apartment building in downtown Worcester. If the building is worth $80&ndash;100M+ at that point (appreciated historic building, downtown location), <strong>your 25% could be worth $20&ndash;25M</strong>.</p>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="qa-block">
+    <div class="question">Q4: "What are the debt payments of a million dollars a year paying?"</div>
+    <div class="answer-label">Answer:</div>
+    <p>Based on the pro forma:</p>
+    <ul>
+      <li><strong>Debt service: $896,402/year</strong> on a $12.5M first mortgage</li>
+      <li>Rate: 6.61%, 40-year amortization</li>
+      <li>This is the permanent loan from MassHousing</li>
+    </ul>
+    <p>The seller's $1.2M/year carry costs are <strong>the seller's current costs</strong> for holding the building (taxes, insurance, maintenance, utilities on an empty/underutilized building). Trinity refused to cover 100% of those. The purchase offer includes:</p>
+    <ul>
+      <li>Buyer pays back taxes/fines up to $1M (credited to purchase price)</li>
+      <li>$50K/month to seller during due diligence (credited to purchase price)</li>
+      <li>After due diligence, up to $20K/month for seller's carry costs (also credited)</li>
+    </ul>
+    <div class="key-insight">
+      <div class="insight-label">Key Point</div>
+      <p>Those carry cost payments <strong>reduce your purchase price</strong> &mdash; they're not additional costs on top.</p>
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="qa-block">
+    <div class="question">Q5: "How do tax credits work in general and here?"</div>
+    <div class="answer-label">Tax Credits 101:</div>
+
+    <h4>LIHTC (Low Income Housing Tax Credit)</h4>
+    <ul>
+      <li>Federal program: Build/renovate affordable housing &rarr; get tax credits worth ~$0.90&ndash;$0.95 per $1 of qualified basis</li>
+      <li>Credits are taken annually over 10 years</li>
+      <li>Must keep units affordable for 15 years (compliance period) + 15 years extended use</li>
+      <li>A syndicator (bank) buys the credits for upfront cash (~$0.90 per $1 of credits)</li>
+      <li>That cash is the "equity" that pays for construction</li>
+    </ul>
+
+    <h4>Historic Tax Credit (HTC)</h4>
+    <ul>
+      <li>Federal: 20% of qualified rehabilitation expenditures on historic buildings</li>
+      <li>State (MA): Additional credits available</li>
+      <li>The $4.2M in MA Historic Tax Credits mentioned in the offer letter</li>
+      <li>These also get syndicated for upfront cash</li>
+    </ul>
+
+    <h4>In THIS Deal:</h4>
+    <ul>
+      <li>The $50.3M in "equity" comes from selling LIHTC + HTC to an investor</li>
+      <li>The investor gets the tax benefits; you get the cash to build</li>
+    </ul>
+
+    <div class="risk-flag">
+      <div class="risk-label">Tax Credit Recapture Risk</div>
+      <p>If you violate compliance (unit mix, rent limits, tenant income), you can <strong>owe back the credits</strong>. This is the "tax credit recapture" risk, and it's what the investor's guarantees protect against.</p>
+    </div>
+
+    <h4>Why Guarantees Matter Here:</h4>
+    <ul>
+      <li>The investor will require guarantees that the project will: be completed on time, achieve stabilization, maintain compliance, have operating deficit reserves</li>
+      <li>These guarantees are typically <strong>"joint and several"</strong> &mdash; meaning the investor can come after EITHER partner for 100%</li>
+      <li>The 75/25 side agreement only governs between Trinity and Fontaine</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ SECTION 4 ============ -->
+<section class="section" id="section4">
+  <div class="section-header">
+    <div class="section-number">4</div>
+    <h2>Fontaine 25% Pro Forma Model</h2>
+  </div>
+
+  <h3>Capital Outlay</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Item</th><th style="text-align:right">Fontaine Share (25%)</th><th>Timing</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Pre-construction working capital</td><td style="text-align:right" class="financial-negative">$750K&ndash;$1M</td><td>Monthly calls, pre-closing</td></tr>
+        <tr><td>EMD share</td><td style="text-align:right" class="financial-negative">$50K</td><td>At P&amp;S signing</td></tr>
+        <tr><td>Legal/due diligence costs</td><td style="text-align:right" class="financial-negative">$50&ndash;100K</td><td>Ongoing</td></tr>
+        <tr class="row-total"><td><strong>Total out-of-pocket before construction</strong></td><td style="text-align:right"><strong class="financial-negative">$850K&ndash;$1.15M</strong></td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Returns (Estimated)</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Item</th><th style="text-align:right">Fontaine Share</th><th>Timing</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Cash developer fee (25% less 15% kicker)</td><td style="text-align:right" class="financial-positive">~$952K&ndash;$1.2M</td><td>During/post construction</td></tr>
+        <tr><td>Deferred developer fee</td><td style="text-align:right" class="financial-positive">~$952K&ndash;$1.2M</td><td>Over 15 years (~$63&ndash;80K/yr)</td></tr>
+        <tr><td>Annual cash flow (25% less kicker)</td><td style="text-align:right" class="financial-positive">~$28K/yr (Year 1)</td><td>Annually, growing ~2%/yr</td></tr>
+        <tr><td>Residual value at Year 15+ exit</td><td style="text-align:right" class="financial-positive">$15&ndash;25M+ (speculative)</td><td>Year 15&ndash;20</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>20-Year Cash Flow Summary</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Period</th><th style="text-align:right">Fontaine Gross</th><th style="text-align:right">Less 15% Kicker</th><th style="text-align:right">Net to Fontaine</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Pre-construction capital call</td><td style="text-align:right" class="financial-negative">($1,000,000)</td><td style="text-align:right">&mdash;</td><td style="text-align:right" class="financial-negative">($1,000,000)</td></tr>
+        <tr><td>Cash developer fee (Yr 1&ndash;2)</td><td style="text-align:right" class="financial">$1,233,000</td><td style="text-align:right" class="financial-negative">($185,000)</td><td style="text-align:right" class="financial-positive">$1,048,000</td></tr>
+        <tr><td>Deferred developer fee (Yr 1&ndash;15)</td><td style="text-align:right" class="financial">$1,233,000</td><td style="text-align:right" class="financial-negative">($185,000)</td><td style="text-align:right" class="financial-positive">$1,048,000</td></tr>
+        <tr><td>Cash flow Yrs 1&ndash;15</td><td style="text-align:right" class="financial">~$600,000</td><td style="text-align:right" class="financial-negative">(~$90,000)</td><td style="text-align:right" class="financial-positive">~$510,000</td></tr>
+        <tr class="row-total"><td><strong>Net before exit event</strong></td><td style="text-align:right"></td><td style="text-align:right"></td><td style="text-align:right"><strong class="financial-positive">~$1,606,000</strong></td></tr>
+        <tr><td>Exit/refi at Year 15+</td><td style="text-align:right" class="financial">$15&ndash;25M+</td><td style="text-align:right" class="financial-negative">($2.25&ndash;3.75M)</td><td style="text-align:right" class="financial-positive">$12.75&ndash;21.25M</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="key-insight">
+    <div class="insight-label">Key Insight</div>
+    <p>The developer fee roughly covers your capital outlay. You're basically investing $1M to get $1M back in fees over the first few years, then <strong>your real return is the long-term equity</strong>. Annual cash flow is negligible. <strong>This is a 15-year play for the big equity event.</strong></p>
+  </div>
+</section>
+
+<!-- ============ SECTION 5 ============ -->
+<section class="section" id="section5">
+  <div class="section-header">
+    <div class="section-number">5</div>
+    <h2>Risk Analysis</h2>
+  </div>
+
+  <h3>The Personal Guarantee Problem</h3>
+  <div class="risk-flag" style="border-width: 2px;">
+    <div class="risk-label">Dave's Position</div>
+    <p><strong>"If this can't be completely carved out to no PG at all then I likely need to get out as an equity guarantor."</strong></p>
+  </div>
+
+  <div class="card highlight-yellow">
+    <h4 style="margin-top: 0;">Rationale:</h4>
+    <ul>
+      <li>Dave is currently buying the company from his father (succession deal)</li>
+      <li>Any personal guarantee could impair surety/bonding capacity</li>
+      <li>Fontaine Bros does <strong>$410M/year</strong> in construction &mdash; bonding capacity is existential</li>
+      <li>Even a "proportional" 25% guarantee on a $119M project = <strong class="financial-negative">$30M+ exposure</strong></li>
+    </ul>
+  </div>
+
+  <h4>Questions for Seth Stratton (Legal):</h4>
+  <ol>
+    <li>Can the guarantees be structured so Fontaine Bros (the entity) guarantees but Dave personally does NOT?</li>
+    <li>Can we negotiate hard dollar caps (e.g., $2M) instead of percentage-based?</li>
+    <li>Can we get guarantee burn-off (guarantees reduce as milestones are hit &mdash; completion, stabilization, etc.)?</li>
+    <li>Is there a "non-recourse carve-out" structure where only specific "bad boy" acts trigger personal liability?</li>
+    <li>Does Seth have experience with LIHTC investor guarantee requirements? If not, we need specialized counsel.</li>
+  </ol>
+
+  <h4>Questions for Surety:</h4>
+  <ol>
+    <li>If Dave personally guarantees up to $X on a development deal, how does that impact bonding capacity?</li>
+    <li>If guarantees are at the entity level (a new LLC) and not personal, does that change the answer?</li>
+    <li>What reporting requirements would this trigger?</li>
+  </ol>
+
+  <h3>Alternative Structures If No PG</h3>
+  <p>If Dave can't take personal guarantee exposure, possible alternatives:</p>
+  <div class="path-grid">
+    <div class="path-card">
+      <h4>1. Fee-Only Arrangement</h4>
+      <p>Fontaine provides pre-construction services and GC work for fee, no equity partnership</p>
+    </div>
+    <div class="path-card">
+      <h4>2. Reduced Ownership (5&ndash;10%)</h4>
+      <p>With guarantee carve-out limited to capital contribution only</p>
+    </div>
+    <div class="path-card">
+      <h4>3. Consulting/Advisory Role</h4>
+      <p>Fontaine lends credibility and construction expertise for a fee, no equity or guarantees</p>
+    </div>
+    <div class="path-card">
+      <h4>4. Preferred Return Structure</h4>
+      <p>Fontaine invests capital with preferred return and hard cap on downside, no open-ended guarantees</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECTION 6 ============ -->
+<section class="section" id="section6">
+  <div class="section-header">
+    <div class="section-number">6</div>
+    <h2>Strategic Assessment</h2>
+  </div>
+
+  <h3>Why This Matters Beyond This Deal</h3>
+
+  <blockquote>"From a long-term CSO and CFO perspective I need to understand how to get into development with this risk. It seems to be where the most money in construction is made."</blockquote>
+
+  <div class="key-insight">
+    <div class="insight-label">He's Right</div>
+    <p>In construction, the value chain is:</p>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Role</th><th>Typical Margins</th><th>Risk Level</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Subcontractor</td><td class="financial">5&ndash;8%</td><td>Low</td></tr>
+        <tr><td>General Contractor</td><td class="financial">3&ndash;8%</td><td>Moderate</td></tr>
+        <tr><td>Construction Manager</td><td class="financial">5&ndash;10% fee</td><td>Moderate</td></tr>
+        <tr><td style="color: var(--green); font-weight: 700;">Developer</td><td class="financial-positive">15&ndash;30%+ IRR</td><td style="color: var(--red);">High (capital at risk)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Three Paths Into Development for a GC</h3>
+  <div class="path-grid">
+    <div class="path-card active">
+      <h4>Path A: Equity Development Partner</h4>
+      <p style="font-size: 12px; color: var(--green); font-weight: 600; margin-bottom: 8px;">THIS DEAL</p>
+      <ul>
+        <li>Put up capital + guarantees = share in developer returns</li>
+        <li>Highest upside, highest risk</li>
+        <li>Requires PG capacity and long capital lockup</li>
+        <li>This is the traditional path</li>
+      </ul>
+    </div>
+    <div class="path-card">
+      <h4>Path B: Technology Layer ("Own the Data")</h4>
+      <p style="font-size: 12px; color: var(--orange); font-weight: 600; margin-bottom: 8px;">UDOR / FONTAINE AI OS</p>
+      <ul>
+        <li>Build the tools developers NEED (estimating, bidding, PM, compliance)</li>
+        <li>60&ndash;80% gross margins on SaaS</li>
+        <li>No PG risk, no capital lockup</li>
+        <li>Scales across every project, not just one building</li>
+      </ul>
+    </div>
+    <div class="path-card">
+      <h4>Path C: Advisory / OPM</h4>
+      <p style="font-size: 12px; color: var(--blue); font-weight: 600; margin-bottom: 8px;">DATA CENTER ADVISORY</p>
+      <ul>
+        <li>Fee-based, no equity risk</li>
+        <li>Uses existing expertise and relationships</li>
+        <li>Can layer in technology tools as differentiator</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card highlight-yellow">
+    <h4 style="margin-top: 0;">Dave's Unique Position</h4>
+    <p>He doesn't have to choose one. The 340 Main deal could be structured as Path A (if guarantees work) OR as a hybrid where Fontaine is the GC + provides advisory/pre-construction services without equity risk, while simultaneously building Path B (tech tools tested on this project) and Path C (advisory relationships through this project's political connections).</p>
+  </div>
+</section>
+
+<!-- ============ SECTION 7 ============ -->
+<section class="section" id="section7">
+  <div class="section-header">
+    <div class="section-number">7</div>
+    <h2>Action Items</h2>
+  </div>
+
+  <div class="table-wrap">
+    <table class="action-table">
+      <thead>
+        <tr><th>#</th><th>Action</th><th>Owner</th><th>Timeline</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Ask Seth Stratton: Can guarantees be carved out to entity-only with no personal guarantee?</td>
+          <td><strong>Sam &rarr; Seth</strong></td>
+          <td>This week</td>
+          <td><span class="status-new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Set up call: Dave + Merrill H (tax credit expert from CEO peer group)</td>
+          <td><strong>Sam</strong></td>
+          <td>This week</td>
+          <td><span class="status-new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Remind Dave: Reach out to Tiger21 members who responded to 340 Main post</td>
+          <td><strong>Sam &rarr; Dave</strong></td>
+          <td>This week</td>
+          <td><span class="status-new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>Contact surety company: Impact of PG on bonding capacity</td>
+          <td><strong>Dave</strong></td>
+          <td>Before any signing</td>
+          <td><span class="status-critical">CRITICAL</span></td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>Confirm: Does Seth have LIHTC/tax credit deal experience? If not, refer to specialist</td>
+          <td><strong>Seth</strong></td>
+          <td>This week</td>
+          <td><span class="status-new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>Check with Trinity: Status of seller response to 2/18 deadline offer</td>
+          <td><strong>Dave</strong></td>
+          <td>Monday/Tuesday</td>
+          <td><span class="status-new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td>Review: Can Fontaine participate as GC + advisory without equity if PG is a dealbreaker?</td>
+          <td><strong>Dave + Seth</strong></td>
+          <td>After #1&ndash;5 complete</td>
+          <td><span class="status-new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td>Draft language for locking GC contract (see Section 8)</td>
+          <td><strong>Dave + Claude</strong></td>
+          <td>Ready when needed</td>
+          <td><span class="status-new">NEW</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ SECTION 8 ============ -->
+<section class="section" id="section8">
+  <div class="section-header">
+    <div class="section-number">8</div>
+    <h2>Negotiation Language &mdash; Locking the GC Contract</h2>
+  </div>
+
+  <p>How to frame this with Patrick Lee. The key is to position it as <strong>alignment of incentives</strong>, not as a demand:</p>
+
+  <blockquote>
+    "Patrick, one thing I want to make sure we're aligned on &mdash; Fontaine's real value in this partnership isn't just the capital. It's the construction execution. We're a $410M GC with 93 years of history in this market, and we can bond this project. That's not easy to find.<br><br>
+    For us to commit the capital and guarantee exposure at this level, we need to know we're the GC. I'm not asking for a sweetheart deal on pricing &mdash; we'll bid competitively and you'll see our numbers. But 'last look' on a project we're co-developing and co-guaranteeing doesn't feel right. We should be the builder.<br><br>
+    Can we structure this so the GC contract is part of the partnership terms, with pricing agreed during due diligence? That way we're both protected &mdash; you see real numbers before we close, and we know the construction role is locked before we commit capital."
+  </blockquote>
+
+  <div class="card highlight-green">
+    <h4 style="margin-top: 0;">Why This Works:</h4>
+    <ul>
+      <li>Acknowledges Trinity's concern about competitive pricing</li>
+      <li>Positions GC role as logical alignment, not a favor</li>
+      <li>Ties it to the DD period (natural checkpoint)</li>
+      <li>Doesn't threaten to walk &mdash; just frames it as what makes sense</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ SECTION 9 ============ -->
+<section class="section" id="section9">
+  <div class="section-header">
+    <div class="section-number">9</div>
+    <h2>How Tax Credits Work (CFO Reference)</h2>
+  </div>
+
+  <h3>The Basic Mechanism</h3>
+  <p>A tax credit investor (typically a bank) pays upfront cash in exchange for tax credits that directly reduce their federal tax bill dollar-for-dollar over 10 years, plus depreciation losses over 15 years.</p>
+
+  <h3>Math on This Deal</h3>
+  <div class="card highlight-blue">
+    <ul>
+      <li>Qualified basis (construction cost on affordable units): <span class="financial">~$55&ndash;60M</span></li>
+      <li>LIHTC rate: ~9% annual credit for 10 years</li>
+      <li>Total credits generated: <span class="financial">~$50M</span></li>
+      <li>Investor pays: <span class="financial">~$50.3M</span> upfront (at ~$0.90&ndash;$0.95 per credit dollar)</li>
+      <li>Investor receives over 10 years: ~$50M in direct tax bill reduction + ~$15&ndash;20M in depreciation deductions</li>
+      <li>Investor also receives CRA (Community Reinvestment Act) compliance credit</li>
+    </ul>
+  </div>
+
+  <h3>Why Banks Do This</h3>
+  <ul>
+    <li>Converts tax liability into community development (roughly break-even financially)</li>
+    <li>CRA compliance is required by regulators &mdash; this satisfies that requirement</li>
+    <li>PR/ESG value for the institution</li>
+    <li>The credits are dollar-for-dollar tax bill reduction, not just deductions</li>
+  </ul>
+
+  <h3>Why This Matters for Fontaine</h3>
+  <div class="card highlight-yellow">
+    <ul>
+      <li>As a developer/partner, Fontaine is on the <strong>SELLING side</strong> of credits &mdash; you create the credits, the investor buys them</li>
+      <li>The $50.3M in "equity" is real cash that pays for construction, funded by the investor purchasing your tax credits</li>
+      <li>The investor gets 99.99% of tax benefits but almost zero economic interest (0.01% of cash flow/residual)</li>
+      <li>After Year 15, investor exits for nominal amount ($100); GP partners retain the building</li>
+      <li><strong>Understanding this structure is key to entering development &mdash; every affordable housing deal works this way</strong></li>
+    </ul>
+  </div>
+
+  <h3>Would It Make Sense for Dave to Invest in Tax Credits Directly?</h3>
+  <ul>
+    <li>Probably not at this scale &mdash; requires $5M+/year in predictable federal tax liability</li>
+    <li>Dave's value is as the developer who CREATES credits, not as the investor who buys them</li>
+    <li>However: if Fontaine Bros has significant tax liability, smaller tax credit investments could be worth exploring with CFO</li>
+  </ul>
+</section>
+
+<!-- ============ SECTION 10 ============ -->
+<section class="section" id="section10">
+  <div class="section-header">
+    <div class="section-number">10</div>
+    <h2>Year 15+ Exit Scenarios</h2>
+  </div>
+
+  <h3>Building Valuation at Year 15</h3>
+  <div class="card highlight-blue">
+    <ul>
+      <li>Year 15 NOI (2% annual growth from $1.03M): <span class="financial">~$1.35&ndash;1.4M</span></li>
+      <li>Cap rate range: 5.5% (affordable premium) to 7% (market)</li>
+      <li><strong>Building value: <span class="financial-positive">$19&ndash;25M</span></strong> (Phase 1 only)</li>
+      <li><strong>Fontaine 25%: <span class="financial-positive">$4.75&ndash;6.25M</span></strong></li>
+      <li>If Phase 2 completed: combined value $40&ndash;60M+; <strong>Fontaine 25% = <span class="financial-positive">$10&ndash;15M</span></strong></li>
+    </ul>
+  </div>
+
+  <h3>Exit Options</h3>
+  <ol>
+    <li><strong>Partnership refinance</strong> &mdash; Pull cash out, distribute pro-rata. Most likely path.</li>
+    <li><strong>Sale of building</strong> &mdash; After compliance period + extended use. Trinity controls timing.</li>
+    <li><strong>Buy/sell rights</strong> &mdash; Either partner can trigger. Fontaine could buy Trinity out or sell to Trinity.</li>
+    <li><strong>Transfer of interest</strong> &mdash; Restricted during compliance; depends on partnership agreement after Year 15.</li>
+    <li><strong>Fontaine cannot independently refinance or mortgage its 25% share</strong> while the partnership exists.</li>
+  </ol>
+
+  <h3>Entity &amp; Estate Planning</h3>
+  <div class="card highlight-yellow">
+    <ul>
+      <li>Fontaine's 340 Main interest <strong>SHOULD</strong> be held through a new LLC (liability ring-fencing)</li>
+      <li>LLC could be trust-owned for estate planning purposes (family succession, kids)</li>
+      <li>Need tax + estate counsel &mdash; often the same person for deals like this</li>
+      <li>Ask Seth Stratton or Merrill H for referral to estate/tax specialist</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ APPENDIX ============ -->
+<section class="section" id="appendix">
+  <div class="section-header">
+    <div class="section-number" style="font-size: 10px;">A</div>
+    <h2>Key Contacts</h2>
+  </div>
+
+  <div class="table-wrap">
+    <table class="contact-table">
+      <thead>
+        <tr><th>Role</th><th>Name</th><th>Email</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Trinity &mdash; Principal</td><td>Patrick Lee</td><td>PLee@trinityfinancial.com</td><td>Decision maker</td></tr>
+        <tr><td>Trinity &mdash; PM</td><td>Vivian Lee</td><td>VLee@trinityfinancial.com</td><td>Day-to-day</td></tr>
+        <tr><td>Trinity &mdash; Construction</td><td>Kevin McCarthy</td><td>KMccarthy@trinityfinancial.com</td><td>Hard cost estimates</td></tr>
+        <tr><td>Trinity &mdash; Admin</td><td>Joyce Kamau</td><td>JKamau@trinityfinancial.com</td><td>Scheduling</td></tr>
+        <tr><td>Worcester BDC</td><td>Craig Blais</td><td>blais@worcesterbdc.com</td><td>Broker/facilitator</td></tr>
+        <tr><td>Worcester BDC</td><td>Caroline Mitchell</td><td>mitchell@worcesterbdc.com</td><td></td></tr>
+        <tr><td>Seller</td><td>Aaron Popowitz</td><td>Via Craig Blais</td><td>5 Slater, LLC</td></tr>
+        <tr><td>Fontaine &mdash; Legal</td><td>Seth Stratton</td><td>Fitzgerald Law</td><td>Confirm LIHTC experience</td></tr>
+        <tr><td>Tax Credit Expert</td><td>Merrill H</td><td>Via CEO peer group</td><td>Sam setting up call</td></tr>
+        <tr><td>City of Worcester</td><td>Peter Dunn</td><td>Via Trinity</td><td>Trinity sharing numbers with city</td></tr>
+        <tr><td>WHA</td><td>Alex Corrales</td><td>Via Trinity</td><td>Executive Director</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="doc-footer">
+  <p>This document is confidential. Prepared for internal Fontaine Bros review only.</p>
+  <p>Last updated: February 15, 2026</p>
+  <p class="confidential-note">Confidential &mdash; Do Not Distribute</p>
+  <p style="margin-top: 12px; font-size: 12px; color: var(--text-dim);">Prepared by Dave Fontaine + Claude Code | Feb 15, 2026</p>
+  <a href="#top" class="back-to-top">&uarr; BACK TO TOP</a>
+</footer>
+
+</div><!-- .container -->
+
+<!-- Floating action buttons -->
+<div style="position:fixed;bottom:24px;right:24px;display:flex;gap:10px;z-index:100;">
+  <a href="index.html" style="background:#222;color:#999;border:1px solid #333;border-radius:8px;padding:10px 16px;font-size:13px;text-decoration:none;cursor:pointer;transition:all .2s;"
+     onmouseover="this.style.background='#333';this.style.color='#fff'" onmouseout="this.style.background='#222';this.style.color='#999'">&larr; Deal Room</a>
+  <button onclick="window.print()" style="background:#ff6b35;color:#fff;border:none;border-radius:8px;padding:10px 18px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;box-shadow:0 2px 12px rgba(255,107,53,0.3);"
+     onmouseover="this.style.background='#ff8555'" onmouseout="this.style.background='#ff6b35'">&#128424; Save as PDF</button>
+</div>
+</body>
+</html>

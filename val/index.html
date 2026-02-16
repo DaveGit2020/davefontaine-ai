@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>340 Main Street — Deal Room</title>
+    <meta name="robots" content="noindex, nofollow">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ── LOGIN OVERLAY ── */
+        #login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        #login-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .login-card {
+            background: #141414;
+            border: 1px solid #222;
+            border-radius: 12px;
+            padding: 48px 40px;
+            width: 100%;
+            max-width: 380px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .lock-icon {
+            font-size: 32px;
+            margin-bottom: 20px;
+            display: block;
+            opacity: 0.7;
+        }
+
+        .login-card h2 {
+            font-size: 18px;
+            font-weight: 500;
+            color: #999;
+            margin-bottom: 24px;
+            letter-spacing: 0.5px;
+        }
+
+        .login-card input[type="password"] {
+            width: 100%;
+            padding: 14px 16px;
+            background: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: #e0e0e0;
+            font-size: 16px;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s ease;
+            margin-bottom: 16px;
+        }
+
+        .login-card input[type="password"]:focus {
+            border-color: #ff6b35;
+        }
+
+        .login-card input[type="password"]::placeholder {
+            color: #555;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: #ff6b35;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.1s ease;
+            letter-spacing: 0.3px;
+        }
+
+        .login-btn:hover {
+            background: #e85a28;
+        }
+
+        .login-btn:active {
+            transform: scale(0.98);
+        }
+
+        .error-msg {
+            color: #e74c3c;
+            font-size: 13px;
+            margin-top: 14px;
+            min-height: 20px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .error-msg.visible {
+            opacity: 1;
+        }
+
+        /* ── MAIN CONTENT ── */
+        #main-content {
+            opacity: 0;
+            transition: opacity 0.5s ease 0.3s;
+            min-height: 100vh;
+        }
+
+        #main-content.visible {
+            opacity: 1;
+        }
+
+        /* ── HEADER ── */
+        header {
+            padding: 40px 40px 0;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .header-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: #555;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 32px;
+        }
+
+        .header-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .header-subtitle {
+            font-size: 14px;
+            color: #666;
+            font-weight: 400;
+            letter-spacing: 0.3px;
+        }
+
+        .header-subtitle span {
+            color: #ff6b35;
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, #222, #333, #222);
+            margin: 36px 0;
+        }
+
+        /* ── CARDS ── */
+        .cards-section {
+            padding: 0 40px 60px;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: #141414;
+            border: 1px solid #1e1e1e;
+            border-radius: 12px;
+            padding: 28px 24px;
+            transition: border-color 0.2s ease, transform 0.2s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            border-color: #333;
+            transform: translateY(-2px);
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            margin-bottom: 18px;
+        }
+
+        .card-icon.orange {
+            background: rgba(255, 107, 53, 0.12);
+        }
+
+        .card-icon.blue {
+            background: rgba(69, 183, 209, 0.12);
+        }
+
+        .card-icon.green {
+            background: rgba(78, 205, 196, 0.12);
+        }
+
+        .card h3 {
+            font-size: 17px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 13px;
+            color: #888;
+            line-height: 1.6;
+            flex-grow: 1;
+            margin-bottom: 20px;
+        }
+
+        .card-meta {
+            font-size: 12px;
+            color: #555;
+            margin-bottom: 16px;
+        }
+
+        .card-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            font-family: inherit;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.1s ease;
+            border: none;
+            align-self: flex-start;
+        }
+
+        .card-btn:active {
+            transform: scale(0.97);
+        }
+
+        .card-btn.orange {
+            background: rgba(255, 107, 53, 0.15);
+            color: #ff6b35;
+        }
+        .card-btn.orange:hover {
+            background: rgba(255, 107, 53, 0.25);
+        }
+
+        .card-btn.blue {
+            background: rgba(69, 183, 209, 0.15);
+            color: #45b7d1;
+        }
+        .card-btn.blue:hover {
+            background: rgba(69, 183, 209, 0.25);
+        }
+
+        .card-btn.green {
+            background: rgba(78, 205, 196, 0.15);
+            color: #4ecdc4;
+        }
+        .card-btn.green:hover {
+            background: rgba(78, 205, 196, 0.25);
+        }
+
+        .card-btn svg {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            padding: 0 40px 60px;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .footer-content {
+            border-top: 1px solid #1e1e1e;
+            padding-top: 32px;
+            text-align: center;
+        }
+
+        .footer-contact {
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 6px;
+        }
+
+        .footer-contact a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+
+        .footer-contact a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-date {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 16px;
+        }
+
+        .footer-warning {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: #e74c3c;
+            background: rgba(231, 76, 60, 0.08);
+            padding: 8px 16px;
+            border-radius: 6px;
+            letter-spacing: 0.3px;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 640px) {
+            header {
+                padding: 28px 24px 0;
+            }
+
+            .header-title {
+                font-size: 26px;
+            }
+
+            .cards-section {
+                padding: 0 24px 48px;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            footer {
+                padding: 0 24px 48px;
+            }
+
+            .login-card {
+                margin: 0 20px;
+                padding: 36px 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- LOGIN OVERLAY -->
+    <div id="login-overlay">
+        <div class="login-card">
+            <span class="lock-icon">&#128274;</span>
+            <h2>Enter Password</h2>
+            <input type="password" id="password-input" placeholder="Password" autocomplete="off" autofocus>
+            <button class="login-btn" id="login-btn" type="button">Access</button>
+            <div class="error-msg" id="error-msg">Incorrect password. Try again.</div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main-content">
+        <header>
+            <div class="header-name">Dave Fontaine</div>
+            <h1 class="header-title">340 Main Street &mdash; Deal Room</h1>
+            <p class="header-subtitle">Shared for <span>Val</span> &nbsp;|&nbsp; Confidential</p>
+            <div class="divider"></div>
+        </header>
+
+        <section class="cards-section">
+            <div class="cards-grid">
+                <!-- Card 1 -->
+                <div class="card">
+                    <div class="card-icon orange">&#128203;</div>
+                    <h3>Full Deal Brief</h3>
+                    <p>Complete analysis of the 340 Main St development deal. Parties, pro forma, risks, action items, negotiation language, tax credit education, and exit scenarios.</p>
+                    <div class="card-meta">HTML Document</div>
+                    <a href="deal-brief.html" class="card-btn orange">
+                        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/></svg>
+                        Open Document
+                    </a>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="card">
+                    <div class="card-icon blue">&#128200;</div>
+                    <h3>Tax Credit Explainer</h3>
+                    <p>Visual guide to how LIHTC tax credits work. Credit vs deduction comparison, money flow diagram, bank math, CRA compliance, historic credits, and Fontaine's position.</p>
+                    <div class="card-meta">HTML Document</div>
+                    <a href="tax-credits.html" class="card-btn blue">
+                        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/></svg>
+                        Open Document
+                    </a>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="card">
+                    <div class="card-icon green">&#128196;</div>
+                    <h3>Partnership Terms Summary</h3>
+                    <p>Key terms from the Trinity Financial partnership agreement. 75/25 split, guarantees, developer fees, GC provisions, and governance structure.</p>
+                    <div class="card-meta">HTML Document</div>
+                    <a href="partnership-terms.html" class="card-btn green">
+                        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/></svg>
+                        Open Document
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="footer-content">
+                <p class="footer-contact">For questions, contact <a href="mailto:dave@davefontaine.ai">Dave Fontaine</a></p>
+                <p class="footer-date">Documents prepared February 2026</p>
+                <div class="footer-warning">&#9888;&#65039; Confidential &mdash; Do not distribute</div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        (function() {
+            var PASS = 'val';
+            var SESSION_KEY = 'val_deal_room_auth';
+            var overlay = document.getElementById('login-overlay');
+            var content = document.getElementById('main-content');
+            var input = document.getElementById('password-input');
+            var btn = document.getElementById('login-btn');
+            var errorMsg = document.getElementById('error-msg');
+
+            function unlock() {
+                sessionStorage.setItem(SESSION_KEY, 'true');
+                overlay.classList.add('hidden');
+                content.classList.add('visible');
+            }
+
+            function checkPassword() {
+                var entered = input.value.trim().toLowerCase();
+                if (entered === PASS) {
+                    errorMsg.classList.remove('visible');
+                    unlock();
+                } else {
+                    errorMsg.classList.add('visible');
+                    input.value = '';
+                    input.focus();
+                }
+            }
+
+            // Check session on load
+            if (sessionStorage.getItem(SESSION_KEY) === 'true') {
+                overlay.style.display = 'none';
+                overlay.style.transition = 'none';
+                content.style.transition = 'none';
+                content.classList.add('visible');
+            }
+
+            btn.addEventListener('click', checkPassword);
+
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    checkPassword();
+                }
+            });
+
+            // Clear error on typing
+            input.addEventListener('input', function() {
+                errorMsg.classList.remove('visible');
+            });
+        })();
+    </script>
+</body>
+</html>
