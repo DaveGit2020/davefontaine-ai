@@ -5,167 +5,163 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>UDOR Studios | Building the Future of Construction</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --stone-50:#fafaf9;--stone-100:#f5f5f4;--stone-200:#e7e5e4;--stone-300:#d6d3d1;
-  --stone-400:#a8a29e;--stone-500:#78716c;--stone-600:#57534e;--stone-700:#44403c;
-  --stone-800:#292524;--stone-900:#1c1917;
-  --slate-700:#334155;--slate-800:#1e293b;--slate-900:#0f172a;
-  --steel:#3b6b8a;--steel-dark:#2a4d63;--steel-light:#5a96b8;
-  --rust:#b45309;--rust-light:#d97706;--gold:#c8a55a;--gold-light:#dfc17e;
-  --cream:#f9f6f0;--warm-white:#fdfcfa;
+  --bg:#141417;--bg2:#1a1a1f;--bg3:#222228;
+  --border:#2a2a32;--border-light:#33333d;
+  --white:#f0f0f2;--gray:#8a8a96;--gray-dark:#5a5a66;
+  --steel:#4a8db7;--steel-bright:#5ba3d1;--steel-dim:#3a7090;
+  --accent:#e8e8ec;
+  --grid:rgba(74,141,183,.06);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',sans-serif;background:var(--warm-white);color:var(--stone-800);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);overflow-x:hidden;-webkit-font-smoothing:antialiased}
 
-/* Texture overlays */
-.concrete-texture{background-image:url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E")}
+/* Blueprint grid overlay */
+.bp-grid{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;
+  background-image:
+    linear-gradient(var(--grid) 1px,transparent 1px),
+    linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:80px 80px}
 
 /* Hero */
-.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 24px;background:linear-gradient(165deg,var(--slate-900) 0%,var(--slate-800) 40%,var(--steel-dark) 100%);overflow:hidden}
-.hero::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h60v60H0z' fill='none' stroke='%23ffffff' stroke-width='.3' opacity='.04'/%3E%3C/svg%3E");pointer-events:none}
-.hero::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:200px;background:linear-gradient(to top,var(--warm-white),transparent);pointer-events:none}
-.hero-inner{position:relative;z-index:1;max-width:820px}
-.hero .badge{display:inline-block;background:rgba(200,165,90,.15);color:var(--gold-light);padding:8px 20px;border-radius:4px;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:28px;border:1px solid rgba(200,165,90,.25)}
-.hero h1{font-family:'DM Serif Display',serif;font-size:52px;font-weight:400;letter-spacing:-.5px;line-height:1.15;margin-bottom:20px;color:#fff}
-.hero h1 em{font-style:italic;color:var(--gold-light)}
-.hero .sub{color:var(--stone-400);font-size:18px;line-height:1.7;max-width:620px;margin:0 auto 36px;font-weight:400}
-.hero .scroll{color:var(--stone-500);font-size:13px;letter-spacing:1px;text-transform:uppercase;margin-top:48px;animation:bob 2s ease infinite}
-@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+.hero{position:relative;z-index:1;min-height:100vh;display:flex;align-items:center;padding:80px 24px;border-bottom:1px solid var(--border)}
+.hero-inner{max-width:960px;margin:0 auto;width:100%}
+.hero .tag{display:inline-block;border:1px solid var(--steel-dim);color:var(--steel-bright);padding:6px 14px;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:28px;font-family:'JetBrains Mono',monospace}
+.hero h1{font-size:56px;font-weight:900;letter-spacing:-2px;line-height:1.05;margin-bottom:20px;max-width:800px}
+.hero h1 .steel{color:var(--steel-bright)}
+.hero .sub{color:var(--gray);font-size:18px;line-height:1.7;max-width:600px;margin-bottom:40px}
+.hero .scroll{color:var(--gray-dark);font-size:12px;letter-spacing:2px;text-transform:uppercase;font-family:'JetBrains Mono',monospace;position:absolute;bottom:40px;left:24px}
+.hero .scroll span{display:inline-block;animation:bob 1.5s ease infinite;margin-left:8px}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
 
-/* Stats band */
-.stats-band{display:grid;grid-template-columns:repeat(4,1fr);max-width:960px;margin:-60px auto 0;position:relative;z-index:2;background:#fff;border-radius:8px;box-shadow:0 4px 24px rgba(0,0,0,.08);border:1px solid var(--stone-200)}
-.sb-item{padding:32px 20px;text-align:center;border-right:1px solid var(--stone-200)}
-.sb-item:last-child{border-right:none}
-.sb-item .n{font-family:'DM Serif Display',serif;font-size:36px;color:var(--steel-dark)}
-.sb-item .l{color:var(--stone-500);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-top:4px}
+/* Stats bar */
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--border);position:relative;z-index:1}
+.sb{padding:36px 24px;text-align:center;border-right:1px solid var(--border)}
+.sb:last-child{border-right:none}
+.sb .n{font-size:40px;font-weight:900;letter-spacing:-2px;color:var(--white)}
+.sb .l{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gray-dark);margin-top:6px;font-family:'JetBrains Mono',monospace}
 
-/* Sections */
-.section{max-width:960px;margin:0 auto;padding:96px 24px}
-.section-label{color:var(--steel);font-size:11px;font-weight:800;letter-spacing:3px;text-transform:uppercase;margin-bottom:14px}
-.section h2{font-family:'DM Serif Display',serif;font-size:36px;font-weight:400;letter-spacing:-.3px;margin-bottom:12px;line-height:1.2;color:var(--stone-900)}
-.section .desc{color:var(--stone-500);font-size:16px;line-height:1.7;margin-bottom:40px;max-width:620px}
+/* Section */
+.section{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:96px 24px}
+.section-num{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--steel);letter-spacing:3px;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:12px}
+.section-num::after{content:'';flex:1;height:1px;background:var(--border)}
+.section h2{font-size:36px;font-weight:900;letter-spacing:-1px;margin-bottom:12px;line-height:1.15}
+.section .desc{color:var(--gray);font-size:16px;line-height:1.7;margin-bottom:44px;max-width:600px}
 
-/* Divider */
-.divider{max-width:960px;margin:0 auto;height:1px;background:var(--stone-200)}
+/* Full-width divider */
+.div-line{height:1px;background:var(--border);position:relative;z-index:1}
 
 /* Cards */
-.card{background:#fff;border:1px solid var(--stone-200);border-radius:8px;padding:32px;margin-bottom:16px;transition:all .25s}
-.card:hover{box-shadow:0 4px 16px rgba(0,0,0,.06);border-color:var(--stone-300)}
-.card h3{font-size:18px;font-weight:700;margin-bottom:8px;color:var(--stone-900)}
-.card p{color:var(--stone-600);font-size:15px;line-height:1.7}
-.card .hl{color:var(--steel-dark);font-weight:700}
+.card{background:var(--bg2);border:1px solid var(--border);padding:32px;margin-bottom:2px;transition:border-color .2s}
+.card:first-child{border-radius:4px 4px 0 0}
+.card:last-child{border-radius:0 0 4px 4px}
+.card:only-child{border-radius:4px}
+.card:hover{border-color:var(--border-light)}
+.card h3{font-size:17px;font-weight:800;margin-bottom:8px;letter-spacing:-.3px}
+.card p{color:var(--gray);font-size:14px;line-height:1.7}
+.card .hl{color:var(--steel-bright);font-weight:700}
 
-/* Grid */
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+/* Grid layouts */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:2px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
 
-/* Dark band */
-.dark-band{background:var(--slate-900);padding:96px 24px;position:relative}
-.dark-band::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h60v60H0z' fill='none' stroke='%23ffffff' stroke-width='.3' opacity='.03'/%3E%3C/svg%3E");pointer-events:none}
-.dark-band .inner{max-width:960px;margin:0 auto;position:relative;z-index:1}
-.dark-band .section-label{color:var(--gold)}
-.dark-band h2{color:#fff}
-.dark-band .desc{color:var(--stone-400)}
-
-/* Product cards */
-.prod{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:28px;text-align:left;transition:all .3s}
-.prod:hover{border-color:rgba(255,255,255,.15);background:rgba(255,255,255,.06)}
-.prod .icon{width:44px;height:44px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:14px;background:rgba(200,165,90,.12);border:1px solid rgba(200,165,90,.2)}
-.prod h4{font-size:16px;font-weight:700;margin-bottom:6px;color:#fff}
-.prod p{color:var(--stone-400);font-size:14px;line-height:1.5}
-.prod .tag{display:inline-block;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700;margin-top:10px;background:rgba(16,185,129,.12);color:#6ee7b7;border:1px solid rgba(16,185,129,.2)}
+/* Product block */
+.prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.prod{background:var(--bg2);border:1px solid var(--border);padding:28px;transition:border-color .2s}
+.prod:hover{border-color:var(--steel-dim)}
+.prod .icon{font-size:24px;margin-bottom:12px}
+.prod h4{font-size:15px;font-weight:800;margin-bottom:6px;letter-spacing:-.3px}
+.prod p{color:var(--gray);font-size:13px;line-height:1.5}
+.prod .status{display:inline-block;margin-top:10px;padding:3px 10px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;font-family:'JetBrains Mono',monospace;border:1px solid var(--steel-dim);color:var(--steel-bright)}
 
 /* Flywheel */
-.flywheel{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;margin:40px 0;gap:0}
-.fw{background:#fff;border:1px solid var(--stone-200);border-radius:8px;padding:20px 18px;text-align:center;flex:1;min-width:120px}
-.fw h4{font-size:11px;font-weight:800;color:var(--steel);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px}
-.fw p{color:var(--stone-500);font-size:13px}
-.fw-a{color:var(--stone-300);font-size:24px;padding:0 6px;flex-shrink:0}
+.flywheel{display:flex;align-items:stretch;gap:0;margin:40px 0}
+.fw{flex:1;background:var(--bg2);border:1px solid var(--border);padding:24px 16px;text-align:center;margin-right:-1px}
+.fw:first-child{border-radius:4px 0 0 4px}
+.fw:last-child{border-radius:0 4px 4px 0;margin-right:0}
+.fw .step{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--steel);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px}
+.fw .label{font-size:13px;color:var(--gray);font-weight:500}
 
 /* Quote */
-.quote-band{background:var(--cream);padding:64px 24px;border-top:1px solid var(--stone-200);border-bottom:1px solid var(--stone-200)}
-.quote-inner{max-width:720px;margin:0 auto;text-align:center}
-.quote-inner .mark{font-family:'DM Serif Display',serif;font-size:64px;color:var(--gold);line-height:1;margin-bottom:-10px}
-.quote-inner p{font-family:'DM Serif Display',serif;font-size:24px;line-height:1.5;color:var(--stone-800);margin-bottom:16px}
-.quote-inner .attr{color:var(--stone-500);font-size:14px;font-weight:600}
+.quote-band{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:72px 24px;text-align:center;position:relative;z-index:1}
+.quote-band .inner{max-width:700px;margin:0 auto}
+.quote-band p{font-size:22px;font-weight:600;line-height:1.5;letter-spacing:-.3px;color:var(--white)}
+.quote-band .mark{color:var(--steel-bright);font-size:48px;font-weight:900;line-height:1;margin-bottom:8px}
+.quote-band .attr{color:var(--gray-dark);font-size:13px;font-weight:600;margin-top:20px;letter-spacing:1px;text-transform:uppercase;font-family:'JetBrains Mono',monospace}
 
-/* Ask cards */
-.ask-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.ask-card{background:#fff;border:1px solid var(--stone-200);border-radius:8px;padding:32px;transition:all .25s;border-top:4px solid var(--steel)}
-.ask-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.06)}
-.ask-card .num{font-family:'DM Serif Display',serif;font-size:36px;color:var(--stone-300);margin-bottom:8px}
-.ask-card h3{font-size:18px;font-weight:700;margin-bottom:8px;color:var(--stone-900)}
-.ask-card p{color:var(--stone-600);font-size:15px;line-height:1.65}
+/* Ask grid */
+.ask-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px}
+.ask{background:var(--bg2);border:1px solid var(--border);padding:32px;transition:border-color .2s}
+.ask:hover{border-color:var(--steel-dim)}
+.ask .num{font-family:'JetBrains Mono',monospace;font-size:36px;font-weight:700;color:var(--border-light);margin-bottom:12px}
+.ask h3{font-size:18px;font-weight:800;margin-bottom:8px;letter-spacing:-.3px}
+.ask p{color:var(--gray);font-size:14px;line-height:1.65}
 
 /* Team */
-.team-card{background:#fff;border:1px solid var(--stone-200);border-radius:8px;padding:32px;display:flex;gap:20px;align-items:flex-start;margin-bottom:16px}
-.team-card .avatar{width:56px;height:56px;border-radius:50%;background:var(--steel);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px;font-weight:800;color:#fff}
-.team-card h3{font-size:18px;font-weight:700;margin-bottom:2px}
-.team-card .role{color:var(--steel);font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
-.team-card p{color:var(--stone-600);font-size:14px;line-height:1.6}
+.team{display:flex;gap:2px}
+.team-card{flex:1;background:var(--bg2);border:1px solid var(--border);padding:32px}
+.team-card .initials{width:48px;height:48px;display:flex;align-items:center;justify-content:center;background:var(--bg3);border:1px solid var(--border);font-size:16px;font-weight:900;color:var(--steel-bright);margin-bottom:16px;font-family:'JetBrains Mono',monospace}
+.team-card h3{font-size:17px;font-weight:800;margin-bottom:2px}
+.team-card .role{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--steel);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
+.team-card p{color:var(--gray);font-size:13px;line-height:1.6}
 
 /* CTA */
-.cta-band{background:linear-gradient(165deg,var(--slate-900) 0%,var(--steel-dark) 100%);padding:96px 24px;text-align:center;position:relative}
-.cta-band::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h60v60H0z' fill='none' stroke='%23ffffff' stroke-width='.3' opacity='.03'/%3E%3C/svg%3E");pointer-events:none}
-.cta-band .inner{position:relative;z-index:1}
-.cta-band h2{font-family:'DM Serif Display',serif;font-size:36px;color:#fff;margin-bottom:16px;line-height:1.25}
-.cta-band p{color:var(--stone-400);font-size:16px;margin-bottom:28px;max-width:520px;margin-left:auto;margin-right:auto;line-height:1.6}
-.cta-btn{display:inline-block;padding:16px 40px;background:var(--gold);color:var(--stone-900);border-radius:6px;font-size:16px;font-weight:700;text-decoration:none;transition:all .2s;letter-spacing:.5px}
-.cta-btn:hover{background:var(--gold-light);transform:translateY(-1px);box-shadow:0 4px 12px rgba(200,165,90,.3)}
+.cta{position:relative;z-index:1;padding:96px 24px;text-align:center;border-top:1px solid var(--border)}
+.cta h2{font-size:36px;font-weight:900;letter-spacing:-1px;margin-bottom:16px;line-height:1.15}
+.cta p{color:var(--gray);font-size:16px;margin-bottom:32px;max-width:500px;margin-left:auto;margin-right:auto;line-height:1.6}
+.cta-btn{display:inline-block;padding:16px 40px;background:var(--steel);color:#fff;font-size:15px;font-weight:800;text-decoration:none;letter-spacing:.5px;transition:all .2s;border:1px solid var(--steel-bright)}
+.cta-btn:hover{background:var(--steel-bright);transform:translateY(-1px);box-shadow:0 4px 20px rgba(74,141,183,.25)}
 
 /* Footer */
-.footer{padding:40px 24px;text-align:center;background:var(--stone-900)}
-.footer p{color:var(--stone-600);font-size:13px}
-.footer .brand{color:var(--stone-400);font-weight:600}
+.footer{padding:40px 24px;text-align:center;border-top:1px solid var(--border);position:relative;z-index:1}
+.footer p{color:var(--gray-dark);font-size:12px;font-family:'JetBrains Mono',monospace;letter-spacing:1px}
 
 /* Responsive */
 @media(max-width:768px){
-  .hero h1{font-size:34px}
-  .hero .sub{font-size:16px}
-  .stats-band{grid-template-columns:1fr 1fr;margin:-40px 16px 0}
-  .sb-item:nth-child(2){border-right:none}
-  .sb-item:nth-child(3),.sb-item:nth-child(4){border-top:1px solid var(--stone-200)}
-  .grid-2,.ask-grid{grid-template-columns:1fr}
-  .grid-3{grid-template-columns:1fr}
+  .hero h1{font-size:36px;letter-spacing:-1px}
+  .stats-bar{grid-template-columns:1fr 1fr}
+  .sb:nth-child(2){border-right:none}
+  .sb:nth-child(3),.sb:nth-child(4){border-top:1px solid var(--border)}
+  .g2,.ask-grid{grid-template-columns:1fr}
+  .g3,.prod-grid{grid-template-columns:1fr}
   .flywheel{flex-direction:column}
-  .fw-a{transform:rotate(90deg)}
+  .fw{border-radius:0!important;margin-right:0;margin-bottom:-1px}
+  .fw:first-child{border-radius:4px 4px 0 0!important}
+  .fw:last-child{border-radius:0 0 4px 4px!important;margin-bottom:0}
   .section h2{font-size:28px}
-  .team-card{flex-direction:column}
-}
-@media(max-width:480px){
-  .hero h1{font-size:28px}
-  .stats-band{grid-template-columns:1fr 1fr}
+  .team{flex-direction:column}
 }
 </style>
 </head>
 <body>
+<div class="bp-grid"></div>
 
 <!-- HERO -->
 <div class="hero">
   <div class="hero-inner">
-    <div class="badge">Springfield, Massachusetts</div>
-    <h1>Where 93 Years of Building<br>Meets <em>the Future of AI</em></h1>
+    <div class="tag">Springfield, MA</div>
+    <h1>Where 93 Years of Building Meets <span class="steel">the Future of AI</span></h1>
     <p class="sub">UDOR Studios builds AI-powered tools for the construction industry. We test everything on a real $410M construction company. We prove it works. Then we bring it to the world.</p>
-    <div class="scroll">&darr; Scroll to learn more</div>
   </div>
+  <div class="scroll">Scroll <span>&darr;</span></div>
 </div>
 
 <!-- STATS -->
-<div class="stats-band">
-  <div class="sb-item"><div class="n">93</div><div class="l">Years Building</div></div>
-  <div class="sb-item"><div class="n">$410M</div><div class="l">Annual Revenue</div></div>
-  <div class="sb-item"><div class="n">400+</div><div class="l">Employees</div></div>
-  <div class="sb-item"><div class="n">4th Gen</div><div class="l">Family Owned</div></div>
+<div class="stats-bar">
+  <div class="sb"><div class="n">93</div><div class="l">Years Building</div></div>
+  <div class="sb"><div class="n">$410M</div><div class="l">Revenue</div></div>
+  <div class="sb"><div class="n">400+</div><div class="l">Employees</div></div>
+  <div class="sb"><div class="n">4th Gen</div><div class="l">Family Owned</div></div>
 </div>
 
 <!-- ORIGIN -->
-<div class="section" style="padding-top:120px">
-  <div class="section-label">The Origin</div>
+<div class="section">
+  <div class="section-num">01 &mdash; Origin</div>
   <h2>Named for a Man Who Bet Everything</h2>
   <div class="desc">UDOR is derived from Eudore Fontaine, who arrived in Springfield from Quebec at age 11 unable to speak English. After 30 years swinging a hammer, he made a bet in 1933 that became Fontaine Bros Inc.</div>
-  <div class="grid-2">
+  <div class="g2">
     <div class="card">
       <h3>1933: The Original Bet</h3>
       <p>$900 in lumber. Pledged the houses as collateral. Nine months to finish or lose everything. Eudore finished early. <span class="hl">Four generations later, the company does $410M in annual revenue.</span></p>
@@ -177,170 +173,166 @@ body{font-family:'Inter',sans-serif;background:var(--warm-white);color:var(--sto
   </div>
 </div>
 
-<div class="divider"></div>
+<div class="div-line"></div>
 
 <!-- OPPORTUNITY -->
 <div class="section">
-  <div class="section-label">The Opportunity</div>
+  <div class="section-num">02 &mdash; Opportunity</div>
   <h2>A $2 Trillion Industry Running on Paper</h2>
   <div class="desc">Construction has been 20 years behind on technology. AI changes that equation overnight. And we have something no Silicon Valley startup has.</div>
-  <div class="grid-3">
+  <div class="g3">
     <div class="card">
       <h3>The Problem</h3>
-      <p>$2T industry. 7M workers. Running on Excel, email, phone calls, and paper. 500K worker shortage. Razor-thin margins. Dead last in technology adoption among major industries.</p>
+      <p>$2T industry. 7M workers. Running on Excel, email, phone calls, and paper. 500K worker shortage. Razor-thin margins. Dead last in tech adoption.</p>
     </div>
     <div class="card">
       <h3>Why Now</h3>
-      <p>AI is a phase change, not an incremental improvement. Workflows that took days now take minutes. But builders don't trust tools made by people who've never been on a jobsite. <span class="hl">That's our edge.</span></p>
+      <p>AI is a phase change. Workflows that took days now take minutes. But builders don't trust tools from people who've never been on a jobsite. <span class="hl">That's our edge.</span></p>
     </div>
     <div class="card">
       <h3>Our Advantage</h3>
-      <p>A $410M construction company with 400+ employees and real projects. Every tool gets tested on real buildings with real stakes. <span class="hl">No startup can buy that credibility.</span></p>
+      <p>$410M construction company. 400+ employees. Real projects. Every tool tested on real buildings with real stakes. <span class="hl">No startup can buy that credibility.</span></p>
     </div>
   </div>
 </div>
 
 <!-- MODEL -->
 <div class="section" style="padding-top:48px">
-  <div class="section-label">The Model</div>
+  <div class="section-num">03 &mdash; Model</div>
   <h2>Build. Test. Prove. Sell.</h2>
   <div class="desc">Every product follows the same flywheel. This is what makes UDOR different from every other construction-tech venture.</div>
   <div class="flywheel">
-    <div class="fw"><h4>Identify</h4><p>Real pain at Fontaine</p></div>
-    <div class="fw-a">&rarr;</div>
-    <div class="fw"><h4>Build</h4><p>AI-powered solution</p></div>
-    <div class="fw-a">&rarr;</div>
-    <div class="fw"><h4>Test</h4><p>$410M of real projects</p></div>
-    <div class="fw-a">&rarr;</div>
-    <div class="fw"><h4>Prove</h4><p>Real results, real data</p></div>
-    <div class="fw-a">&rarr;</div>
-    <div class="fw"><h4>Scale</h4><p>Sell to the industry</p></div>
+    <div class="fw"><div class="step">01 Identify</div><div class="label">Real pain at Fontaine</div></div>
+    <div class="fw"><div class="step">02 Build</div><div class="label">AI-powered solution</div></div>
+    <div class="fw"><div class="step">03 Test</div><div class="label">$410M of real projects</div></div>
+    <div class="fw"><div class="step">04 Prove</div><div class="label">Real results, real data</div></div>
+    <div class="fw"><div class="step">05 Scale</div><div class="label">Sell to the industry</div></div>
   </div>
 </div>
 
 <!-- QUOTE -->
 <div class="quote-band">
-  <div class="quote-inner">
+  <div class="inner">
     <div class="mark">&ldquo;</div>
     <p>Sometimes the best startup isn't a startup at all. It's taking what you already know, packaging it differently, and walking into a room you already have access to.</p>
-    <div class="attr">&mdash; Dave Fontaine Jr</div>
+    <div class="attr">Dave Fontaine Jr</div>
   </div>
 </div>
 
-<!-- PRODUCTS (DARK BAND) -->
-<div class="dark-band">
-  <div class="inner">
-    <div class="section-label">Product Pipeline</div>
-    <h2>9 Products in Development</h2>
-    <div class="desc">Built from real construction problems. Tested on real projects. Ready for the industry.</div>
-    <div class="grid-3" style="margin-top:40px">
-      <div class="prod">
-        <div class="icon">&#x1F4CB;</div>
-        <h4>Triplicate</h4>
-        <p>AI-powered construction bidding intelligence</p>
-        <div class="tag">In Development</div>
-      </div>
-      <div class="prod">
-        <div class="icon">&#x1F477;</div>
-        <h4>Staffing Tool</h4>
-        <p>AI workforce optimization for construction crews</p>
-        <div class="tag">Prototype Built</div>
-      </div>
-      <div class="prod">
-        <div class="icon">&#x1F4D0;</div>
-        <h4>Specright.ai</h4>
-        <p>AI spec writing across all 48 CSI divisions</p>
-        <div class="tag">Domains Secured</div>
-      </div>
-      <div class="prod">
-        <div class="icon">&#x1F4C4;</div>
-        <h4>ThreeRing.ai</h4>
-        <p>AI proposal builder for construction firms</p>
-        <div class="tag">Concept + Domain</div>
-      </div>
-      <div class="prod">
-        <div class="icon">&#x1F50D;</div>
-        <h4>AI Document Search</h4>
-        <p>Find any document across any project, instantly</p>
-        <div class="tag">Phase 1 Priority</div>
-      </div>
-      <div class="prod">
-        <div class="icon">&#x1F4F1;</div>
-        <h4>AI Daily Reports</h4>
-        <p>Voice + photo becomes a complete daily in 5 minutes</p>
-        <div class="tag">Phase 1 Priority</div>
-      </div>
-      <div class="prod">
-        <div class="icon">&#x1F4CA;</div>
-        <h4>AI Bid Leveling</h4>
-        <p>Automated subcontractor bid comparison</p>
-        <div class="tag">Prototype Exists</div>
-      </div>
-      <div class="prod">
-        <div class="icon">&#x1F399;</div>
-        <h4>AI Meeting Capture</h4>
-        <p>Privacy-first notes that auto-forget raw audio</p>
-        <div class="tag">Concept</div>
-      </div>
-      <div class="prod">
-        <div class="icon">&#x1F3C6;</div>
-        <h4>AI Certifications</h4>
-        <p>Construction-specific AI training and certification</p>
-        <div class="tag">Concept</div>
-      </div>
+<!-- PRODUCTS -->
+<div class="section">
+  <div class="section-num">04 &mdash; Pipeline</div>
+  <h2>9 Products in Development</h2>
+  <div class="desc">Built from real construction problems. Tested on real projects. Ready for the industry.</div>
+  <div class="prod-grid">
+    <div class="prod">
+      <div class="icon">&#x25A0;</div>
+      <h4>Triplicate</h4>
+      <p>AI-powered construction bidding intelligence</p>
+      <div class="status">In Dev</div>
+    </div>
+    <div class="prod">
+      <div class="icon">&#x25A0;</div>
+      <h4>Staffing Tool</h4>
+      <p>AI workforce optimization for construction crews</p>
+      <div class="status">Prototype</div>
+    </div>
+    <div class="prod">
+      <div class="icon">&#x25A0;</div>
+      <h4>Specright.ai</h4>
+      <p>AI spec writing across all 48 CSI divisions</p>
+      <div class="status">Domains Secured</div>
+    </div>
+    <div class="prod">
+      <div class="icon">&#x25A0;</div>
+      <h4>ThreeRing.ai</h4>
+      <p>AI proposal builder for construction firms</p>
+      <div class="status">Concept</div>
+    </div>
+    <div class="prod">
+      <div class="icon">&#x25A0;</div>
+      <h4>AI Document Search</h4>
+      <p>Find any document across any project, instantly</p>
+      <div class="status">Phase 1</div>
+    </div>
+    <div class="prod">
+      <div class="icon">&#x25A0;</div>
+      <h4>AI Daily Reports</h4>
+      <p>Voice + photo becomes a complete daily in 5 min</p>
+      <div class="status">Phase 1</div>
+    </div>
+    <div class="prod">
+      <div class="icon">&#x25A0;</div>
+      <h4>AI Bid Leveling</h4>
+      <p>Automated subcontractor bid comparison</p>
+      <div class="status">Prototype</div>
+    </div>
+    <div class="prod">
+      <div class="icon">&#x25A0;</div>
+      <h4>AI Meeting Capture</h4>
+      <p>Privacy-first notes that auto-forget raw audio</p>
+      <div class="status">Concept</div>
+    </div>
+    <div class="prod">
+      <div class="icon">&#x25A0;</div>
+      <h4>AI Certifications</h4>
+      <p>Construction-specific AI training + certification</p>
+      <div class="status">Concept</div>
     </div>
   </div>
 </div>
 
+<div class="div-line"></div>
+
 <!-- WHY SPRINGFIELD -->
 <div class="section">
-  <div class="section-label">Why Springfield</div>
+  <div class="section-num">05 &mdash; Location</div>
   <h2>This Isn't Silicon Valley. That's the Point.</h2>
   <div class="desc">Construction innovation doesn't happen in a WeWork. It happens where the buildings go up.</div>
-  <div class="grid-2">
+  <div class="g2">
     <div class="card">
       <h3>The Workforce</h3>
       <p>Springfield has the skilled trades, the infrastructure, and the project pipeline. Fontaine Bros employs 400+ people across New England. The talent is here.</p>
     </div>
     <div class="card">
       <h3>The Innovation</h3>
-      <p>UDOR is already running: $650K/year innovation budget, Entrepreneur-in-Residence hired, dev partner engaged, 9 products in pipeline. This isn't a pitch deck. It's a live operation.</p>
+      <p>UDOR is already running: $650K/year innovation budget, EIR hired, dev partner engaged, 9 products in pipeline. This isn't a pitch deck. It's a live operation.</p>
     </div>
     <div class="card">
       <h3>The Credibility</h3>
-      <p>93 years. 130+ school projects. $410M in revenue. When we say a tool works for construction, we've proven it on real projects with real stakes.</p>
+      <p>93 years. 130+ school projects. $410M revenue. When we say a tool works for construction, we've proven it on real projects with real stakes.</p>
     </div>
     <div class="card">
       <h3>The Ecosystem</h3>
-      <p>UDOR creates jobs at every level: software engineers, product managers, construction technologists, AI specialists. An innovation lab that becomes a talent magnet for Springfield.</p>
+      <p>UDOR creates jobs at every level: engineers, PMs, construction technologists, AI specialists. An innovation lab that becomes a talent magnet for Springfield.</p>
     </div>
   </div>
 </div>
 
-<div class="divider"></div>
+<div class="div-line"></div>
 
 <!-- THE ASK -->
 <div class="section">
-  <div class="section-label">The Ask</div>
+  <div class="section-num">06 &mdash; The Ask</div>
   <h2>How You Can Help</h2>
   <div class="desc">We're already building. Here's what accelerates everything.</div>
   <div class="ask-grid">
-    <div class="ask-card">
+    <div class="ask">
       <div class="num">01</div>
       <h3>Connections</h3>
-      <p>Introductions to economic development leaders, innovation councils, workforce development agencies, and construction CEOs exploring AI.</p>
+      <p>Introductions to economic development leaders, innovation councils, workforce agencies, and construction CEOs exploring AI.</p>
     </div>
-    <div class="ask-card">
+    <div class="ask">
       <div class="num">02</div>
       <h3>Space</h3>
       <p>A physical innovation lab in Springfield. Where construction professionals and technologists work side by side building the future of the industry.</p>
     </div>
-    <div class="ask-card">
+    <div class="ask">
       <div class="num">03</div>
       <h3>Funding</h3>
       <p>State innovation grants, R&D tax incentives for construction technology, workforce training funds for AI upskilling in the trades.</p>
     </div>
-    <div class="ask-card">
+    <div class="ask">
       <div class="num">04</div>
       <h3>Visibility</h3>
       <p>Feature UDOR and Fontaine Bros as a case study for Massachusetts manufacturing and construction modernization.</p>
@@ -348,45 +340,41 @@ body{font-family:'Inter',sans-serif;background:var(--warm-white);color:var(--sto
   </div>
 </div>
 
-<div class="divider"></div>
+<div class="div-line"></div>
 
 <!-- TEAM -->
 <div class="section">
-  <div class="section-label">Leadership</div>
+  <div class="section-num">07 &mdash; Team</div>
   <h2>Built by Builders</h2>
-  <div class="team-card">
-    <div class="avatar">DF</div>
-    <div>
+  <div class="team" style="margin-bottom:2px">
+    <div class="team-card">
+      <div class="initials">DF</div>
       <h3>Dave Fontaine Jr</h3>
       <div class="role">Founder &amp; CEO</div>
       <p>4th generation. CEO of Fontaine Bros ($410M). Built the AI operating system, the venture studio, and the product pipeline. Drives trucks to jobsites. Pushes actual wheelbarrows.</p>
     </div>
-  </div>
-  <div class="team-card">
-    <div class="avatar">JS</div>
-    <div>
+    <div class="team-card">
+      <div class="initials">JS</div>
       <h3>John SanGiovanni</h3>
-      <div class="role">Entrepreneur-in-Residence</div>
+      <div class="role">Entrepreneur in Residence</div>
       <p>Product leader and technologist. Runs day-to-day innovation studio operations. Manages product go-to-market, dev partners, and the spark pipeline.</p>
     </div>
   </div>
-  <div class="card">
+  <div class="card" style="border-radius:4px">
     <h3>The Team Behind the Team</h3>
-    <p>TrailMix Labs (development partner, Portland ME) &bull; Michele Lee McMullen (product + design) &bull; AI Innovation Lead (hiring now) &bull; Sam Fortsch (Chief of Staff) &bull; Claire Kanja (execution) &bull; Dave Blazer (IT infrastructure, 20+ years)</p>
+    <p>TrailMix Labs (dev partner, Portland ME) &bull; Michele Lee McMullen (product + design) &bull; AI Innovation Lead (hiring now) &bull; Sam Fortsch (Chief of Staff) &bull; Claire Kanja (execution) &bull; Dave Blazer (IT, 20+ yrs)</p>
   </div>
 </div>
 
 <!-- CTA -->
-<div class="cta-band">
-  <div class="inner">
-    <h2>Let's Build the Future of Construction.<br>In Springfield.</h2>
-    <p>UDOR Studios is already running. The products are being built. The proving ground is here. Now let's scale it.</p>
-    <a href="mailto:djr@fontainebros.com" class="cta-btn">Get in Touch</a>
-  </div>
+<div class="cta">
+  <h2>Let's Build the Future of Construction.<br>In Springfield.</h2>
+  <p>UDOR Studios is already running. The products are being built. The proving ground is here. Now let's scale it.</p>
+  <a href="mailto:djr@fontainebros.com" class="cta-btn">GET IN TOUCH</a>
 </div>
 
 <div class="footer">
-  <p><span class="brand">UDOR Studios</span> &bull; Springfield, Massachusetts &bull; A Fontaine Bros Company &bull; Est. 1933</p>
+  <p>UDOR STUDIOS &bull; SPRINGFIELD, MA &bull; A FONTAINE BROS COMPANY &bull; EST. 1933</p>
 </div>
 
 </body>
