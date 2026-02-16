@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dave Fontaine | Podcast</title>
+<title>HalfFullMorning | davefontaine.ai</title>
+<meta name="robots" content="noindex, nofollow">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;background:#0a0a0a;color:#fff;min-height:100vh;overflow-x:hidden}
@@ -12,187 +13,155 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;
 .back-link{display:inline-flex;align-items:center;gap:6px;color:#9ca3af;font-size:13px;text-decoration:none;margin-bottom:32px;transition:color .2s}
 .back-link:hover{color:#fff}
 .header{text-align:center;margin-bottom:40px}
-.header .icon-wrap{display:inline-flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,#4F46E5,#7c3aed);font-size:26px;margin-bottom:20px}
+.header .icon-wrap{display:inline-flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,#f59e0b,#ea580c);font-size:26px;margin-bottom:20px}
 .header h1{font-size:28px;font-weight:800;letter-spacing:-.5px;margin-bottom:6px}
-.header p{color:#9ca3af;font-size:15px;line-height:1.5}
+.header .tagline{color:#f59e0b;font-size:14px;font-weight:600;margin-bottom:4px}
+.header p{color:#9ca3af;font-size:14px;line-height:1.5}
 
 /* Access gate */
-.access-gate{background:#111;border:1px solid #222;border-radius:16px;padding:32px 28px;margin-bottom:40px;text-align:center}
+.access-gate{background:#111;border:1px solid #222;border-radius:16px;padding:40px 28px;margin-bottom:40px;text-align:center}
 .access-gate h2{font-size:18px;font-weight:700;margin-bottom:8px}
 .access-gate p{color:#9ca3af;font-size:14px;margin-bottom:20px}
 .access-input-row{display:flex;gap:10px;max-width:360px;margin:0 auto}
 .access-input{flex:1;padding:12px 16px;border-radius:10px;border:1px solid #333;background:#1a1a1a;color:#fff;font-size:15px;outline:none;transition:border-color .2s}
-.access-input:focus{border-color:#4F46E5}
+.access-input:focus{border-color:#f59e0b}
 .access-input::placeholder{color:#555}
-.access-btn{padding:12px 24px;border-radius:10px;border:none;background:linear-gradient(135deg,#4F46E5,#7c3aed);color:#fff;font-size:15px;font-weight:600;cursor:pointer;transition:opacity .2s}
+.access-btn{padding:12px 24px;border-radius:10px;border:none;background:linear-gradient(135deg,#f59e0b,#ea580c);color:#fff;font-size:15px;font-weight:600;cursor:pointer;transition:opacity .2s}
 .access-btn:hover{opacity:.9}
 .access-error{color:#ef4444;font-size:13px;margin-top:10px;display:none}
 
-/* Filter tabs */
-.filter-tabs{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
-.filter-tab{padding:8px 16px;border-radius:20px;border:1px solid #333;background:transparent;color:#9ca3af;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
-.filter-tab:hover{border-color:#555;color:#fff}
-.filter-tab.active{background:linear-gradient(135deg,#4F46E5,#7c3aed);border-color:transparent;color:#fff}
+/* Series section */
+.series{margin-bottom:36px}
+.series-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid #1a1a1a}
+.series-icon{font-size:20px}
+.series-title{font-size:16px;font-weight:700;letter-spacing:-.3px}
+.series-desc{font-size:12px;color:#666;margin-left:auto}
 
 /* Episode cards */
-.section-label{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:#555;margin-bottom:16px;font-weight:600}
-.episodes{display:grid;gap:12px;margin-bottom:40px}
-.episode-card{background:#111;border:1px solid #222;border-radius:14px;padding:20px;transition:all .2s;position:relative;overflow:hidden}
-.episode-card:hover{border-color:#333;background:#161616}
-.episode-card.locked{opacity:.35;pointer-events:none;filter:blur(2px)}
-.ep-top{display:flex;align-items:flex-start;gap:14px;margin-bottom:14px}
-.ep-num{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#4F46E5,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;flex-shrink:0}
+.episodes{display:grid;gap:10px}
+.episode-card{background:#111;border:1px solid #1a1a1a;border-radius:12px;padding:16px 18px;transition:all .2s;position:relative;overflow:hidden}
+.episode-card:hover{border-color:#333;background:#141414}
+.ep-row{display:flex;align-items:center;gap:14px}
+.ep-num{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#ea580c);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;flex-shrink:0}
+.ep-num.briefing{background:linear-gradient(135deg,#4F46E5,#7c3aed)}
 .ep-info{flex:1;min-width:0}
-.ep-info h3{font-size:16px;font-weight:700;margin-bottom:3px}
-.ep-info p{color:#9ca3af;font-size:13px;line-height:1.4}
-.ep-meta{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:4px}
-.ep-date{color:#555;font-size:12px}
-.ep-duration{color:#555;font-size:12px}
-.ep-tags{display:flex;gap:6px;flex-wrap:wrap}
-.ep-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:3px 8px;border-radius:6px}
-.tag-public{background:rgba(34,197,94,.15);color:#22c55e}
-.tag-private{background:rgba(239,68,68,.15);color:#ef4444}
-.tag-fbi{background:rgba(59,130,246,.15);color:#3b82f6}
-.tag-exec{background:rgba(234,179,8,.15);color:#eab308}
+.ep-info h3{font-size:15px;font-weight:700;margin-bottom:2px}
+.ep-meta{display:flex;gap:10px;align-items:center}
+.ep-date{color:#555;font-size:11px}
+.ep-duration{color:#555;font-size:11px}
 
 /* Audio player */
-.ep-player{margin-top:14px}
-.ep-player audio{width:100%;height:40px;border-radius:8px}
+.ep-player{margin-top:12px}
+.ep-player audio{width:100%;height:36px;border-radius:8px}
 .ep-player audio::-webkit-media-controls-panel{background:#1a1a1a}
-
-/* Upload zone (Dave only) */
-.upload-zone{background:#111;border:2px dashed #333;border-radius:16px;padding:40px 28px;text-align:center;margin-bottom:40px;display:none;transition:border-color .2s}
-.upload-zone.show{display:block}
-.upload-zone:hover{border-color:#4F46E5}
-.upload-zone h3{font-size:16px;font-weight:700;margin-bottom:8px}
-.upload-zone p{color:#9ca3af;font-size:13px;margin-bottom:16px}
-.upload-zone .note{color:#555;font-size:11px;margin-top:12px}
-
-.empty-state{text-align:center;padding:40px 20px;color:#555}
-.empty-state p{font-size:14px}
-
-.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-80px);background:#22c55e;color:#fff;padding:12px 24px;border-radius:10px;font-size:14px;font-weight:600;z-index:100;transition:transform .3s;pointer-events:none}
-.toast.visible{transform:translateX(-50%) translateY(0)}
-.footer{text-align:center;margin-top:60px;color:#333;font-size:12px}
+.ep-coming{color:#444;font-size:12px;font-style:italic;margin-top:10px}
 
 /* A/B test card */
-.ab-test{background:linear-gradient(135deg,rgba(79,70,229,.1),rgba(124,58,237,.1));border:1px solid rgba(124,58,237,.3);border-radius:14px;padding:24px;margin-top:14px}
-.ab-test h4{font-size:14px;font-weight:700;color:#c4b5fd;margin-bottom:4px}
-.ab-test p{font-size:12px;color:#9ca3af;margin-bottom:16px}
-.ab-options{display:grid;gap:12px}
-.ab-option{display:flex;align-items:center;gap:14px;background:#111;border:1px solid #333;border-radius:12px;padding:16px;cursor:pointer;text-decoration:none;color:#fff;transition:all .2s}
-.ab-option:hover{border-color:#7c3aed;background:#1a1a1a;transform:translateY(-1px)}
-.ab-option .ab-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.ab-test{background:rgba(245,158,11,.05);border:1px solid rgba(245,158,11,.2);border-radius:10px;padding:16px;margin-top:12px}
+.ab-test h4{font-size:13px;font-weight:700;color:#f59e0b;margin-bottom:10px}
+.ab-options{display:grid;gap:8px}
+.ab-option{display:flex;align-items:center;gap:12px;background:#0a0a0a;border:1px solid #222;border-radius:10px;padding:12px;cursor:pointer;text-decoration:none;color:#fff;transition:all .2s;font-size:13px}
+.ab-option:hover{border-color:#f59e0b;background:#111}
+.ab-option .ab-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
 .ab-option .ab-icon.nlm{background:linear-gradient(135deg,#4285f4,#34a853)}
 .ab-option .ab-icon.el{background:linear-gradient(135deg,#1a1a2e,#16213e)}
-.ab-option .ab-text h5{font-size:15px;font-weight:700;margin-bottom:2px}
-.ab-option .ab-text p{font-size:12px;color:#9ca3af;margin:0}
-.ab-option .ab-arrow{margin-left:auto;color:#555;font-size:18px}
-.valentine-badge{display:inline-block;background:linear-gradient(135deg,#e11d48,#f43f5e);padding:3px 10px;border-radius:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-left:8px}
+.ab-option .ab-label{font-weight:600}
+.ab-option .ab-desc{color:#666;font-size:11px}
+.ab-option .ab-arrow{margin-left:auto;color:#555}
+
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-80px);background:#f59e0b;color:#000;padding:12px 24px;border-radius:10px;font-size:14px;font-weight:600;z-index:100;transition:transform .3s;pointer-events:none}
+.toast.visible{transform:translateX(-50%) translateY(0)}
+.footer{text-align:center;margin-top:60px;color:#333;font-size:11px}
+.valentine{display:inline-block;background:linear-gradient(135deg,#e11d48,#f43f5e);padding:2px 8px;border-radius:4px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-left:6px;vertical-align:middle}
 </style>
 </head>
 <body>
 <div class="bg-glow"></div>
 <div class="container">
-  <a class="back-link" href="/">&larr; Back to Hub</a>
+  <a class="back-link" href="/">&larr; davefontaine.ai</a>
 
   <div class="header">
-    <div class="icon-wrap">&#x1f399;</div>
-    <h1>HalfFullMorning</h1>
-    <p>Start your day with a glass half full. AI-generated episodes on business, building, and figuring it out in real-time.</p>
+    <div class="icon-wrap">&#9728;</div>
+    <div class="tagline">HalfFullMorning</div>
+    <h1>Start your day with a glass half full.</h1>
+    <p>Two daily AI-generated podcasts. One for Dave. One for Sarah.<br>Built with love and a laptop at midnight.</p>
   </div>
 
-  <!-- Access gate (hidden if coming from hub with access param) -->
+  <!-- Access gate — NOTHING shows until code entered -->
   <div class="access-gate" id="accessGate">
     <h2>Enter Access Code</h2>
-    <p>Some episodes are public. Others are for specific audiences.</p>
+    <p>This is a private podcast. Enter your code to listen.</p>
     <div class="access-input-row">
       <input class="access-input" id="accessCode" type="text" placeholder="Access code" autocomplete="off" autocapitalize="off">
       <button class="access-btn" onclick="checkAccess()">Enter</button>
     </div>
-    <div style="color:#9ca3af;font-size:11px;margin-top:8px">No code? Public episodes are always available.</div>
     <div class="access-error" id="accessError">Code not recognized.</div>
   </div>
 
-  <!-- Filter tabs -->
-  <div class="filter-tabs" id="filterTabs" style="display:none">
-    <button class="filter-tab active" data-filter="all">All</button>
-    <button class="filter-tab" data-filter="public">Public</button>
+  <!-- Content — hidden until authenticated -->
+  <div id="contentSection" style="display:none">
+
+    <!-- Sarah's Morning -->
+    <div class="series" id="seriesSarah">
+      <div class="series-header">
+        <span class="series-icon">&#9728;</span>
+        <span class="series-title">Sarah's Morning</span>
+        <span class="series-desc">T1D research &bull; good news &bull; breathwork</span>
+      </div>
+      <div class="episodes" id="sarahEpisodes"></div>
+    </div>
+
+    <!-- Dave's Briefing -->
+    <div class="series" id="seriesDave">
+      <div class="series-header">
+        <span class="series-icon">&#9889;</span>
+        <span class="series-title">Dave's Briefing</span>
+        <span class="series-desc">economy &bull; AI &bull; construction &bull; global</span>
+      </div>
+      <div class="episodes" id="daveEpisodes"></div>
+    </div>
+
   </div>
 
-  <!-- Episodes list -->
-  <div id="episodesSection" style="display:none">
-    <div class="section-label">Episodes</div>
-    <div class="episodes" id="episodesList"></div>
-  </div>
-
-  <div class="empty-state" id="emptyState" style="display:none">
-    <p>No episodes match your current filter.</p>
-  </div>
-
-  <div class="footer">davefontaine.ai/podcast</div>
+  <div class="footer">davefontaine.ai/podcast &bull; A HalfFullMorning.ai production</div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
 // ============================================================
-// EPISODE CONFIG — Dave adds episodes here
+// EPISODE DATA
 // ============================================================
-// Access tiers:
-//   "public"   — anyone, no code needed
-//   "dave"     — Dave only (codes: dave, davefontaine)
-//   "fbi"      — Fontaine Bros employees (codes: fbi, fontaine, fontainebros)
-//   "coo"      — COO Joel (codes: coo, joel)
-//   "cfo"      — CFO Val (codes: cfo, val)
-//   "exec"     — All execs (coo + cfo + dave)
-//   "vip"      — Everyone with VIP access
-//
-// To add an episode: copy an entry below, update the fields, drop your audio file
-// in the /podcast/audio/ folder, and update the audioSrc path.
+// All episodes are VIP-only. No public episodes.
+// series: "sarah" or "dave"
 
 const EPISODES = [
   {
-    num: 7,
-    title: "The $700 Billion Bet on AI Infrastructure",
-    desc: "Economy at 2.7% global growth, tariffs hammering construction costs (aluminum +30%, steel +17%), hyperscalers spending $700B on AI, and why the people who move during realignment win.",
-    date: "Feb 16, 2026",
-    duration: "~14 min",
-    tier: "dave",
-    audioSrc: "audio/ep007-daves-briefing-2026-02-16.m4a",
-    tags: ["Daily Briefing", "Economy", "AI", "Construction"]
-  },
-  {
     num: 6,
+    series: "sarah",
     title: "T1D Cures, Polar Bears, and Invisible Work",
-    desc: "Vertex accelerates FDA filing to 2026, teplizumab expanding to Stage 3, Random Acts of Kindness Day, the Publix cashier everyone waits for, and a note from Dave.",
     date: "Feb 16, 2026",
     duration: "~13 min",
-    tier: "dave",
     audioSrc: "audio/ep006-sarahs-morning-2026-02-16.m4a",
-    tags: ["Sarah's Morning", "T1D", "Good News", "HalfFullMorning"]
+    audioType: "audio/mp4"
   },
   {
     num: 5,
-    title: "A Half Full Morning: A Valentine for Sarah",
-    desc: "T1D research breakthroughs, PA profession wins, human kindness stories, guided breathwork, and a personal message from Dave.",
+    series: "sarah",
+    title: "A Valentine for Sarah",
     date: "Feb 14, 2026",
     duration: "~11\u201316 min",
-    tier: "dave",
-    audioSrc: null,       // Uses A/B test instead
-    tags: ["Valentine's Day", "T1D", "Good News"],
+    audioSrc: null,
+    valentine: true,
     abTest: {
-      intro: "Dave made you two versions of this episode. Listen to both and tell him which you prefer!",
       optionA: {
-        label: "Version A \u2014 Two Hosts (Conversation)",
-        desc: "NotebookLM \u2014 Two AI hosts discuss the content naturally, ~16 min",
+        label: "Two Hosts (NotebookLM)",
         icon: "\ud83c\udfa7",
         iconClass: "nlm",
         url: "https://notebooklm.google.com/notebook/f1063d4f-85a6-46db-829b-304daa871066"
       },
       optionB: {
-        label: "Version B \u2014 Single Narrator (Warm & Personal)",
-        desc: "ElevenLabs \u2014 One warm podcast voice reads the whole episode, ~11 min",
+        label: "Single Voice (ElevenLabs)",
         icon: "\ud83c\udf99\ufe0f",
         iconClass: "el",
         url: "https://elevenlabs.io/app/studio/UCP2iTGiGYUjbcAIiD6M?chapterId=lHhiOsAnmyFqY37MT1Ce"
@@ -200,107 +169,60 @@ const EPISODES = [
     }
   },
   {
+    num: 7,
+    series: "dave",
+    title: "The $700 Billion Bet on AI Infrastructure",
+    date: "Feb 16, 2026",
+    duration: "~14 min",
+    audioSrc: "audio/ep007-daves-briefing-2026-02-16.m4a",
+    audioType: "audio/mp4"
+  },
+  {
     num: 4,
+    series: "dave",
     title: "The CEO Who Learned to Code (Sort of)",
-    desc: "Dave's first week with AI \u2014 what he's learned, what's next, and an honest progress report.",
     date: "Feb 14, 2026",
     duration: "~18 min",
-    tier: "dave",         // Dave only
-    audioSrc: null,       // null = not yet generated, will show "Coming Soon"
-    tags: ["AI", "Learning", "Personal"]
+    audioSrc: null
   },
   {
     num: 3,
+    series: "dave",
     title: "The Builder Brain",
-    desc: "Why the fastest minds feel the most stuck \u2014 and what actually fixes it.",
     date: "Feb 14, 2026",
     duration: "~20 min",
-    tier: "public",
-    audioSrc: null,
-    tags: ["ADHD", "Entrepreneurship", "Philosophy"]
+    audioSrc: null
   },
   {
     num: 2,
+    series: "dave",
     title: "Good News Daily",
-    desc: "Human stories of kindness, progress, and reasons to be optimistic.",
     date: "Feb 13, 2026",
     duration: "~15 min",
-    tier: "public",
-    audioSrc: null,
-    tags: ["Good News", "Daily Briefing"]
+    audioSrc: null
   },
   {
     num: 1,
+    series: "dave",
     title: "Daily Briefing \u2014 Pilot",
-    desc: "AI, economy, geopolitics \u2014 with historical context and a grounding reminder.",
     date: "Feb 13, 2026",
     duration: "~15 min",
-    tier: "public",
-    audioSrc: null,
-    tags: ["News", "Daily Briefing"]
+    audioSrc: null
   }
 ];
 
 // ============================================================
-// ACCESS SYSTEM
+// ACCESS — all codes grant full access, no public tier
 // ============================================================
-// Tier hierarchy: who can see what
-const TIER_ACCESS = {
-  // code → what tiers they can see
-  "vip":          ["public", "dave", "fbi", "coo", "cfo", "exec"],
-  "dave":         ["public", "dave", "fbi", "coo", "cfo", "exec"],
-  "davefontaine": ["public", "dave", "fbi", "coo", "cfo", "exec"],
-  "sarah":        ["public", "dave"],
-  "fbi":          ["public", "fbi"],
-  "fontaine":     ["public", "fbi"],
-  "fontainebros": ["public", "fbi"],
-  "coo":          ["public", "fbi", "coo", "exec"],
-  "joel":         ["public", "fbi", "coo", "exec"],
-  "cfo":          ["public", "fbi", "cfo", "exec"],
-  "val":          ["public", "fbi", "cfo", "exec"],
-  "beta":         ["public", "dave", "fbi", "coo", "cfo", "exec"],
-};
+const VALID_CODES = ["vip", "dave", "davefontaine", "sarah", "beta", "fbi", "fontaine", "fontainebros", "coo", "joel", "cfo", "val"];
 
-// Public access (no code needed)
-const PUBLIC_TIERS = ["public"];
-
-let currentAccess = [...PUBLIC_TIERS]; // Start with public access
-let currentCode = null;
-let activeFilter = "all";
-
-// ============================================================
-// INIT
-// ============================================================
-function init() {
-  // Check URL params for access code (from hub link)
-  const params = new URLSearchParams(window.location.search);
-  const code = params.get('access') || params.get('code') || params.get('a');
-  if (code) {
-    document.getElementById('accessCode').value = code;
-    checkAccess(true);
-  }
-
-  // Show public episodes immediately (gate still shows for upgrading access)
-  renderEpisodes();
-  document.getElementById('episodesSection').style.display = 'block';
-
-  // Set up filter tabs
-  document.querySelectorAll('.filter-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      activeFilter = tab.dataset.filter;
-      renderEpisodes();
-    });
-  });
-}
+let authenticated = false;
 
 function checkAccess(silent) {
   const input = document.getElementById('accessCode').value.trim().toLowerCase().replace(/\s+/g, '');
   if (!input) return;
 
-  const tiers = TIER_ACCESS[input];
-  if (!tiers) {
+  if (!VALID_CODES.includes(input)) {
     if (!silent) {
       document.getElementById('accessError').style.display = 'block';
       document.getElementById('accessCode').style.borderColor = '#ef4444';
@@ -312,138 +234,67 @@ function checkAccess(silent) {
     return;
   }
 
-  currentCode = input;
-  currentAccess = tiers;
-
-  // Hide gate, show content
+  authenticated = true;
   document.getElementById('accessGate').style.display = 'none';
-  document.getElementById('episodesSection').style.display = 'block';
-  document.getElementById('filterTabs').style.display = 'flex';
-
-  // Update filter tabs based on what tiers are available
-  updateFilterTabs();
+  document.getElementById('contentSection').style.display = 'block';
   renderEpisodes();
-  showToast('Access granted \u2014 welcome!');
+  showToast('Welcome \u2014 glass half full.');
 
   // Track
-  trackEvent('podcast_access', { user: currentCode, tiers: currentAccess });
-}
-
-function updateFilterTabs() {
-  const container = document.getElementById('filterTabs');
-  container.innerHTML = '<button class="filter-tab active" data-filter="all">All</button>';
-
-  const tierLabels = {
-    "public": "Public",
-    "dave": "Personal",
-    "fbi": "FBI",
-    "coo": "COO",
-    "cfo": "CFO",
-    "exec": "Executive"
-  };
-
-  const availableTiers = [...new Set(EPISODES.filter(ep => currentAccess.includes(ep.tier)).map(ep => ep.tier))];
-  availableTiers.forEach(tier => {
-    if (tierLabels[tier]) {
-      const btn = document.createElement('button');
-      btn.className = 'filter-tab';
-      btn.dataset.filter = tier;
-      btn.textContent = tierLabels[tier];
-      container.appendChild(btn);
-    }
-  });
-
-  // Re-bind click events
-  container.querySelectorAll('.filter-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      container.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      activeFilter = tab.dataset.filter;
-      renderEpisodes();
-    });
-  });
+  trackEvent('podcast_access', { code: input });
 }
 
 function renderEpisodes() {
-  const list = document.getElementById('episodesList');
-  const empty = document.getElementById('emptyState');
-  list.innerHTML = '';
+  const sarahList = document.getElementById('sarahEpisodes');
+  const daveList = document.getElementById('daveEpisodes');
+  sarahList.innerHTML = '';
+  daveList.innerHTML = '';
 
-  const filtered = EPISODES.filter(ep => {
-    const hasAccess = currentAccess.includes(ep.tier);
-    const matchesFilter = activeFilter === "all" || ep.tier === activeFilter;
-    return hasAccess && matchesFilter;
-  });
-
-  if (filtered.length === 0) {
-    empty.style.display = 'block';
-    return;
-  }
-  empty.style.display = 'none';
-
-  filtered.forEach(ep => {
+  EPISODES.forEach(ep => {
     const card = document.createElement('div');
     card.className = 'episode-card';
-
-    const tierClass = ep.tier === 'public' ? 'tag-public' :
-                      ep.tier === 'fbi' ? 'tag-fbi' :
-                      (ep.tier === 'coo' || ep.tier === 'cfo' || ep.tier === 'exec') ? 'tag-exec' :
-                      'tag-private';
-    const tierLabel = ep.tier === 'public' ? 'Public' :
-                      ep.tier === 'dave' ? 'Personal' :
-                      ep.tier === 'fbi' ? 'FBI' :
-                      ep.tier === 'coo' ? 'COO' :
-                      ep.tier === 'cfo' ? 'CFO' :
-                      ep.tier === 'exec' ? 'Executive' : ep.tier;
 
     let playerHTML = '';
     if (ep.abTest) {
       const ab = ep.abTest;
       playerHTML = `
         <div class="ab-test">
-          <h4>\ud83c\udfa7 A/B Test \u2014 Which Version Do You Prefer?</h4>
-          <p>${ab.intro}</p>
+          <h4>Two versions \u2014 which do you prefer?</h4>
           <div class="ab-options">
-            <a class="ab-option" href="${ab.optionA.url}" target="_blank" rel="noopener" onclick="trackEvent('ab_test_click',{version:'A',episode:${ep.num}})">
+            <a class="ab-option" href="${ab.optionA.url}" target="_blank" rel="noopener">
               <div class="ab-icon ${ab.optionA.iconClass}">${ab.optionA.icon}</div>
-              <div class="ab-text">
-                <h5>${ab.optionA.label}</h5>
-                <p>${ab.optionA.desc}</p>
-              </div>
+              <span class="ab-label">${ab.optionA.label}</span>
               <span class="ab-arrow">\u2192</span>
             </a>
-            <a class="ab-option" href="${ab.optionB.url}" target="_blank" rel="noopener" onclick="trackEvent('ab_test_click',{version:'B',episode:${ep.num}})">
+            <a class="ab-option" href="${ab.optionB.url}" target="_blank" rel="noopener">
               <div class="ab-icon ${ab.optionB.iconClass}">${ab.optionB.icon}</div>
-              <div class="ab-text">
-                <h5>${ab.optionB.label}</h5>
-                <p>${ab.optionB.desc}</p>
-              </div>
+              <span class="ab-label">${ab.optionB.label}</span>
               <span class="ab-arrow">\u2192</span>
             </a>
           </div>
         </div>`;
     } else if (ep.audioSrc) {
-      playerHTML = `<div class="ep-player"><audio controls preload="none"><source src="${ep.audioSrc}" type="audio/mpeg">Your browser does not support audio.</audio></div>`;
+      const mimeType = ep.audioType || 'audio/mp4';
+      playerHTML = '<div class="ep-player"><audio controls preload="none"><source src="' + ep.audioSrc + '" type="' + mimeType + '">Your browser does not support audio.</audio></div>';
     } else {
-      playerHTML = `<div class="ep-player" style="color:#555;font-size:13px;font-style:italic;margin-top:10px">Audio coming soon \u2014 script ready</div>`;
+      playerHTML = '<div class="ep-coming">Audio coming soon \u2014 script ready</div>';
     }
 
-    card.innerHTML = `
-      <div class="ep-top">
-        <div class="ep-num">${String(ep.num).padStart(2, '0')}</div>
-        <div class="ep-info">
-          <h3>${ep.title}${ep.abTest ? '<span class="valentine-badge">\u2764\ufe0f Valentine\'s Day</span>' : ''}</h3>
-          <p>${ep.desc}</p>
-          <div class="ep-meta">
-            <span class="ep-date">${ep.date}</span>
-            <span class="ep-duration">${ep.duration}</span>
-            <span class="ep-tag ${tierClass}">${tierLabel}</span>
-          </div>
-        </div>
-      </div>
-      ${playerHTML}
-    `;
-    list.appendChild(card);
+    card.innerHTML =
+      '<div class="ep-row">' +
+        '<div class="ep-num' + (ep.series === 'dave' ? ' briefing' : '') + '">' + String(ep.num).padStart(2, '0') + '</div>' +
+        '<div class="ep-info">' +
+          '<h3>' + ep.title + (ep.valentine ? '<span class="valentine">\u2764\ufe0f Valentine\'s</span>' : '') + '</h3>' +
+          '<div class="ep-meta"><span class="ep-date">' + ep.date + '</span><span class="ep-duration">' + ep.duration + '</span></div>' +
+        '</div>' +
+      '</div>' +
+      playerHTML;
+
+    if (ep.series === 'sarah') {
+      sarahList.appendChild(card);
+    } else {
+      daveList.appendChild(card);
+    }
   });
 }
 
@@ -460,19 +311,26 @@ function trackEvent(event, data) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       access_key: 'e71b608c-ba69-4dc3-82d0-765910e81fc3',
-      subject: 'Podcast Analytics: ' + event,
-      from_name: 'davefontaine.ai/podcast tracker',
+      subject: 'Podcast: ' + event,
+      from_name: 'HalfFullMorning tracker',
       message: JSON.stringify({ event, ...data, timestamp: new Date().toISOString() }),
       page: window.location.href
     })
   }).catch(() => {});
 }
 
+// Init
 document.getElementById('accessCode').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') checkAccess();
 });
 
-init();
+// Check URL params for access code
+const params = new URLSearchParams(window.location.search);
+const code = params.get('access') || params.get('code') || params.get('a');
+if (code) {
+  document.getElementById('accessCode').value = code;
+  checkAccess(true);
+}
 </script>
 </body>
 </html>
