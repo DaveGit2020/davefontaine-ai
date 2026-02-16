@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ask Val — 340 Main Street Deal Room</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+/* ========================================
+   RESET & VARIABLES
+   ======================================== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --bg-primary: #0a0a0a;
+    --bg-card: #141414;
+    --bg-card-hover: #1a1a1a;
+    --bg-input: #1c1c1c;
+    --border: #2a2a2a;
+    --border-hover: #3a3a3a;
+    --text-primary: #e8e8e8;
+    --text-secondary: #a0a0a0;
+    --text-muted: #666;
+    --orange: #ff6b35;
+    --orange-dim: rgba(255, 107, 53, 0.15);
+    --orange-glow: rgba(255, 107, 53, 0.25);
+    --blue: #45b7d1;
+    --blue-dim: rgba(69, 183, 209, 0.12);
+    --green: #4ecdc4;
+    --green-dim: rgba(78, 205, 196, 0.12);
+    --red: #e74c3c;
+    --yellow: #f7dc6f;
+    --purple: #a855f7;
+    --sidebar-width: 280px;
+}
+
+html, body { height: 100%; }
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow: hidden;
+}
+
+/* ========================================
+   CONFIDENTIAL WATERMARK
+   ======================================== */
+body::before {
+    content: 'CONFIDENTIAL';
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-35deg);
+    font-size: 8vw;
+    font-weight: 900;
+    color: rgba(255, 107, 53, 0.02);
+    pointer-events: none;
+    z-index: 0;
+    white-space: nowrap;
+    letter-spacing: 0.3em;
+}
+
+/* ========================================
+   LAYOUT — SIDEBAR + CHAT
+   ======================================== */
+.app-container {
+    display: flex;
+    height: 100vh;
+    position: relative;
+    z-index: 1;
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+    width: var(--sidebar-width);
+    background: var(--bg-card);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    overflow-y: auto;
+}
+
+.sidebar-header {
+    padding: 24px 20px 16px;
+    border-bottom: 1px solid var(--border);
+}
+
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+}
+
+.val-avatar-small {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--orange), #ff8f5e);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
+}
+
+.sidebar-brand h2 {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+}
+
+.sidebar-subtitle {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 6px;
+    line-height: 1.4;
+}
+
+.sidebar-section {
+    padding: 16px 20px 8px;
+}
+
+.sidebar-section-title {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+}
+
+.sidebar-topic {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    margin-bottom: 2px;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.sidebar-topic:hover {
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-primary);
+}
+
+.sidebar-topic .topic-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+    width: 22px;
+    text-align: center;
+}
+
+.sidebar-topic .topic-label {
+    flex: 1;
+}
+
+.sidebar-footer {
+    margin-top: auto;
+    padding: 16px 20px;
+    border-top: 1px solid var(--border);
+}
+
+.sidebar-footer p {
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+/* ── MAIN CHAT AREA ── */
+.chat-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    position: relative;
+}
+
+/* ── CHAT HEADER ── */
+.chat-header {
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(20, 20, 20, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.chat-header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 20px;
+    cursor: pointer;
+    padding: 4px;
+}
+
+.online-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 8px rgba(78, 205, 196, 0.5);
+    animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.chat-header-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.chat-header-status {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.chat-header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.header-btn {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.15s ease;
+    font-family: inherit;
+}
+
+.header-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+    border-color: var(--border-hover);
+}
+
+/* ── SUGGESTED QUESTIONS ── */
+.suggestions-bar {
+    padding: 14px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    background: rgba(20, 20, 20, 0.5);
+    flex-shrink: 0;
+}
+
+.suggestion-chip {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    padding: 7px 14px;
+    border-radius: 20px;
+    font-size: 12.5px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+    font-family: inherit;
+}
+
+.suggestion-chip:hover {
+    background: var(--orange-dim);
+    border-color: var(--orange);
+    color: var(--orange);
+}
+
+/* ── MESSAGES CONTAINER ── */
+.messages-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    scroll-behavior: smooth;
+}
+
+.messages-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.messages-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.messages-container::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 3px;
+}
+
+.messages-container::-webkit-scrollbar-thumb:hover {
+    background: #444;
+}
+
+/* ── MESSAGE BUBBLES ── */
+.message-row {
+    display: flex;
+    gap: 12px;
+    max-width: 780px;
+    animation: msg-in 0.3s ease-out;
+}
+
+@keyframes msg-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.message-row.user {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+
+.message-row.bot {
+    align-self: flex-start;
+}
+
+.msg-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 700;
+    margin-top: 2px;
+}
+
+.msg-avatar.bot-avatar {
+    background: linear-gradient(135deg, var(--orange), #ff8f5e);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(255, 107, 53, 0.25);
+}
+
+.msg-avatar.user-avatar {
+    background: linear-gradient(135deg, var(--blue), #6bc5d8);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(69, 183, 209, 0.25);
+}
+
+.msg-bubble {
+    padding: 14px 18px;
+    border-radius: 16px;
+    font-size: 14px;
+    line-height: 1.65;
+    position: relative;
+}
+
+.message-row.bot .msg-bubble {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-top-left-radius: 4px;
+    color: var(--text-primary);
+}
+
+.message-row.user .msg-bubble {
+    background: linear-gradient(135deg, #1a3a5c, #1a2d47);
+    border: 1px solid rgba(69, 183, 209, 0.2);
+    border-top-right-radius: 4px;
+    color: #d4e8f0;
+}
+
+.msg-bubble strong {
+    color: var(--orange);
+    font-weight: 600;
+}
+
+.msg-bubble .highlight-number {
+    color: var(--green);
+    font-weight: 600;
+}
+
+.msg-bubble .highlight-blue {
+    color: var(--blue);
+    font-weight: 600;
+}
+
+.msg-disclaimer {
+    display: block;
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+.msg-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    align-items: center;
+}
+
+.flag-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 11px;
+    font-family: inherit;
+    padding: 4px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.flag-btn:hover {
+    border-color: var(--orange);
+    color: var(--orange);
+    background: var(--orange-dim);
+}
+
+.flag-btn.flagged {
+    border-color: var(--orange);
+    color: var(--orange);
+    background: var(--orange-dim);
+    pointer-events: none;
+}
+
+.note-input {
+    flex: 1;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    font-size: 11px;
+    font-family: inherit;
+    padding: 4px 10px;
+    border-radius: 6px;
+    outline: none;
+    display: none;
+    transition: border-color 0.2s;
+}
+
+.note-input:focus {
+    border-color: var(--orange);
+}
+
+.note-input.visible {
+    display: block;
+}
+
+.note-saved {
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 600;
+    display: none;
+}
+
+.note-saved.visible {
+    display: inline;
+}
+
+/* ── TYPING INDICATOR ── */
+.typing-indicator {
+    display: none;
+    align-self: flex-start;
+    max-width: 780px;
+}
+
+.typing-indicator.active {
+    display: flex;
+}
+
+.typing-dots {
+    display: flex;
+    gap: 5px;
+    padding: 16px 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    border-top-left-radius: 4px;
+}
+
+.typing-dots span {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--text-muted);
+    animation: typing-bounce 1.4s ease-in-out infinite;
+}
+
+.typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+.typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typing-bounce {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+    30% { transform: translateY(-6px); opacity: 1; }
+}
+
+/* ── INPUT BAR ── */
+.input-bar {
+    padding: 16px 24px 20px;
+    border-top: 1px solid var(--border);
+    background: rgba(20, 20, 20, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    flex-shrink: 0;
+}
+
+.input-wrapper {
+    display: flex;
+    gap: 10px;
+    max-width: 780px;
+    margin: 0 auto;
+}
+
+.input-field {
+    flex: 1;
+    padding: 14px 18px;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s ease;
+    resize: none;
+    min-height: 48px;
+    max-height: 120px;
+    line-height: 1.4;
+}
+
+.input-field:focus {
+    border-color: var(--orange);
+    box-shadow: 0 0 0 3px var(--orange-dim);
+}
+
+.input-field::placeholder {
+    color: var(--text-muted);
+}
+
+.send-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: var(--orange);
+    border: none;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+    flex-shrink: 0;
+    box-shadow: 0 2px 12px rgba(255, 107, 53, 0.3);
+}
+
+.send-btn:hover {
+    background: #ff8555;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(255, 107, 53, 0.4);
+}
+
+.send-btn:active {
+    transform: translateY(0);
+}
+
+.send-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* ── WELCOME MESSAGE ── */
+.welcome-section {
+    text-align: center;
+    padding: 40px 20px 20px;
+    animation: msg-in 0.5s ease-out;
+}
+
+.welcome-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, var(--orange), #ff8f5e);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 auto 16px;
+    box-shadow: 0 4px 20px rgba(255, 107, 53, 0.3);
+}
+
+.welcome-section h1 {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.welcome-section p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* ── TOPIC CARDS IN WELCOME ── */
+.topic-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+    max-width: 660px;
+    margin: 24px auto 0;
+}
+
+.topic-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-align: left;
+}
+
+.topic-card:hover {
+    border-color: var(--orange);
+    background: var(--orange-dim);
+}
+
+.topic-card .tc-icon {
+    font-size: 18px;
+    margin-bottom: 6px;
+}
+
+.topic-card .tc-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 3px;
+}
+
+.topic-card .tc-desc {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+/* ── MOBILE SIDEBAR OVERLAY ── */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 90;
+}
+
+.sidebar-overlay.active {
+    display: block;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        z-index: 100;
+        transform: translateX(-100%);
+        transition: transform 0.25s ease;
+        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .mobile-menu-btn {
+        display: block;
+    }
+
+    .suggestions-bar {
+        padding: 10px 16px;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .messages-container {
+        padding: 16px;
+    }
+
+    .input-bar {
+        padding: 12px 16px 16px;
+    }
+
+    .message-row {
+        max-width: 100%;
+    }
+
+    .chat-header {
+        padding: 14px 16px;
+    }
+
+    .topic-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .welcome-section {
+        padding: 24px 12px 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .msg-avatar {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+        border-radius: 8px;
+    }
+
+    .msg-bubble {
+        padding: 11px 14px;
+        font-size: 13.5px;
+    }
+
+    .suggestion-chip {
+        font-size: 11.5px;
+        padding: 6px 12px;
+    }
+}
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
+@media print {
+    div[style*="position:fixed"] { display: none !important; }
+    .sidebar { display: none !important; }
+    .suggestions-bar { display: none !important; }
+    .input-bar { display: none !important; }
+    .chat-header { display: none !important; }
+    .typing-indicator { display: none !important; }
+
+    body {
+        background: #fff !important;
+        color: #111 !important;
+        overflow: visible !important;
+        font-size: 11pt;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .app-container {
+        height: auto !important;
+        display: block !important;
+    }
+
+    .chat-area {
+        display: block !important;
+    }
+
+    .messages-container {
+        overflow: visible !important;
+        height: auto !important;
+        padding: 20px !important;
+    }
+
+    .message-row.bot .msg-bubble {
+        background: #f5f5f5 !important;
+        border-color: #ddd !important;
+        color: #111 !important;
+    }
+
+    .message-row.user .msg-bubble {
+        background: #e8f0f5 !important;
+        border-color: #cde !important;
+        color: #111 !important;
+    }
+
+    .msg-bubble strong {
+        color: #c04a18 !important;
+    }
+
+    .welcome-section { display: none !important; }
+
+    body::before {
+        content: 'CONFIDENTIAL' !important;
+        color: rgba(0, 0, 0, 0.06) !important;
+        position: fixed !important;
+    }
+
+    @page {
+        margin: 0.75in;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="app-container">
+
+<!-- ── SIDEBAR ── -->
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <div class="sidebar-brand">
+            <div class="val-avatar-small">V</div>
+            <h2>Ask Val</h2>
+        </div>
+        <p class="sidebar-subtitle">Your deal room assistant for the 340 Main Street development</p>
+    </div>
+
+    <div class="sidebar-section">
+        <div class="sidebar-section-title">Knowledge Areas</div>
+        <div class="sidebar-topic" onclick="askQuestion('How do tax credits work?')">
+            <span class="topic-icon">&#127974;</span>
+            <span class="topic-label">Tax Credits (LIHTC)</span>
+        </div>
+        <div class="sidebar-topic" onclick="askQuestion('Credit vs deduction?')">
+            <span class="topic-icon">&#9878;</span>
+            <span class="topic-label">Credit vs Deduction</span>
+        </div>
+        <div class="sidebar-topic" onclick="askQuestion('How does the bank make money?')">
+            <span class="topic-icon">&#127975;</span>
+            <span class="topic-label">Bank &amp; CRA Economics</span>
+        </div>
+        <div class="sidebar-topic" onclick="askQuestion('Break down the funding sources')">
+            <span class="topic-icon">&#128200;</span>
+            <span class="topic-label">Funding Sources</span>
+        </div>
+        <div class="sidebar-topic" onclick="askQuestion('What are the deal numbers?')">
+            <span class="topic-icon">&#128178;</span>
+            <span class="topic-label">Deal Numbers</span>
+        </div>
+        <div class="sidebar-topic" onclick="askQuestion('What is the operating pro forma?')">
+            <span class="topic-icon">&#128202;</span>
+            <span class="topic-label">Operating Pro Forma</span>
+        </div>
+        <div class="sidebar-topic" onclick="askQuestion('What are the partnership terms?')">
+            <span class="topic-icon">&#129309;</span>
+            <span class="topic-label">Partnership Terms</span>
+        </div>
+        <div class="sidebar-topic" onclick="askQuestion('What\'s Fontaine\'s money in/out?')">
+            <span class="topic-icon">&#128176;</span>
+            <span class="topic-label">Fontaine Returns</span>
+        </div>
+        <div class="sidebar-topic" onclick="askQuestion('What are the biggest risks?')">
+            <span class="topic-icon">&#9888;</span>
+            <span class="topic-label">Key Risks</span>
+        </div>
+        <div class="sidebar-topic" onclick="askQuestion('What are the key benefits?')">
+            <span class="topic-icon">&#10004;</span>
+            <span class="topic-label">Key Benefits</span>
+        </div>
+        <div class="sidebar-topic" onclick="askQuestion('Who are the key parties?')">
+            <span class="topic-icon">&#128101;</span>
+            <span class="topic-label">Key Parties</span>
+        </div>
+        <div class="sidebar-topic" onclick="askQuestion('What\'s the timeline?')">
+            <span class="topic-icon">&#128197;</span>
+            <span class="topic-label">Timeline</span>
+        </div>
+        <div class="sidebar-topic" onclick="askQuestion('What are historic tax credits?')">
+            <span class="topic-icon">&#127963;</span>
+            <span class="topic-label">Historic Tax Credits</span>
+        </div>
+        <div class="sidebar-topic" onclick="askQuestion('Why does the government do this?')">
+            <span class="topic-icon">&#127963;</span>
+            <span class="topic-label">Why Govt Creates LIHTC</span>
+        </div>
+    </div>
+
+    <div class="sidebar-footer">
+        <p>Val is an offline assistant powered by deal documents. No data leaves your browser. All information is current as of Feb 2026.</p>
+    </div>
+</aside>
+
+<!-- Sidebar overlay for mobile -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+<!-- ── MAIN CHAT ── -->
+<main class="chat-area">
+
+    <!-- Chat Header -->
+    <div class="chat-header">
+        <div class="chat-header-left">
+            <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="online-dot"></div>
+            <div>
+                <div class="chat-header-title">Val &mdash; Deal Room Assistant</div>
+                <div class="chat-header-status">340 Main Street, Worcester MA</div>
+            </div>
+        </div>
+        <div class="chat-header-right">
+            <button class="header-btn" onclick="clearChat()">Clear Chat</button>
+        </div>
+    </div>
+
+    <!-- Suggested Questions -->
+    <div class="suggestions-bar">
+        <button class="suggestion-chip" onclick="askQuestion('How do tax credits work?')">How do tax credits work?</button>
+        <button class="suggestion-chip" onclick="askQuestion('What\'s Fontaine\'s money in/out?')">Fontaine's money in/out?</button>
+        <button class="suggestion-chip" onclick="askQuestion('What are the biggest risks?')">Biggest risks?</button>
+        <button class="suggestion-chip" onclick="askQuestion('How does the bank make money?')">How does the bank make money?</button>
+        <button class="suggestion-chip" onclick="askQuestion('What is CRA compliance?')">What is CRA?</button>
+        <button class="suggestion-chip" onclick="askQuestion('Break down the funding sources')">Funding sources?</button>
+        <button class="suggestion-chip" onclick="askQuestion('What\'s the timeline?')">Timeline?</button>
+        <button class="suggestion-chip" onclick="askQuestion('Credit vs deduction?')">Credit vs deduction?</button>
+    </div>
+
+    <!-- Messages -->
+    <div class="messages-container" id="messagesContainer">
+
+        <!-- Welcome -->
+        <div class="welcome-section" id="welcomeSection">
+            <div class="welcome-avatar">V</div>
+            <h1>Hi, I'm Val</h1>
+            <p>I know everything about the 340 Main Street deal. Ask me about tax credits, partnership terms, funding, risks, returns, or anything else in the deal room.</p>
+
+            <div class="topic-cards">
+                <div class="topic-card" onclick="askQuestion('Credit vs deduction?')">
+                    <div class="tc-icon">&#128161;</div>
+                    <div class="tc-title">Start Here</div>
+                    <div class="tc-desc">Credit vs deduction &mdash; the single most important concept</div>
+                </div>
+                <div class="topic-card" onclick="askQuestion('How do tax credits work?')">
+                    <div class="tc-icon">&#127974;</div>
+                    <div class="tc-title">Tax Credits 101</div>
+                    <div class="tc-desc">How LIHTC turns $0 into $50M of real investment</div>
+                </div>
+                <div class="topic-card" onclick="askQuestion('What\'s Fontaine\'s money in/out?')">
+                    <div class="tc-icon">&#128176;</div>
+                    <div class="tc-title">Fontaine Economics</div>
+                    <div class="tc-desc">What goes in, what comes back, and when</div>
+                </div>
+                <div class="topic-card" onclick="askQuestion('Give me the full picture')">
+                    <div class="tc-icon">&#127758;</div>
+                    <div class="tc-title">Big Picture</div>
+                    <div class="tc-desc">The whole deal in plain English</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Typing Indicator -->
+        <div class="message-row bot typing-indicator" id="typingIndicator">
+            <div class="msg-avatar bot-avatar">V</div>
+            <div class="typing-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Input Bar -->
+    <div class="input-bar">
+        <div class="input-wrapper">
+            <textarea class="input-field" id="userInput" placeholder="Ask me anything about the deal..." rows="1" onkeydown="handleKeyDown(event)"></textarea>
+            <button class="send-btn" onclick="sendMessage()" aria-label="Send">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+</main>
+</div>
+
+<!-- Floating action buttons -->
+<div style="position:fixed;bottom:24px;right:24px;display:flex;gap:10px;z-index:100;">
+  <a href="index.html" style="background:#222;color:#999;border:1px solid #333;border-radius:8px;padding:10px 16px;font-size:13px;text-decoration:none;cursor:pointer;transition:all .2s;"
+     onmouseover="this.style.background='#333';this.style.color='#fff'" onmouseout="this.style.background='#222';this.style.color='#999'">&larr; Deal Room</a>
+  <button onclick="window.print()" style="background:#ff6b35;color:#fff;border:none;border-radius:8px;padding:10px 18px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;box-shadow:0 2px 12px rgba(255,107,53,0.3);"
+     onmouseover="this.style.background='#ff8555'" onmouseout="this.style.background='#ff6b35'">&#128424; Save as PDF</button>
+</div>
+
+<script>
+// ========================================
+// KNOWLEDGE BASE
+// ========================================
+const knowledgeBase = [
+    {
+        id: 'credit_vs_deduction',
+        keywords: ['credit', 'deduction', 'difference', 'vs', 'versus', 'important', 'basic', 'start', 'concept', 'explain', 'tax bill', 'income', 'dollar for dollar'],
+        weight: 10,
+        response: `This is <strong>the single most important thing</strong> to understand about this whole deal.\n\nA tax <strong>CREDIT</strong> comes off your <strong>TAX BILL</strong> — dollar for dollar. If you owe $1M in taxes and have a $1M credit, you owe <strong class="highlight-number">$0</strong>.\n\nA tax <strong>DEDUCTION</strong> comes off your <strong>INCOME</strong> — at the corporate rate of 21%, a $1M deduction only saves you <strong class="highlight-number">$210,000</strong>.\n\nLIHTC is a <strong>CREDIT</strong>. That means every $1 in LIHTC credits saves the bank exactly $1 in taxes. This makes LIHTC credits roughly <strong class="highlight-number">5x more powerful</strong> than a deduction of the same amount.\n\nThis is why Bank of America is willing to invest <strong class="highlight-number">$50.3 million</strong> in cash — because the credits they get back are worth nearly that much, dollar for dollar, off their tax bill.`
+    },
+    {
+        id: 'tax_credits_overview',
+        keywords: ['tax credit', 'lihtc', 'low income', 'housing', 'how work', 'tax credits work', 'credits work', '9%', '9 percent', 'credit rate', 'qualified basis', 'generate'],
+        weight: 8,
+        response: `Here's how LIHTC (Low-Income Housing Tax Credits) work:\n\n<strong>Step 1 — The IRS sets a monthly credit rate</strong>\nCurrently around <strong class="highlight-number">~9%</strong> per year. Over 10 years, that adds up to roughly <strong class="highlight-number">90% of the qualified basis</strong> in total credits. This is how many credits the project <em>generates</em>.\n\n<strong>Step 2 — Calculate the qualified basis</strong>\nStart with <strong class="highlight-number">$82M</strong> in hard costs. Strip out non-eligible costs, apply the affordable fraction (~85%), and you get roughly <strong class="highlight-number">$55–60M</strong> in qualified basis.\n\nThen: $55–60M × 9% × 10 years = approximately <strong class="highlight-number">$49.5M in total credits</strong>.\n\n<strong>Step 3 — Bank buys the credits</strong>\nThe bank pays roughly <strong class="highlight-number">$0.90–$0.95 per credit dollar</strong>. That discount is a time-value-of-money adjustment — they're waiting 10 years to collect all the credits. So Bank of America invests about <strong class="highlight-number">$50.3M</strong> in cash.\n\n<strong>Important:</strong> The "9% credit rate" and "$0.90 pricing" are <em>two different numbers</em> that both happen to be around 90%. The first is how credits are generated; the second is what the bank pays for them.\n\nCredits are delivered in <strong>straight-line payments</strong>: roughly <strong class="highlight-number">$4.95M/year for 10 years</strong>. No acceleration, no bonus.`
+    },
+    {
+        id: 'credit_pricing',
+        keywords: ['pricing', 'price', '0.90', '0.95', 'per dollar', 'cents', 'discount', 'time value', 'two different', 'two 90'],
+        weight: 6,
+        response: `Great question about credit pricing. There are <strong>two different "90%" numbers</strong> that people often confuse:\n\n<strong class="highlight-blue">Number 1 — The 9% Credit Rate</strong>\nThe IRS sets a monthly credit rate of roughly <strong class="highlight-number">9% per year</strong>. Over 10 years, the project generates credits worth about 90% of its qualified basis.\n\n<strong class="highlight-blue">Number 2 — The $0.90–$0.95 Pricing</strong>\nThis is what the bank actually <em>pays</em> per dollar of credit. If the project generates $1.00 in credits, the bank might pay <strong class="highlight-number">$0.92</strong> for it.\n\nWhy the discount? Because the bank is paying cash <em>now</em> but receiving credits over <strong>10 years</strong>. It's a time-value-of-money adjustment — a dollar today is worth more than a dollar spread over a decade.\n\nSo for this deal: ~$49.5M in credits × ~$0.92 pricing ≈ <strong class="highlight-number">$50.3M</strong> in bank investment.`
+    },
+    {
+        id: 'bank_economics',
+        keywords: ['bank', 'boa', 'bank of america', 'investor', 'bank make money', 'bank math', 'return', 'bank invest', 'bank economics', 'subscription'],
+        weight: 8,
+        response: `Here's exactly how Bank of America makes money on this deal:\n\n<strong>Bank of America invests:</strong> <strong class="highlight-number">$50.3M</strong> in cash\n\n<strong>Bank gets back:</strong>\n&bull; <strong class="highlight-number">$49.5M</strong> in LIHTC tax credits (dollar-for-dollar off their tax bill)\n&bull; <strong class="highlight-number">~$3.5M</strong> in depreciation tax savings\n&bull; <strong class="highlight-number">~$2M</strong> in CRA compliance value\n&bull; <strong>Total: ~$55M</strong> in value on a $50.3M investment over 15 years\n\nThis is <strong>NOT a 4x return</strong> — it's roughly 1-for-1 plus some gravy. The bank isn't getting rich on any single deal. They're running a system.\n\nThink of it like a <strong>"subscription service for tax reduction."</strong> Banks like BOA layer <strong class="highlight-number">40–100+ deals</strong> across the country to create a constant, predictable stream of tax credits. Every year, credits from different deals flow in, reducing their federal tax bill like clockwork.\n\nCredits come in level payments: roughly <strong class="highlight-number">$4.95M/year for 10 years</strong>. No acceleration, no bonus. Just steady, predictable tax savings.\n\nAt Year 15, the bank exits for <strong class="highlight-number">$100</strong> (basically nothing), and the building ownership passes to Trinity and Fontaine.`
+    },
+    {
+        id: 'cra',
+        keywords: ['cra', 'community reinvestment', 'reinvestment act', 'compliance', 'regulators', 'rating', 'merger', 'branch', 'deposits'],
+        weight: 8,
+        response: `<strong>CRA = Community Reinvestment Act (1977)</strong>\n\nThis is a federal law that says banks <strong>MUST invest in the communities where they take deposits</strong>. If Bank of America collects deposits in Worcester, they need to show they're reinvesting in Worcester.\n\n<strong>Why banks care:</strong>\n&bull; Federal regulators examine banks every <strong class="highlight-number">3–5 years</strong>\n&bull; A bad CRA rating means <strong>blocked mergers</strong>, <strong>denied new branches</strong>, and serious reputational damage\n&bull; BOA needs <strong class="highlight-number">$5–15 billion/year</strong> in CRA-qualifying investments nationally\n\n<strong>Why LIHTC is the gold standard:</strong>\nLIHTC is the <strong>ONLY</strong> CRA-qualifying investment that <em>also</em> generates tax credits. The bank gets CRA compliance <em>and</em> tax savings from the same dollar. That's why there's so much demand from banks — it's the most efficient way to meet their CRA obligations.\n\nFor this deal, the CRA compliance value is estimated at roughly <strong class="highlight-number">~$2M</strong> on top of the tax credit value.`
+    },
+    {
+        id: 'deal_numbers',
+        keywords: ['deal number', 'total cost', 'development cost', 'hard cost', 'developer fee', 'tdc', 'numbers', 'how much', 'cost', 'purchase price', 'emd'],
+        weight: 7,
+        response: `Here are the key numbers for 340 Main Street (Phase 1):\n\n<strong class="highlight-blue">Total Development Costs</strong>\n&bull; Total: <strong class="highlight-number">$118,817,179</strong>\n&bull; Hard Costs: <strong class="highlight-number">$81.95M</strong> (includes 10% owner's contingency)\n&bull; Developer Fee: <strong class="highlight-number">$11.6M</strong> total\n&nbsp;&nbsp;&nbsp;— Fontaine's 25% share: ~<strong class="highlight-number">$2.9M</strong> (split between cash and deferred)\n\n<strong class="highlight-blue">Acquisition</strong>\n&bull; Purchase price: ~<strong class="highlight-number">$11M</strong> (redlined from counter)\n&bull; Earnest money deposit: <strong class="highlight-number">$200K</strong> (refundable during 6-month due diligence)\n&bull; Seller carry costs: $1.2M/year\n&bull; Seller kicker: 15% of all fees/distributions to JV members\n\n<strong class="highlight-blue">Fontaine Capital Needed</strong>\n&bull; Pre-construction: <strong class="highlight-number">$750K–$1M</strong> (25% of $3–4M total)\n&bull; Monthly capital calls with <strong>dilution if not met</strong>\n\n<strong class="highlight-blue">Historic Tax Credits</strong>\n&bull; <strong class="highlight-number">$4.2M</strong> in MA Historic Tax Credits\n&bull; Buyer assists transfer within 18 months`
+    },
+    {
+        id: 'funding_sources',
+        keywords: ['funding', 'sources', 'finance', 'capital stack', 'mortgage', 'masshousing', 'eohlc', 'worcester', 'gap', 'where money come', 'break down', 'breakdown', 'stack'],
+        weight: 8,
+        response: `Here's where the <strong class="highlight-number">$118.8M</strong> comes from — the full capital stack:\n\n<strong class="highlight-blue">Equity (Tax Credit Investors)</strong>\n&bull; LIHTC + HTC equity from bank: <strong class="highlight-number">~$50.3M</strong>\n\n<strong class="highlight-blue">Debt</strong>\n&bull; First mortgage (MassHousing permanent): <strong class="highlight-number">$12.5M</strong>\n&nbsp;&nbsp;&nbsp;— 6.61% rate, 40-year amortization\n\n<strong class="highlight-blue">Public Subsidies</strong>\n&bull; EOHLC Private Housing: <strong class="highlight-number">$8.25M</strong>\n&bull; MassHousing subordinate loan: <strong class="highlight-number">$2.5M</strong>\n&bull; State LIHTC credits: <strong class="highlight-number">$2.5–3M</strong>\n&bull; City of Worcester: <strong class="highlight-number">$3M</strong>\n\n<strong style="color: var(--red);">Funding Gap</strong>\n&bull; Still needed: <strong class="highlight-number">$38.2M</strong>\n&bull; This requires EOHLC public housing funds, which needs a WHA (Worcester Housing Authority) partnership\n\nThe gap is the biggest unknown right now. Closing it depends on the state allocation process and WHA cooperation.`
+    },
+    {
+        id: 'operating_proforma',
+        keywords: ['operating', 'pro forma', 'proforma', 'revenue', 'expense', 'noi', 'net operating', 'cash flow', 'dscr', 'debt service', 'coverage', 'income', 'rent'],
+        weight: 7,
+        response: `Here's the Year 1 operating pro forma for 110 units:\n\n<strong class="highlight-blue">Revenue</strong>\n&bull; Total Year 1 Revenue: <strong class="highlight-number">$2,406,717</strong>\n\n<strong class="highlight-blue">Expenses</strong>\n&bull; Total Year 1 Expenses: <strong class="highlight-number">$1,379,000</strong>\n\n<strong class="highlight-blue">Net Operating Income (NOI)</strong>\n&bull; Year 1 NOI: <strong class="highlight-number">$1,027,717</strong>\n\n<strong class="highlight-blue">Debt Service</strong>\n&bull; Annual debt service: <strong class="highlight-number">$896,402</strong>\n\n<strong class="highlight-blue">Net Cash Flow</strong>\n&bull; Year 1 net cash flow: <strong class="highlight-number">$131,314</strong>\n&bull; Debt Service Coverage Ratio (DSCR): <strong class="highlight-number">1.15x</strong>\n\nThe <strong>1.15x DSCR</strong> means the building generates 15% more income than it needs to cover its mortgage — a thin but standard cushion for affordable housing. The building isn't meant to be a cash cow during the compliance period. The real upside comes later.`
+    },
+    {
+        id: 'partnership_terms',
+        keywords: ['partnership', 'partner', 'trinity', 'split', 'terms', '75', '25', 'veto', 'control', 'managing', 'gp', 'general partner', 'overhead', 'gc contract', 'last look', 'guarantee', 'joint and several', 'j&s', 'joint several', 'dilution'],
+        weight: 8,
+        response: `Here's the partnership structure:\n\n<strong class="highlight-blue">Split: 75% Trinity / 25% Fontaine</strong>\n&bull; Trinity = <strong>Managing General Partner</strong> (makes all decisions)\n&bull; Fontaine has input on major decisions but <strong style="color: var(--red);">NO veto power</strong>\n\n<strong class="highlight-blue">Capital</strong>\n&bull; Pre-construction capital: $3–4M total\n&bull; Fontaine's 25% share: <strong class="highlight-number">$750K–$1M</strong>\n&bull; Monthly capital calls with <strong style="color: var(--red);">dilution if not met</strong>\n\n<strong class="highlight-blue">Fees &amp; Cash Flow</strong>\n&bull; Trinity takes <strong class="highlight-number">3% of TDC</strong> as overhead <strong>FIRST</strong> (before any split)\n&bull; Then 25% of net distributable developer fee to Fontaine\n&bull; 25% of annual cash flow, refinancing, and sale proceeds\n\n<strong class="highlight-blue">GC Contract</strong>\n&bull; Fontaine gets <strong>"last look"</strong> at the GC bid — but it's <strong style="color: var(--red);">NOT guaranteed</strong>\n&bull; Could invest $1M+ and still lose the construction contract\n\n<strong class="highlight-blue">Guarantees (This is critical)</strong>\n&bull; Construction completion, stabilization, operating deficit, tax credit compliance, environmental\n&bull; Likely <strong style="color: var(--red);">JOINT AND SEVERAL</strong> — meaning the lender can come after Fontaine for <strong>100%</strong> of the obligation\n&bull; There's a side agreement for 75/25 proportional responsibility, but J&S means BOA can pursue either party for the full amount`
+    },
+    {
+        id: 'fontaine_returns',
+        keywords: ['fontaine', 'return', 'money in', 'money out', 'make', 'earn', 'profit', 'upside', 'cash', 'net', 'equity', 'what does fontaine', 'in out', 'in/out'],
+        weight: 9,
+        response: `Here's Fontaine's complete money-in / money-out picture:\n\n<strong class="highlight-blue">MONEY IN (What Fontaine Invests)</strong>\n&bull; Pre-construction capital: <strong class="highlight-number">$750K–$1M</strong>\n&bull; Plus time, relationships, and reputation\n\n<strong class="highlight-blue">MONEY OUT — Years 1–15 (Compliance Period)</strong>\n&bull; Cash developer fee: <strong class="highlight-number">~$952K–$1.2M</strong>\n&bull; Deferred developer fee: <strong class="highlight-number">~$952K–$1.2M</strong> (paid from cash flow over time)\n&bull; Annual cash flow: <strong class="highlight-number">~$28K/year</strong> (not much)\n&bull; <strong>Net over 15 years: ~$1.6M</strong>\n\n<strong class="highlight-blue">MONEY OUT — Year 15+ (The Big Payday)</strong>\n&bull; Building value: ~<strong class="highlight-number">$23M</strong>\n&bull; Less remaining debt: ~$10M\n&bull; Less seller kicker (15%): ~$1.95M\n&bull; Net equity: ~$11M\n&bull; Fontaine's 25%: <strong class="highlight-number">~$2.76M</strong>\n\n<strong class="highlight-blue">TOTAL PICTURE</strong>\n&bull; Invest ~$1M, get back ~$4.4M+ over 15 years\n&bull; <strong>Plus</strong> Phase 2 (144 more units) could double the long-term equity\n&bull; <strong>Plus</strong> the GC contract on $82M of construction = the near-term real money\n\nThe developer fee recoups the initial investment. The GC contract is the real near-term opportunity. The long-term equity is the bonus.`
+    },
+    {
+        id: 'risks',
+        keywords: ['risk', 'danger', 'downside', 'worry', 'concern', 'problem', 'worst case', 'what could go wrong', 'scary', 'bad', 'nervous'],
+        weight: 8,
+        response: `These are the key risks to understand:\n\n<strong style="color: var(--red);">&#9888; Joint &amp; Several Guarantee</strong>\nThis is the big one. The guarantee on <strong class="highlight-number">$119M+</strong> is likely joint and several — meaning the lender can come after Fontaine for the <em>entire</em> amount, not just 25%. Even with a side agreement, this could potentially impact Fontaine's bonding capacity for other construction work.\n\n<strong style="color: var(--red);">&#9888; Minority Partner, No Control</strong>\nFontaine is at 25% with <strong>no veto power</strong>. Trinity makes all major decisions. Fontaine has input but not control.\n\n<strong style="color: var(--red);">&#9888; GC Contract Not Guaranteed</strong>\nFontaine gets "last look" but could invest $750K–$1M in pre-construction capital and <strong>still lose the GC bid</strong>. That's a real possibility.\n\n<strong style="color: var(--red);">&#9888; Long Capital Lockup</strong>\n3–5 years to stabilize the project. 15 years for the real equity payday. That's a long time for capital to be tied up.\n\n<strong style="color: var(--red);">&#9888; Tax Credit Recapture Risk</strong>\nIf the project falls out of compliance during the 15-year period, credits can be clawed back — and the guarantors (including Fontaine) are on the hook.\n\n<strong style="color: var(--red);">&#9888; $38.2M Funding Gap</strong>\nThe deal still needs significant public funding (EOHLC public housing) that requires a WHA partnership. This is not yet secured.`
+    },
+    {
+        id: 'benefits',
+        keywords: ['benefit', 'upside', 'advantage', 'why do this', 'opportunity', 'good', 'positive', 'worth', 'strategic', 'value'],
+        weight: 7,
+        response: `Here's why this deal matters for Fontaine beyond just the numbers:\n\n<strong class="highlight-blue">&#10004; Union Development Access</strong>\nFontaine is currently <strong>shut out</strong> of the union development world. This deal opens that door. It's hard to put a dollar value on market access, but it's significant.\n\n<strong class="highlight-blue">&#10004; Move Up the Value Chain</strong>\nFontaine goes from <strong>builder to developer</strong>. Developers earn more, control more, and build equity. This is a step change in the business model.\n\n<strong class="highlight-blue">&#10004; Political Capital</strong>\nMeetings with the <strong>Secretary and Lt. Governor</strong>. This deal raises Fontaine's profile in state government and affordable housing circles.\n\n<strong class="highlight-blue">&#10004; Replicable Model</strong>\nIf this works, it becomes a <strong>playbook</strong> for future deals. Trinity does these repeatedly — this is Fontaine's on-ramp to a pipeline.\n\n<strong class="highlight-blue">&#10004; Experienced Partner</strong>\nTrinity Financial just closed <strong>Curtis Apartments Phase 2</strong>. They know the LIHTC process inside and out. Learning from an experienced partner reduces execution risk.\n\n<strong class="highlight-blue">&#10004; Phase 2 Optionality</strong>\n144 additional units could <strong>double the long-term equity</strong> position. The first deal creates the option for the second.\n\n<strong class="highlight-blue">&#10004; Community Impact</strong>\n110 affordable apartments and ~200 construction jobs in Worcester. That matters for the Fontaine brand and legacy.`
+    },
+    {
+        id: 'parties',
+        keywords: ['who', 'parties', 'people', 'team', 'trinity', 'patrick', 'vivian', 'kevin', 'joyce', 'craig', 'caroline', 'worcester bdc', 'seller', 'aaron', 'sam', 'jeff', 'shane', 'blais', 'mitchell'],
+        weight: 6,
+        response: `Here are the key parties in the deal:\n\n<strong class="highlight-blue">Trinity Financial (75% Partner)</strong>\n&bull; <strong>Patrick Lee</strong> — Principal\n&bull; <strong>Vivian Lee</strong> — Project Manager\n&bull; <strong>Kevin McCarthy</strong>\n&bull; <strong>Joyce Kamau</strong>\n\n<strong class="highlight-blue">Fontaine Bros (25% Partner)</strong>\n&bull; <strong>Dave Fontaine Jr</strong> — CEO\n&bull; <strong>Sam Fortsch</strong>\n&bull; <strong>Jeff Cammuso</strong>\n&bull; <strong>Shane Sampson</strong>\n\n<strong class="highlight-blue">Worcester BDC</strong>\n&bull; <strong>Craig Blais</strong>\n&bull; <strong>Caroline Mitchell</strong>\n\n<strong class="highlight-blue">Seller</strong>\n&bull; Known as <strong>"Aaron"</strong>\n&bull; Currently carrying <strong class="highlight-number">$1.2M/year</strong> in costs on the property\n&bull; Motivated seller — that carry cost creates urgency`
+    },
+    {
+        id: 'timeline',
+        keywords: ['timeline', 'when', 'schedule', 'how long', 'years', 'phase', 'construction', 'lease up', 'exit', 'start', 'begin'],
+        weight: 7,
+        response: `Here's the deal timeline from start to finish:\n\n<strong class="highlight-blue">NOW — Pre-Development</strong>\n&bull; Capital calls begin\n&bull; LOI on property\n&bull; Due diligence period (6 months, EMD refundable)\n&bull; MassHousing application\n\n<strong class="highlight-blue">Years 1–2 — Closing &amp; Construction Start</strong>\n&bull; Construction loan closes\n&bull; Developer fee starts flowing\n&bull; Historic tax credits taken (20% of rehab expenses, over 5 years)\n\n<strong class="highlight-blue">Years 2–4 — Construction &amp; Lease-Up</strong>\n&bull; Building gets built (if Fontaine wins GC bid = <strong class="highlight-number">$82M construction contract</strong>)\n&bull; Units leased up to stabilization\n\n<strong class="highlight-blue">Years 1–15 — Compliance Period</strong>\n&bull; LIHTC credits flow to the bank (~$4.95M/year for 10 years)\n&bull; Building must stay in compliance (affordable rents, income limits)\n&bull; Equity is locked — no sale or refinance without bank approval\n\n<strong class="highlight-blue">Year 15+ — Exit &amp; Payday</strong>\n&bull; Bank exits for <strong class="highlight-number">$100</strong> (essentially nothing)\n&bull; Trinity (75%) + Fontaine (25%) own the building\n&bull; Building value estimated at ~$23M\n&bull; Fontaine's 25% of net equity: ~<strong class="highlight-number">$2.76M</strong>\n\nBottom line: this is a <strong>15+ year play</strong>. The near-term value is the GC contract and developer fee. The long-term value is the equity.`
+    },
+    {
+        id: 'historic_tax_credits',
+        keywords: ['historic', 'htc', 'historic tax', 'rehab', 'rehabilitation', 'preservation', '20%', 'historic credit', 'mass historic', '$4.2'],
+        weight: 7,
+        response: `<strong>Historic Tax Credits (HTC)</strong> are a separate program that <em>stacks on top of</em> LIHTC:\n\n<strong class="highlight-blue">How They Work</strong>\n&bull; <strong class="highlight-number">20%</strong> of qualified rehabilitation expenses\n&bull; Taken over <strong>5 years</strong> (front-loaded, unlike LIHTC's 10-year schedule)\n&bull; Priced at <strong class="highlight-number">$0.80–$0.90</strong> per credit dollar\n\n<strong class="highlight-blue">In This Deal</strong>\n&bull; <strong class="highlight-number">$4.2M</strong> in Massachusetts Historic Tax Credits\n&bull; Buyer assists with credit transfer within 18 months\n&bull; These can be <strong>stacked with LIHTC</strong> — the project gets both\n\n<strong class="highlight-blue">State vs Federal</strong>\nMassHousing distributes <strong>both</strong> federal LIHTC (reduces federal taxes at 21% rate) AND state credits (reduces state taxes at 8% rate). Banks can <strong>double-dip</strong> — using credits against two different tax bills from two different programs.\n\nThis stacking is one of the things that makes Massachusetts a particularly attractive market for these deals.`
+    },
+    {
+        id: 'why_government',
+        keywords: ['government', 'why does', 'created', 'public', 'taxpayer', 'cost', 'washington', 'dc', 'afford', 'why do this', 'purpose', 'thin air'],
+        weight: 7,
+        response: `This is one of the smartest things the government has ever designed. Here's why:\n\n<strong class="highlight-blue">The Magic: Value from Thin Air</strong>\nThe government created this program at <strong>zero upfront cost</strong>. They didn't write a check. They didn't borrow money. They simply agreed to collect <strong>less in taxes</strong> from banks that invest in affordable housing.\n\n<strong class="highlight-blue">Where the Money Goes</strong>\nInstead of tax dollars going to Washington and maybe <strong class="highlight-number">$0.10 on the dollar</strong> filtering back to local communities, the money goes <strong>directly</strong> into affordable housing in the community where it's needed.\n\n<strong class="highlight-blue">What Worcester Gets</strong>\n&bull; <strong class="highlight-number">110 affordable apartments</strong> for families who need them\n&bull; ~<strong class="highlight-number">200 construction jobs</strong>\n&bull; A blighted building transformed into a community asset\n&bull; Tax revenue from a property that's currently a money pit\n\n<strong class="highlight-blue">What it Costs</strong>\nThe federal government collects roughly <strong class="highlight-number">$49.5M less</strong> in taxes from Bank of America over 10 years. But Worcester gets a $119M development that it could never have funded on its own.\n\nIt's a rare government program where the private sector voluntarily participates because the math works for everyone: the bank, the developer, the community, and the residents.`
+    },
+    {
+        id: 'masshousing_state',
+        keywords: ['masshousing', 'state credit', 'federal credit', 'double dip', 'state tax', 'federal tax', '21%', '8%'],
+        weight: 5,
+        response: `<strong>MassHousing plays a dual role</strong> in this deal:\n\nThey distribute <strong>both</strong> types of credits:\n\n<strong class="highlight-blue">Federal LIHTC Credits</strong>\n&bull; These reduce the bank's <strong>federal tax bill</strong> (at the 21% corporate rate)\n&bull; ~$49.5M in total credits over 10 years\n\n<strong class="highlight-blue">State LIHTC Credits</strong>\n&bull; These reduce the bank's <strong>state tax bill</strong> (at the 8% rate)\n&bull; Worth an additional <strong class="highlight-number">$2.5–3M</strong> in this deal\n\nBanks can <strong>"double-dip"</strong> — they're getting credits against <em>two different tax bills</em> from <em>two different programs</em>. The federal credits are the big number, but the state credits are gravy on top.\n\nMassHousing is also providing:\n&bull; The <strong class="highlight-number">$12.5M</strong> first mortgage (permanent loan, 6.61%, 40yr amortization)\n&bull; A <strong class="highlight-number">$2.5M</strong> subordinate loan\n\nSo MassHousing is the credit allocator, the primary lender, AND a subordinate lender. They're deeply invested in this deal succeeding.`
+    },
+    {
+        id: 'seller_kicker',
+        keywords: ['seller kicker', 'kicker', '15%', 'seller gets', 'seller participation', 'seller terms'],
+        weight: 5,
+        response: `The <strong>seller kicker</strong> is an important deal term to understand:\n\n&bull; The seller receives <strong class="highlight-number">15% of all fees and distributions</strong> that go to JV members (Trinity + Fontaine)\n&bull; This is on top of the ~<strong class="highlight-number">$11M purchase price</strong>\n\nWhat this means in practice:\n&bull; At Year 15+ exit, if net equity is ~$13M, the seller kicker would be roughly <strong class="highlight-number">~$1.95M</strong>\n&bull; This comes off the top before the 75/25 split between Trinity and Fontaine\n\nThe seller ("Aaron") negotiated this participation because he knows the property's development potential. He's trading a lower purchase price today for a share of the upside later.\n\nHe's also carrying <strong class="highlight-number">$1.2M/year</strong> in costs on the property right now, which creates urgency to close — but the kicker means he's still betting on the deal's long-term success.`
+    },
+    {
+        id: 'big_picture',
+        keywords: ['full picture', 'big picture', 'summary', 'overview', 'explain everything', 'plain english', 'simple', 'nutshell', 'whole deal', 'eli5', 'explain like'],
+        weight: 9,
+        response: `Here's the whole deal in plain English:\n\n<strong class="highlight-blue">What's Happening</strong>\nFontaine Bros is partnering with Trinity Financial to buy a building at 340 Main Street in Worcester and turn it into <strong class="highlight-number">110 affordable apartments</strong>. It's a <strong class="highlight-number">$119 million project</strong>.\n\n<strong class="highlight-blue">Where the Money Comes From</strong>\nThe genius of this deal is that most of the money doesn't come from Fontaine's pocket. The federal government has a program (LIHTC) where banks get tax credits for investing in affordable housing. Bank of America invests <strong class="highlight-number">$50.3M</strong> because they get back roughly that much in tax savings over 10 years. Add government loans and grants, and Fontaine only needs to put up <strong class="highlight-number">$750K–$1M</strong>.\n\n<strong class="highlight-blue">What Fontaine Gets</strong>\n&bull; <strong>Near-term:</strong> Developer fees (~$1.6M over 15 years) and potentially the <strong class="highlight-number">$82M construction contract</strong>\n&bull; <strong>Long-term:</strong> 25% of building equity (~$2.76M at Year 15+)\n&bull; <strong>Strategic:</strong> Entry into union development, political relationships, replicable model for future deals\n\n<strong class="highlight-blue">The Catch</strong>\nFontaine is the <strong>minority partner (25%)</strong> with no veto power. The guarantee is likely joint and several on $119M+. The GC contract isn't guaranteed. And it's a 15+ year commitment.\n\n<strong class="highlight-blue">Bottom Line</strong>\nThis is a strategic bet. The financial returns are moderate for a $1M investment — the real value is in market access, the GC contract, and building a development platform for the future.`
+    },
+    {
+        id: 'qualified_basis',
+        keywords: ['qualified basis', 'eligible', 'affordable fraction', 'calculation', 'how calculate', 'basis'],
+        weight: 5,
+        response: `Here's how the <strong>qualified basis</strong> is calculated — this determines how many credits the project generates:\n\n<strong class="highlight-blue">Step 1: Start with Hard Costs</strong>\n&bull; Total hard costs: <strong class="highlight-number">$82M</strong>\n\n<strong class="highlight-blue">Step 2: Strip Non-Eligible Costs</strong>\n&bull; Remove land, some soft costs, and other non-qualifying expenses\n\n<strong class="highlight-blue">Step 3: Apply Affordable Fraction</strong>\n&bull; ~<strong class="highlight-number">85%</strong> of units are affordable (LIHTC-qualifying)\n&bull; Qualified basis: roughly <strong class="highlight-number">$55–60M</strong>\n\n<strong class="highlight-blue">Step 4: Apply Credit Rate</strong>\n&bull; IRS rate: ~<strong class="highlight-number">9%/year</strong> × 10 years = ~90% total\n&bull; $55–60M × 90% = approximately <strong class="highlight-number">$49.5M in total credits</strong>\n\nThis $49.5M is the <em>generated</em> credit amount. The bank then buys these credits at a discount (~$0.92/dollar) for their <strong class="highlight-number">$50.3M</strong> investment. The premium above credit value reflects CRA value and other benefits.`
+    },
+    {
+        id: 'recapture',
+        keywords: ['recapture', 'claw back', 'clawback', 'compliance', 'fall out', 'lose credits', 'penalty'],
+        weight: 5,
+        response: `<strong>Tax Credit Recapture</strong> is one of the risks that comes with the guarantee:\n\n<strong class="highlight-blue">What It Means</strong>\nIf the project falls out of compliance during the <strong class="highlight-number">15-year compliance period</strong>, the IRS can <strong>claw back</strong> credits that have already been taken by the bank investor.\n\n<strong class="highlight-blue">What Triggers It</strong>\n&bull; Units rented to tenants above income limits\n&bull; Rents set above allowed maximums\n&bull; Building not maintained to standards\n&bull; Required affordable units taken offline\n\n<strong class="highlight-blue">Who's on the Hook</strong>\nThe <strong>guarantors</strong> — which includes Fontaine — are responsible. If credits are recaptured, the bank will seek reimbursement from the partnership, and the guarantee makes Fontaine potentially liable.\n\nThis is why the <strong>joint and several guarantee</strong> matters so much. Even though Trinity is the managing partner and makes all compliance decisions, Fontaine could be pursued for 100% of any recapture amount.\n\nThe good news: recapture is <em>rare</em> in practice, especially with experienced operators like Trinity. But it's a risk that needs to be understood and negotiated carefully.`
+    }
+];
+
+// ========================================
+// FUZZY MATCHING ENGINE
+// ========================================
+function normalizeText(text) {
+    return text.toLowerCase()
+        .replace(/['']/g, "'")
+        .replace(/[^\w\s']/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+
+function tokenize(text) {
+    return normalizeText(text).split(' ').filter(w => w.length > 1);
+}
+
+// Levenshtein distance for fuzzy matching
+function levenshtein(a, b) {
+    const matrix = [];
+    for (let i = 0; i <= b.length; i++) matrix[i] = [i];
+    for (let j = 0; j <= a.length; j++) matrix[0][j] = j;
+    for (let i = 1; i <= b.length; i++) {
+        for (let j = 1; j <= a.length; j++) {
+            if (b[i - 1] === a[j - 1]) {
+                matrix[i][j] = matrix[i - 1][j - 1];
+            } else {
+                matrix[i][j] = Math.min(
+                    matrix[i - 1][j - 1] + 1,
+                    matrix[i][j - 1] + 1,
+                    matrix[i - 1][j] + 1
+                );
+            }
+        }
+    }
+    return matrix[b.length][a.length];
+}
+
+function fuzzyMatch(word, keyword) {
+    // Exact match
+    if (keyword.includes(word) || word.includes(keyword)) return 1.0;
+
+    // Check if it's part of a multi-word keyword
+    const kwParts = keyword.split(' ');
+    for (const part of kwParts) {
+        if (part === word) return 0.95;
+        if (part.startsWith(word) || word.startsWith(part)) return 0.7;
+    }
+
+    // Levenshtein for typo tolerance
+    const dist = levenshtein(word, keyword);
+    const maxLen = Math.max(word.length, keyword.length);
+    const similarity = 1 - (dist / maxLen);
+    return similarity > 0.7 ? similarity * 0.6 : 0;
+}
+
+function scoreEntry(entry, userTokens, normalizedInput) {
+    let score = 0;
+    const matchedKeywords = new Set();
+
+    // Check full normalized input against each keyword phrase
+    for (const kw of entry.keywords) {
+        if (normalizedInput.includes(kw)) {
+            score += 3.0;
+            matchedKeywords.add(kw);
+        }
+    }
+
+    // Token-level matching
+    for (const token of userTokens) {
+        let bestMatch = 0;
+        for (const kw of entry.keywords) {
+            const match = fuzzyMatch(token, kw);
+            if (match > bestMatch) bestMatch = match;
+        }
+        if (bestMatch > 0.5) {
+            score += bestMatch;
+        }
+    }
+
+    // Apply weight bonus for more relevant topics
+    score *= (1 + entry.weight * 0.05);
+
+    return score;
+}
+
+function findBestResponse(userInput) {
+    const normalizedInput = normalizeText(userInput);
+    const tokens = tokenize(userInput);
+
+    // Score all entries
+    const scores = knowledgeBase.map(entry => ({
+        entry,
+        score: scoreEntry(entry, tokens, normalizedInput)
+    }));
+
+    // Sort by score descending
+    scores.sort((a, b) => b.score - a.score);
+
+    // If best score is too low, no match
+    if (scores[0].score < 1.0) {
+        return null;
+    }
+
+    // If top two are very close and different topics, combine them
+    if (scores.length > 1 && scores[1].score > scores[0].score * 0.7 && scores[1].score > 2.0) {
+        return scores[0].entry.response + '\n\n<hr style="border:none;border-top:1px solid var(--border);margin:16px 0;">\n\n' + scores[1].entry.response;
+    }
+
+    return scores[0].entry.response;
+}
+
+// ========================================
+// CHAT ENGINE
+// ========================================
+const messagesContainer = document.getElementById('messagesContainer');
+const typingIndicator = document.getElementById('typingIndicator');
+const userInput = document.getElementById('userInput');
+const welcomeSection = document.getElementById('welcomeSection');
+let hasMessages = false;
+
+function scrollToBottom() {
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+function addMessage(text, type) {
+    if (!hasMessages && welcomeSection) {
+        welcomeSection.style.display = 'none';
+        hasMessages = true;
+    }
+
+    const row = document.createElement('div');
+    row.className = 'message-row ' + type;
+
+    const avatar = document.createElement('div');
+    avatar.className = 'msg-avatar ' + (type === 'bot' ? 'bot-avatar' : 'user-avatar');
+    avatar.textContent = type === 'bot' ? 'V' : 'Y';
+
+    const bubble = document.createElement('div');
+    bubble.className = 'msg-bubble';
+
+    if (type === 'bot') {
+        bubble.innerHTML = text;
+        // Add disclaimer
+        const disclaimer = document.createElement('span');
+        disclaimer.className = 'msg-disclaimer';
+        disclaimer.textContent = 'Based on deal documents as of Feb 2026. Verify all numbers with counsel.';
+        bubble.appendChild(disclaimer);
+
+        // Add flag-for-review actions
+        const actions = document.createElement('div');
+        actions.className = 'msg-actions';
+        const flagBtn = document.createElement('button');
+        flagBtn.className = 'flag-btn';
+        flagBtn.innerHTML = '&#9873; Flag for Dave\'s Review';
+        const noteInput = document.createElement('input');
+        noteInput.className = 'note-input';
+        noteInput.type = 'text';
+        noteInput.placeholder = 'Add a note for Dave...';
+        const noteSaved = document.createElement('span');
+        noteSaved.className = 'note-saved';
+        noteSaved.textContent = '\u2713 Noted for Dave';
+        flagBtn.addEventListener('click', function() {
+            if (!this.classList.contains('flagged')) {
+                noteInput.classList.add('visible');
+                noteInput.focus();
+            }
+        });
+        noteInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const note = this.value.trim() || '(no note)';
+                flagBtn.classList.add('flagged');
+                flagBtn.innerHTML = '&#9873; Flagged';
+                this.classList.remove('visible');
+                noteSaved.classList.add('visible');
+                // Store the flag for potential export
+                if (!window._flaggedItems) window._flaggedItems = [];
+                window._flaggedItems.push({ response: text.substring(0, 200), note: note, time: new Date().toLocaleTimeString() });
+            }
+        });
+        actions.appendChild(flagBtn);
+        actions.appendChild(noteInput);
+        actions.appendChild(noteSaved);
+        bubble.appendChild(actions);
+    } else {
+        bubble.textContent = text;
+    }
+
+    row.appendChild(avatar);
+    row.appendChild(bubble);
+
+    // Insert before typing indicator
+    messagesContainer.insertBefore(row, typingIndicator);
+    scrollToBottom();
+}
+
+function showTyping() {
+    typingIndicator.classList.add('active');
+    scrollToBottom();
+}
+
+function hideTyping() {
+    typingIndicator.classList.remove('active');
+}
+
+function getNoMatchResponse() {
+    return `I'm not sure I have specific information about that. Here are the topics I know best — try clicking one:\n\n&bull; <strong>Tax Credits &amp; LIHTC</strong> — how credits work, pricing, qualified basis\n&bull; <strong>Credit vs Deduction</strong> — the most important concept in the deal\n&bull; <strong>Bank Economics</strong> — how BOA makes money, CRA compliance\n&bull; <strong>Deal Numbers</strong> — costs, funding sources, capital stack\n&bull; <strong>Operating Pro Forma</strong> — revenue, expenses, NOI, cash flow\n&bull; <strong>Partnership Terms</strong> — the 75/25 split, guarantees, GC contract\n&bull; <strong>Fontaine Returns</strong> — money in, money out, timeline\n&bull; <strong>Risks &amp; Benefits</strong> — what could go wrong, why it matters\n&bull; <strong>Key Parties</strong> — who's involved\n&bull; <strong>Timeline</strong> — from now through Year 15+\n&bull; <strong>Historic Tax Credits</strong> — the additional HTC layer\n&bull; <strong>Government's Role</strong> — why LIHTC was created`;
+}
+
+function processMessage(text) {
+    const trimmed = text.trim();
+    if (!trimmed) return;
+
+    // Add user message
+    addMessage(trimmed, 'user');
+
+    // Show typing
+    showTyping();
+
+    // Simulate typing delay (400-900ms)
+    const delay = 400 + Math.random() * 500;
+    setTimeout(() => {
+        hideTyping();
+        const response = findBestResponse(trimmed);
+        if (response) {
+            addMessage(response, 'bot');
+        } else {
+            addMessage(getNoMatchResponse(), 'bot');
+        }
+    }, delay);
+}
+
+function sendMessage() {
+    const text = userInput.value.trim();
+    if (!text) return;
+    userInput.value = '';
+    userInput.style.height = 'auto';
+    processMessage(text);
+}
+
+function askQuestion(text) {
+    userInput.value = '';
+    processMessage(text);
+    // Close sidebar on mobile
+    if (window.innerWidth <= 768) {
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('sidebarOverlay').classList.remove('active');
+    }
+}
+
+function handleKeyDown(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+    }
+}
+
+// Auto-resize textarea
+userInput.addEventListener('input', function() {
+    this.style.height = 'auto';
+    this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+});
+
+function clearChat() {
+    // Remove all message rows
+    const msgs = messagesContainer.querySelectorAll('.message-row:not(.typing-indicator)');
+    msgs.forEach(m => m.remove());
+
+    // Show welcome section again
+    if (welcomeSection) {
+        welcomeSection.style.display = '';
+    }
+    hasMessages = false;
+}
+
+// ── SIDEBAR TOGGLE (MOBILE) ──
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('active');
+}
+
+// ── FOCUS INPUT ON LOAD ──
+window.addEventListener('load', () => {
+    if (window.innerWidth > 768) {
+        userInput.focus();
+    }
+});
+</script>
+</body>
+</html>
