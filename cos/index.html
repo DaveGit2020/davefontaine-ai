@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chief of Staff — Command Center</title>
+    <meta name="robots" content="noindex, nofollow">
+    <style>
+        /* ===== RESET ===== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        /* ===== BASE ===== */
+        body {
+            font-family: 'SF Mono', 'Cascadia Code', 'Consolas', 'Menlo', monospace;
+            background: #0a0a0a;
+            color: #e8e8e8;
+            min-height: 100vh;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            position: relative;
+        }
+
+        /* ===== CONFIDENTIAL WATERMARK ===== */
+        body::before {
+            content: 'CONFIDENTIAL';
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-35deg);
+            font-size: 120px;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.025);
+            letter-spacing: 20px;
+            pointer-events: none;
+            z-index: 0;
+            white-space: nowrap;
+            user-select: none;
+        }
+
+        /* ===== LOGIN OVERLAY ===== */
+        #login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        #login-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .login-card {
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 48px 40px;
+            width: 100%;
+            max-width: 380px;
+            text-align: center;
+        }
+        .login-card .lock-icon {
+            font-size: 36px;
+            margin-bottom: 16px;
+            display: block;
+        }
+        .login-card h2 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #ccc;
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-family: inherit;
+        }
+        .login-card p {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 24px;
+        }
+        .login-card input[type="password"] {
+            width: 100%;
+            padding: 14px 16px;
+            background: #0a0a0a;
+            border: 2px solid #333;
+            border-radius: 6px;
+            color: #e8e8e8;
+            font-size: 16px;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s ease;
+            margin-bottom: 14px;
+            text-align: center;
+            letter-spacing: 4px;
+        }
+        .login-card input[type="password"]:focus {
+            border-color: #e8e8e8;
+        }
+        .login-card input[type="password"]::placeholder {
+            color: #444;
+            letter-spacing: 1px;
+        }
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: #e8e8e8;
+            color: #0a0a0a;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: background 0.2s ease, transform 0.1s ease;
+        }
+        .login-btn:hover { background: #fff; }
+        .login-btn:active { transform: scale(0.98); }
+        .error-msg {
+            color: #ff4444;
+            font-size: 13px;
+            font-weight: 700;
+            margin-top: 14px;
+            min-height: 20px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .error-msg.visible { opacity: 1; }
+
+        /* ===== MAIN CONTENT ===== */
+        #main-content {
+            opacity: 0;
+            transition: opacity 0.5s ease 0.3s;
+            position: relative;
+            z-index: 1;
+        }
+        #main-content.visible { opacity: 1; }
+
+        /* ===== TOP BAR ===== */
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10, 10, 10, 0.95);
+            border-bottom: 2px solid #333;
+            padding: 0 24px;
+        }
+        .topbar-inner {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 56px;
+        }
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .topbar-left h1 {
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+        .topbar-divider {
+            width: 1px;
+            height: 24px;
+            background: #333;
+        }
+        .topbar-motto {
+            font-size: 12px;
+            color: #666;
+            font-style: italic;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 12px;
+            color: #888;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* ===== CONTAINER ===== */
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 24px 24px 140px;
+        }
+
+        /* ===== STATS BAR ===== */
+        .stats-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px 16px;
+            padding: 16px 20px;
+            background: #111;
+            border: 2px solid #333;
+            border-radius: 6px;
+            margin-bottom: 28px;
+            font-size: 13px;
+        }
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+        .stat-label { color: #888; }
+        .stat-value { font-weight: 900; color: #fff; font-size: 15px; }
+        .stat-divider {
+            color: #333;
+            padding: 0 4px;
+        }
+
+        /* ===== SECTION HEADER ===== */
+        .section-header {
+            font-size: 14px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            padding: 14px 0 10px;
+            border-bottom: 2px solid #444;
+            margin-bottom: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* ===== THE TABLE ===== */
+        .project-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 40px;
+            font-size: 13px;
+        }
+        .project-table thead th {
+            background: #151515;
+            color: #aaa;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 2px solid #444;
+            position: sticky;
+            top: 56px;
+            z-index: 10;
+            white-space: nowrap;
+        }
+        .project-table thead th:first-child {
+            width: 36px;
+            text-align: center;
+        }
+        .project-table tbody tr {
+            border-bottom: 1px solid #1e1e1e;
+            transition: background 0.15s ease;
+        }
+        .project-table tbody tr:hover {
+            background: #1a1a1a;
+        }
+        .project-table tbody td {
+            padding: 12px 12px;
+            vertical-align: top;
+            line-height: 1.5;
+        }
+        .project-table tbody td:first-child {
+            text-align: center;
+            color: #555;
+            font-weight: 700;
+            font-size: 12px;
+        }
+
+        /* Row number */
+        .row-num {
+            color: #555;
+            font-size: 11px;
+        }
+
+        /* Project name cell */
+        .proj-name {
+            font-weight: 900;
+            font-size: 14px;
+            color: #fff;
+            white-space: nowrap;
+        }
+
+        /* Status text */
+        .status-text {
+            font-size: 12px;
+            color: #bbb;
+        }
+
+        /* Health badges - TEXT ONLY, no color reliance */
+        .health {
+            font-weight: 900;
+            font-size: 12px;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Ball in court badges */
+        .court {
+            display: inline-block;
+            font-weight: 900;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+            padding: 3px 10px;
+            border: 2px solid #555;
+            border-radius: 4px;
+            white-space: nowrap;
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        /* Last action / Next step */
+        .action-text {
+            font-size: 12px;
+            color: #999;
+        }
+        .next-text {
+            font-size: 12px;
+            color: #ccc;
+            font-weight: 700;
+        }
+
+        /* ===== MEETINGS TABLE ===== */
+        .meeting-table {
+            width: 100%;
+            max-width: 900px;
+            border-collapse: collapse;
+            margin-bottom: 40px;
+            font-size: 13px;
+        }
+        .meeting-table thead th {
+            background: #151515;
+            color: #aaa;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 2px solid #444;
+        }
+        .meeting-table tbody td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #1e1e1e;
+            vertical-align: top;
+        }
+        .meeting-table tbody tr:hover {
+            background: #1a1a1a;
+        }
+        .meeting-name {
+            font-weight: 900;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            padding: 24px;
+            border-top: 2px solid #333;
+            text-align: center;
+            font-size: 12px;
+            color: #555;
+            line-height: 1.8;
+        }
+        .footer strong { color: #888; }
+
+        /* ===== FLOATING BUTTONS ===== */
+        .float-btns {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            display: flex;
+            gap: 10px;
+            z-index: 200;
+        }
+        .float-btn {
+            padding: 10px 18px;
+            background: #1a1a1a;
+            border: 2px solid #444;
+            border-radius: 6px;
+            color: #ccc;
+            font-size: 12px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.2s ease;
+        }
+        .float-btn:hover {
+            background: #333;
+            color: #fff;
+            border-color: #666;
+        }
+
+        /* ===== PRINT ===== */
+        @media print {
+            body { background: #fff; color: #111; }
+            body::before { display: none; }
+            .topbar { position: static; background: #fff; border-color: #ccc; }
+            .stats-bar { background: #f5f5f5; border-color: #ccc; }
+            .stat-value { color: #000; }
+            .stat-label { color: #555; }
+            .project-table thead th { background: #eee; color: #333; border-color: #999; position: static; }
+            .project-table tbody tr { border-color: #ddd; }
+            .project-table tbody tr:hover { background: transparent; }
+            .proj-name { color: #000; }
+            .court { border-color: #999; background: #eee; color: #000; }
+            .meeting-table thead th { background: #eee; color: #333; border-color: #999; }
+            .meeting-table tbody td { border-color: #ddd; }
+            .meeting-name { color: #000; }
+            .footer { border-color: #ccc; color: #888; }
+            .float-btns { display: none !important; }
+            #login-overlay { display: none !important; }
+            .action-text { color: #555; }
+            .next-text { color: #222; }
+            .status-text { color: #444; }
+            .health { color: #222; }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1100px) {
+            .project-table, .project-table thead, .project-table tbody,
+            .project-table th, .project-table td, .project-table tr {
+                display: block;
+            }
+            .project-table thead { display: none; }
+            .project-table tbody tr {
+                border: 2px solid #333;
+                border-radius: 6px;
+                margin-bottom: 12px;
+                padding: 12px 16px;
+                background: #111;
+            }
+            .project-table tbody td {
+                padding: 4px 0;
+                border: none;
+                display: flex;
+                gap: 8px;
+                align-items: flex-start;
+            }
+            .project-table tbody td:first-child {
+                text-align: left;
+            }
+            .project-table tbody td::before {
+                content: attr(data-label);
+                font-size: 10px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                color: #555;
+                min-width: 90px;
+                flex-shrink: 0;
+            }
+            .stats-bar {
+                gap: 6px 12px;
+                font-size: 12px;
+            }
+        }
+        @media (max-width: 768px) {
+            .topbar-motto, .topbar-divider { display: none; }
+            .container { padding: 16px 12px 120px; }
+            .topbar-left h1 { font-size: 13px; letter-spacing: 1px; }
+            .float-btns { bottom: 12px; right: 12px; }
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+    </style>
+</head>
+<body>
+
+<!-- ===== LOGIN OVERLAY ===== -->
+<div id="login-overlay">
+    <div class="login-card">
+        <span class="lock-icon">&#128274;</span>
+        <h2>Command Center</h2>
+        <p>Chief of Staff &mdash; Restricted Access</p>
+        <input type="password" id="password-input" placeholder="Password" autocomplete="off" autofocus>
+        <button class="login-btn" id="login-btn" type="button">Access</button>
+        <div class="error-msg" id="error-msg">Incorrect password. Try again.</div>
+    </div>
+</div>
+
+<!-- ===== MAIN CONTENT ===== -->
+<div id="main-content">
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+        <div class="topbar-inner">
+            <div class="topbar-left">
+                <h1>&#128203; Chief of Staff &mdash; Command Center</h1>
+                <div class="topbar-divider"></div>
+                <span class="topbar-motto" id="motto">Everything is accounted for.</span>
+            </div>
+            <div class="topbar-right">
+                <span id="clock"></span>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <!-- ===== STATS BAR ===== -->
+        <div class="stats-bar">
+            <div class="stat-item">
+                <span class="stat-label">Total Projects:</span>
+                <span class="stat-value">19</span>
+            </div>
+            <span class="stat-divider">|</span>
+            <div class="stat-item">
+                <span class="stat-label">&#128293; Urgent:</span>
+                <span class="stat-value">1</span>
+            </div>
+            <span class="stat-divider">|</span>
+            <div class="stat-item">
+                <span class="stat-label">&#9888;&#65039; Needs Attn:</span>
+                <span class="stat-value">7</span>
+            </div>
+            <span class="stat-divider">|</span>
+            <div class="stat-item">
+                <span class="stat-label">&#9989; Live:</span>
+                <span class="stat-value">3</span>
+            </div>
+            <span class="stat-divider">|</span>
+            <div class="stat-item">
+                <span class="stat-label">&#9199;&#65039; Parked:</span>
+                <span class="stat-value">8</span>
+            </div>
+            <span class="stat-divider">|</span>
+            <div class="stat-item">
+                <span class="stat-label">Ball&mdash;Dave:</span>
+                <span class="stat-value">7</span>
+            </div>
+            <span class="stat-divider">|</span>
+            <div class="stat-item">
+                <span class="stat-label">Ball&mdash;Sam:</span>
+                <span class="stat-value">2</span>
+            </div>
+            <span class="stat-divider">|</span>
+            <div class="stat-item">
+                <span class="stat-label">Ball&mdash;Claire:</span>
+                <span class="stat-value">2</span>
+            </div>
+            <span class="stat-divider">|</span>
+            <div class="stat-item">
+                <span class="stat-label">Ball&mdash;Claude:</span>
+                <span class="stat-value">3</span>
+            </div>
+        </div>
+
+        <!-- ===== PROJECT STATUS TABLE ===== -->
+        <div class="section-header">&#128203; PROJECT STATUS</div>
+        <table class="project-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Project</th>
+                    <th>Status</th>
+                    <th>Health</th>
+                    <th>Ball In Court</th>
+                    <th>Last Action</th>
+                    <th>Next Step</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 1 -->
+                <tr>
+                    <td data-label="#">1</td>
+                    <td data-label="Project"><span class="proj-name">340 Main St</span></td>
+                    <td data-label="Status"><span class="status-text">Seller deadline Wed 2/18</span></td>
+                    <td data-label="Health"><span class="health">&#128293; <u>URGENT</u></span></td>
+                    <td data-label="Ball"><span class="court">[SAM]</span></td>
+                    <td data-label="Last"><span class="action-text">Dave sent 14-item email to Sam (2/15 10:44 PM)</span></td>
+                    <td data-label="Next"><span class="next-text">Seth PG answer &rarr; surety decision</span></td>
+                </tr>
+                <!-- 2 -->
+                <tr>
+                    <td data-label="#">2</td>
+                    <td data-label="Project"><span class="proj-name">Family Office</span></td>
+                    <td data-label="Status"><span class="status-text">Sam scheduling Dave + Val</span></td>
+                    <td data-label="Health"><span class="health">&#9888;&#65039; NEEDS ATTN</span></td>
+                    <td data-label="Ball"><span class="court">[SAM]</span></td>
+                    <td data-label="Last"><span class="action-text">Added to Sam email item #14 (2/15)</span></td>
+                    <td data-label="Next"><span class="next-text">Sam finds 2-3 Boston family office firms</span></td>
+                </tr>
+                <!-- 3 -->
+                <tr>
+                    <td data-label="#">3</td>
+                    <td data-label="Project"><span class="proj-name">davefontaine.ai</span></td>
+                    <td data-label="Status"><span class="status-text">194 files, 4 sub-pages</span></td>
+                    <td data-label="Health"><span class="health">&#9989; LIVE</span></td>
+                    <td data-label="Ball"><span class="court">[CLAUDE]</span></td>
+                    <td data-label="Last"><span class="action-text">Deployed Ask Val chatbot (2/15)</span></td>
+                    <td data-label="Next"><span class="next-text">Iterate on chatbot, add more pages</span></td>
+                </tr>
+                <!-- 4 -->
+                <tr>
+                    <td data-label="#">4</td>
+                    <td data-label="Project"><span class="proj-name">TagSale.ai</span></td>
+                    <td data-label="Status"><span class="status-text">VIP access gate active</span></td>
+                    <td data-label="Health"><span class="health">&#9989; LIVE</span></td>
+                    <td data-label="Ball"><span class="court">[DAVE]</span></td>
+                    <td data-label="Last"><span class="action-text">Site redesigned with VIP gate</span></td>
+                    <td data-label="Next"><span class="next-text">Biz feasibility review</span></td>
+                </tr>
+                <!-- 5 -->
+                <tr>
+                    <td data-label="#">5</td>
+                    <td data-label="Project"><span class="proj-name">PixiePlanner.ai</span></td>
+                    <td data-label="Status"><span class="status-text">Needs Stripe + Tally</span></td>
+                    <td data-label="Health"><span class="health">&#9888;&#65039; NEEDS ATTN</span></td>
+                    <td data-label="Ball"><span class="court">[DAVE]</span></td>
+                    <td data-label="Last"><span class="action-text">Site live with VIP gate</span></td>
+                    <td data-label="Next"><span class="next-text">Dave sets up Stripe account + Tally form</span></td>
+                </tr>
+                <!-- 6 -->
+                <tr>
+                    <td data-label="#">6</td>
+                    <td data-label="Project"><span class="proj-name">HalfFullMorning.ai</span></td>
+                    <td data-label="Status"><span class="status-text">Greenlit, domains needed</span></td>
+                    <td data-label="Health"><span class="health">&#9888;&#65039; NEEDS ATTN</span></td>
+                    <td data-label="Ball"><span class="court">[CLAIRE]</span></td>
+                    <td data-label="Last"><span class="action-text">Dave greenlit in Sam email</span></td>
+                    <td data-label="Next"><span class="next-text">Claire buys domains on whois.com</span></td>
+                </tr>
+                <!-- 7 -->
+                <tr>
+                    <td data-label="#">7</td>
+                    <td data-label="Project"><span class="proj-name">UDOR Studios</span></td>
+                    <td data-label="Status"><span class="status-text">Need deck for LG Friday</span></td>
+                    <td data-label="Health"><span class="health">&#9888;&#65039; NEEDS ATTN</span></td>
+                    <td data-label="Ball"><span class="court">[COLLAB]</span></td>
+                    <td data-label="Last"><span class="action-text">Dave says riff with JSG</span></td>
+                    <td data-label="Next"><span class="next-text">JSG collab on state officials deck</span></td>
+                </tr>
+                <!-- 8 -->
+                <tr>
+                    <td data-label="#">8</td>
+                    <td data-label="Project"><span class="proj-name">AI Agent Org Chart</span></td>
+                    <td data-label="Status"><span class="status-text">Architecture designed</span></td>
+                    <td data-label="Health"><span class="health">&#9888;&#65039; NEEDS ATTN</span></td>
+                    <td data-label="Ball"><span class="court">[CLAUDE]</span></td>
+                    <td data-label="Last"><span class="action-text">Cabinet spec written, dashboard built (2/15)</span></td>
+                    <td data-label="Next"><span class="next-text">Build /cio and /cso agents</span></td>
+                </tr>
+                <!-- 9 -->
+                <tr>
+                    <td data-label="#">9</td>
+                    <td data-label="Project"><span class="proj-name">Fontaine AI OS</span></td>
+                    <td data-label="Status"><span class="status-text">Vision locked, needs first module</span></td>
+                    <td data-label="Health"><span class="health">&#9199;&#65039; PARKED</span></td>
+                    <td data-label="Ball"><span class="court">[DAVE]</span></td>
+                    <td data-label="Last"><span class="action-text">Vision locked Session 10</span></td>
+                    <td data-label="Next"><span class="next-text">Dave picks first module (rec: Risk Escalation)</span></td>
+                </tr>
+                <!-- 10 -->
+                <tr>
+                    <td data-label="#">10</td>
+                    <td data-label="Project"><span class="proj-name">TechTransition.ai</span></td>
+                    <td data-label="Status"><span class="status-text">Jay Hackett test case</span></td>
+                    <td data-label="Health"><span class="health">&#9888;&#65039; NEEDS ATTN</span></td>
+                    <td data-label="Ball"><span class="court">[CLAIRE]</span></td>
+                    <td data-label="Last"><span class="action-text">Dave added domain buys to email</span></td>
+                    <td data-label="Next"><span class="next-text">Claire buys techtransition.ai + techtal.ai</span></td>
+                </tr>
+                <!-- 11 -->
+                <tr>
+                    <td data-label="#">11</td>
+                    <td data-label="Project"><span class="proj-name">Personal CRM</span></td>
+                    <td data-label="Status"><span class="status-text">UI prototype exists</span></td>
+                    <td data-label="Health"><span class="health">&#9199;&#65039; PARKED</span></td>
+                    <td data-label="Ball"><span class="court">[DAVE]</span></td>
+                    <td data-label="Last"><span class="action-text">Prototype in Claude.ai</span></td>
+                    <td data-label="Next"><span class="next-text">Dave decides priority</span></td>
+                </tr>
+                <!-- 12 -->
+                <tr>
+                    <td data-label="#">12</td>
+                    <td data-label="Project"><span class="proj-name">Data Center Advisory</span></td>
+                    <td data-label="Status"><span class="status-text">Tiger21 post drafted</span></td>
+                    <td data-label="Health"><span class="health">&#9199;&#65039; PARKED</span></td>
+                    <td data-label="Ball"><span class="court">[DAVE]</span></td>
+                    <td data-label="Last"><span class="action-text">1-pager + post drafted</span></td>
+                    <td data-label="Next"><span class="next-text">Dave posts in Tiger21 forum</span></td>
+                </tr>
+                <!-- 13 -->
+                <tr>
+                    <td data-label="#">13</td>
+                    <td data-label="Project"><span class="proj-name">Construction AI Agents</span></td>
+                    <td data-label="Status"><span class="status-text">Bid Review Agent first</span></td>
+                    <td data-label="Health"><span class="health">&#9199;&#65039; PARKED</span></td>
+                    <td data-label="Ball"><span class="court">[DAVE]</span></td>
+                    <td data-label="Last"><span class="action-text">Concept defined</span></td>
+                    <td data-label="Next"><span class="next-text">Dave picks which agent</span></td>
+                </tr>
+                <!-- 14 -->
+                <tr>
+                    <td data-label="#">14</td>
+                    <td data-label="Project"><span class="proj-name">AI Meal Prep</span></td>
+                    <td data-label="Status"><span class="status-text">Bean Group pilot</span></td>
+                    <td data-label="Health"><span class="health">&#9199;&#65039; PARKED</span></td>
+                    <td data-label="Ball"><span class="court">[DAVE]</span></td>
+                    <td data-label="Last"><span class="action-text">Concept defined</span></td>
+                    <td data-label="Next"><span class="next-text">Dave pitches Bean Group</span></td>
+                </tr>
+                <!-- 15 -->
+                <tr>
+                    <td data-label="#">15</td>
+                    <td data-label="Project"><span class="proj-name">FileThis.ai</span></td>
+                    <td data-label="Status"><span class="status-text">Route to JSG</span></td>
+                    <td data-label="Health"><span class="health">&#9199;&#65039; PARKED</span></td>
+                    <td data-label="Ball"><span class="court">[JSG]</span></td>
+                    <td data-label="Last"><span class="action-text">Dave says route to TrailMix Spark</span></td>
+                    <td data-label="Next"><span class="next-text">Trademark check + JSG discussion</span></td>
+                </tr>
+                <!-- 16 -->
+                <tr>
+                    <td data-label="#">16</td>
+                    <td data-label="Project"><span class="proj-name">The Book</span></td>
+                    <td data-label="Status"><span class="status-text">Passive capture</span></td>
+                    <td data-label="Health"><span class="health">&#9989; LIVE</span></td>
+                    <td data-label="Ball"><span class="court">[CLAUDE]</span></td>
+                    <td data-label="Last"><span class="action-text">book-notes.md growing</span></td>
+                    <td data-label="Next"><span class="next-text">Emerges naturally from sessions</span></td>
+                </tr>
+                <!-- 17 -->
+                <tr>
+                    <td data-label="#">17</td>
+                    <td data-label="Project"><span class="proj-name">The Umbrella</span></td>
+                    <td data-label="Status"><span class="status-text">Name brainstormed</span></td>
+                    <td data-label="Health"><span class="health">&#9199;&#65039; PARKED</span></td>
+                    <td data-label="Ball"><span class="court">[DAVE]</span></td>
+                    <td data-label="Last"><span class="action-text">4 name options presented</span></td>
+                    <td data-label="Next"><span class="next-text">Dave sits with options (whiteboard)</span></td>
+                </tr>
+                <!-- 18 -->
+                <tr>
+                    <td data-label="#">18</td>
+                    <td data-label="Project"><span class="proj-name">LinkedIn Engine</span></td>
+                    <td data-label="Status"><span class="status-text">3 posts drafted</span></td>
+                    <td data-label="Health"><span class="health">&#9199;&#65039; PARKED</span></td>
+                    <td data-label="Ball"><span class="court">[DAVE]</span></td>
+                    <td data-label="Last"><span class="action-text">Posts drafted, not published</span></td>
+                    <td data-label="Next"><span class="next-text">Dave reviews + publishes first post</span></td>
+                </tr>
+                <!-- 19 -->
+                <tr>
+                    <td data-label="#">19</td>
+                    <td data-label="Project"><span class="proj-name">_INBOX</span></td>
+                    <td data-label="Status"><span class="status-text">119 files</span></td>
+                    <td data-label="Health"><span class="health">&#9888;&#65039; NEEDS ATTN</span></td>
+                    <td data-label="Ball"><span class="court">[CLAUDE]</span></td>
+                    <td data-label="Last"><span class="action-text">Sam email processed (2/15)</span></td>
+                    <td data-label="Next"><span class="next-text">Continue processing inbox items</span></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- ===== MEETINGS ===== -->
+        <div class="section-header">&#128197; MEETINGS</div>
+        <table class="meeting-table">
+            <thead>
+                <tr>
+                    <th>Meeting</th>
+                    <th>Cadence</th>
+                    <th>Purpose</th>
+                    <th>Next Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="meeting-name">/dsu</span><br><span class="action-text">Daily Standup</span></td>
+                    <td>Daily</td>
+                    <td><span class="action-text">Status updates, blockers, what's hot today</span></td>
+                    <td><span class="next-text">Monday 2/17</span></td>
+                </tr>
+                <tr>
+                    <td><span class="meeting-name">/tactical</span><br><span class="action-text">Weekly Tactical</span></td>
+                    <td>Weekly</td>
+                    <td><span class="action-text">Review all active threads, decisions, delegations</span></td>
+                    <td><span class="next-text">TBD</span></td>
+                </tr>
+                <tr>
+                    <td><span class="meeting-name">/financial</span><br><span class="action-text">Monthly Financial</span></td>
+                    <td>Monthly</td>
+                    <td><span class="action-text">Cash position, investment decisions, burn rate</span></td>
+                    <td><span class="next-text">TBD</span></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <div class="footer">
+        <strong>Updated: Feb 15, 2026 &mdash; Session 11</strong><br>
+        davefontaine.ai/cos &nbsp;|&nbsp; Password: shared with team
+    </div>
+
+    <!-- ===== FLOATING BUTTONS ===== -->
+    <div class="float-btns">
+        <button class="float-btn" onclick="window.print()">&#128424; Save as PDF</button>
+    </div>
+
+</div><!-- /main-content -->
+
+<script>
+(function() {
+    // ===== PASSWORD AUTH =====
+    var PASS = 'sam';
+    var SESSION_KEY = 'cos_command_center_auth';
+    var overlay = document.getElementById('login-overlay');
+    var content = document.getElementById('main-content');
+    var input = document.getElementById('password-input');
+    var btn = document.getElementById('login-btn');
+    var errorMsg = document.getElementById('error-msg');
+
+    function unlock() {
+        sessionStorage.setItem(SESSION_KEY, 'true');
+        overlay.classList.add('hidden');
+        content.classList.add('visible');
+    }
+
+    function checkPassword() {
+        var entered = input.value.trim().toLowerCase();
+        if (entered === PASS) {
+            errorMsg.classList.remove('visible');
+            unlock();
+        } else {
+            errorMsg.classList.add('visible');
+            input.value = '';
+            input.focus();
+        }
+    }
+
+    // Check session on load
+    if (sessionStorage.getItem(SESSION_KEY) === 'true') {
+        overlay.style.display = 'none';
+        overlay.style.transition = 'none';
+        content.style.transition = 'none';
+        content.classList.add('visible');
+    }
+
+    btn.addEventListener('click', checkPassword);
+
+    input.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            checkPassword();
+        }
+    });
+
+    // Clear error on typing
+    input.addEventListener('input', function() {
+        errorMsg.classList.remove('visible');
+    });
+
+    // ===== CLOCK =====
+    function updateClock() {
+        var now = new Date();
+        var opts = { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' };
+        document.getElementById('clock').textContent = now.toLocaleDateString('en-US', opts);
+    }
+    updateClock();
+    setInterval(updateClock, 30000);
+
+    // ===== MOTTO ROTATION =====
+    var mottos = [
+        "Everything is accounted for.",
+        "All threads tracked. Nothing lost.",
+        "19 projects. Zero surprises.",
+        "Trust the system. Work the thread.",
+        "Organized chaos, managed beautifully.",
+        "The empire grows quietly."
+    ];
+    document.getElementById('motto').textContent = mottos[Math.floor(Math.random() * mottos.length)];
+})();
+</script>
+
+</body>
+</html>
