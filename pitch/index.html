@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UDOR Studios | Building the Future of Construction</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0a0a0a;color:#e4e4e7;overflow-x:hidden}
+.bg{position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(ellipse at 30% 20%,rgba(79,70,229,.08) 0%,transparent 50%),radial-gradient(ellipse at 70% 80%,rgba(16,185,129,.05) 0%,transparent 50%);pointer-events:none;z-index:0}
+
+/* Hero */
+.hero{position:relative;z-index:1;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:60px 24px}
+.hero-inner{max-width:800px}
+.hero .badge{display:inline-block;background:rgba(79,70,229,.15);color:#a78bfa;padding:8px 20px;border-radius:10px;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:24px}
+.hero h1{font-size:48px;font-weight:800;letter-spacing:-1px;line-height:1.15;margin-bottom:16px}
+.hero h1 span{background:linear-gradient(135deg,#4F46E5,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero .sub{color:#a1a1aa;font-size:18px;line-height:1.6;max-width:640px;margin:0 auto 32px}
+.hero .scroll-hint{color:#52525b;font-size:13px;margin-top:40px;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+
+/* Sections */
+.section{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:80px 24px}
+.section-label{color:#4F46E5;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
+.section h2{font-size:32px;font-weight:800;letter-spacing:-.5px;margin-bottom:8px;line-height:1.2}
+.section .desc{color:#71717a;font-size:15px;line-height:1.6;margin-bottom:32px;max-width:640px}
+
+/* Stats bar */
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:0;background:#111;border:1px solid #222;border-radius:16px;overflow:hidden;margin-bottom:80px;position:relative;z-index:1;max-width:900px;margin-left:auto;margin-right:auto}
+.sb-item{padding:28px 20px;text-align:center;border-right:1px solid #222}
+.sb-item:last-child{border-right:none}
+.sb-item .n{font-size:32px;font-weight:800;background:linear-gradient(135deg,#4F46E5,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sb-item .l{color:#71717a;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+
+/* Cards */
+.card{background:#111;border:1px solid #1e1e1e;border-radius:14px;padding:28px;margin-bottom:14px;transition:border-color .2s}
+.card:hover{border-color:#333}
+.card h3{font-size:17px;font-weight:700;margin-bottom:8px}
+.card p{color:#a1a1aa;font-size:14px;line-height:1.65}
+.card .hl{color:#a78bfa;font-weight:600}
+
+/* Grid */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+
+/* Product cards */
+.prod{background:#111;border:1px solid #1e1e1e;border-radius:14px;padding:24px;text-align:center;transition:all .3s}
+.prod:hover{border-color:#4F46E5;transform:translateY(-2px)}
+.prod .icon{font-size:28px;margin-bottom:12px}
+.prod h4{font-size:15px;font-weight:700;margin-bottom:6px}
+.prod p{color:#71717a;font-size:13px;line-height:1.5}
+.prod .tag{display:inline-block;background:rgba(16,185,129,.12);color:#34d399;padding:2px 8px;border-radius:5px;font-size:11px;font-weight:700;margin-top:8px}
+
+/* Flywheel */
+.flywheel{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;margin:32px 0;gap:0}
+.fw{background:#18181b;border:1px solid #222;border-radius:10px;padding:16px 18px;text-align:center;flex:1;min-width:120px}
+.fw h4{font-size:12px;font-weight:700;color:#a78bfa;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.fw p{color:#71717a;font-size:12px}
+.fw-a{color:#333;font-size:22px;padding:0 4px;flex-shrink:0}
+
+/* Ask section */
+.ask-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.ask-card{background:linear-gradient(135deg,rgba(79,70,229,.08),rgba(124,58,237,.04));border:1px solid rgba(79,70,229,.2);border-radius:14px;padding:28px}
+.ask-card .num{font-size:32px;font-weight:800;color:#4F46E5;margin-bottom:8px}
+.ask-card h3{font-size:17px;font-weight:700;margin-bottom:8px}
+.ask-card p{color:#a1a1aa;font-size:14px;line-height:1.6}
+
+/* Quote */
+.quote{border-left:3px solid #4F46E5;padding:20px 24px;margin:32px 0;background:rgba(79,70,229,.04);border-radius:0 12px 12px 0}
+.quote p{font-size:17px;font-style:italic;color:#d4d4d8;line-height:1.6}
+.quote .attr{color:#52525b;font-size:13px;font-style:normal;margin-top:8px}
+
+/* CTA */
+.cta{text-align:center;padding:80px 24px;position:relative;z-index:1}
+.cta h2{font-size:28px;font-weight:800;margin-bottom:12px}
+.cta p{color:#71717a;font-size:15px;margin-bottom:24px;max-width:500px;margin-left:auto;margin-right:auto}
+.cta-btn{display:inline-block;padding:16px 36px;background:linear-gradient(135deg,#4F46E5,#7c3aed);color:#fff;border-radius:12px;font-size:16px;font-weight:700;text-decoration:none;transition:opacity .2s}
+.cta-btn:hover{opacity:.9}
+
+.footer{text-align:center;padding:40px 24px;border-top:1px solid #1a1a1a;position:relative;z-index:1}
+.footer p{color:#3f3f46;font-size:12px}
+
+.divider{height:1px;background:linear-gradient(to right,transparent,#222,transparent);margin:0}
+
+@media(max-width:640px){
+  .hero h1{font-size:32px}
+  .stats-bar{grid-template-columns:1fr 1fr}
+  .sb-item:nth-child(2){border-right:none}
+  .sb-item:nth-child(3),.sb-item:nth-child(4){border-top:1px solid #222}
+  .grid-2,.ask-grid{grid-template-columns:1fr}
+  .grid-3{grid-template-columns:1fr}
+  .flywheel{flex-direction:column}
+  .fw-a{transform:rotate(90deg)}
+}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="badge">Springfield, Massachusetts</div>
+    <h1>Where 93 Years of Building<br>Meets <span>the Future of AI</span></h1>
+    <p class="sub">UDOR Studios is a venture studio that builds AI-powered tools for the construction industry. We test everything on a real $410M construction company. We prove it works. Then we bring it to the world.</p>
+    <div class="scroll-hint">Scroll to learn more &darr;</div>
+  </div>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="sb-item"><div class="n">93</div><div class="l">Years Building</div></div>
+  <div class="sb-item"><div class="n">$410M</div><div class="l">Annual Revenue</div></div>
+  <div class="sb-item"><div class="n">400+</div><div class="l">Employees</div></div>
+  <div class="sb-item"><div class="n">4th Gen</div><div class="l">Family Owned</div></div>
+</div>
+
+<!-- ORIGIN -->
+<div class="section">
+  <div class="section-label">The Origin</div>
+  <h2>Named for a Man Who Bet Everything</h2>
+  <div class="desc">UDOR is derived from Eudore Fontaine, who arrived in Springfield from Quebec at age 11 unable to speak English. After 30 years swinging a hammer, he made a bet in 1933 during the Great Depression that became Fontaine Bros Inc.</div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>1933: The Original Bet</h3>
+      <p>$900 in lumber. Pledged the houses as collateral. Nine months to finish or lose everything. Eudore finished early. <span class="hl">Four generations later, the company does $410M in annual revenue.</span></p>
+    </div>
+    <div class="card">
+      <h3>2026: The Next Bet</h3>
+      <p>Dave Fontaine Jr, 4th generation, is building an AI-powered venture studio inside the construction company his great-grandfather started. <span class="hl">Same DNA. Different tools. Same willingness to bet on what you know.</span></p>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- THE OPPORTUNITY -->
+<div class="section">
+  <div class="section-label">The Opportunity</div>
+  <h2>Construction Is a $2 Trillion Industry Running on Paper</h2>
+  <div class="desc">The construction industry has been 20 years behind on technology adoption. AI changes that equation overnight. And we have something no Silicon Valley startup has.</div>
+
+  <div class="grid-3">
+    <div class="card">
+      <h3>The Problem</h3>
+      <p>$2T industry. 7M workers. Running on Excel, email, phone calls, and paper. Chronic labor shortage (500K workers needed). Margins razor-thin. Technology adoption: dead last among major industries.</p>
+    </div>
+    <div class="card">
+      <h3>Why Now</h3>
+      <p>AI isn't incremental. It's a phase change. Construction workflows that took days now take minutes. But builders don't trust tools made by people who've never been on a jobsite. <span class="hl">That's our edge.</span></p>
+    </div>
+    <div class="card">
+      <h3>Our Advantage</h3>
+      <p>We have a $410M construction company with 400+ employees and real projects. Every tool gets tested on real buildings with real stakes. No startup can buy that credibility.</p>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- THE MODEL -->
+<div class="section">
+  <div class="section-label">The Model</div>
+  <h2>Build. Test. Prove. Sell.</h2>
+  <div class="desc">Every product follows the same flywheel. This is the engine that makes UDOR different from every other construction-tech venture.</div>
+
+  <div class="flywheel">
+    <div class="fw"><h4>Identify</h4><p>Real pain point at Fontaine</p></div>
+    <div class="fw-a">&rarr;</div>
+    <div class="fw"><h4>Build</h4><p>AI-powered solution</p></div>
+    <div class="fw-a">&rarr;</div>
+    <div class="fw"><h4>Test</h4><p>On $410M of real projects</p></div>
+    <div class="fw-a">&rarr;</div>
+    <div class="fw"><h4>Prove</h4><p>Real results, real data</p></div>
+    <div class="fw-a">&rarr;</div>
+    <div class="fw"><h4>Scale</h4><p>Sell to the industry</p></div>
+  </div>
+
+  <div class="quote">
+    <p>"Sometimes the best startup isn't a startup at all. It's taking what you already know, packaging it differently, and walking into a room you already have access to."</p>
+    <div class="attr">&mdash; Dave Fontaine Jr</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- PRODUCT PIPELINE -->
+<div class="section">
+  <div class="section-label">Product Pipeline</div>
+  <h2>9 Products in Development</h2>
+  <div class="desc">Built from real construction problems. Tested on real construction projects. Ready for the industry.</div>
+
+  <div class="grid-3">
+    <div class="prod">
+      <div class="icon">&#x1F4CB;</div>
+      <h4>Triplicate</h4>
+      <p>AI-powered construction bidding intelligence</p>
+      <div class="tag">In Development</div>
+    </div>
+    <div class="prod">
+      <div class="icon">&#x1F477;</div>
+      <h4>Staffing Tool</h4>
+      <p>AI workforce optimization for construction</p>
+      <div class="tag">Prototype Built</div>
+    </div>
+    <div class="prod">
+      <div class="icon">&#x1F4D0;</div>
+      <h4>Specright.ai</h4>
+      <p>AI spec writing across 48 CSI divisions</p>
+      <div class="tag">Domains Secured</div>
+    </div>
+    <div class="prod">
+      <div class="icon">&#x1F4C4;</div>
+      <h4>ThreeRing.ai</h4>
+      <p>AI proposal builder for construction</p>
+      <div class="tag">Concept + Domain</div>
+    </div>
+    <div class="prod">
+      <div class="icon">&#x1F50D;</div>
+      <h4>AI Document Search</h4>
+      <p>Find any document across any project instantly</p>
+      <div class="tag">Phase 1 Priority</div>
+    </div>
+    <div class="prod">
+      <div class="icon">&#x1F4F1;</div>
+      <h4>AI Daily Reports</h4>
+      <p>Voice + photo &rarr; complete daily report in 5 min</p>
+      <div class="tag">Phase 1 Priority</div>
+    </div>
+    <div class="prod">
+      <div class="icon">&#x1F4CA;</div>
+      <h4>AI Bid Leveling</h4>
+      <p>Automated subcontractor bid comparison</p>
+      <div class="tag">Prototype Exists</div>
+    </div>
+    <div class="prod">
+      <div class="icon">&#x1F399;</div>
+      <h4>AI Meeting Capture</h4>
+      <p>Privacy-first notes that forget raw audio</p>
+      <div class="tag">Concept</div>
+    </div>
+    <div class="prod">
+      <div class="icon">&#x1F3C6;</div>
+      <h4>AI Certifications</h4>
+      <p>Construction-specific AI training + certs</p>
+      <div class="tag">Concept</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- WHY SPRINGFIELD -->
+<div class="section">
+  <div class="section-label">Why Springfield</div>
+  <h2>This Isn't Silicon Valley. That's the Point.</h2>
+  <div class="desc">Construction innovation doesn't happen in a WeWork. It happens where the buildings go up.</div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>&#x1F3D7; The Workforce</h3>
+      <p>Springfield has the skilled construction workforce, the trades infrastructure, and the project pipeline. Fontaine Bros alone employs 400+ people across New England. The talent is here.</p>
+    </div>
+    <div class="card">
+      <h3>&#x1F4A1; The Innovation</h3>
+      <p>UDOR Studios is already running: $650K/year innovation budget, Entrepreneur-in-Residence hired, dev partner engaged, 9 products in pipeline. This isn't a pitch deck &mdash; it's a live operation.</p>
+    </div>
+    <div class="card">
+      <h3>&#x1F3AF; The Credibility</h3>
+      <p>93 years of construction. 130+ school projects. $410M in revenue. When we say a tool works for construction, we've already proven it on real projects with real stakes.</p>
+    </div>
+    <div class="card">
+      <h3>&#x1F91D; The Ecosystem</h3>
+      <p>UDOR creates jobs at every level: software engineers, product managers, construction technologists, AI specialists. The innovation lab becomes a magnet for talent that stays in Springfield.</p>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- THE ASK -->
+<div class="section">
+  <div class="section-label">The Ask</div>
+  <h2>How You Can Help</h2>
+  <div class="desc">We're already building. Here's what accelerates everything.</div>
+
+  <div class="ask-grid">
+    <div class="ask-card">
+      <div class="num">01</div>
+      <h3>Connections</h3>
+      <p>Introductions to economic development leaders, innovation councils, workforce development agencies, and construction/manufacturing CEOs exploring AI transformation.</p>
+    </div>
+    <div class="ask-card">
+      <div class="num">02</div>
+      <h3>Space</h3>
+      <p>A physical innovation lab in Springfield. Where construction professionals and technologists work side by side. Where the future of the industry gets built.</p>
+    </div>
+    <div class="ask-card">
+      <div class="num">03</div>
+      <h3>Funding</h3>
+      <p>State innovation grants, R&D tax incentives for construction technology, workforce training funds for AI upskilling in the trades. Massachusetts should lead here.</p>
+    </div>
+    <div class="ask-card">
+      <div class="num">04</div>
+      <h3>Visibility</h3>
+      <p>Feature UDOR and Fontaine Bros as a case study for Massachusetts manufacturing and construction modernization. We're already doing the work &mdash; help us tell the story.</p>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- TEAM -->
+<div class="section">
+  <div class="section-label">Leadership</div>
+  <h2>Built by Builders</h2>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>Dave Fontaine Jr</h3>
+      <p><strong>Founder &amp; CEO</strong><br>4th generation. CEO of Fontaine Bros ($410M). Built the AI operating system, the venture studio, and the product pipeline. Drives trucks to jobsites. Pushes actual wheelbarrows.</p>
+    </div>
+    <div class="card">
+      <h3>John SanGiovanni</h3>
+      <p><strong>Entrepreneur-in-Residence</strong><br>Product leader + technologist. Runs day-to-day innovation studio operations. Manages product GTM, dev partners, and the spark pipeline. Starts March 2026.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:14px">
+    <h3>The Team Behind the Team</h3>
+    <p>TrailMix Labs (development partner, Portland ME). Michele Lee McMullen (product + design support). AI Innovation Lead (hiring now). Sam Fortsch (Chief of Staff). Claire Kanja (execution lead). Dave Blazer (IT infrastructure, 20+ years).</p>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta">
+  <h2>Let's Build the Future of Construction.<br>In Springfield.</h2>
+  <p>UDOR Studios is already running. The products are already being built. The proving ground is already here. Now let's scale it.</p>
+  <a href="mailto:djr@fontainebros.com" class="cta-btn">Get in Touch &rarr;</a>
+</div>
+
+<div class="footer">
+  <p>UDOR Studios &bull; Springfield, Massachusetts &bull; A Fontaine Bros Company &bull; Est. 1933</p>
+  <p style="margin-top:8px;color:#27272a;font-size:11px">udor.ai</p>
+</div>
+
+</body>
+</html>
