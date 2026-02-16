@@ -16,6 +16,7 @@
   --green:#22c55e;--green-dim:rgba(34,197,94,.12);--green-border:rgba(34,197,94,.2);
   --amber:#f59e0b;--amber-dim:rgba(245,158,11,.12);--amber-border:rgba(245,158,11,.2);
   --red:#ef4444;--red-dim:rgba(239,68,68,.12);--red-border:rgba(239,68,68,.2);
+  --sidebar-w:360px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);overflow-x:hidden;-webkit-font-smoothing:antialiased}
@@ -37,8 +38,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);over
 .gb:hover{background:var(--steel-bright)}
 .ge{color:var(--red);font-size:13px;margin-top:10px;display:none}
 
-/* Main */
+/* Main layout */
 .main{display:none;position:relative;z-index:1}
+.content-wrap{transition:margin-right .3s ease}
+.content-wrap.sidebar-open{margin-right:var(--sidebar-w)}
 .container{max-width:960px;margin:0 auto;padding:40px 24px 120px}
 
 /* Hero */
@@ -63,7 +66,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);over
 .ss{color:var(--gray);font-size:14px;margin-bottom:28px;line-height:1.6}
 
 /* Cards */
-.card{background:var(--bg2);border:1px solid var(--border);padding:28px;margin-bottom:2px;transition:border-color .2s}
+.card{background:var(--bg2);border:1px solid var(--border);padding:28px;margin-bottom:2px;transition:border-color .2s;position:relative}
 .card:hover{border-color:var(--border-light)}
 .card h3{font-size:16px;font-weight:800;margin-bottom:8px;letter-spacing:-.3px}
 .card p{color:var(--gray);font-size:14px;line-height:1.7}
@@ -102,25 +105,113 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);over
 .fw-step .num{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--steel);letter-spacing:2px;margin-bottom:4px}
 .fw-step .txt{font-size:12px;color:var(--gray);font-weight:500}
 
-/* CTA block */
-.cta-block{background:var(--bg2);border:1px solid var(--steel-dim);padding:40px;text-align:center;margin-top:28px}
-.cta-block h3{font-size:20px;font-weight:900;letter-spacing:-.5px;margin-bottom:8px}
-.cta-block p{color:var(--gray);font-size:14px;margin-bottom:20px;line-height:1.5}
-.cta-btn{display:inline-block;padding:14px 32px;background:var(--steel);color:#fff;font-size:14px;font-weight:800;text-decoration:none;transition:all .2s;border:1px solid var(--steel-bright);letter-spacing:.5px}
-.cta-btn:hover{background:var(--steel-bright);box-shadow:0 4px 20px rgba(74,141,183,.2)}
-
 /* Priority list */
-.priority{background:var(--bg2);border:1px solid var(--border);margin-bottom:2px}
+.priority{background:var(--bg2);border:1px solid var(--border);margin-bottom:2px;position:relative}
 .priority .p-header{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--border)}
 .priority .p-num{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--steel-bright);letter-spacing:1px;flex-shrink:0}
 .priority .p-title{font-size:15px;font-weight:800;letter-spacing:-.2px}
 .priority .p-body{padding:0 20px 16px 20px}
 .priority .p-body p{color:var(--gray);font-size:13px;line-height:1.6;padding-top:12px}
 
+/* UDOR sub-sections */
+.section-num{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--steel);letter-spacing:3px;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:12px}
+.section-num::after{content:'';flex:1;height:1px;background:var(--border)}
+.sub-section{margin-bottom:48px}
+.sub-section h2{font-size:24px;font-weight:900;letter-spacing:-.5px;margin-bottom:8px;line-height:1.15}
+.sub-section .desc{color:var(--gray);font-size:14px;line-height:1.7;margin-bottom:24px;max-width:600px}
+
+/* Grids */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:2px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:2px}
+
+/* Product cards */
+.prod{background:var(--bg2);border:1px solid var(--border);padding:24px;transition:border-color .2s}
+.prod:hover{border-color:var(--steel-dim)}
+.prod .icon{font-size:20px;margin-bottom:10px;color:var(--steel-bright)}
+.prod h4{font-size:14px;font-weight:800;margin-bottom:4px;letter-spacing:-.2px}
+.prod p{color:var(--gray);font-size:12px;line-height:1.5}
+.prod .status{display:inline-block;margin-top:8px;padding:2px 8px;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;font-family:'JetBrains Mono',monospace;border:1px solid var(--steel-dim);color:var(--steel-bright)}
+
+/* Ask grid */
+.ask-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:2px}
+.ask{background:var(--bg2);border:1px solid var(--border);padding:28px;transition:border-color .2s}
+.ask:hover{border-color:var(--steel-dim)}
+.ask .ask-num{font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700;color:var(--border-light);margin-bottom:8px}
+.ask h3{font-size:16px;font-weight:800;margin-bottom:6px;letter-spacing:-.3px}
+.ask p{color:var(--gray);font-size:13px;line-height:1.6}
+
+/* Quote band */
+.quote-band{border:1px solid var(--border);padding:48px 32px;text-align:center;margin:24px 0;background:var(--bg2)}
+.quote-band .mark{color:var(--steel-bright);font-size:36px;font-weight:900;line-height:1;margin-bottom:6px}
+.quote-band p{font-size:17px;font-weight:600;line-height:1.5;letter-spacing:-.2px;color:var(--white);max-width:560px;margin:0 auto}
+.quote-band .attr{color:var(--gray-dark);font-size:11px;font-weight:600;margin-top:16px;letter-spacing:1px;text-transform:uppercase;font-family:'JetBrains Mono',monospace}
+
+/* Team row */
+.team-row{display:flex;gap:2px;margin-bottom:2px}
+.team-card{flex:1;background:var(--bg2);border:1px solid var(--border);padding:24px}
+.team-card .initials{width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:var(--bg3);border:1px solid var(--border);font-size:13px;font-weight:900;color:var(--steel-bright);margin-bottom:12px;font-family:'JetBrains Mono',monospace}
+.team-card h3{font-size:15px;font-weight:800;margin-bottom:2px}
+.team-card .role{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;color:var(--steel);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+.team-card p{color:var(--gray);font-size:12px;line-height:1.5}
+
+/* Div line */
+.div-line{height:1px;background:var(--border);margin:24px 0}
+
+/* ============= FEEDBACK SYSTEM ============= */
+
+/* Feedback toggle button */
+.fb-toggle{position:fixed;top:20px;right:20px;z-index:1000;background:var(--steel);color:#fff;border:1px solid var(--steel-bright);padding:10px 16px;font-size:12px;font-weight:800;cursor:pointer;font-family:'Inter',sans-serif;letter-spacing:.5px;display:flex;align-items:center;gap:8px;transition:all .2s}
+.fb-toggle:hover{background:var(--steel-bright)}
+.fb-toggle .count{background:var(--red);color:#fff;font-size:10px;font-weight:700;padding:2px 7px;min-width:20px;text-align:center;display:none}
+.fb-toggle .count.has{display:inline-block}
+
+/* Sidebar */
+.fb-sidebar{position:fixed;top:0;right:0;width:var(--sidebar-w);height:100vh;background:var(--bg2);border-left:1px solid var(--border);z-index:999;transform:translateX(100%);transition:transform .3s ease;display:flex;flex-direction:column;overflow:hidden}
+.fb-sidebar.open{transform:translateX(0)}
+.fb-sidebar-header{padding:20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.fb-sidebar-header h3{font-size:14px;font-weight:800;letter-spacing:-.2px}
+.fb-sidebar-header .close-btn{background:none;border:1px solid var(--border);color:var(--gray);width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;transition:all .2s}
+.fb-sidebar-header .close-btn:hover{border-color:var(--steel);color:var(--white)}
+.fb-sidebar-body{flex:1;overflow-y:auto;padding:16px}
+.fb-sidebar-body::-webkit-scrollbar{width:4px}
+.fb-sidebar-body::-webkit-scrollbar-track{background:var(--bg)}
+.fb-sidebar-body::-webkit-scrollbar-thumb{background:var(--border-light)}
+
+/* Feedback items in sidebar */
+.fb-item{background:var(--bg3);border:1px solid var(--border);padding:16px;margin-bottom:8px}
+.fb-item .fb-section{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;color:var(--steel-bright);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.fb-item .fb-text{font-size:13px;color:var(--white);line-height:1.5}
+.fb-item .fb-time{font-size:10px;color:var(--gray-dark);margin-top:8px;font-family:'JetBrains Mono',monospace}
+.fb-empty{text-align:center;padding:40px 20px;color:var(--gray-dark);font-size:13px;line-height:1.6}
+
+/* Inline feedback button on cards */
+.fb-btn{position:absolute;top:8px;right:8px;background:var(--bg3);border:1px solid var(--border);color:var(--gray-dark);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:4px 10px;cursor:pointer;font-family:'JetBrains Mono',monospace;transition:all .2s;opacity:0}
+.card:hover .fb-btn,.priority:hover .fb-btn,.conn:hover .fb-btn,.ask:hover .fb-btn,.prod:hover .fb-btn{opacity:1}
+.fb-btn:hover{border-color:var(--steel);color:var(--steel-bright)}
+
+/* Inline feedback form */
+.fb-form{display:none;margin-top:16px;border-top:1px solid var(--border);padding-top:16px}
+.fb-form.visible{display:block}
+.fb-form textarea{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--white);padding:12px;font-size:13px;font-family:'Inter',sans-serif;line-height:1.5;resize:vertical;min-height:80px;outline:none;transition:border-color .2s}
+.fb-form textarea:focus{border-color:var(--steel)}
+.fb-form textarea::placeholder{color:var(--gray-dark)}
+.fb-form-actions{display:flex;gap:8px;margin-top:8px;justify-content:flex-end}
+.fb-submit{background:var(--steel);border:1px solid var(--steel-bright);color:#fff;padding:8px 16px;font-size:11px;font-weight:800;cursor:pointer;font-family:'Inter',sans-serif;letter-spacing:.5px;transition:all .2s}
+.fb-submit:hover{background:var(--steel-bright)}
+.fb-cancel{background:none;border:1px solid var(--border);color:var(--gray);padding:8px 16px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s}
+.fb-cancel:hover{border-color:var(--gray);color:var(--white)}
+.fb-sent{color:var(--green);font-size:12px;font-weight:700;display:none;margin-top:8px}
+
+/* CTA block */
+.cta-block{background:var(--bg2);border:1px solid var(--steel-dim);padding:40px;text-align:center;margin-top:28px}
+.cta-block h3{font-size:20px;font-weight:900;letter-spacing:-.5px;margin-bottom:8px}
+.cta-block p{color:var(--gray);font-size:14px;margin-bottom:20px;line-height:1.5}
+
 .footer{text-align:center;padding:32px 0;border-top:1px solid var(--border);margin-top:48px}
 .footer p{color:var(--gray-dark);font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:1px}
 
-@media(max-width:640px){
+@media(max-width:768px){
+  :root{--sidebar-w:100vw}
   .hero h1{font-size:30px}
   .phase-btn{font-size:10px;padding:10px 6px}
   .stats{grid-template-columns:1fr 1fr}
@@ -129,6 +220,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);over
   .fw-flow{flex-direction:column}
   .fw-step{border-right:none;border-bottom:1px solid var(--border)}
   .fw-step:last-child{border-bottom:none}
+  .g2,.g3,.ask-grid{grid-template-columns:1fr}
+  .team-row{flex-direction:column}
+  .sub-section h2{font-size:20px}
+  .content-wrap.sidebar-open{margin-right:0}
 }
 </style>
 </head>
@@ -147,8 +242,25 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);over
   </div>
 </div>
 
+<!-- FEEDBACK TOGGLE -->
+<button class="fb-toggle" id="fbToggle" style="display:none" onclick="toggleSidebar()">
+  <span>&#9998;</span> FEEDBACK <span class="count" id="fbCount">0</span>
+</button>
+
+<!-- FEEDBACK SIDEBAR -->
+<div class="fb-sidebar" id="fbSidebar">
+  <div class="fb-sidebar-header">
+    <h3>&#9998; Feedback &amp; Notes</h3>
+    <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+  </div>
+  <div class="fb-sidebar-body" id="fbList">
+    <div class="fb-empty" id="fbEmpty">No feedback yet.<br>Click the feedback button on any section to leave a note.</div>
+  </div>
+</div>
+
 <!-- MAIN -->
 <div class="main" id="main">
+<div class="content-wrap" id="contentWrap">
 <div class="container">
 
   <div class="hero">
@@ -159,32 +271,38 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);over
 
   <!-- PHASE NAV -->
   <div class="phase-nav">
-    <div class="phase-btn active" onclick="showPhase('context')">Context</div>
-    <div class="phase-btn" onclick="showPhase('builds')">What Got Built</div>
-    <div class="phase-btn" onclick="showPhase('threads')">Connections</div>
-    <div class="phase-btn" onclick="showPhase('your-role')">Your Role</div>
-    <div class="phase-btn" onclick="showPhase('udor')">UDOR Vision</div>
-    <div class="phase-btn" onclick="showPhase('next')">Next Steps</div>
+    <div class="phase-btn active" onclick="showPhase('context',this)">Context</div>
+    <div class="phase-btn" onclick="showPhase('builds',this)">What Got Built</div>
+    <div class="phase-btn" onclick="showPhase('threads',this)">Connections</div>
+    <div class="phase-btn" onclick="showPhase('your-role',this)">Your Role</div>
+    <div class="phase-btn" onclick="showPhase('udor',this)">UDOR Pitch</div>
+    <div class="phase-btn" onclick="showPhase('next',this)">Next Steps</div>
   </div>
 
-  <!-- PHASE: CONTEXT -->
+  <!-- ===================== PHASE: CONTEXT ===================== -->
   <div class="phase active" id="p-context">
     <div class="sh">Where My Head Was Feb 13</div>
     <div class="ss">Saturday night. Newborn at home. Category 5 brain. No system to catch any of it.</div>
 
-    <div class="card accent">
+    <div class="card accent" data-section="Context: The Problem">
+      <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
       <h3>The Problem</h3>
       <p>50+ ideas bouncing around my head with no system. Every tangent disappearing into text threads, voice memos, and the space between meetings. I sat down at Claude Code with one intent: <span class="hl">"I just want to make sure my ideas won't get lost."</span></p>
+      <div class="fb-form"><textarea placeholder="Leave your feedback on this section..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
     </div>
 
-    <div class="card">
+    <div class="card" data-section="Context: What Happened">
+      <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
       <h3>What Happened</h3>
       <p>In one weekend (Feb 13-15), I built an entire operating system. Not theoretically. Actually shipped. Live sites, governance systems, a venture studio, deal analysis, podcasts, a book chapter. By Sunday: 31 active threads, 19 projects on a governance board, a delegation system tracking what everyone owes me.</p>
+      <div class="fb-form"><textarea placeholder="Leave your feedback on this section..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
     </div>
 
-    <div class="card">
+    <div class="card" data-section="Context: And Then It Kept Going">
+      <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
       <h3>And Then It Kept Going</h3>
       <p>By Feb 16, we're at <span class="hl">55 active threads</span>. Proposal sites for Millis and Needham are live. Podcast episodes generating. The 340 Main deal has a full analysis + deal room. The system is compounding.</p>
+      <div class="fb-form"><textarea placeholder="Leave your feedback on this section..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
     </div>
 
     <div class="stats" style="margin-top:20px">
@@ -195,73 +313,93 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);over
     </div>
   </div>
 
-  <!-- PHASE: BUILDS -->
+  <!-- ===================== PHASE: BUILDS ===================== -->
   <div class="phase" id="p-builds">
     <div class="sh">What Got Built</div>
     <div class="ss">Every build follows the triple output rule: (1) Fontaine improvement, (2) UDOR product, (3) book chapter.</div>
 
-    <div class="card accent">
+    <div class="card accent" data-section="Builds: External Brain">
+      <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
       <h3>active-threads.md &mdash; The External Brain</h3>
       <p>Living command center. Every idea, decision, delegation, open loop. 60-second briefing every session. Whiteboard system for deep thinking. The Gate: nothing moves unless Dave authorizes it.</p>
       <div class="tag-row"><span class="t green">System</span><span class="t green">Live</span></div>
+      <div class="fb-form"><textarea placeholder="Leave your feedback on this section..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
     </div>
 
-    <div class="card">
+    <div class="card" data-section="Builds: Slash Commands">
+      <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
       <h3>Slash Command System &mdash; AI Cabinet</h3>
       <p>/cto, /cfo, /cmo, /cso, /chsh (Sam), /legalsns (Seth), /author, /magic, /personalmem. Each AI agent paired with a human counterpart. No-ego advisory board.</p>
       <div class="tag-row"><span class="t green">Architecture</span><span class="t green">Active</span></div>
+      <div class="fb-form"><textarea placeholder="Leave your feedback on this section..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
     </div>
 
-    <div class="card">
+    <div class="card" data-section="Builds: TagSale.ai">
+      <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
       <h3>TagSale.ai &mdash; UDOR Portfolio Company #1</h3>
       <p>Snap photo &rarr; AI identifies item &rarr; lists on best marketplace &rarr; ships &rarr; you get paid. Born from a golf shaft story. Live landing page with email capture.</p>
       <div class="tag-row"><span class="t green">Venture</span><span class="t green">Shipped</span></div>
+      <div class="fb-form"><textarea placeholder="Leave your feedback on this section..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
     </div>
 
-    <div class="card">
+    <div class="card" data-section="Builds: Millis Proposal">
+      <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
       <h3>Millis Proposal Site</h3>
       <p>Interactive proposal for Millis Middle/High School. Team profiles, phase explorer, risk mitigation, AI chatbot. Live at davefontaine.ai/millis.</p>
       <div class="tag-row"><span class="t amber">Fontaine BD</span><span class="t green">Shipped</span></div>
+      <div class="fb-form"><textarea placeholder="Leave your feedback on this section..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
     </div>
 
-    <div class="card">
+    <div class="card" data-section="Builds: Needham Proposal">
+      <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
       <h3>Needham Proposal Site</h3>
       <p>Fontaine + Dimeo JV for Pollard Middle School. Schedule acceleration (~1 year faster), $2M+ savings, geothermal strategy. Live at davefontaine.ai/needham.</p>
       <div class="tag-row"><span class="t amber">Fontaine BD</span><span class="t green">Shipped</span></div>
+      <div class="fb-form"><textarea placeholder="Leave your feedback on this section..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
     </div>
 
-    <div class="card">
+    <div class="card" data-section="Builds: 340 Main Deal Room">
+      <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
       <h3>340 Main Street Deal Room ($119M)</h3>
       <p>LIHTC deal with Trinity. Full analysis, tax credit explainer, interactive chatbot, password-protected for Val. Went from zero understanding of tax credits to building a teaching tool in one night.</p>
       <div class="tag-row"><span class="t amber">Investment</span><span class="t green">Shipped</span></div>
+      <div class="fb-form"><textarea placeholder="Leave your feedback on this section..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
     </div>
 
-    <div class="card">
+    <div class="card" data-section="Builds: Podcast">
+      <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
       <h3>HalfFullMorning.ai &mdash; Daily Podcasts</h3>
       <p>Two daily shows: Sarah's Morning (personal, T1D, good news) + Dave's Briefing (economy, AI, construction). 6 episodes. Working on full automation.</p>
       <div class="tag-row"><span class="t green">Content</span><span class="t green">6 Episodes</span></div>
+      <div class="fb-form"><textarea placeholder="Leave your feedback on this section..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
     </div>
 
-    <div class="card">
+    <div class="card" data-section="Builds: Book">
+      <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
       <h3>Book: "Lessons from a Wheelbarrow Driver"</h3>
       <p>Chapter 1 (Command Zero) drafted &mdash; the origin story. Every future build = another chapter. The book IS the marketing funnel for UDOR.</p>
       <div class="tag-row"><span class="t amber">Content</span><span class="t amber">Ch.1 Draft</span></div>
+      <div class="fb-form"><textarea placeholder="Leave your feedback on this section..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
     </div>
 
-    <div class="card">
+    <div class="card" data-section="Builds: Tech Audit">
+      <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
       <h3>Fontaine Tech Audit + AI Roadmap</h3>
       <p>Department-by-department analysis. 12 AI opportunities. Phase 1: AI doc search, daily reports, bid leveling (prototype exists), Procore insights.</p>
       <div class="tag-row"><span class="t amber">Fontaine</span><span class="t green">Mapped</span></div>
+      <div class="fb-form"><textarea placeholder="Leave your feedback on this section..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
     </div>
 
-    <div class="card">
+    <div class="card" data-section="Builds: COS Dashboard">
+      <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
       <h3>COS Command Center</h3>
       <p>Chief of Staff dashboard at davefontaine.ai/cos. Sam's operational view. Delegation tracking, The Gate system.</p>
       <div class="tag-row"><span class="t green">System</span><span class="t green">Shipped</span></div>
+      <div class="fb-form"><textarea placeholder="Leave your feedback on this section..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
     </div>
   </div>
 
-  <!-- PHASE: CONNECTIONS -->
+  <!-- ===================== PHASE: CONNECTIONS ===================== -->
   <div class="phase" id="p-threads">
     <div class="sh">How Every Thread Connects</div>
     <div class="ss">This isn't random. Every build feeds the others. Here's the architecture.</div>
@@ -277,28 +415,32 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);over
       </div>
     </div>
 
-    <div class="conn"><div class="arrow">&rarr;</div><p><strong>Millis proposal</strong> proves format &rarr; becomes <strong>ThreeRing.ai</strong> (proposal builder) &rarr; UDOR sells to other GCs</p></div>
-    <div class="conn"><div class="arrow">&rarr;</div><p><strong>AI Bid Leveling</strong> prototype &rarr; tested on Fontaine estimates &rarr; becomes SaaS &rarr; UDOR portfolio company</p></div>
-    <div class="conn"><div class="arrow">&rarr;</div><p><strong>Staffing Tool</strong> for Fontaine workforce &rarr; Bridgit/RM1 competitor &rarr; UDOR portfolio &rarr; <strong>JSG assesses + names it</strong></p></div>
-    <div class="conn"><div class="arrow">&rarr;</div><p><strong>Triplicate</strong> &rarr; TrailMix builds &rarr; <strong>JSG manages GTM</strong> &rarr; first UDOR product with real dev partner</p></div>
-    <div class="conn"><div class="arrow">&rarr;</div><p><strong>48 CSI domains</strong> (Specright) &rarr; spec writing for every trade &rarr; massive infrastructure play</p></div>
-    <div class="conn"><div class="arrow">&rarr;</div><p><strong>Tech Audit</strong> &rarr; AI Wizard hire &rarr; Phase 1 at Fontaine &rarr; every win = LinkedIn + conference + UDOR case study</p></div>
-    <div class="conn"><div class="arrow">&rarr;</div><p><strong>Podcast + LinkedIn + Book</strong> &rarr; personal brand &rarr; davefontaine.ai &rarr; visitors self-select destination</p></div>
+    <div class="conn" data-section="Connection: Millis → ThreeRing"><button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button><div class="arrow">&rarr;</div><p><strong>Millis proposal</strong> proves format &rarr; becomes <strong>ThreeRing.ai</strong> (proposal builder) &rarr; UDOR sells to other GCs</p><div class="fb-form"><textarea placeholder="Leave your feedback..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div></div>
+    <div class="conn" data-section="Connection: Bid Leveling → SaaS"><button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button><div class="arrow">&rarr;</div><p><strong>AI Bid Leveling</strong> prototype &rarr; tested on Fontaine estimates &rarr; becomes SaaS &rarr; UDOR portfolio company</p><div class="fb-form"><textarea placeholder="Leave your feedback..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div></div>
+    <div class="conn" data-section="Connection: Staffing Tool"><button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button><div class="arrow">&rarr;</div><p><strong>Staffing Tool</strong> for Fontaine workforce &rarr; Bridgit/RM1 competitor &rarr; UDOR portfolio &rarr; <strong>JSG assesses + names it</strong></p><div class="fb-form"><textarea placeholder="Leave your feedback..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div></div>
+    <div class="conn" data-section="Connection: Triplicate → GTM"><button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button><div class="arrow">&rarr;</div><p><strong>Triplicate</strong> &rarr; TrailMix builds &rarr; <strong>JSG manages GTM</strong> &rarr; first UDOR product with real dev partner</p><div class="fb-form"><textarea placeholder="Leave your feedback..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div></div>
+    <div class="conn" data-section="Connection: 48 CSI Domains"><button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button><div class="arrow">&rarr;</div><p><strong>48 CSI domains</strong> (Specright) &rarr; spec writing for every trade &rarr; massive infrastructure play</p><div class="fb-form"><textarea placeholder="Leave your feedback..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div></div>
+    <div class="conn" data-section="Connection: Tech Audit → AI Wizard"><button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button><div class="arrow">&rarr;</div><p><strong>Tech Audit</strong> &rarr; AI Wizard hire &rarr; Phase 1 at Fontaine &rarr; every win = LinkedIn + conference + UDOR case study</p><div class="fb-form"><textarea placeholder="Leave your feedback..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div></div>
+    <div class="conn" data-section="Connection: Content → Brand"><button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button><div class="arrow">&rarr;</div><p><strong>Podcast + LinkedIn + Book</strong> &rarr; personal brand &rarr; davefontaine.ai &rarr; visitors self-select destination</p><div class="fb-form"><textarea placeholder="Leave your feedback..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div></div>
 
-    <div class="card accent" style="margin-top:20px">
+    <div class="card accent" style="margin-top:20px" data-section="Connections: Meta-Insight">
+      <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
       <h3>The Meta-Insight</h3>
       <p><span class="hl">Fontaine Bros is not what Dave leaves behind. It's the launchpad.</span> A $410M sandbox no startup can buy. Test everything here, prove it works, productize through UDOR, document in the book. Book drives demand. Demand drives revenue. Revenue funds more builds.</p>
+      <div class="fb-form"><textarea placeholder="Leave your feedback on this section..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
     </div>
   </div>
 
-  <!-- PHASE: YOUR ROLE -->
+  <!-- ===================== PHASE: YOUR ROLE ===================== -->
   <div class="phase" id="p-your-role">
     <div class="sh">Your Role in This, John</div>
     <div class="ss">You're not managing products. You're operating the innovation engine.</div>
 
-    <div class="card accent">
+    <div class="card accent" data-section="Your Role: What JSG Owns">
+      <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
       <h3>What JSG Owns</h3>
       <p>Day-to-day Innovation Studio ops. Product GTM for up to 3 parallel projects. Dev partner management (TrailMix). Customer/stakeholder interviews. Managing Dave's Sparks &mdash; 5+ formal in 2026. ConTech systems assessment. Trend scouting.</p>
+      <div class="fb-form"><textarea placeholder="Leave your feedback on this section..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
     </div>
 
     <div class="stats" style="margin-top:2px">
@@ -310,77 +452,348 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);over
 
     <div style="margin-top:20px"></div>
 
-    <div class="priority">
+    <div class="priority" data-section="Priority 01: AI Wizard JD">
+      <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
       <div class="p-header"><span class="p-num">01</span><span class="p-title">AI Wizard JD Review</span></div>
       <div class="p-body"><p>Screaming need. Company culture fix depends on this hire. Review the draft, give input. Who do you know? Can Michele help source?</p></div>
+      <div class="fb-form" style="margin:0 20px 16px"><textarea placeholder="Leave your feedback..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
     </div>
-    <div class="priority">
+    <div class="priority" data-section="Priority 02: Triplicate GTM">
+      <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
       <div class="p-header"><span class="p-num">02</span><span class="p-title">Triplicate GTM</span></div>
       <div class="p-body"><p>TrailMix proposal expected any day (~$20K/mo). Kickoff EOM. You run this. Is proposal in? Budget right for scope?</p></div>
+      <div class="fb-form" style="margin:0 20px 16px"><textarea placeholder="Leave your feedback..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
     </div>
-    <div class="priority">
+    <div class="priority" data-section="Priority 03: Staffing Tool">
+      <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
       <div class="p-header"><span class="p-num">03</span><span class="p-title">Staffing Tool Assessment</span></div>
       <div class="p-body"><p>Claude-built prototype exists. Bridgit/RM1 competitor. Real product or toy? Can you assess before March 3?</p></div>
+      <div class="fb-form" style="margin:0 20px 16px"><textarea placeholder="Leave your feedback..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
     </div>
-    <div class="priority">
+    <div class="priority" data-section="Priority 04: Spark Pipeline">
+      <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
       <div class="p-header"><span class="p-num">04</span><span class="p-title">Spark Pipeline Triage</span></div>
       <div class="p-body"><p>9 sparks active. Which get resources first? You can run 3 parallel. Pick your 3.</p></div>
+      <div class="fb-form" style="margin:0 20px 16px"><textarea placeholder="Leave your feedback..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
     </div>
-    <div class="priority">
+    <div class="priority" data-section="Priority 05: ConTech Assessment">
+      <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
       <div class="p-header"><span class="p-num">05</span><span class="p-title">ConTech Assessment</span></div>
       <div class="p-body"><p>Work with Dave Blazer (IT). Q1 2026. Feeds directly into the AI roadmap.</p></div>
+      <div class="fb-form" style="margin:0 20px 16px"><textarea placeholder="Leave your feedback..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
     </div>
 
-    <div class="card" style="margin-top:20px">
+    <div class="card" style="margin-top:20px" data-section="Your Role: Operating Model">
+      <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
       <h3>The Operating Model</h3>
       <p>Dave generates sparks. You assess, prioritize, run GTM. TrailMix builds. Michele supports. AI Wizard implements at Fontaine. <span class="hl">Dave is The Gate &mdash; nothing moves without authorization. You're the engine that makes authorized things move.</span></p>
+      <div class="fb-form"><textarea placeholder="Leave your feedback on this section..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
     </div>
 
-    <div class="card">
+    <div class="card" data-section="Your Role: Innovation Budget">
+      <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
       <h3>Innovation Budget: $52-56K/mo</h3>
-      <p>JSG + Michele: $18,880. TrailMix: ~$20K. AI Wizard (once hired): ~$12.5-16.7K. Domains: ~$600. <strong>Total: ~$650K/year = 0.16% of $410M revenue.</strong> Most tech companies spend 10-20% on R&D. We're barely scratching.</p>
+      <p>JSG + Michele: $18,880. TrailMix: ~$20K. AI Wizard (once hired): ~$12.5-16.7K. Domains: ~$600. <strong>Total: ~$650K/year = 0.16% of $410M revenue.</strong> Most tech companies spend 10-20% on R&amp;D. We're barely scratching.</p>
+      <div class="fb-form"><textarea placeholder="Leave your feedback on this section..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
     </div>
   </div>
 
-  <!-- PHASE: UDOR VISION -->
+  <!-- ===================== PHASE: UDOR PITCH ===================== -->
   <div class="phase" id="p-udor">
-    <div class="sh">The UDOR Vision</div>
-    <div class="ss">What we present to the LG, politicians, economic development.</div>
+    <div class="sh">The UDOR Pitch</div>
+    <div class="ss">What we present to the LG, politicians, economic development. The full vision.</div>
 
+    <!-- ORIGIN -->
+    <div class="sub-section">
+      <div class="section-num">01 &mdash; Origin</div>
+      <h2>Named for a Man Who Bet Everything</h2>
+      <div class="desc">UDOR is derived from Eudore Fontaine, who arrived in Springfield from Quebec at age 11 unable to speak English. After 30 years swinging a hammer, he made a bet in 1933 that became Fontaine Bros Inc.</div>
+      <div class="g2">
+        <div class="card" data-section="UDOR Origin: 1933">
+          <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
+          <h3>1933: The Original Bet</h3>
+          <p>$900 in lumber. Pledged the houses as collateral. Nine months to finish or lose everything. Eudore finished early. <span class="hl">Four generations later, the company does $410M in annual revenue.</span></p>
+          <div class="fb-form"><textarea placeholder="Leave your feedback..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
+        </div>
+        <div class="card" data-section="UDOR Origin: 2026">
+          <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
+          <h3>2026: The Next Bet</h3>
+          <p>Dave Fontaine Jr, 4th generation, is building an AI-powered venture studio inside the construction company his great-grandfather started. <span class="hl">Same DNA. Different tools. Same willingness to bet on what you know.</span></p>
+          <div class="fb-form"><textarea placeholder="Leave your feedback..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats">
+      <div class="stat"><div class="n">93</div><div class="l">Years Building</div></div>
+      <div class="stat"><div class="n">$410M</div><div class="l">Revenue</div></div>
+      <div class="stat"><div class="n">400+</div><div class="l">Employees</div></div>
+      <div class="stat"><div class="n">4th Gen</div><div class="l">Family Owned</div></div>
+    </div>
+
+    <div class="div-line"></div>
+
+    <!-- OPPORTUNITY -->
+    <div class="sub-section">
+      <div class="section-num">02 &mdash; Opportunity</div>
+      <h2>A $2 Trillion Industry Running on Paper</h2>
+      <div class="desc">Construction has been 20 years behind on technology. AI changes that equation overnight. And we have something no Silicon Valley startup has.</div>
+      <div class="g3">
+        <div class="card" data-section="UDOR Opportunity: Problem">
+          <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
+          <h3>The Problem</h3>
+          <p>$2T industry. 7M workers. Running on Excel, email, phone calls, and paper. 500K worker shortage. Razor-thin margins. Dead last in tech adoption.</p>
+          <div class="fb-form"><textarea placeholder="Leave your feedback..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
+        </div>
+        <div class="card" data-section="UDOR Opportunity: Why Now">
+          <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
+          <h3>Why Now</h3>
+          <p>AI is a phase change. Workflows that took days now take minutes. But builders don't trust tools from people who've never been on a jobsite. <span class="hl">That's our edge.</span></p>
+          <div class="fb-form"><textarea placeholder="Leave your feedback..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
+        </div>
+        <div class="card" data-section="UDOR Opportunity: Advantage">
+          <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
+          <h3>Our Advantage</h3>
+          <p>$410M construction company. 400+ employees. Real projects. Every tool tested on real buildings with real stakes. <span class="hl">No startup can buy that credibility.</span></p>
+          <div class="fb-form"><textarea placeholder="Leave your feedback..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="div-line"></div>
+
+    <!-- MODEL -->
+    <div class="sub-section">
+      <div class="section-num">03 &mdash; Model</div>
+      <h2>Build. Test. Prove. Sell.</h2>
+      <div class="desc">Every product follows the same flywheel. This is what makes UDOR different from every other construction-tech venture.</div>
+      <div class="fw-box">
+        <div class="label">The UDOR Flywheel</div>
+        <div class="fw-flow">
+          <div class="fw-step"><div class="num">01</div><div class="txt">Identify pain at Fontaine</div></div>
+          <div class="fw-step"><div class="num">02</div><div class="txt">Build AI solution</div></div>
+          <div class="fw-step"><div class="num">03</div><div class="txt">Test on $410M</div></div>
+          <div class="fw-step"><div class="num">04</div><div class="txt">Prove with real data</div></div>
+          <div class="fw-step"><div class="num">05</div><div class="txt">Sell to industry</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUOTE -->
+    <div class="quote-band">
+      <div class="mark">&ldquo;</div>
+      <p>Sometimes the best startup isn't a startup at all. It's taking what you already know, packaging it differently, and walking into a room you already have access to.</p>
+      <div class="attr">Dave Fontaine Jr</div>
+    </div>
+
+    <div class="div-line"></div>
+
+    <!-- PIPELINE -->
+    <div class="sub-section">
+      <div class="section-num">04 &mdash; Pipeline</div>
+      <h2>9 Products in Development</h2>
+      <div class="desc">Built from real construction problems. Tested on real projects. Ready for the industry.</div>
+      <div class="g3">
+        <div class="prod" data-section="Product: Triplicate">
+          <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
+          <div class="icon">&#x25A0;</div>
+          <h4>Triplicate</h4>
+          <p>AI-powered construction bidding intelligence</p>
+          <div class="status">In Dev</div>
+          <div class="fb-form"><textarea placeholder="Leave your feedback..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
+        </div>
+        <div class="prod" data-section="Product: Staffing Tool">
+          <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
+          <div class="icon">&#x25A0;</div>
+          <h4>Staffing Tool</h4>
+          <p>AI workforce optimization for construction crews</p>
+          <div class="status">Prototype</div>
+          <div class="fb-form"><textarea placeholder="Leave your feedback..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
+        </div>
+        <div class="prod" data-section="Product: Specright.ai">
+          <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
+          <div class="icon">&#x25A0;</div>
+          <h4>Specright.ai</h4>
+          <p>AI spec writing across all 48 CSI divisions</p>
+          <div class="status">Domains Secured</div>
+          <div class="fb-form"><textarea placeholder="Leave your feedback..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
+        </div>
+        <div class="prod" data-section="Product: ThreeRing.ai">
+          <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
+          <div class="icon">&#x25A0;</div>
+          <h4>ThreeRing.ai</h4>
+          <p>AI proposal builder for construction firms</p>
+          <div class="status">Concept</div>
+          <div class="fb-form"><textarea placeholder="Leave your feedback..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
+        </div>
+        <div class="prod" data-section="Product: AI Doc Search">
+          <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
+          <div class="icon">&#x25A0;</div>
+          <h4>AI Document Search</h4>
+          <p>Find any document across any project, instantly</p>
+          <div class="status">Phase 1</div>
+          <div class="fb-form"><textarea placeholder="Leave your feedback..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
+        </div>
+        <div class="prod" data-section="Product: AI Daily Reports">
+          <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
+          <div class="icon">&#x25A0;</div>
+          <h4>AI Daily Reports</h4>
+          <p>Voice + photo becomes a complete daily in 5 min</p>
+          <div class="status">Phase 1</div>
+          <div class="fb-form"><textarea placeholder="Leave your feedback..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
+        </div>
+        <div class="prod" data-section="Product: AI Bid Leveling">
+          <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
+          <div class="icon">&#x25A0;</div>
+          <h4>AI Bid Leveling</h4>
+          <p>Automated subcontractor bid comparison</p>
+          <div class="status">Prototype</div>
+          <div class="fb-form"><textarea placeholder="Leave your feedback..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
+        </div>
+        <div class="prod" data-section="Product: AI Meeting Capture">
+          <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
+          <div class="icon">&#x25A0;</div>
+          <h4>AI Meeting Capture</h4>
+          <p>Privacy-first notes that auto-forget raw audio</p>
+          <div class="status">Concept</div>
+          <div class="fb-form"><textarea placeholder="Leave your feedback..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
+        </div>
+        <div class="prod" data-section="Product: AI Certifications">
+          <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
+          <div class="icon">&#x25A0;</div>
+          <h4>AI Certifications</h4>
+          <p>Construction-specific AI training + certification</p>
+          <div class="status">Concept</div>
+          <div class="fb-form"><textarea placeholder="Leave your feedback..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="div-line"></div>
+
+    <!-- LOCATION -->
+    <div class="sub-section">
+      <div class="section-num">05 &mdash; Location</div>
+      <h2>This Isn't Silicon Valley. That's the Point.</h2>
+      <div class="desc">Construction innovation doesn't happen in a WeWork. It happens where the buildings go up.</div>
+      <div class="g2">
+        <div class="card" data-section="UDOR Location: Workforce">
+          <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
+          <h3>The Workforce</h3>
+          <p>Springfield has the skilled trades, the infrastructure, and the project pipeline. Fontaine Bros employs 400+ people across New England. The talent is here.</p>
+          <div class="fb-form"><textarea placeholder="Leave your feedback..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
+        </div>
+        <div class="card" data-section="UDOR Location: Innovation">
+          <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
+          <h3>The Innovation</h3>
+          <p>UDOR is already running: $650K/year innovation budget, EIR hired, dev partner engaged, 9 products in pipeline. This isn't a pitch deck. It's a live operation.</p>
+          <div class="fb-form"><textarea placeholder="Leave your feedback..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
+        </div>
+        <div class="card" data-section="UDOR Location: Credibility">
+          <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
+          <h3>The Credibility</h3>
+          <p>93 years. 130+ school projects. $410M revenue. When we say a tool works for construction, we've proven it on real projects with real stakes.</p>
+          <div class="fb-form"><textarea placeholder="Leave your feedback..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
+        </div>
+        <div class="card" data-section="UDOR Location: Ecosystem">
+          <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
+          <h3>The Ecosystem</h3>
+          <p>UDOR creates jobs at every level: engineers, PMs, construction technologists, AI specialists. An innovation lab that becomes a talent magnet for Springfield.</p>
+          <div class="fb-form"><textarea placeholder="Leave your feedback..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="div-line"></div>
+
+    <!-- THE ASK -->
+    <div class="sub-section">
+      <div class="section-num">06 &mdash; The Ask</div>
+      <h2>How You Can Help</h2>
+      <div class="desc">We're already building. Here's what accelerates everything.</div>
+      <div class="ask-grid">
+        <div class="ask" data-section="The Ask: Connections">
+          <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
+          <div class="ask-num">01</div>
+          <h3>Connections</h3>
+          <p>Introductions to economic development leaders, innovation councils, workforce agencies, and construction CEOs exploring AI.</p>
+          <div class="fb-form"><textarea placeholder="Leave your feedback..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
+        </div>
+        <div class="ask" data-section="The Ask: Space">
+          <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
+          <div class="ask-num">02</div>
+          <h3>Space</h3>
+          <p>A physical innovation lab in Springfield. Where construction professionals and technologists work side by side building the future of the industry.</p>
+          <div class="fb-form"><textarea placeholder="Leave your feedback..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
+        </div>
+        <div class="ask" data-section="The Ask: Funding">
+          <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
+          <div class="ask-num">03</div>
+          <h3>Funding</h3>
+          <p>State innovation grants, R&amp;D tax incentives for construction technology, workforce training funds for AI upskilling in the trades.</p>
+          <div class="fb-form"><textarea placeholder="Leave your feedback..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
+        </div>
+        <div class="ask" data-section="The Ask: Visibility">
+          <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
+          <div class="ask-num">04</div>
+          <h3>Visibility</h3>
+          <p>Feature UDOR and Fontaine Bros as a case study for Massachusetts manufacturing and construction modernization.</p>
+          <div class="fb-form"><textarea placeholder="Leave your feedback..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="div-line"></div>
+
+    <!-- TEAM -->
+    <div class="sub-section">
+      <div class="section-num">07 &mdash; Team</div>
+      <h2>Built by Builders</h2>
+      <div class="team-row">
+        <div class="team-card">
+          <div class="initials">DF</div>
+          <h3>Dave Fontaine Jr</h3>
+          <div class="role">Founder &amp; CEO</div>
+          <p>4th generation. CEO of Fontaine Bros ($410M). Built the AI operating system, the venture studio, and the product pipeline. Drives trucks to jobsites. Pushes actual wheelbarrows.</p>
+        </div>
+        <div class="team-card">
+          <div class="initials">JS</div>
+          <h3>John SanGiovanni</h3>
+          <div class="role">Entrepreneur in Residence</div>
+          <p>Product leader and technologist. Runs day-to-day innovation studio operations. Manages product go-to-market, dev partners, and the spark pipeline.</p>
+        </div>
+      </div>
+      <div class="card" style="margin-top:2px">
+        <h3>The Team Behind the Team</h3>
+        <p>TrailMix Labs (dev partner, Portland ME) &bull; Michele Lee McMullen (product + design) &bull; AI Innovation Lead (hiring now) &bull; Sam Fortsch (Chief of Staff) &bull; Claire Kanja (execution) &bull; Dave Blazer (IT, 20+ yrs)</p>
+      </div>
+    </div>
+
+    <!-- CTA -->
     <div class="cta-block">
-      <h3>Open the UDOR Pitch Page</h3>
-      <p>Full hero page designed for the Lieutenant Governor and economic development contacts.</p>
-      <a href="/pitch" class="cta-btn">OPEN PITCH &rarr;</a>
-    </div>
-
-    <div class="card" style="margin-top:20px">
-      <h3>The 30-Second Pitch</h3>
-      <p>UDOR Studios builds AI tools for construction. Test on a $410M company (Fontaine Bros, 93 years, Springfield). Prove it works, sell to the industry. We're in Springfield because <span class="hl">this is where construction meets AI &mdash; not Silicon Valley.</span></p>
-    </div>
-
-    <div class="card">
-      <h3>The Ask (for Politicians)</h3>
-      <p><strong>1. Connections</strong> &mdash; Economic development, innovation councils, workforce agencies, construction CEOs.<br><br>
-      <strong>2. Space</strong> &mdash; Physical innovation lab in Springfield. Builders and technologists side by side.<br><br>
-      <strong>3. Funding</strong> &mdash; State innovation grants, construction-tech R&D incentives, workforce training for AI.<br><br>
-      <strong>4. Visibility</strong> &mdash; Feature UDOR/Fontaine as a Massachusetts modernization case study.</p>
+      <h3>Let's Build the Future of Construction. In Springfield.</h3>
+      <p>UDOR Studios is already running. The products are being built. The proving ground is here.</p>
     </div>
   </div>
 
-  <!-- PHASE: NEXT STEPS -->
+  <!-- ===================== PHASE: NEXT STEPS ===================== -->
   <div class="phase" id="p-next">
     <div class="sh">Next Steps</div>
     <div class="ss">This week, this month, and before your March 3 visit.</div>
 
-    <div class="card accent">
+    <div class="card accent" data-section="Next Steps: This Week">
+      <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
       <h3>This Week (Feb 17-21)</h3>
       <p><strong>JSG:</strong> Review AI Wizard JD. Check TrailMix proposal status. Start Staffing Tool assessment.<br><br>
       <strong>Dave:</strong> Sign TrailMix NDA. 83(b) email. 340 Main deadline (Wed). LightTable decision.<br><br>
       <strong>Sam:</strong> LightTable reply by Wed. TrailMix follow-up. 340 Main legal items.<br><br>
       <strong>Claire:</strong> 48 CSI domains. workwithfontaine.ai. LinkedIn profile draft.</p>
+      <div class="fb-form"><textarea placeholder="Leave your feedback on this section..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
     </div>
 
-    <div class="card">
+    <div class="card" data-section="Next Steps: Before March 3">
+      <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
       <h3>Before March 3 (Your Springfield Trip)</h3>
       <p><strong>1.</strong> AI Wizard JD finalized + posted<br>
       <strong>2.</strong> TrailMix proposal reviewed, kickoff scheduled<br>
@@ -389,22 +802,27 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);over
       <strong>5.</strong> UDOR site deployed<br>
       <strong>6.</strong> First LinkedIn post published<br>
       <strong>7.</strong> ConTech assessment scoped with Blazer</p>
+      <div class="fb-form"><textarea placeholder="Leave your feedback on this section..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
     </div>
 
-    <div class="card">
+    <div class="card" data-section="Next Steps: Springfield Visit">
+      <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
       <h3>March 3-6 Springfield Visit</h3>
       <p><strong>Day 1:</strong> Walk the Fontaine office. Meet Sam, Nicole, team.<br>
       <strong>Day 2:</strong> Triplicate + TrailMix deep dive. Prototypes.<br>
       <strong>Day 3:</strong> Spark pipeline review with Dave. Kill or accelerate.<br>
       <strong>Day 4:</strong> ConTech assessment kickoff with Blazer.</p>
+      <div class="fb-form"><textarea placeholder="Leave your feedback on this section..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
     </div>
 
-    <div class="card">
+    <div class="card" data-section="Next Steps: 90-Day Targets">
+      <button class="fb-btn" onclick="openFeedback(this)">+ Feedback</button>
       <h3>90-Day Targets (by May 2026)</h3>
       <p><strong>Products:</strong> Triplicate in market. Staffing tool in beta. 1 more spark promoted.<br>
       <strong>Fontaine:</strong> AI Wizard hired. Phase 1 executing. 2+ quick wins deployed.<br>
       <strong>UDOR:</strong> Site live. 5-10 inbound. First speaking gig.<br>
       <strong>Brand:</strong> LinkedIn 8K+. davefontaine.ai built. Book 50% done.</p>
+      <div class="fb-form"><textarea placeholder="Leave your feedback on this section..."></textarea><div class="fb-form-actions"><button class="fb-cancel" onclick="closeFeedback(this)">Cancel</button><button class="fb-submit" onclick="submitFeedback(this)">Send</button></div><div class="fb-sent">&#10003; Sent</div></div>
     </div>
   </div>
 
@@ -414,13 +832,17 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);over
 
 </div>
 </div>
+</div>
 
 <script>
+// ===== PASSWORD GATE =====
 function checkPw(){
   const pw=document.getElementById('pw').value.toLowerCase().trim();
   if(pw==='jsg'||pw==='john'){
     document.getElementById('gate').style.display='none';
     document.getElementById('main').style.display='block';
+    document.getElementById('fbToggle').style.display='flex';
+    loadFeedback();
   } else {
     document.getElementById('pwErr').style.display='block';
     document.getElementById('pw').value='';
@@ -429,12 +851,127 @@ function checkPw(){
 }
 document.getElementById('pw').addEventListener('keydown',function(e){if(e.key==='Enter')checkPw()});
 
-function showPhase(id){
+// ===== PHASE NAVIGATION =====
+function showPhase(id,btn){
   document.querySelectorAll('.phase').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.phase-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('p-'+id).classList.add('active');
-  event.target.classList.add('active');
+  if(btn) btn.classList.add('active');
   window.scrollTo({top:document.querySelector('.phase-nav').offsetTop-20,behavior:'smooth'});
+}
+
+// ===== FEEDBACK SYSTEM =====
+const FORMSPREE_URL='https://formspree.io/f/xpwzzqjb'; // Replace with your Formspree endpoint
+let feedbackItems=[];
+
+function toggleSidebar(){
+  const sb=document.getElementById('fbSidebar');
+  const cw=document.getElementById('contentWrap');
+  sb.classList.toggle('open');
+  cw.classList.toggle('sidebar-open');
+}
+
+function openFeedback(btn){
+  // Close any other open forms first
+  document.querySelectorAll('.fb-form.visible').forEach(f=>f.classList.remove('visible'));
+  const parent=btn.closest('[data-section]');
+  const form=parent.querySelector('.fb-form');
+  form.classList.add('visible');
+  form.querySelector('textarea').focus();
+}
+
+function closeFeedback(btn){
+  const form=btn.closest('.fb-form');
+  form.classList.remove('visible');
+  form.querySelector('textarea').value='';
+}
+
+function submitFeedback(btn){
+  const form=btn.closest('.fb-form');
+  const parent=form.closest('[data-section]');
+  const section=parent.getAttribute('data-section');
+  const textarea=form.querySelector('textarea');
+  const text=textarea.value.trim();
+  if(!text) return;
+
+  const item={
+    section:section,
+    text:text,
+    time:new Date().toISOString(),
+    timeDisplay:new Date().toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})
+  };
+
+  // Save locally
+  feedbackItems.push(item);
+  saveFeedback();
+  renderFeedback();
+
+  // Send email via Formspree
+  fetch(FORMSPREE_URL,{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Accept':'application/json'},
+    body:JSON.stringify({
+      _subject:'JSG Feedback: '+section,
+      section:section,
+      feedback:text,
+      timestamp:item.time
+    })
+  }).catch(()=>{});
+
+  // Show confirmation
+  const sent=form.querySelector('.fb-sent');
+  sent.style.display='block';
+  textarea.value='';
+  setTimeout(()=>{
+    form.classList.remove('visible');
+    sent.style.display='none';
+  },1500);
+}
+
+function saveFeedback(){
+  localStorage.setItem('jsg-feedback',JSON.stringify(feedbackItems));
+}
+
+function loadFeedback(){
+  try{
+    const stored=localStorage.getItem('jsg-feedback');
+    if(stored) feedbackItems=JSON.parse(stored);
+  }catch(e){}
+  renderFeedback();
+}
+
+function renderFeedback(){
+  const list=document.getElementById('fbList');
+  const empty=document.getElementById('fbEmpty');
+  const count=document.getElementById('fbCount');
+
+  if(feedbackItems.length===0){
+    empty.style.display='block';
+    count.classList.remove('has');
+    return;
+  }
+
+  empty.style.display='none';
+  count.textContent=feedbackItems.length;
+  count.classList.add('has');
+
+  // Render items (newest first)
+  let html='';
+  for(let i=feedbackItems.length-1;i>=0;i--){
+    const fb=feedbackItems[i];
+    html+='<div class="fb-item">'
+      +'<div class="fb-section">'+escHtml(fb.section)+'</div>'
+      +'<div class="fb-text">'+escHtml(fb.text)+'</div>'
+      +'<div class="fb-time">'+escHtml(fb.timeDisplay)+'</div>'
+      +'</div>';
+  }
+  list.innerHTML=html;
+}
+
+function escHtml(s){
+  const d=document.createElement('div');
+  d.textContent=s;
+  return d.innerHTML;
 }
 
 document.getElementById('pw').focus();
