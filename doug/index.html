@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dave Fontaine | The Doug Briefing</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;background:#0a0a0a;color:#fff;min-height:100vh;overflow-x:hidden}
+.bg-glow{position:fixed;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 40%,rgba(79,70,229,.08) 0%,transparent 50%),radial-gradient(circle at 70% 60%,rgba(124,58,237,.06) 0%,transparent 50%);pointer-events:none;z-index:0}
+
+/* Gate */
+.gate{display:flex;align-items:center;justify-content:center;min-height:100vh;position:relative;z-index:1}
+.gate-box{background:#111;border:1px solid #222;border-radius:20px;padding:48px 36px;text-align:center;max-width:400px;width:90%}
+.gate-box .monogram{display:inline-flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,#4F46E5,#7c3aed);font-size:22px;font-weight:800;letter-spacing:-1px;margin-bottom:20px}
+.gate-box h1{font-size:24px;font-weight:800;margin-bottom:6px}
+.gate-box .sub{color:#9ca3af;font-size:14px;margin-bottom:24px}
+.gate-input{width:100%;padding:14px 18px;border-radius:12px;border:1px solid #333;background:#1a1a1a;color:#fff;font-size:16px;outline:none;text-align:center;margin-bottom:12px;transition:border-color .2s}
+.gate-input:focus{border-color:#4F46E5}
+.gate-btn{width:100%;padding:14px;border-radius:12px;border:none;background:linear-gradient(135deg,#4F46E5,#7c3aed);color:#fff;font-size:16px;font-weight:700;cursor:pointer;transition:opacity .2s}
+.gate-btn:hover{opacity:.9}
+.gate-error{color:#ef4444;font-size:13px;margin-top:10px;display:none}
+
+/* Main content */
+.main{display:none;position:relative;z-index:1}
+.container{max-width:860px;margin:0 auto;padding:40px 24px 100px}
+
+/* Hero */
+.hero{text-align:center;margin-bottom:56px;padding-top:20px}
+.hero .monogram{display:inline-flex;align-items:center;justify-content:center;width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,#4F46E5,#7c3aed);font-size:26px;font-weight:800;letter-spacing:-1px;margin-bottom:20px}
+.hero h1{font-size:36px;font-weight:800;letter-spacing:-.5px;margin-bottom:8px;line-height:1.2}
+.hero .tagline{color:#a78bfa;font-size:18px;font-weight:600;margin-bottom:8px}
+.hero .sub{color:#9ca3af;font-size:15px;max-width:600px;margin:0 auto;line-height:1.6}
+.hero .date{color:#555;font-size:13px;margin-top:16px;font-weight:500}
+
+/* Nav tabs */
+.nav-tabs{display:flex;gap:6px;justify-content:center;margin-bottom:40px;flex-wrap:wrap;padding:0 12px}
+.nav-tab{padding:10px 20px;border-radius:10px;border:1px solid #222;background:#111;color:#9ca3af;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s}
+.nav-tab:hover{border-color:#333;color:#fff}
+.nav-tab.active{background:linear-gradient(135deg,#4F46E5,#7c3aed);border-color:transparent;color:#fff}
+
+/* Sections */
+.section{display:none}
+.section.active{display:block}
+.section-title{font-size:24px;font-weight:800;margin-bottom:8px;letter-spacing:-.3px}
+.section-sub{color:#9ca3af;font-size:14px;margin-bottom:28px;line-height:1.6}
+
+/* Cards */
+.card{background:#111;border:1px solid #222;border-radius:16px;padding:28px;margin-bottom:16px;transition:border-color .2s}
+.card:hover{border-color:#333}
+.card h3{font-size:17px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.card h3 .emoji{font-size:20px}
+.card p{color:#b0b0b0;font-size:14px;line-height:1.65}
+.card .highlight{color:#a78bfa;font-weight:600}
+.card .stat{display:inline-block;background:rgba(79,70,229,.15);color:#a78bfa;padding:3px 10px;border-radius:6px;font-size:13px;font-weight:700;margin-right:8px;margin-top:8px}
+
+/* Timeline */
+.timeline{position:relative;padding-left:28px}
+.timeline::before{content:'';position:absolute;left:8px;top:8px;bottom:8px;width:2px;background:linear-gradient(to bottom,#4F46E5,#7c3aed,#4F46E5)}
+.tl-item{position:relative;margin-bottom:24px}
+.tl-item::before{content:'';position:absolute;left:-24px;top:6px;width:12px;height:12px;border-radius:50%;background:#4F46E5;border:2px solid #0a0a0a}
+.tl-item .tl-date{font-size:12px;color:#555;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.tl-item h4{font-size:15px;font-weight:700;margin-bottom:4px}
+.tl-item p{color:#9ca3af;font-size:13px;line-height:1.5}
+
+/* Quote */
+.quote-block{border-left:3px solid #4F46E5;padding:16px 20px;margin:20px 0;background:rgba(79,70,229,.05);border-radius:0 12px 12px 0}
+.quote-block p{color:#d4d4d8;font-size:15px;font-style:italic;line-height:1.6}
+.quote-block .attribution{color:#555;font-size:12px;font-style:normal;margin-top:8px}
+
+/* Vision grid */
+.vision-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:24px}
+.vision-card{background:#111;border:1px solid #222;border-radius:14px;padding:24px;text-align:center;transition:all .3s}
+.vision-card:hover{border-color:#4F46E5;transform:translateY(-2px)}
+.vision-card .year{font-size:12px;color:#4F46E5;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px}
+.vision-card h3{font-size:18px;font-weight:800;margin-bottom:8px}
+.vision-card p{color:#9ca3af;font-size:13px;line-height:1.5}
+
+/* Flywheel */
+.flywheel{display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap;margin:32px 0}
+.fw-step{background:#111;border:1px solid #222;border-radius:12px;padding:16px 20px;text-align:center;min-width:140px;flex:1}
+.fw-step h4{font-size:13px;font-weight:700;color:#a78bfa;margin-bottom:4px}
+.fw-step p{color:#9ca3af;font-size:12px}
+.fw-arrow{color:#333;font-size:24px;padding:0 4px;flex-shrink:0}
+
+/* Stat row */
+.stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:28px}
+.stat-box{background:#111;border:1px solid #222;border-radius:12px;padding:20px;text-align:center}
+.stat-box .num{font-size:28px;font-weight:800;background:linear-gradient(135deg,#4F46E5,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat-box .label{color:#9ca3af;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+
+/* Insights */
+.insight-list{list-style:none;padding:0}
+.insight-list li{padding:12px 0;border-bottom:1px solid #1a1a1a;color:#d4d4d8;font-size:14px;line-height:1.6;display:flex;gap:12px;align-items:flex-start}
+.insight-list li::before{content:'';display:none}
+.insight-num{color:#4F46E5;font-weight:800;font-size:16px;flex-shrink:0;width:24px}
+
+/* Footer */
+.footer{text-align:center;padding:40px 0;border-top:1px solid #1a1a1a;margin-top:48px}
+.footer p{color:#555;font-size:13px}
+
+@media(max-width:600px){
+  .hero h1{font-size:28px}
+  .nav-tabs{gap:4px}
+  .nav-tab{padding:8px 14px;font-size:13px}
+  .flywheel{flex-direction:column}
+  .fw-arrow{transform:rotate(90deg)}
+  .stat-row{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+<div class="bg-glow"></div>
+
+<!-- PASSWORD GATE -->
+<div class="gate" id="gate">
+  <div class="gate-box">
+    <div class="monogram">DF</div>
+    <h1>The Doug Briefing</h1>
+    <p class="sub">A private look at what's been built, what's been learned, and where it's all going.</p>
+    <input type="password" class="gate-input" id="pw" placeholder="Enter password" autocomplete="off">
+    <button class="gate-btn" onclick="checkPw()">Enter</button>
+    <div class="gate-error" id="pwErr">Wrong password. Try again.</div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main" id="main">
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="monogram">DF</div>
+    <h1>Dave Fontaine</h1>
+    <div class="tagline">Wheelbarrow Driver &rarr; Platform Builder</div>
+    <p class="sub">What happens when a 4th-generation construction CEO with ADHD discovers that AI isn't just a tool &mdash; it's the operating system his brain always needed.</p>
+    <div class="date">Private briefing prepared for Doug Brackman &bull; February 16, 2026</div>
+  </div>
+
+  <!-- NAV -->
+  <div class="nav-tabs">
+    <div class="nav-tab active" onclick="showTab('now')">What I Built</div>
+    <div class="nav-tab" onclick="showTab('realizations')">Key Realizations</div>
+    <div class="nav-tab" onclick="showTab('5year')">5-Year Vision</div>
+    <div class="nav-tab" onclick="showTab('timeline')">Timeline</div>
+    <div class="nav-tab" onclick="showTab('quotes')">In My Words</div>
+  </div>
+
+  <!-- TAB: WHAT I BUILT -->
+  <div class="section active" id="tab-now">
+    <div class="section-title">What I Built in 5 Days</div>
+    <div class="section-sub">February 13&ndash;16, 2026. One weekend. One terminal. Everything changed.</div>
+
+    <div class="stat-row">
+      <div class="stat-box"><div class="num">55</div><div class="label">Active Threads</div></div>
+      <div class="stat-box"><div class="num">9</div><div class="label">Venture Sparks</div></div>
+      <div class="stat-box"><div class="num">19</div><div class="label">Delegated Items</div></div>
+      <div class="stat-box"><div class="num">8</div><div class="label">Whiteboard Topics</div></div>
+    </div>
+
+    <div class="card">
+      <h3><span class="emoji">&#x1F9E0;</span> The External Brain (active-threads.md)</h3>
+      <p>A living command center that persists across every session. Every idea, decision, delegation, and open loop in one file. Every session starts with a 60-second briefing. Nothing gets lost. For the first time in my life, my ADHD brain has <span class="highlight">persistent storage</span>.</p>
+    </div>
+
+    <div class="card">
+      <h3><span class="emoji">&#x2F;</span> The Slash Command System (/cabinet)</h3>
+      <p>AI-powered board of advisors: /cto, /cfo, /cmo, /cso, /chsh (Chief of Staff). Each agent has a human counterpart. No ego, no self-interest, no reason to play it safe. The advisory board I spent 20 years resisting &mdash; built at 1 AM as an accident.</p>
+    </div>
+
+    <div class="card">
+      <h3><span class="emoji">&#x1F3AF;</span> UDOR Studios (Venture Studio)</h3>
+      <p>The vehicle for every idea. I bring ideas + domains + capital + network. Builders bring execution. Built the landing page, purchased domains (udor.ai, udorstudios.ai), and launched the first portfolio company in the same session.</p>
+      <span class="stat">udor.ai</span><span class="stat">First Portfolio Co: TagSale.ai</span>
+    </div>
+
+    <div class="card">
+      <h3><span class="emoji">&#x1F4F8;</span> TagSale.ai (Portfolio Company #1)</h3>
+      <p>Snap a photo &rarr; AI identifies item &rarr; lists on best marketplace &rarr; negotiates &rarr; ships &rarr; you get paid. A golf shaft on Facebook: $15. Same shaft on GolfWRX: $145. The AI knows where to sell. The user never writes a listing.</p>
+    </div>
+
+    <div class="card">
+      <h3><span class="emoji">&#x1F3D7;</span> 340 Main St Deal Room ($119M)</h3>
+      <p>Went from "I don't understand tax credits" to building a complete LIHTC deal analysis, visual explainer, and interactive chatbot &mdash; all in one night. Password-protected deal room for Val. By 2 AM, I knew more about tax credit financing than I had in 20 years of construction.</p>
+    </div>
+
+    <div class="card">
+      <h3><span class="emoji">&#x1F399;</span> HalfFullMorning.ai (Daily Podcasts)</h3>
+      <p>Two daily AI-generated podcasts: <strong>Sarah's Morning</strong> (personal, T1D research, good news, breathwork) and <strong>Dave's Briefing</strong> (economy, AI, global, construction with historical context). Already 6 episodes in. Goal: fully automated by end of month.</p>
+    </div>
+
+    <div class="card">
+      <h3><span class="emoji">&#x1F4DD;</span> The Book: "Lessons from a Wheelbarrow Driver"</h3>
+      <p>First chapter drafted (Command Zero). Every build produces three outputs: (1) operational improvement for Fontaine, (2) sellable product for UDOR, (3) a chapter. The book IS the marketing. The marketing IS the product. The product IS the company.</p>
+    </div>
+
+    <div class="card">
+      <h3><span class="emoji">&#x1F50D;</span> 9 More Venture Sparks in the Pipeline</h3>
+      <p>Triplicate (construction bidding), GeneralTrades.ai (multi-trade rentals), ThreeRing.ai (proposal builder), Specright.ai (AI spec writer), TechTransition.ai, AI Construction Certifications, Privacy-First Meeting Capture, Staffing Management Tool, AI Lead Intelligence. 48 CSI division domains being purchased.</p>
+    </div>
+  </div>
+
+  <!-- TAB: KEY REALIZATIONS -->
+  <div class="section" id="tab-realizations">
+    <div class="section-title">Key Realizations</div>
+    <div class="section-sub">The insights that changed how I see everything. In 5 days.</div>
+
+    <div class="card">
+      <h3><span class="emoji">1</span> The ADHD Brain Doesn't Scatter &mdash; It Maps</h3>
+      <p>At 10:30 PM on a Saturday, I was simultaneously analyzing a $119M deal, building a brain repo, designing an AI cabinet, and thinking about my daughter Grace. I typed "getting distracted I know." But I wasn't distracted. Every tangent was a node in the same network. <span class="highlight">The problem was never the mapping. The problem was that no tool was fast enough to keep up.</span> Until now.</p>
+    </div>
+
+    <div class="card">
+      <h3><span class="emoji">2</span> I Am the Gate</h3>
+      <p>Nothing moves unless I authorize it. That sounds obvious, but it's not how entrepreneurs actually operate. Things usually move because you answered a question in a hallway, or got excited at 11 PM and sent three texts. The Gate system added friction in exactly the right place: between the impulse and the action. Not enough to kill the energy. Just enough to make sure it's <span class="highlight">pointed somewhere that matters</span>.</p>
+    </div>
+
+    <div class="card">
+      <h3><span class="emoji">3</span> The Best Advisory Board Has No Ego</h3>
+      <p>I spent 20 years resisting boards because if I'd listened to every doubter, Fontaine Bros would still be a small masonry company. But the AI cabinet I built at 1 AM is different: it has no ego, no self-interest, no reason to play it safe. <span class="highlight">The entrepreneur who spent 20 years resisting advice just built the perfect system for receiving it.</span></p>
+    </div>
+
+    <div class="card">
+      <h3><span class="emoji">4</span> Fontaine Bros Is the Launchpad, Not the Ceiling</h3>
+      <p>$410M in revenue. 400+ employees. Real projects. Real stakes. Real data. I have a sandbox no startup can buy. Every AI tool gets tested on my own company first. Prove it works at Fontaine &rarr; sell it through UDOR &rarr; write the chapter. <span class="highlight">Triple output. Every build. No exceptions.</span></p>
+    </div>
+
+    <div class="card">
+      <h3><span class="emoji">5</span> The Best Startup Isn't a Startup</h3>
+      <p>For data center advisory: skip the entire construction hierarchy (GC &rarr; CM &rarr; OPM &rarr; Owner) and sit next to the person writing the check. I already have the credibility, the knowledge, and the network. <span class="highlight">Sometimes the best play is taking what you already know, packaging it differently, and walking into a room you already have access to.</span></p>
+    </div>
+
+    <div class="card">
+      <h3><span class="emoji">6</span> The Permission Problem Is the Real Ceiling</h3>
+      <p>330,000 Americans have a net worth of $500M+. A lot of them are builders. People who own construction companies, logistics firms, manufacturing operations. The barrier isn't capability. It's internal. When you inherit a legacy, you inherit a definition of "enough." <span class="highlight">The permission problem is the most dangerous ceiling because it's self-imposed and invisible.</span></p>
+    </div>
+
+    <div class="card">
+      <h3><span class="emoji">7</span> I'm Sprinting Past Levels</h3>
+      <p>I'm not chasing fame. I'm chasing velocity. Fame is just what happens when someone moves fast enough that other people start noticing the wind. The world started feeling like a game I'm just sprinting past levels on. <span class="highlight">And the trajectory isn't slowing down &mdash; it's accelerating.</span></p>
+    </div>
+  </div>
+
+  <!-- TAB: 5-YEAR VISION -->
+  <div class="section" id="tab-5year">
+    <div class="section-title">Where This Goes in 5 Years</div>
+    <div class="section-sub">From CEO who runs a construction company to platform builder who transforms an industry.</div>
+
+    <div class="vision-grid">
+      <div class="vision-card">
+        <div class="year">Year 1 &bull; 2026</div>
+        <h3>The System Year</h3>
+        <p>AI operating system fully running. Daily podcasts automated. Book manuscript done. UDOR portfolio: 3-5 companies launched. LinkedIn to 8K+. Data center advisory launched. AI Innovation Lead hired at Fontaine.</p>
+      </div>
+      <div class="vision-card">
+        <div class="year">Year 2 &bull; 2027</div>
+        <h3>The Revenue Year</h3>
+        <p>UDOR companies generating revenue. Book published &mdash; becomes top of funnel. Speaking circuit active ($10-25K/talk). Fontaine AI tools proven and being sold to other GCs. Advisory practice scaling.</p>
+      </div>
+      <div class="vision-card">
+        <div class="year">Year 3 &bull; 2028</div>
+        <h3>The Platform Year</h3>
+        <p>UDOR Studios recognized as the construction-tech venture studio. 8-12 portfolio companies. Acquisition strategy active: buying legacy brands, injecting AI, 10x-ing output. Personal brand driving inbound deal flow.</p>
+      </div>
+      <div class="vision-card">
+        <div class="year">Year 5 &bull; 2031</div>
+        <h3>The Compounding Year</h3>
+        <p>Multiple income streams that don't require daily presence. Portfolio generating returns. Speaking and advisory on autopilot. Fontaine Bros running on systems, not on Dave. The wheelbarrow driver became the platform. The platform became the legacy.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3><span class="emoji">&#x1F504;</span> The Flywheel That Powers Everything</h3>
+      <p style="margin-bottom:20px">Every build follows the same loop. This is the engine.</p>
+      <div class="flywheel">
+        <div class="fw-step"><h4>Build</h4><p>AI tool for a real problem</p></div>
+        <div class="fw-arrow">&rarr;</div>
+        <div class="fw-step"><h4>Test</h4><p>Run it at Fontaine ($410M sandbox)</p></div>
+        <div class="fw-arrow">&rarr;</div>
+        <div class="fw-step"><h4>Prove</h4><p>Real results, real data</p></div>
+        <div class="fw-arrow">&rarr;</div>
+        <div class="fw-step"><h4>Sell</h4><p>Through UDOR Studios</p></div>
+        <div class="fw-arrow">&rarr;</div>
+        <div class="fw-step"><h4>Write</h4><p>Book chapter = marketing</p></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3><span class="emoji">&#x1F3AF;</span> The End State</h3>
+      <p><strong>davefontaine.ai</strong> is the hub. It routes to:</p>
+      <ul class="insight-list" style="margin-top:12px">
+        <li><span class="insight-num">&bull;</span> <strong>UDOR Studios</strong> (udor.ai) &mdash; venture studio for construction tech + AI</li>
+        <li><span class="insight-num">&bull;</span> <strong>Fontaine Bros</strong> (fontainebros.com) &mdash; the $410M proving ground</li>
+        <li><span class="insight-num">&bull;</span> <strong>Speaking &amp; Advisory</strong> &mdash; data centers, AI transformation, turnarounds</li>
+        <li><span class="insight-num">&bull;</span> <strong>The Book</strong> &mdash; "Lessons from a Wheelbarrow Driver"</li>
+        <li><span class="insight-num">&bull;</span> <strong>Content</strong> &mdash; LinkedIn, HalfFullMorning podcast, thought leadership</li>
+      </ul>
+      <p style="margin-top:16px;color:#a78bfa;font-weight:600">Architecture: LinkedIn drives to davefontaine.ai &rarr; visitors self-select their path &rarr; every path generates revenue or relationships.</p>
+    </div>
+  </div>
+
+  <!-- TAB: TIMELINE -->
+  <div class="section" id="tab-timeline">
+    <div class="section-title">The Timeline</div>
+    <div class="section-sub">5 days. From "I just want to make sure my ideas won't get lost" to an entire operating system.</div>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-date">Thursday, Feb 13 &bull; Day 1</div>
+        <h4>The Night Everything Started</h4>
+        <p>Sat down at Claude Code with one goal: stop losing ideas. Built TagSale.ai from a golf shaft story. Created UDOR Studios as the venture vehicle. Designed the active-threads system. Generated 9 business ideas. Drafted 5 podcast episodes and 3 LinkedIn posts. Went to bed at 2 AM knowing something had shifted.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">Friday, Feb 14 &bull; Day 2</div>
+        <h4>The Legal Deep Dive</h4>
+        <p>Reviewed Anchorsite consulting agreement and 3 stock purchase agreements. Built the cap table and index. Created the AI Innovation Lead job description. Mapped the entire construction technology ecosystem. Organized file structure. Purchased udor.ai and udorstudios.ai. Consolidated domain tracker.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">Saturday, Feb 15 &bull; Day 3</div>
+        <h4>The $119M Deal &amp; The Board Insight</h4>
+        <p>Analyzed the 340 Main Street LIHTC deal. Built a password-protected deal room with interactive chatbot. Created the tax credit visual explainer. Designed the slash command system (/cto, /cfo, /cmo). Had the board insight: "maybe that's why people have boards." Built the Fontaine tech audit and AI roadmap. The F2 Innovation Index. 10:30 PM parallel processing moment &mdash; 5 threads running simultaneously. Invented /magic and /personalmem.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">Sunday, Feb 16 &bull; Day 4</div>
+        <h4>The Velocity Moment</h4>
+        <p>Generated daily podcast episodes (HalfFullMorning.ai). Designed the ThreeRing.ai acquisition strategy. Hit the permission insight: "I feel like I don't have permission to get too rich." Learned that 330,000 Americans are worth $500M+. Realized the barrier is internal, not external. Built the full delegation system. 55 active threads. And then: this page, right here, for Doug.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">The Pattern</div>
+        <h4>What 5 Days Proved</h4>
+        <p>The ADHD brain + the right tool = not just productivity, but a fundamentally different operating model for life. The ideas didn't slow down. The system caught up. And once the system caught up, the compounding started.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: QUOTES -->
+  <div class="section" id="tab-quotes">
+    <div class="section-title">In My Words</div>
+    <div class="section-sub">The raw moments. Unfiltered. Said out loud while building this.</div>
+
+    <div class="quote-block">
+      <p>"I just want to make sure my ideas won't get lost."</p>
+      <div class="attribution">Day 1 &mdash; The sentence that started everything</div>
+    </div>
+
+    <div class="quote-block">
+      <p>"I literally want to ping back and forth between all these tangents and direct next steps... it's like I can see the balls bouncing in my mind and then they all get muddled."</p>
+      <div class="attribution">Day 1 &mdash; Describing the ADHD entrepreneur experience</div>
+    </div>
+
+    <div class="quote-block">
+      <p>"Maybe that's why people have boards and why successful organizations actually have organization."</p>
+      <div class="attribution">Day 3, 1 AM &mdash; While designing the AI cabinet system</div>
+    </div>
+
+    <div class="quote-block">
+      <p>"Almost every entrepreneur had to take a level of risk at some point that a CFO would never approve or a seasoned operator would say wouldn't work."</p>
+      <div class="attribution">Day 3 &mdash; On why entrepreneurs resist advice</div>
+    </div>
+
+    <div class="quote-block">
+      <p>"Getting distracted I know."</p>
+      <div class="attribution">Day 3, 10:30 PM &mdash; Said while simultaneously analyzing a $119M deal, building a brain repo, designing an AI cabinet, and thinking about his daughter. That's not distraction. That's throughput.</div>
+    </div>
+
+    <div class="quote-block">
+      <p>"Would be ironic that I jump the entire market to the top, the guy in the ear of the owner with too much money."</p>
+      <div class="attribution">Day 1 &mdash; On the data center advisory strategy</div>
+    </div>
+
+    <div class="quote-block">
+      <p>"I feel like I'm possibly going to become famous not because I am chasing it but because I keep climbing higher and it all of a sudden seems like the world is a big game I'm just sprinting past levels on."</p>
+      <div class="attribution">Day 4 &mdash; The velocity moment</div>
+    </div>
+
+    <div class="quote-block">
+      <p>"I feel like I don't have permission to get too rich."</p>
+      <div class="attribution">Day 4 &mdash; The invisible ceiling. The most dangerous barrier because it's self-imposed.</div>
+    </div>
+
+    <div class="quote-block">
+      <p>"I need to get my head out of my ass and realize it's not that hard."</p>
+      <div class="attribution">Day 4 &mdash; After learning 330,000 Americans are worth $500M+</div>
+    </div>
+
+    <div class="quote-block">
+      <p>"It's so funny I don't know how to automate myself now that we're here."</p>
+      <div class="attribution">Day 1 &mdash; The person who generates 11 ideas in one session doesn't struggle with vision. They struggle with where to point the firehose.</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <p>Prepared for Doug Brackman &bull; Dave Fontaine &bull; February 2026</p>
+    <p style="color:#333;margin-top:8px;font-size:12px">Built with Claude Code in one session. Because of course it was.</p>
+  </div>
+
+</div>
+</div>
+
+<script>
+function checkPw(){
+  const pw=document.getElementById('pw').value.toLowerCase().trim();
+  if(pw==='doug'){
+    document.getElementById('gate').style.display='none';
+    document.getElementById('main').style.display='block';
+  } else {
+    document.getElementById('pwErr').style.display='block';
+    document.getElementById('pw').value='';
+    document.getElementById('pw').focus();
+  }
+}
+document.getElementById('pw').addEventListener('keydown',function(e){
+  if(e.key==='Enter')checkPw();
+});
+
+function showTab(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  event.target.classList.add('active');
+  window.scrollTo({top:document.querySelector('.nav-tabs').offsetTop-20,behavior:'smooth'});
+}
+
+// Auto-focus password field
+document.getElementById('pw').focus();
+</script>
+</body>
+</html>
