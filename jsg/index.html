@@ -4,102 +4,124 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>JSG Ride-Along | Dave Fontaine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
+:root{
+  --stone-50:#fafaf9;--stone-100:#f5f5f4;--stone-200:#e7e5e4;--stone-300:#d6d3d1;
+  --stone-400:#a8a29e;--stone-500:#78716c;--stone-600:#57534e;--stone-700:#44403c;
+  --stone-800:#292524;--stone-900:#1c1917;
+  --slate-800:#1e293b;--slate-900:#0f172a;
+  --steel:#3b6b8a;--steel-dark:#2a4d63;--steel-light:#5a96b8;
+  --rust:#b45309;--rust-light:#d97706;--gold:#c8a55a;--gold-light:#dfc17e;
+  --cream:#f9f6f0;--warm-white:#fdfcfa;
+  --green:#166534;--green-light:#16a34a;
+  --amber:#92400e;--amber-light:#d97706;
+  --red:#991b1b;--red-light:#dc2626;
+}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0a0a0a;color:#e4e4e7;min-height:100vh;overflow-x:hidden}
-.bg{position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(ellipse at 20% 50%,rgba(79,70,229,.06) 0%,transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(16,185,129,.04) 0%,transparent 50%);pointer-events:none;z-index:0}
+body{font-family:'Inter',sans-serif;background:var(--warm-white);color:var(--stone-800);overflow-x:hidden;-webkit-font-smoothing:antialiased}
 
 /* Gate */
-.gate{display:flex;align-items:center;justify-content:center;min-height:100vh;position:relative;z-index:1}
-.gate-box{background:#111;border:1px solid #222;border-radius:20px;padding:48px 36px;text-align:center;max-width:420px;width:90%}
-.gate-box .icon{font-size:40px;margin-bottom:16px}
-.gate-box h1{font-size:22px;font-weight:800;margin-bottom:6px}
-.gate-box .sub{color:#71717a;font-size:14px;margin-bottom:24px;line-height:1.5}
-.gi{width:100%;padding:14px 18px;border-radius:12px;border:1px solid #27272a;background:#18181b;color:#fff;font-size:16px;outline:none;text-align:center;margin-bottom:12px;transition:border-color .2s}
-.gi:focus{border-color:#4F46E5}
-.gb{width:100%;padding:14px;border-radius:12px;border:none;background:linear-gradient(135deg,#4F46E5,#7c3aed);color:#fff;font-size:16px;font-weight:700;cursor:pointer}
-.gb:hover{opacity:.9}
-.ge{color:#ef4444;font-size:13px;margin-top:10px;display:none}
+.gate{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(165deg,var(--slate-900),var(--steel-dark));position:relative}
+.gate::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h60v60H0z' fill='none' stroke='%23ffffff' stroke-width='.3' opacity='.04'/%3E%3C/svg%3E");pointer-events:none}
+.gate-box{position:relative;z-index:1;background:#fff;border-radius:8px;padding:48px 40px;text-align:center;max-width:420px;width:90%;box-shadow:0 8px 32px rgba(0,0,0,.15)}
+.gate-box .icon{width:56px;height:56px;border-radius:50%;background:var(--steel);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:24px;color:#fff;font-weight:800}
+.gate-box h1{font-family:'DM Serif Display',serif;font-size:24px;color:var(--stone-900);margin-bottom:6px}
+.gate-box .sub{color:var(--stone-500);font-size:14px;margin-bottom:24px;line-height:1.5}
+.gi{width:100%;padding:14px 18px;border-radius:6px;border:1px solid var(--stone-300);background:var(--stone-50);color:var(--stone-900);font-size:16px;outline:none;text-align:center;margin-bottom:12px;transition:border-color .2s;font-family:'Inter',sans-serif}
+.gi:focus{border-color:var(--steel)}
+.gb{width:100%;padding:14px;border-radius:6px;border:none;background:var(--steel-dark);color:#fff;font-size:16px;font-weight:700;cursor:pointer;transition:background .2s;font-family:'Inter',sans-serif}
+.gb:hover{background:var(--steel)}
+.ge{color:var(--red-light);font-size:13px;margin-top:10px;display:none}
 
 /* Main */
-.main{display:none;position:relative;z-index:1}
-.container{max-width:900px;margin:0 auto;padding:40px 24px 120px}
+.main{display:none}
+.container{max-width:940px;margin:0 auto;padding:40px 24px 120px}
 
 /* Hero */
-.hero{text-align:center;padding:20px 0 48px}
-.hero .badge{display:inline-block;background:rgba(79,70,229,.15);color:#a78bfa;padding:6px 16px;border-radius:8px;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:16px}
-.hero h1{font-size:34px;font-weight:800;letter-spacing:-.5px;margin-bottom:8px;line-height:1.2}
-.hero h1 span{background:linear-gradient(135deg,#4F46E5,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.hero .sub{color:#71717a;font-size:15px;max-width:640px;margin:0 auto;line-height:1.6}
+.hero{text-align:center;padding:40px 0 56px}
+.hero .badge{display:inline-block;background:rgba(59,107,138,.1);color:var(--steel);padding:6px 16px;border-radius:4px;font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:20px;border:1px solid rgba(59,107,138,.2)}
+.hero h1{font-family:'DM Serif Display',serif;font-size:36px;font-weight:400;letter-spacing:-.3px;margin-bottom:10px;line-height:1.2;color:var(--stone-900)}
+.hero h1 em{font-style:italic;color:var(--steel)}
+.hero .sub{color:var(--stone-500);font-size:16px;max-width:620px;margin:0 auto;line-height:1.7}
 
 /* Phase nav */
-.phase-nav{display:flex;gap:0;margin-bottom:40px;overflow-x:auto;border-bottom:1px solid #222}
-.phase-btn{flex:1;min-width:0;padding:14px 8px;text-align:center;font-size:13px;font-weight:700;color:#52525b;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap}
-.phase-btn:hover{color:#a1a1aa}
-.phase-btn.active{color:#a78bfa;border-bottom-color:#4F46E5}
+.phase-nav{display:flex;gap:0;margin-bottom:48px;border-bottom:2px solid var(--stone-200);overflow-x:auto}
+.phase-btn{flex:1;min-width:0;padding:14px 8px;text-align:center;font-size:13px;font-weight:700;color:var(--stone-400);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s;white-space:nowrap}
+.phase-btn:hover{color:var(--stone-700)}
+.phase-btn.active{color:var(--steel-dark);border-bottom-color:var(--steel)}
 
 /* Phases */
 .phase{display:none}
 .phase.active{display:block}
 
 /* Section headers */
-.sh{font-size:22px;font-weight:800;margin-bottom:6px;letter-spacing:-.3px}
-.ss{color:#71717a;font-size:14px;margin-bottom:24px;line-height:1.5}
+.sh{font-family:'DM Serif Display',serif;font-size:28px;font-weight:400;margin-bottom:8px;color:var(--stone-900)}
+.ss{color:var(--stone-500);font-size:15px;margin-bottom:28px;line-height:1.6}
 
 /* Cards */
-.card{background:#111;border:1px solid #1e1e1e;border-radius:14px;padding:24px;margin-bottom:14px;transition:border-color .2s}
-.card:hover{border-color:#333}
-.card h3{font-size:16px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:10px}
-.card p{color:#a1a1aa;font-size:14px;line-height:1.6}
-.card .hl{color:#a78bfa;font-weight:600}
-.card .tag{display:inline-block;background:rgba(79,70,229,.12);color:#a78bfa;padding:2px 8px;border-radius:5px;font-size:11px;font-weight:700;margin-right:6px;margin-top:6px}
-.card .tag.green{background:rgba(16,185,129,.12);color:#34d399}
-.card .tag.amber{background:rgba(245,158,11,.12);color:#fbbf24}
-.card .tag.red{background:rgba(239,68,68,.12);color:#f87171}
+.card{background:#fff;border:1px solid var(--stone-200);border-radius:8px;padding:28px;margin-bottom:14px;transition:all .25s}
+.card:hover{box-shadow:0 4px 16px rgba(0,0,0,.05);border-color:var(--stone-300)}
+.card h3{font-size:17px;font-weight:700;margin-bottom:6px;color:var(--stone-900)}
+.card p{color:var(--stone-600);font-size:14px;line-height:1.7}
+.card .hl{color:var(--steel-dark);font-weight:700}
+.card .tag{display:inline-block;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700;margin-right:6px;margin-top:8px}
+.card .tag.green{background:rgba(22,163,74,.08);color:var(--green-light);border:1px solid rgba(22,163,74,.15)}
+.card .tag.amber{background:rgba(217,119,6,.08);color:var(--amber-light);border:1px solid rgba(217,119,6,.15)}
+.card .tag.red{background:rgba(220,38,38,.08);color:var(--red-light);border:1px solid rgba(220,38,38,.15)}
 
-/* Connection lines */
-.conn{background:#18181b;border:1px solid #222;border-radius:10px;padding:16px 20px;margin:20px 0;display:flex;align-items:center;gap:12px}
-.conn .arrow{color:#4F46E5;font-size:20px;flex-shrink:0}
-.conn p{color:#a78bfa;font-size:13px;font-weight:600;line-height:1.4}
+/* Connection arrows */
+.conn{background:var(--cream);border:1px solid var(--stone-200);border-radius:8px;padding:16px 20px;margin:14px 0;display:flex;align-items:center;gap:14px}
+.conn .arrow{color:var(--steel);font-size:20px;flex-shrink:0;font-weight:700}
+.conn p{color:var(--steel-dark);font-size:13px;font-weight:600;line-height:1.5}
 
 /* Stats */
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:28px}
-.stat{background:#111;border:1px solid #1e1e1e;border-radius:10px;padding:16px;text-align:center}
-.stat .n{font-size:26px;font-weight:800;background:linear-gradient(135deg,#4F46E5,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.stat .l{color:#52525b;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:28px}
+.stat{background:#fff;border:1px solid var(--stone-200);border-radius:8px;padding:20px;text-align:center}
+.stat .n{font-family:'DM Serif Display',serif;font-size:28px;color:var(--steel-dark)}
+.stat .l{color:var(--stone-500);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-top:2px}
 
-/* Thread map */
-.thread-map{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
-.tm-item{background:#18181b;border:1px solid #222;border-radius:10px;padding:14px;font-size:13px;color:#a1a1aa;line-height:1.4}
-.tm-item strong{color:#e4e4e7;display:block;margin-bottom:4px}
+/* CTA block */
+.cta-block{background:linear-gradient(165deg,var(--slate-900),var(--steel-dark));border-radius:12px;padding:40px;text-align:center;margin-top:32px;position:relative;overflow:hidden}
+.cta-block::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h60v60H0z' fill='none' stroke='%23ffffff' stroke-width='.3' opacity='.04'/%3E%3C/svg%3E");pointer-events:none}
+.cta-block h3{font-family:'DM Serif Display',serif;font-size:22px;color:#fff;margin-bottom:8px;position:relative;z-index:1}
+.cta-block p{color:var(--stone-400);font-size:14px;margin-bottom:16px;line-height:1.5;position:relative;z-index:1}
+.cta-btn{display:inline-block;padding:14px 32px;background:var(--gold);color:var(--stone-900);border-radius:6px;font-size:15px;font-weight:700;text-decoration:none;transition:all .2s;position:relative;z-index:1}
+.cta-btn:hover{background:var(--gold-light);transform:translateY(-1px)}
 
-/* CTA */
-.cta-block{background:linear-gradient(135deg,rgba(79,70,229,.15),rgba(124,58,237,.1));border:1px solid rgba(79,70,229,.3);border-radius:16px;padding:32px;text-align:center;margin-top:32px}
-.cta-block h3{font-size:20px;font-weight:800;margin-bottom:8px}
-.cta-block p{color:#a1a1aa;font-size:14px;margin-bottom:16px;line-height:1.5}
-.cta-btn{display:inline-block;padding:14px 32px;background:linear-gradient(135deg,#4F46E5,#7c3aed);color:#fff;border-radius:12px;font-size:15px;font-weight:700;text-decoration:none;transition:opacity .2s}
-.cta-btn:hover{opacity:.9}
+/* Accent card */
+.accent-card{border-top:4px solid var(--steel);background:#fff;border-left:1px solid var(--stone-200);border-right:1px solid var(--stone-200);border-bottom:1px solid var(--stone-200)}
 
-.footer{text-align:center;padding:32px 0;margin-top:40px;border-top:1px solid #1a1a1a}
-.footer p{color:#3f3f46;font-size:12px}
+/* Flywheel card */
+.fw-card{background:var(--cream);border:1px solid var(--stone-200);border-radius:8px;padding:28px;margin-bottom:14px}
+.fw-card h3{font-size:16px;font-weight:700;margin-bottom:10px;color:var(--stone-900)}
+.fw-flow{display:flex;align-items:center;flex-wrap:wrap;gap:0}
+.fw-step{background:#fff;border:1px solid var(--stone-200);border-radius:6px;padding:12px 16px;text-align:center;flex:1;min-width:100px}
+.fw-step strong{font-size:12px;font-weight:800;color:var(--steel);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:2px}
+.fw-step span{font-size:12px;color:var(--stone-500)}
+.fw-arr{color:var(--stone-300);font-size:20px;padding:0 4px;flex-shrink:0}
+
+.footer{text-align:center;padding:32px 0;border-top:1px solid var(--stone-200);margin-top:48px}
+.footer p{color:var(--stone-400);font-size:12px}
 
 @media(max-width:640px){
-  .hero h1{font-size:26px}
+  .hero h1{font-size:28px}
   .phase-btn{font-size:12px;padding:10px 6px}
-  .thread-map{grid-template-columns:1fr}
   .stats{grid-template-columns:1fr 1fr}
+  .fw-flow{flex-direction:column}
+  .fw-arr{transform:rotate(90deg)}
 }
 </style>
 </head>
 <body>
-<div class="bg"></div>
 
 <!-- GATE -->
 <div class="gate" id="gate">
   <div class="gate-box">
-    <div class="icon">&#x1F3D7;</div>
+    <div class="icon">JSG</div>
     <h1>JSG Ride-Along</h1>
-    <p class="sub">A walk through the last few weeks &mdash; how every thread connects, what's been built, and where we go from here.</p>
+    <p class="sub">A walk through the last few weeks &mdash; how every thread connects and where we go from here.</p>
     <input type="password" class="gi" id="pw" placeholder="Password" autocomplete="off">
     <button class="gb" onclick="checkPw()">Enter</button>
     <div class="ge" id="pwErr">Try again.</div>
@@ -112,7 +134,7 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
 
   <div class="hero">
     <div class="badge">Confidential &bull; Feb 2026</div>
-    <h1>The Last Few Weeks:<br><span>How It All Connects</span></h1>
+    <h1>The Last Few Weeks:<br><em>How It All Connects</em></h1>
     <p class="sub">John &mdash; here's the full picture. Everything we've been building, the threads between them, and why this is accelerating faster than either of us expected.</p>
   </div>
 
@@ -132,18 +154,18 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
     <div class="ss">Saturday night. Newborn at home. Category 5 brain. No system to catch any of it.</div>
 
     <div class="card">
-      <h3>&#x1F9E0; The Problem</h3>
-      <p>50+ ideas bouncing around my head with no system. Every tangent disappearing into text threads, voice memos, and the space between meetings. I kept losing the best stuff. I sat down at Claude Code with one intent: <span class="hl">"I just want to make sure my ideas won't get lost."</span></p>
+      <h3>The Problem</h3>
+      <p>50+ ideas bouncing around my head with no system. Every tangent disappearing into text threads, voice memos, and the space between meetings. I sat down at Claude Code with one intent: <span class="hl">"I just want to make sure my ideas won't get lost."</span></p>
     </div>
 
     <div class="card">
-      <h3>&#x26A1; What Happened</h3>
-      <p>In one weekend (Feb 13-15), I built an entire operating system for my life. Not theoretically. Actually shipped. Live sites, governance systems, a venture studio, deal analysis, podcasts, a book chapter. By Sunday I had 31 active threads, 19 projects on a governance board, and a delegation system tracking what every person on my team owes me.</p>
+      <h3>What Happened</h3>
+      <p>In one weekend (Feb 13-15), I built an entire operating system. Not theoretically. Actually shipped. Live sites, governance systems, a venture studio, deal analysis, podcasts, a book chapter. By Sunday: 31 active threads, 19 projects on a governance board, a delegation system tracking what everyone owes me.</p>
     </div>
 
     <div class="card">
-      <h3>&#x1F4CA; And Then It Kept Going</h3>
-      <p>By Feb 16 (today), we're at <span class="hl">55 active threads</span>. Proposal sites for Millis and Needham are live. Podcast episodes are generating. The 340 Main deal has a full analysis + deal room. The system isn't slowing down &mdash; it's compounding.</p>
+      <h3>And Then It Kept Going</h3>
+      <p>By Feb 16, we're at <span class="hl">55 active threads</span>. Proposal sites for Millis and Needham are live. Podcast episodes generating. The 340 Main deal has a full analysis + deal room. The system is compounding.</p>
     </div>
 
     <div class="stats">
@@ -157,66 +179,66 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
   <!-- PHASE: BUILDS -->
   <div class="phase" id="p-builds">
     <div class="sh">What Got Built</div>
-    <div class="ss">Every build follows the triple output rule: (1) Fontaine operational improvement, (2) UDOR sellable product, (3) book chapter.</div>
+    <div class="ss">Every build follows the triple output rule: (1) Fontaine improvement, (2) UDOR product, (3) book chapter.</div>
 
-    <div class="card">
-      <h3>&#x1F4C1; active-threads.md &mdash; The External Brain</h3>
-      <p>Living command center. Every idea, decision, delegation, open loop. 60-second briefing every session. Whiteboard system for deep-thinking. The Gate: nothing moves unless Dave authorizes it.</p>
-      <span class="tag">System</span><span class="tag green">Live</span>
+    <div class="card accent-card">
+      <h3>active-threads.md &mdash; The External Brain</h3>
+      <p>Living command center. Every idea, decision, delegation, open loop. 60-second briefing every session. Whiteboard system for deep thinking. The Gate: nothing moves unless Dave authorizes it.</p>
+      <span class="tag green">System</span><span class="tag green">Live</span>
     </div>
 
     <div class="card">
-      <h3>&#x2F; Slash Command System &mdash; AI Cabinet</h3>
+      <h3>Slash Command System &mdash; AI Cabinet</h3>
       <p>/cto, /cfo, /cmo, /cso, /chsh (Sam), /legalsns (Seth), /author, /magic, /personalmem. Each AI agent paired with a human counterpart. No-ego advisory board.</p>
-      <span class="tag">Architecture</span><span class="tag green">Active</span>
+      <span class="tag green">Architecture</span><span class="tag green">Active</span>
     </div>
 
     <div class="card">
-      <h3>&#x1F3AF; TagSale.ai &mdash; UDOR Portfolio Company #1</h3>
+      <h3>TagSale.ai &mdash; UDOR Portfolio Company #1</h3>
       <p>Snap photo &rarr; AI identifies item &rarr; lists on best marketplace &rarr; ships &rarr; you get paid. Born from a golf shaft story. Live landing page with email capture.</p>
-      <span class="tag">Venture</span><span class="tag green">Shipped</span>
+      <span class="tag green">Venture</span><span class="tag green">Shipped</span>
     </div>
 
     <div class="card">
-      <h3>&#x1F3D7; Millis Proposal Site</h3>
-      <p>Interactive proposal site for Millis Middle/High School. 93 years, 130+ school projects, team profiles, phase explorer, risk mitigation, AI chatbot. Client-facing, live at davefontaine.ai/millis.</p>
-      <span class="tag">Fontaine BD</span><span class="tag green">Shipped</span>
+      <h3>Millis Proposal Site</h3>
+      <p>Interactive proposal for Millis Middle/High School. Team profiles, phase explorer, risk mitigation, AI chatbot. Live at davefontaine.ai/millis.</p>
+      <span class="tag amber">Fontaine BD</span><span class="tag green">Shipped</span>
     </div>
 
     <div class="card">
-      <h3>&#x1F3D7; Needham Proposal Site</h3>
-      <p>Fontaine + Dimeo JV proposal for Pollard Middle School. Schedule acceleration (~1 year faster), $2M+ savings, geothermal strategy, MBTA case studies. Live at davefontaine.ai/needham.</p>
-      <span class="tag">Fontaine BD</span><span class="tag green">Shipped</span>
+      <h3>Needham Proposal Site</h3>
+      <p>Fontaine + Dimeo JV for Pollard Middle School. Schedule acceleration (~1 year faster), $2M+ savings, geothermal strategy. Live at davefontaine.ai/needham.</p>
+      <span class="tag amber">Fontaine BD</span><span class="tag green">Shipped</span>
     </div>
 
     <div class="card">
-      <h3>&#x1F3E0; 340 Main Street Deal Room</h3>
-      <p>$119M LIHTC deal with Trinity. Full analysis, tax credit visual explainer, interactive chatbot, password-protected for Val. Went from zero understanding of tax credits to building a teaching tool in one night.</p>
-      <span class="tag">Investment</span><span class="tag green">Shipped</span>
+      <h3>340 Main Street Deal Room ($119M)</h3>
+      <p>LIHTC deal with Trinity. Full analysis, tax credit explainer, interactive chatbot, password-protected for Val. Went from zero understanding of tax credits to building a teaching tool in one night.</p>
+      <span class="tag amber">Investment</span><span class="tag green">Shipped</span>
     </div>
 
     <div class="card">
-      <h3>&#x1F399; HalfFullMorning.ai &mdash; Daily Podcasts</h3>
-      <p>Two daily shows: Sarah's Morning (personal, T1D, good news) + Dave's Briefing (economy, AI, construction with historical context). 6 episodes live. NotebookLM for audio generation. Working on full automation.</p>
-      <span class="tag">Content</span><span class="tag green">6 Episodes</span>
+      <h3>HalfFullMorning.ai &mdash; Daily Podcasts</h3>
+      <p>Two daily shows: Sarah's Morning (personal, T1D, good news) + Dave's Briefing (economy, AI, construction). 6 episodes. Working on full automation.</p>
+      <span class="tag green">Content</span><span class="tag green">6 Episodes</span>
     </div>
 
     <div class="card">
-      <h3>&#x1F4D6; Book: "Lessons from a Wheelbarrow Driver"</h3>
-      <p>Chapter 1 (Command Zero) drafted &mdash; the origin story of this entire system. Every future build = another chapter. The book IS the marketing funnel for UDOR.</p>
-      <span class="tag">Content</span><span class="tag amber">Chapter 1 Draft</span>
+      <h3>Book: "Lessons from a Wheelbarrow Driver"</h3>
+      <p>Chapter 1 (Command Zero) drafted &mdash; the origin story. Every future build = another chapter. The book IS the marketing funnel for UDOR.</p>
+      <span class="tag amber">Content</span><span class="tag amber">Ch.1 Draft</span>
     </div>
 
     <div class="card">
-      <h3>&#x1F527; Fontaine Tech Audit + AI Roadmap</h3>
-      <p>Department-by-department analysis of the $410M company. 12 AI opportunities identified. Phase 1 quick wins: AI document search, AI daily reports, AI bid leveling (prototype exists), Procore insights.</p>
-      <span class="tag">Fontaine</span><span class="tag green">Mapped</span>
+      <h3>Fontaine Tech Audit + AI Roadmap</h3>
+      <p>Department-by-department analysis. 12 AI opportunities. Phase 1: AI doc search, daily reports, bid leveling (prototype exists), Procore insights.</p>
+      <span class="tag amber">Fontaine</span><span class="tag green">Mapped</span>
     </div>
 
     <div class="card">
-      <h3>&#x1F4BC; COS Command Center</h3>
-      <p>Chief of Staff dashboard at davefontaine.ai/cos. Sam's operational view. Delegation tracking, project governance, The Gate system with proposed vs authorized states.</p>
-      <span class="tag">System</span><span class="tag green">Shipped</span>
+      <h3>COS Command Center</h3>
+      <p>Chief of Staff dashboard at davefontaine.ai/cos. Sam's operational view. Delegation tracking, The Gate system.</p>
+      <span class="tag green">System</span><span class="tag green">Shipped</span>
     </div>
   </div>
 
@@ -225,53 +247,31 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
     <div class="sh">How Every Thread Connects</div>
     <div class="ss">This isn't random. Every build feeds the others. Here's the architecture.</div>
 
-    <div class="card" style="border-color:#4F46E5">
-      <h3>&#x1F504; The Flywheel</h3>
-      <p style="font-size:15px;color:#e4e4e7"><strong>Build AI tool for real problem</strong> &rarr; <strong>Test at Fontaine</strong> ($410M sandbox, 400 employees) &rarr; <strong>Prove it works</strong> (real data, real results) &rarr; <strong>Sell through UDOR</strong> &rarr; <strong>Write the chapter</strong> (book = marketing) &rarr; <strong>Book drives demand</strong> &rarr; repeat</p>
+    <div class="fw-card">
+      <h3>The Flywheel</h3>
+      <div class="fw-flow">
+        <div class="fw-step"><strong>Build</strong><span>AI tool for real problem</span></div>
+        <div class="fw-arr">&rarr;</div>
+        <div class="fw-step"><strong>Test</strong><span>At Fontaine ($410M)</span></div>
+        <div class="fw-arr">&rarr;</div>
+        <div class="fw-step"><strong>Prove</strong><span>Real data, real results</span></div>
+        <div class="fw-arr">&rarr;</div>
+        <div class="fw-step"><strong>Sell</strong><span>Through UDOR</span></div>
+        <div class="fw-arr">&rarr;</div>
+        <div class="fw-step"><strong>Write</strong><span>Book = marketing</span></div>
+      </div>
     </div>
 
-    <div class="conn">
-      <div class="arrow">&#x2192;</div>
-      <p>Millis proposal site &rarr; proves the format works &rarr; becomes ThreeRing.ai (proposal builder product) &rarr; UDOR sells to other GCs</p>
-    </div>
+    <div class="conn"><div class="arrow">&rarr;</div><p>Millis proposal site &rarr; proves the format &rarr; becomes ThreeRing.ai (proposal builder) &rarr; UDOR sells to other GCs</p></div>
+    <div class="conn"><div class="arrow">&rarr;</div><p>AI Bid Leveling prototype &rarr; tested on Fontaine estimates &rarr; becomes SaaS product &rarr; UDOR portfolio company</p></div>
+    <div class="conn"><div class="arrow">&rarr;</div><p>Staffing Tool &rarr; built for Fontaine workforce &rarr; Bridgit/RM1 competitor &rarr; UDOR portfolio &rarr; JSG assesses + names it</p></div>
+    <div class="conn"><div class="arrow">&rarr;</div><p>Triplicate &rarr; TrailMix builds &rarr; JSG manages GTM &rarr; first UDOR product with real dev partner</p></div>
+    <div class="conn"><div class="arrow">&rarr;</div><p>48 CSI division domains (Specright) &rarr; spec writing for every trade &rarr; massive infrastructure play &rarr; UDOR ecosystem</p></div>
+    <div class="conn"><div class="arrow">&rarr;</div><p>Tech Audit &rarr; AI Wizard hire &rarr; Phase 1 at Fontaine &rarr; every win = LinkedIn post + conference talk + UDOR case study</p></div>
+    <div class="conn"><div class="arrow">&rarr;</div><p>Podcast + LinkedIn + Book &rarr; personal brand &rarr; davefontaine.ai hub &rarr; visitors self-select: UDOR, Fontaine, speaking</p></div>
 
-    <div class="conn">
-      <div class="arrow">&#x2192;</div>
-      <p>AI Bid Leveling prototype &rarr; tested on real Fontaine estimates &rarr; becomes SaaS product &rarr; UDOR portfolio company</p>
-    </div>
-
-    <div class="conn">
-      <div class="arrow">&#x2192;</div>
-      <p>Staffing Management Tool &rarr; built for Fontaine workforce &rarr; Bridgit/RM1 competitor &rarr; UDOR portfolio company &rarr; JSG assesses + names it</p>
-    </div>
-
-    <div class="conn">
-      <div class="arrow">&#x2192;</div>
-      <p>Triplicate &rarr; TrailMix builds it &rarr; JSG manages GTM &rarr; first UDOR product with real dev partner</p>
-    </div>
-
-    <div class="conn">
-      <div class="arrow">&#x2192;</div>
-      <p>48 CSI division domains (Specright) &rarr; spec writing for every trade &rarr; massive construction infrastructure play &rarr; UDOR ecosystem</p>
-    </div>
-
-    <div class="conn">
-      <div class="arrow">&#x2192;</div>
-      <p>Tech Audit + AI Roadmap &rarr; AI Wizard hire &rarr; implements Phase 1 at Fontaine &rarr; every win is a LinkedIn post + conference talk + UDOR case study</p>
-    </div>
-
-    <div class="conn">
-      <div class="arrow">&#x2192;</div>
-      <p>HalfFullMorning podcast + LinkedIn + Book &rarr; personal brand &rarr; davefontaine.ai hub &rarr; visitors self-select: UDOR, Fontaine, speaking, advisory</p>
-    </div>
-
-    <div class="conn">
-      <div class="arrow">&#x2192;</div>
-      <p>Data Center Advisory &rarr; skip the ladder, sit next to the owner writing the check &rarr; UDOR advisory practice &rarr; deal flow for investments</p>
-    </div>
-
-    <div class="card" style="margin-top:24px">
-      <h3>&#x1F3AF; The Meta-Insight</h3>
+    <div class="card accent-card" style="margin-top:24px">
+      <h3>The Meta-Insight</h3>
       <p><span class="hl">Fontaine Bros is not what Dave leaves behind. It's the launchpad.</span> A $410M sandbox that no startup can buy. Test everything here, prove it works, productize through UDOR, document it in the book. The book drives demand. Demand drives revenue. Revenue funds more builds.</p>
     </div>
   </div>
@@ -281,8 +281,8 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
     <div class="sh">Your Role in This, John</div>
     <div class="ss">You're not just managing products. You're the operator of the innovation engine.</div>
 
-    <div class="card" style="border-color:#10b981">
-      <h3>&#x1F3AF; What JSG Owns</h3>
+    <div class="card accent-card">
+      <h3>What JSG Owns</h3>
       <p>Day-to-day operations of the Innovation Studio. Product go-to-market for up to 3 parallel projects. Dev partner management (TrailMix). Customer/stakeholder interviews. Managing Dave's Sparks &mdash; 5+ formal sparks in 2026. ConTech systems assessment. Trend scouting.</p>
     </div>
 
@@ -290,97 +290,92 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
       <div class="stat"><div class="n">$325</div><div class="l">/hr &bull; 48 hrs/mo</div></div>
       <div class="stat"><div class="n">3</div><div class="l">Parallel Projects</div></div>
       <div class="stat"><div class="n">5+</div><div class="l">Sparks to Manage</div></div>
-      <div class="stat"><div class="n">Mar 3</div><div class="l">First Springfield Trip</div></div>
+      <div class="stat"><div class="n">Mar 3</div><div class="l">Springfield Trip</div></div>
     </div>
 
     <div class="card">
-      <h3>&#x1F525; Your Immediate Priorities</h3>
-      <p><strong>1. AI Wizard JD Review</strong> &mdash; This is the screaming need. Company culture fix depends on this hire. Review the draft, give input.<br><br>
-      <strong>2. Triplicate GTM</strong> &mdash; TrailMix proposal expected any day (~$20K/mo). Kickoff call EOM. You run this.<br><br>
-      <strong>3. Staffing Tool Assessment</strong> &mdash; Claude-built prototype exists. Bridgit/RM1 competitor. Needs your eyes: is this real? What's the market?<br><br>
-      <strong>4. Manage the Spark Pipeline</strong> &mdash; 9 sparks active (Triplicate, Staffing, Voice Agent, Specright, Lead Intelligence, Meeting Capture, AI Certs, ThreeRing, TechTransition). You decide what gets resources.<br><br>
-      <strong>5. ConTech Systems Assessment</strong> &mdash; Work with Dave Blazer (IT). Q1 2026. Feeds directly into the AI roadmap.</p>
+      <h3>Your Immediate Priorities</h3>
+      <p><strong>1. AI Wizard JD Review</strong> &mdash; Screaming need. Culture fix depends on this hire. Review the draft, give input.<br><br>
+      <strong>2. Triplicate GTM</strong> &mdash; TrailMix proposal expected any day (~$20K/mo). Kickoff EOM. You run this.<br><br>
+      <strong>3. Staffing Tool Assessment</strong> &mdash; Claude-built prototype. Bridgit/RM1 competitor. Is this real or a toy?<br><br>
+      <strong>4. Spark Pipeline</strong> &mdash; 9 sparks active. Which get resources first?<br><br>
+      <strong>5. ConTech Assessment</strong> &mdash; Dave Blazer. Q1 2026. Feeds the AI roadmap.</p>
     </div>
 
     <div class="card">
-      <h3>&#x1F91D; The Dave + JSG Operating Model</h3>
-      <p>Dave generates the sparks. You assess, prioritize, and run GTM. TrailMix builds. Michele supports. The AI Wizard (once hired) implements at Fontaine. <span class="hl">Dave is The Gate &mdash; nothing moves without authorization. You're the engine that makes authorized things move.</span></p>
+      <h3>The Dave + JSG Operating Model</h3>
+      <p>Dave generates sparks. You assess, prioritize, run GTM. TrailMix builds. Michele supports. AI Wizard implements at Fontaine. <span class="hl">Dave is The Gate &mdash; nothing moves without authorization. You're the engine that makes authorized things move.</span></p>
     </div>
 
     <div class="card">
-      <h3>&#x1F4B0; Innovation Budget: $52-56K/mo</h3>
-      <p>JSG + Michele: $18,880/mo. TrailMix: ~$20K/mo. AI Wizard (once hired): ~$12.5-16.7K/mo. Domains: ~$600/mo. <strong>Total: ~$650K/year</strong>. That's <span class="hl">0.16% of $410M revenue</span>. Most tech companies spend 10-20% on R&D. We're barely scratching.</p>
+      <h3>Innovation Budget: $52-56K/mo</h3>
+      <p>JSG + Michele: $18,880/mo. TrailMix: ~$20K/mo. AI Wizard (once hired): ~$12.5-16.7K/mo. Domains: ~$600/mo. <strong>Total: ~$650K/year</strong>. That's <span class="hl">0.16% of $410M revenue</span>. Most tech companies spend 10-20% on R&D.</p>
     </div>
   </div>
 
   <!-- PHASE: UDOR VISION -->
   <div class="phase" id="p-udor">
     <div class="sh">The UDOR Vision</div>
-    <div class="ss">This is what we present to the LG, politicians, economic development. The pitch.</div>
+    <div class="ss">What we present to the LG, politicians, economic development.</div>
 
-    <div class="cta-block" style="margin-top:0;margin-bottom:24px">
-      <h3>&#x1F449; Open the UDOR Pitch Page</h3>
-      <p>Full hero page designed for the Lieutenant Governor and economic development contacts. Vision, ask, Springfield story.</p>
+    <div class="cta-block">
+      <h3>Open the UDOR Pitch Page</h3>
+      <p>Full hero page designed for the Lieutenant Governor and economic development contacts.</p>
       <a href="/pitch" class="cta-btn">Open UDOR Pitch &rarr;</a>
     </div>
 
-    <div class="card">
-      <h3>&#x1F3D7; The 30-Second Pitch</h3>
-      <p>UDOR Studios is a venture studio that builds AI-powered tools for the construction industry. We test everything on a real $410M construction company (Fontaine Bros, 93 years, Springfield MA). We prove it works, then sell it to the rest of the industry. We're headquartered in Springfield because <span class="hl">this is where construction meets AI &mdash; not Silicon Valley.</span></p>
+    <div class="card" style="margin-top:24px">
+      <h3>The 30-Second Pitch</h3>
+      <p>UDOR Studios builds AI-powered tools for construction. We test everything on a $410M company (Fontaine Bros, 93 years, Springfield). Prove it works, sell to the industry. We're in Springfield because <span class="hl">this is where construction meets AI &mdash; not Silicon Valley.</span></p>
     </div>
 
     <div class="card">
-      <h3>&#x1F3AF; The Ask (for Politicians)</h3>
-      <p><strong>1. Connections</strong> &mdash; Introductions to economic development leaders, innovation councils, workforce development agencies, and other construction/manufacturing CEOs thinking about AI.<br><br>
-      <strong>2. Space</strong> &mdash; A physical innovation lab in Springfield. Co-working or dedicated. Where builders and technologists work side by side.<br><br>
-      <strong>3. Funding</strong> &mdash; State innovation grants, tax incentives for construction-tech R&D, workforce training funds for AI upskilling in the trades.<br><br>
-      <strong>4. Visibility</strong> &mdash; Feature UDOR/Fontaine as a case study for Massachusetts manufacturing + construction modernization. We're already doing the work &mdash; help us tell the story.</p>
-    </div>
-
-    <div class="card">
-      <h3>&#x1F4A1; Why Springfield, Why Now</h3>
-      <p>Construction is a $2T industry that's been 20 years behind on technology. AI changes that overnight. Springfield has the construction workforce, the infrastructure, and now &mdash; through Fontaine + UDOR &mdash; the innovation studio. <span class="hl">This isn't theory. We've already built 9 products, shipped 7 live sites, and have a $650K/year innovation budget running.</span></p>
+      <h3>The Ask (for Politicians)</h3>
+      <p><strong>1. Connections</strong> &mdash; Economic development, innovation councils, workforce agencies, construction CEOs.<br><br>
+      <strong>2. Space</strong> &mdash; Physical innovation lab in Springfield. Builders and technologists side by side.<br><br>
+      <strong>3. Funding</strong> &mdash; State innovation grants, construction-tech R&D incentives, workforce training for AI.<br><br>
+      <strong>4. Visibility</strong> &mdash; Feature UDOR/Fontaine as a Massachusetts modernization case study.</p>
     </div>
   </div>
 
   <!-- PHASE: NEXT STEPS -->
   <div class="phase" id="p-next">
     <div class="sh">Next Steps</div>
-    <div class="ss">What happens this week, this month, and before your March 3 visit.</div>
+    <div class="ss">This week, this month, and before your March 3 visit.</div>
 
-    <div class="card" style="border-color:#ef4444">
-      <h3>&#x1F525; This Week (Feb 17-21)</h3>
-      <p><strong>JSG:</strong> Review AI Wizard JD &rarr; give input. Check on TrailMix proposal status. Start assessing Staffing Tool prototype.<br><br>
-      <strong>Dave:</strong> Sign TrailMix NDA. 83(b) email to Jabbawy. 340 Main offer deadline (Wed). LightTable decision.<br><br>
-      <strong>Sam:</strong> Reply to LightTable by Wed. Follow up TrailMix. 6 items for 340 Main legal structure.<br><br>
+    <div class="card accent-card">
+      <h3>This Week (Feb 17-21)</h3>
+      <p><strong>JSG:</strong> Review AI Wizard JD. Check TrailMix proposal status. Start Staffing Tool assessment.<br><br>
+      <strong>Dave:</strong> Sign TrailMix NDA. 83(b) email. 340 Main deadline (Wed). LightTable decision.<br><br>
+      <strong>Sam:</strong> LightTable reply by Wed. TrailMix follow-up. 340 Main legal items.<br><br>
       <strong>Claire:</strong> 48 CSI domains. workwithfontaine.ai. LinkedIn profile draft.</p>
     </div>
 
     <div class="card">
-      <h3>&#x1F4C5; Before March 3 (Your Springfield Trip)</h3>
+      <h3>Before March 3 (Your Springfield Trip)</h3>
       <p><strong>1.</strong> AI Wizard JD finalized + posted<br>
       <strong>2.</strong> TrailMix proposal reviewed, kickoff scheduled<br>
-      <strong>3.</strong> Staffing Tool assessed &mdash; go/no-go decision<br>
-      <strong>4.</strong> Spark pipeline ranked (which 3 get resources first?)<br>
-      <strong>5.</strong> UDOR site deployed + domains connected<br>
+      <strong>3.</strong> Staffing Tool assessed &mdash; go/no-go<br>
+      <strong>4.</strong> Spark pipeline ranked<br>
+      <strong>5.</strong> UDOR site deployed<br>
       <strong>6.</strong> First LinkedIn post published<br>
-      <strong>7.</strong> ConTech assessment scoping with Dave Blazer</p>
+      <strong>7.</strong> ConTech assessment scoped with Blazer</p>
     </div>
 
     <div class="card">
-      <h3>&#x1F680; March 3-6 Springfield Visit</h3>
-      <p><strong>Day 1:</strong> Walk the Fontaine office. Meet Sam, Nicole, team. See the culture firsthand.<br>
-      <strong>Day 2:</strong> Deep dive on Triplicate + TrailMix. Review prototypes. Map GTM.<br>
+      <h3>March 3-6 Springfield Visit</h3>
+      <p><strong>Day 1:</strong> Walk the Fontaine office. Meet Sam, Nicole, team.<br>
+      <strong>Day 2:</strong> Triplicate + TrailMix deep dive. Review prototypes.<br>
       <strong>Day 3:</strong> Spark pipeline review with Dave. Prioritize. Kill or accelerate.<br>
-      <strong>Day 4:</strong> ConTech assessment kickoff with Blazer. Travel home.</p>
+      <strong>Day 4:</strong> ConTech assessment kickoff with Blazer.</p>
     </div>
 
     <div class="card">
-      <h3>&#x1F4CA; 90-Day Targets (by May 2026)</h3>
+      <h3>90-Day Targets (by May 2026)</h3>
       <p><strong>Products:</strong> Triplicate in market. Staffing tool in beta. 1 more spark promoted.<br>
-      <strong>Fontaine:</strong> AI Wizard hired. Phase 1 roadmap executing. 2+ quick wins deployed.<br>
+      <strong>Fontaine:</strong> AI Wizard hired. Phase 1 executing. 2+ quick wins deployed.<br>
       <strong>UDOR:</strong> Site live. 5-10 inbound inquiries. First speaking gig.<br>
-      <strong>Brand:</strong> LinkedIn at 8K+ followers. davefontaine.ai hub built. Book manuscript 50% done.</p>
+      <strong>Brand:</strong> LinkedIn 8K+. davefontaine.ai built. Book 50% done.</p>
     </div>
   </div>
 
