@@ -29,7 +29,7 @@
             transform: translate(-50%, -50%) rotate(-35deg);
             font-size: 120px;
             font-weight: 900;
-            color: rgba(255, 255, 255, 0.025);
+            color: rgba(255, 255, 255, 0.02);
             letter-spacing: 20px;
             pointer-events: none;
             z-index: 0;
@@ -40,10 +40,7 @@
         /* ===== LOGIN OVERLAY ===== */
         #login-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background: #0a0a0a;
             display: flex;
             align-items: center;
@@ -51,11 +48,7 @@
             z-index: 9999;
             transition: opacity 0.5s ease, visibility 0.5s ease;
         }
-        #login-overlay.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
+        #login-overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
         .login-card {
             background: #111;
             border: 1px solid #333;
@@ -65,421 +58,299 @@
             max-width: 380px;
             text-align: center;
         }
-        .login-card .lock-icon {
-            font-size: 36px;
-            margin-bottom: 16px;
-            display: block;
-        }
-        .login-card h2 {
-            font-size: 16px;
-            font-weight: 700;
-            color: #ccc;
-            margin-bottom: 8px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-family: inherit;
-        }
-        .login-card p {
-            font-size: 12px;
-            color: #666;
-            margin-bottom: 24px;
-        }
+        .login-card .lock-icon { font-size: 36px; margin-bottom: 16px; display: block; }
+        .login-card h2 { font-size: 16px; font-weight: 700; color: #ccc; margin-bottom: 8px; letter-spacing: 2px; text-transform: uppercase; font-family: inherit; }
+        .login-card p { font-size: 12px; color: #666; margin-bottom: 24px; }
         .login-card input[type="password"] {
-            width: 100%;
-            padding: 14px 16px;
-            background: #0a0a0a;
-            border: 2px solid #333;
-            border-radius: 6px;
-            color: #e8e8e8;
-            font-size: 16px;
-            font-family: inherit;
-            outline: none;
-            transition: border-color 0.2s ease;
-            margin-bottom: 14px;
-            text-align: center;
-            letter-spacing: 4px;
+            width: 100%; padding: 14px 16px; background: #0a0a0a; border: 2px solid #333;
+            border-radius: 6px; color: #e8e8e8; font-size: 16px; font-family: inherit;
+            outline: none; transition: border-color 0.2s ease; margin-bottom: 14px;
+            text-align: center; letter-spacing: 4px;
         }
-        .login-card input[type="password"]:focus {
-            border-color: #e8e8e8;
-        }
-        .login-card input[type="password"]::placeholder {
-            color: #444;
-            letter-spacing: 1px;
-        }
+        .login-card input[type="password"]:focus { border-color: #e8e8e8; }
+        .login-card input[type="password"]::placeholder { color: #444; letter-spacing: 1px; }
         .login-btn {
-            width: 100%;
-            padding: 14px;
-            background: #e8e8e8;
-            color: #0a0a0a;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 700;
-            font-family: inherit;
-            cursor: pointer;
-            letter-spacing: 2px;
-            text-transform: uppercase;
+            width: 100%; padding: 14px; background: #e8e8e8; color: #0a0a0a; border: none;
+            border-radius: 6px; font-size: 14px; font-weight: 700; font-family: inherit;
+            cursor: pointer; letter-spacing: 2px; text-transform: uppercase;
             transition: background 0.2s ease, transform 0.1s ease;
         }
         .login-btn:hover { background: #fff; }
         .login-btn:active { transform: scale(0.98); }
         .error-msg {
-            color: #ff4444;
-            font-size: 13px;
-            font-weight: 700;
-            margin-top: 14px;
-            min-height: 20px;
-            opacity: 0;
-            transition: opacity 0.2s ease;
+            color: #ff4444; font-size: 13px; font-weight: 700; margin-top: 14px;
+            min-height: 20px; opacity: 0; transition: opacity 0.2s ease;
         }
         .error-msg.visible { opacity: 1; }
 
         /* ===== MAIN CONTENT ===== */
-        #main-content {
-            opacity: 0;
-            transition: opacity 0.5s ease 0.3s;
-            position: relative;
-            z-index: 1;
-        }
+        #main-content { opacity: 0; transition: opacity 0.5s ease 0.3s; position: relative; z-index: 1; }
         #main-content.visible { opacity: 1; }
 
         /* ===== TOP BAR ===== */
         .topbar {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: rgba(10, 10, 10, 0.95);
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(10, 10, 10, 0.97);
             border-bottom: 2px solid #333;
             padding: 0 24px;
         }
         .topbar-inner {
-            max-width: 1600px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 56px;
+            max-width: 1600px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between; height: 56px;
         }
-        .topbar-left {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-        .topbar-left h1 {
-            font-size: 16px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            white-space: nowrap;
-        }
-        .topbar-divider {
-            width: 1px;
-            height: 24px;
-            background: #333;
-        }
-        .topbar-motto {
-            font-size: 12px;
-            color: #666;
-            font-style: italic;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .topbar-right {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            font-size: 12px;
-            color: #888;
-            font-variant-numeric: tabular-nums;
-        }
+        .topbar-left { display: flex; align-items: center; gap: 16px; }
+        .topbar-left h1 { font-size: 16px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; white-space: nowrap; }
+        .topbar-divider { width: 1px; height: 24px; background: #333; }
+        .topbar-motto { font-size: 12px; color: #666; font-style: italic; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .topbar-right { display: flex; align-items: center; gap: 16px; font-size: 12px; color: #888; font-variant-numeric: tabular-nums; }
 
         /* ===== CONTAINER ===== */
-        .container {
-            max-width: 1600px;
-            margin: 0 auto;
-            padding: 24px 24px 140px;
+        .container { max-width: 1600px; margin: 0 auto; padding: 24px 24px 160px; }
+
+        /* ===== THE GATE — Dave's decision banner ===== */
+        .gate-banner {
+            border: 3px solid #fff;
+            border-radius: 8px;
+            padding: 20px 24px;
+            margin-bottom: 24px;
+            background: #111;
         }
+        .gate-banner h2 {
+            font-size: 18px; font-weight: 900; letter-spacing: 2px;
+            text-transform: uppercase; margin-bottom: 12px;
+        }
+        .gate-banner h2 .emoji { font-style: normal; }
+        .gate-row {
+            display: flex; flex-wrap: wrap; gap: 8px 24px;
+            font-size: 14px; margin-bottom: 8px;
+        }
+        .gate-stat { display: flex; align-items: center; gap: 6px; }
+        .gate-stat .num { font-weight: 900; font-size: 20px; }
+        .gate-stat .lbl { color: #999; font-size: 13px; }
+        .gate-rule {
+            font-size: 12px; color: #888; margin-top: 10px; padding-top: 10px;
+            border-top: 1px solid #333;
+        }
+        .gate-rule strong { color: #fff; }
 
         /* ===== STATS BAR ===== */
         .stats-bar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 4px 16px;
-            padding: 16px 20px;
-            background: #111;
-            border: 2px solid #333;
-            border-radius: 6px;
-            margin-bottom: 28px;
-            font-size: 13px;
+            display: flex; flex-wrap: wrap; gap: 4px 16px;
+            padding: 14px 20px; background: #111; border: 2px solid #333;
+            border-radius: 6px; margin-bottom: 24px; font-size: 13px;
         }
-        .stat-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            white-space: nowrap;
-        }
+        .stat-item { display: flex; align-items: center; gap: 6px; white-space: nowrap; }
         .stat-label { color: #888; }
         .stat-value { font-weight: 900; color: #fff; font-size: 15px; }
-        .stat-divider {
-            color: #333;
-            padding: 0 4px;
-        }
+        .stat-divider { color: #333; padding: 0 4px; }
 
         /* ===== SECTION HEADER ===== */
         .section-header {
-            font-size: 14px;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            padding: 14px 0 10px;
-            border-bottom: 2px solid #444;
-            margin-bottom: 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            font-size: 14px; font-weight: 900; text-transform: uppercase;
+            letter-spacing: 3px; padding: 14px 0 10px; border-bottom: 2px solid #444;
+            margin-bottom: 0; display: flex; align-items: center; gap: 10px;
         }
 
         /* ===== THE TABLE ===== */
-        .project-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 40px;
-            font-size: 13px;
-        }
+        .project-table { width: 100%; border-collapse: collapse; margin-bottom: 12px; font-size: 13px; }
         .project-table thead th {
-            background: #151515;
-            color: #aaa;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            padding: 10px 12px;
-            text-align: left;
-            border-bottom: 2px solid #444;
-            position: sticky;
-            top: 56px;
-            z-index: 10;
-            white-space: nowrap;
+            background: #151515; color: #aaa; font-size: 11px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 1.5px; padding: 10px 10px;
+            text-align: left; border-bottom: 2px solid #444;
+            position: sticky; top: 56px; z-index: 10; white-space: nowrap;
         }
-        .project-table thead th:first-child {
-            width: 36px;
-            text-align: center;
-        }
-        .project-table tbody tr {
-            border-bottom: 1px solid #1e1e1e;
-            transition: background 0.15s ease;
-        }
-        .project-table tbody tr:hover {
-            background: #1a1a1a;
-        }
-        .project-table tbody td {
-            padding: 12px 12px;
-            vertical-align: top;
-            line-height: 1.5;
-        }
-        .project-table tbody td:first-child {
-            text-align: center;
-            color: #555;
-            font-weight: 700;
-            font-size: 12px;
-        }
+        .project-table thead th:first-child { width: 50px; text-align: center; }
+        .project-table tbody tr { border-bottom: 1px solid #1e1e1e; transition: background 0.15s ease; }
+        .project-table tbody tr:hover { background: #1a1a1a; }
+        .project-table tbody td { padding: 10px 10px; vertical-align: top; line-height: 1.5; }
+        .project-table tbody td:first-child { text-align: center; }
 
-        /* Row number */
-        .row-num {
-            color: #555;
-            font-size: 11px;
-        }
+        /* Reference ID */
+        .ref-id { font-weight: 900; font-size: 13px; color: #fff; letter-spacing: 0.5px; }
 
         /* Project name cell */
-        .proj-name {
-            font-weight: 900;
-            font-size: 14px;
-            color: #fff;
-            white-space: nowrap;
-        }
+        .proj-name { font-weight: 900; font-size: 14px; color: #fff; white-space: nowrap; }
+        .proj-thread { font-size: 10px; color: #555; display: block; }
 
         /* Status text */
-        .status-text {
-            font-size: 12px;
-            color: #bbb;
-        }
+        .status-text { font-size: 12px; color: #bbb; }
 
         /* Health badges - TEXT ONLY, no color reliance */
-        .health {
-            font-weight: 900;
-            font-size: 12px;
-            white-space: nowrap;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-        }
+        .health { font-weight: 900; font-size: 12px; white-space: nowrap; display: inline-flex; align-items: center; gap: 4px; }
 
         /* Ball in court badges */
         .court {
-            display: inline-block;
-            font-weight: 900;
-            font-size: 11px;
-            letter-spacing: 0.5px;
-            padding: 3px 10px;
-            border: 2px solid #555;
-            border-radius: 4px;
-            white-space: nowrap;
-            background: #1a1a1a;
-            color: #fff;
+            display: inline-block; font-weight: 900; font-size: 11px;
+            letter-spacing: 0.5px; padding: 3px 10px; border: 2px solid #555;
+            border-radius: 4px; white-space: nowrap; background: #1a1a1a; color: #fff;
         }
 
-        /* Last action / Next step */
-        .action-text {
-            font-size: 12px;
-            color: #999;
+        /* Proposed next step — THE KEY DISTINCTION */
+        .next-proposed {
+            font-size: 12px; color: #999; font-weight: 400;
+            border-left: 3px solid #444; padding-left: 8px;
         }
-        .next-text {
-            font-size: 12px;
-            color: #ccc;
-            font-weight: 700;
+        .next-proposed::before { content: '⬜ PROPOSED: '; font-weight: 900; font-size: 11px; }
+
+        /* Authorized next step — Dave said GO */
+        .next-authorized {
+            font-size: 12px; color: #fff; font-weight: 700;
+            border-left: 3px solid #fff; padding-left: 8px;
         }
+        .next-authorized::before { content: '✅ GO: '; font-weight: 900; font-size: 11px; }
+
+        /* Last action */
+        .action-text { font-size: 12px; color: #999; }
+
+        /* Links / connections */
+        .connections { font-size: 11px; color: #666; margin-top: 4px; }
+        .connections::before { content: '↗ '; }
+
+        /* ===== DECISION LEGEND ===== */
+        .legend {
+            display: flex; flex-wrap: wrap; gap: 6px 20px;
+            padding: 14px 20px; background: #111; border: 2px solid #333;
+            border-radius: 6px; margin-bottom: 24px; font-size: 12px;
+        }
+        .legend-item { display: flex; align-items: center; gap: 6px; white-space: nowrap; color: #aaa; }
+        .legend-item strong { color: #fff; }
 
         /* ===== MEETINGS TABLE ===== */
         .meeting-table {
-            width: 100%;
-            max-width: 900px;
-            border-collapse: collapse;
-            margin-bottom: 40px;
-            font-size: 13px;
+            width: 100%; max-width: 900px; border-collapse: collapse;
+            margin-bottom: 40px; font-size: 13px;
         }
         .meeting-table thead th {
-            background: #151515;
-            color: #aaa;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            padding: 10px 12px;
-            text-align: left;
-            border-bottom: 2px solid #444;
+            background: #151515; color: #aaa; font-size: 11px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 1.5px; padding: 10px 12px;
+            text-align: left; border-bottom: 2px solid #444;
         }
-        .meeting-table tbody td {
-            padding: 10px 12px;
-            border-bottom: 1px solid #1e1e1e;
-            vertical-align: top;
+        .meeting-table tbody td { padding: 10px 12px; border-bottom: 1px solid #1e1e1e; vertical-align: top; }
+        .meeting-table tbody tr:hover { background: #1a1a1a; }
+        .meeting-name { font-weight: 900; color: #fff; font-size: 14px; }
+
+        /* ===== SAM'S INPUT SECTION ===== */
+        .sam-section {
+            border: 2px solid #444; border-radius: 8px;
+            padding: 20px 24px; margin-top: 32px; margin-bottom: 32px;
+            background: #0f0f0f;
         }
-        .meeting-table tbody tr:hover {
-            background: #1a1a1a;
+        .sam-section h3 {
+            font-size: 14px; font-weight: 900; letter-spacing: 2px;
+            text-transform: uppercase; margin-bottom: 4px;
         }
-        .meeting-name {
-            font-weight: 900;
-            color: #fff;
-            font-size: 14px;
+        .sam-section .sam-desc {
+            font-size: 12px; color: #666; margin-bottom: 16px;
         }
+        .sam-input-row { display: flex; gap: 8px; margin-bottom: 10px; }
+        .sam-ref-input {
+            width: 80px; padding: 10px; background: #111; border: 2px solid #333;
+            border-radius: 4px; color: #fff; font-family: inherit; font-size: 13px;
+            font-weight: 700; outline: none; text-transform: uppercase;
+        }
+        .sam-ref-input::placeholder { color: #444; text-transform: none; font-weight: 400; }
+        .sam-text-input {
+            flex: 1; padding: 10px; background: #111; border: 2px solid #333;
+            border-radius: 4px; color: #e8e8e8; font-family: inherit; font-size: 13px;
+            outline: none;
+        }
+        .sam-text-input::placeholder { color: #444; }
+        .sam-text-input:focus, .sam-ref-input:focus { border-color: #888; }
+        .sam-submit-btn {
+            padding: 10px 20px; background: #333; border: 2px solid #555;
+            border-radius: 4px; color: #fff; font-family: inherit; font-size: 12px;
+            font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .sam-submit-btn:hover { background: #444; border-color: #777; }
+        .sam-notes-list { margin-top: 12px; }
+        .sam-note {
+            display: flex; gap: 10px; padding: 8px 12px; background: #111;
+            border: 1px solid #222; border-radius: 4px; margin-bottom: 6px;
+            font-size: 12px; align-items: flex-start;
+        }
+        .sam-note-ref { font-weight: 900; color: #fff; min-width: 50px; flex-shrink: 0; }
+        .sam-note-text { color: #ccc; flex: 1; }
+        .sam-note-time { color: #555; font-size: 11px; white-space: nowrap; flex-shrink: 0; }
+        .sam-note-del {
+            background: none; border: none; color: #555; cursor: pointer;
+            font-size: 14px; padding: 0 4px; flex-shrink: 0;
+        }
+        .sam-note-del:hover { color: #ff4444; }
 
         /* ===== FOOTER ===== */
         .footer {
-            padding: 24px;
-            border-top: 2px solid #333;
-            text-align: center;
-            font-size: 12px;
-            color: #555;
-            line-height: 1.8;
+            padding: 24px; border-top: 2px solid #333;
+            text-align: center; font-size: 12px; color: #555; line-height: 1.8;
         }
         .footer strong { color: #888; }
 
         /* ===== FLOATING BUTTONS ===== */
         .float-btns {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            display: flex;
-            gap: 10px;
-            z-index: 200;
+            position: fixed; bottom: 24px; right: 24px;
+            display: flex; gap: 10px; z-index: 200;
         }
         .float-btn {
-            padding: 10px 18px;
-            background: #1a1a1a;
-            border: 2px solid #444;
-            border-radius: 6px;
-            color: #ccc;
-            font-size: 12px;
-            font-weight: 700;
-            font-family: inherit;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.2s ease;
+            padding: 10px 18px; background: #1a1a1a; border: 2px solid #444;
+            border-radius: 6px; color: #ccc; font-size: 12px; font-weight: 700;
+            font-family: inherit; cursor: pointer; text-transform: uppercase;
+            letter-spacing: 1px; transition: all 0.2s ease;
         }
-        .float-btn:hover {
-            background: #333;
-            color: #fff;
-            border-color: #666;
-        }
+        .float-btn:hover { background: #333; color: #fff; border-color: #666; }
 
         /* ===== PRINT ===== */
         @media print {
             body { background: #fff; color: #111; }
             body::before { display: none; }
             .topbar { position: static; background: #fff; border-color: #ccc; }
+            .gate-banner { border-color: #333; background: #f5f5f5; }
+            .gate-banner h2 { color: #000; }
+            .gate-stat .num { color: #000; }
             .stats-bar { background: #f5f5f5; border-color: #ccc; }
             .stat-value { color: #000; }
             .stat-label { color: #555; }
+            .legend { background: #f5f5f5; border-color: #ccc; }
             .project-table thead th { background: #eee; color: #333; border-color: #999; position: static; }
             .project-table tbody tr { border-color: #ddd; }
             .project-table tbody tr:hover { background: transparent; }
             .proj-name { color: #000; }
+            .ref-id { color: #000; }
             .court { border-color: #999; background: #eee; color: #000; }
+            .next-proposed { color: #555; border-color: #ccc; }
+            .next-authorized { color: #000; border-color: #000; }
             .meeting-table thead th { background: #eee; color: #333; border-color: #999; }
             .meeting-table tbody td { border-color: #ddd; }
             .meeting-name { color: #000; }
             .footer { border-color: #ccc; color: #888; }
             .float-btns { display: none !important; }
             #login-overlay { display: none !important; }
-            .action-text { color: #555; }
-            .next-text { color: #222; }
-            .status-text { color: #444; }
-            .health { color: #222; }
+            .sam-section { border-color: #ccc; background: #f9f9f9; }
         }
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 1100px) {
             .project-table, .project-table thead, .project-table tbody,
-            .project-table th, .project-table td, .project-table tr {
-                display: block;
-            }
+            .project-table th, .project-table td, .project-table tr { display: block; }
             .project-table thead { display: none; }
             .project-table tbody tr {
-                border: 2px solid #333;
-                border-radius: 6px;
-                margin-bottom: 12px;
-                padding: 12px 16px;
-                background: #111;
+                border: 2px solid #333; border-radius: 6px;
+                margin-bottom: 12px; padding: 12px 16px; background: #111;
             }
             .project-table tbody td {
-                padding: 4px 0;
-                border: none;
-                display: flex;
-                gap: 8px;
-                align-items: flex-start;
+                padding: 4px 0; border: none; display: flex; gap: 8px; align-items: flex-start;
             }
-            .project-table tbody td:first-child {
-                text-align: left;
-            }
+            .project-table tbody td:first-child { text-align: left; }
             .project-table tbody td::before {
                 content: attr(data-label);
-                font-size: 10px;
-                font-weight: 700;
-                text-transform: uppercase;
-                letter-spacing: 1px;
-                color: #555;
-                min-width: 90px;
-                flex-shrink: 0;
+                font-size: 10px; font-weight: 700; text-transform: uppercase;
+                letter-spacing: 1px; color: #555; min-width: 70px; flex-shrink: 0;
             }
-            .stats-bar {
-                gap: 6px 12px;
-                font-size: 12px;
-            }
+            .gate-row { gap: 6px 16px; }
+            .sam-input-row { flex-direction: column; }
+            .sam-ref-input { width: 100%; }
         }
         @media (max-width: 768px) {
             .topbar-motto, .topbar-divider { display: none; }
-            .container { padding: 16px 12px 120px; }
+            .container { padding: 16px 12px 140px; }
             .topbar-left h1 { font-size: 13px; letter-spacing: 1px; }
             .float-btns { bottom: 12px; right: 12px; }
         }
@@ -512,9 +383,9 @@
     <header class="topbar">
         <div class="topbar-inner">
             <div class="topbar-left">
-                <h1>&#128203; Chief of Staff &mdash; Command Center</h1>
+                <h1>&#128203; Chief of Staff</h1>
                 <div class="topbar-divider"></div>
-                <span class="topbar-motto" id="motto">Everything is accounted for.</span>
+                <span class="topbar-motto" id="motto">Dave is the gate. Nothing moves without authorization.</span>
             </div>
             <div class="topbar-right">
                 <span id="clock"></span>
@@ -524,10 +395,49 @@
 
     <main class="container">
 
+        <!-- ===== THE GATE ===== -->
+        <div class="gate-banner">
+            <h2><span class="emoji">&#128272;</span> DAVE IS THE GATE</h2>
+            <div class="gate-row">
+                <div class="gate-stat">
+                    <span class="num" id="count-authorized">3</span>
+                    <span class="lbl">AUTHORIZED (in motion)</span>
+                </div>
+                <div class="gate-stat">
+                    <span class="num" id="count-proposed">8</span>
+                    <span class="lbl">PROPOSED (waiting on Dave)</span>
+                </div>
+                <div class="gate-stat">
+                    <span class="num" id="count-parked">8</span>
+                    <span class="lbl">PARKED (acknowledged, not now)</span>
+                </div>
+            </div>
+            <div class="gate-rule">
+                <strong>THE RULE:</strong> Everything below has a proposed next step. Nothing moves until Dave authorizes it.
+                ✅ GO = Dave said do it &nbsp; | &nbsp; ⬜ PROPOSED = logical next step, waiting for Dave's call &nbsp; | &nbsp; ⏸️ PARKED = not now, don't lose it
+            </div>
+            <div class="gate-rule">
+                <strong>TO AUTHORIZE:</strong> Tell Claude "authorize P3" or "authorize P3, cc Sam" or "P5 &rarr; /spark" or "P7 connects to P3, do P3 first"
+            </div>
+        </div>
+
+        <!-- ===== DECISION LEGEND ===== -->
+        <div class="legend">
+            <div class="legend-item"><strong>⚡ DEPLOY</strong> — do it now</div>
+            <div class="legend-item"><strong>✏️ MODIFY</strong> — approve with edits</div>
+            <div class="legend-item"><strong>⏸️ PAUSE</strong> — park it</div>
+            <div class="legend-item"><strong>🔄 REVISE</strong> — rethink approach</div>
+            <div class="legend-item"><strong>❌ KILL</strong> — we're not doing this</div>
+            <div class="legend-item"><strong>💡 /spark</strong> — ideate</div>
+            <div class="legend-item"><strong>📤 /sam</strong> — delegate</div>
+            <div class="legend-item"><strong>📤 /claire</strong> — delegate</div>
+            <div class="legend-item"><strong>🧠 /whiteboard</strong> — deep dive</div>
+        </div>
+
         <!-- ===== STATS BAR ===== -->
         <div class="stats-bar">
             <div class="stat-item">
-                <span class="stat-label">Total Projects:</span>
+                <span class="stat-label">Total:</span>
                 <span class="stat-value">19</span>
             </div>
             <span class="stat-divider">|</span>
@@ -537,7 +447,7 @@
             </div>
             <span class="stat-divider">|</span>
             <div class="stat-item">
-                <span class="stat-label">&#9888;&#65039; Needs Attn:</span>
+                <span class="stat-label">&#9888;&#65039; Attn:</span>
                 <span class="stat-value">7</span>
             </div>
             <span class="stat-divider">|</span>
@@ -552,230 +462,366 @@
             </div>
             <span class="stat-divider">|</span>
             <div class="stat-item">
-                <span class="stat-label">Ball&mdash;Dave:</span>
+                <span class="stat-label">Dave:</span>
                 <span class="stat-value">7</span>
             </div>
             <span class="stat-divider">|</span>
             <div class="stat-item">
-                <span class="stat-label">Ball&mdash;Sam:</span>
+                <span class="stat-label">Sam:</span>
+                <span class="stat-value">3</span>
+            </div>
+            <span class="stat-divider">|</span>
+            <div class="stat-item">
+                <span class="stat-label">Claire:</span>
                 <span class="stat-value">2</span>
             </div>
             <span class="stat-divider">|</span>
             <div class="stat-item">
-                <span class="stat-label">Ball&mdash;Claire:</span>
-                <span class="stat-value">2</span>
-            </div>
-            <span class="stat-divider">|</span>
-            <div class="stat-item">
-                <span class="stat-label">Ball&mdash;Claude:</span>
+                <span class="stat-label">Claude:</span>
                 <span class="stat-value">3</span>
             </div>
         </div>
 
-        <!-- ===== PROJECT STATUS TABLE ===== -->
-        <div class="section-header">&#128203; PROJECT STATUS</div>
+        <!-- =============================== -->
+        <!-- ===== AUTHORIZED — IN MOTION ===== -->
+        <!-- =============================== -->
+        <div class="section-header">✅ AUTHORIZED — IN MOTION (Dave said GO)</div>
         <table class="project-table">
             <thead>
                 <tr>
-                    <th>#</th>
+                    <th>REF</th>
                     <th>Project</th>
                     <th>Status</th>
                     <th>Health</th>
-                    <th>Ball In Court</th>
+                    <th>Court</th>
                     <th>Last Action</th>
                     <th>Next Step</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- 1 -->
+                <!-- P1 -->
                 <tr>
-                    <td data-label="#">1</td>
-                    <td data-label="Project"><span class="proj-name">340 Main St</span></td>
-                    <td data-label="Status"><span class="status-text">Seller deadline Wed 2/18</span></td>
-                    <td data-label="Health"><span class="health">&#128293; <u>URGENT</u></span></td>
-                    <td data-label="Ball"><span class="court">[SAM]</span></td>
-                    <td data-label="Last"><span class="action-text">Dave sent 14-item email to Sam (2/15 10:44 PM)</span></td>
-                    <td data-label="Next"><span class="next-text">Seth PG answer &rarr; surety decision</span></td>
+                    <td data-label="Ref"><span class="ref-id">P1</span></td>
+                    <td data-label="Project">
+                        <span class="proj-name">340 Main St</span>
+                        <span class="proj-thread">Thread 25 &mdash; $119M LIHTC</span>
+                    </td>
+                    <td data-label="Status"><span class="status-text">Seller deadline Wed 2/18. 4 FIRE items open.</span></td>
+                    <td data-label="Health"><span class="health">&#128293; <u><b>URGENT</b></u></span></td>
+                    <td data-label="Court"><span class="court">[SAM]</span></td>
+                    <td data-label="Last"><span class="action-text">Dave sent 14-item email to Sam (2/15 10:44 PM). Val deal room live.</span></td>
+                    <td data-label="Next"><span class="next-authorized">Sam gets Seth PG answer &rarr; that unlocks surety decision</span></td>
                 </tr>
-                <!-- 2 -->
+                <!-- P2 -->
                 <tr>
-                    <td data-label="#">2</td>
-                    <td data-label="Project"><span class="proj-name">Family Office</span></td>
-                    <td data-label="Status"><span class="status-text">Sam scheduling Dave + Val</span></td>
+                    <td data-label="Ref"><span class="ref-id">P2</span></td>
+                    <td data-label="Project">
+                        <span class="proj-name">Family Office</span>
+                        <span class="proj-thread">Thread 30 &mdash; Dave + Val</span>
+                    </td>
+                    <td data-label="Status"><span class="status-text">Sam scheduling 60-90 min block</span></td>
                     <td data-label="Health"><span class="health">&#9888;&#65039; NEEDS ATTN</span></td>
-                    <td data-label="Ball"><span class="court">[SAM]</span></td>
+                    <td data-label="Court"><span class="court">[SAM]</span></td>
                     <td data-label="Last"><span class="action-text">Added to Sam email item #14 (2/15)</span></td>
-                    <td data-label="Next"><span class="next-text">Sam finds 2-3 Boston family office firms</span></td>
+                    <td data-label="Next"><span class="next-authorized">Sam finds 2-3 Boston family office firms ($10-50M range)</span></td>
                 </tr>
-                <!-- 3 -->
+                <!-- P3 -->
                 <tr>
-                    <td data-label="#">3</td>
-                    <td data-label="Project"><span class="proj-name">davefontaine.ai</span></td>
-                    <td data-label="Status"><span class="status-text">194 files, 4 sub-pages</span></td>
+                    <td data-label="Ref"><span class="ref-id">P3</span></td>
+                    <td data-label="Project">
+                        <span class="proj-name">davefontaine.ai</span>
+                        <span class="proj-thread">Thread 13 &mdash; Hub site</span>
+                    </td>
+                    <td data-label="Status"><span class="status-text">Live. 194 files. val/, cos/, ask chatbot deployed.</span></td>
                     <td data-label="Health"><span class="health">&#9989; LIVE</span></td>
-                    <td data-label="Ball"><span class="court">[CLAUDE]</span></td>
-                    <td data-label="Last"><span class="action-text">Deployed Ask Val chatbot (2/15)</span></td>
-                    <td data-label="Next"><span class="next-text">Iterate on chatbot, add more pages</span></td>
+                    <td data-label="Court"><span class="court">[CLAUDE]</span></td>
+                    <td data-label="Last"><span class="action-text">COS page deployed (2/15), Ask Val chatbot live</span></td>
+                    <td data-label="Next"><span class="next-authorized">Iterate COS page per Dave's feedback</span></td>
                 </tr>
-                <!-- 4 -->
+            </tbody>
+        </table>
+
+        <!-- =============================== -->
+        <!-- ===== PROPOSED — WAITING ON DAVE ===== -->
+        <!-- =============================== -->
+        <div class="section-header">⬜ PROPOSED — WAITING ON DAVE (logical next steps, not yet authorized)</div>
+        <table class="project-table">
+            <thead>
                 <tr>
-                    <td data-label="#">4</td>
-                    <td data-label="Project"><span class="proj-name">TagSale.ai</span></td>
-                    <td data-label="Status"><span class="status-text">VIP access gate active</span></td>
+                    <th>REF</th>
+                    <th>Project</th>
+                    <th>Status</th>
+                    <th>Health</th>
+                    <th>Court</th>
+                    <th>Last Action</th>
+                    <th>Next Step</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- P4 -->
+                <tr>
+                    <td data-label="Ref"><span class="ref-id">P4</span></td>
+                    <td data-label="Project">
+                        <span class="proj-name">TagSale.ai</span>
+                        <span class="proj-thread">Thread 1 &mdash; UDOR portfolio co.</span>
+                    </td>
+                    <td data-label="Status"><span class="status-text">VIP access gate active, site live</span></td>
                     <td data-label="Health"><span class="health">&#9989; LIVE</span></td>
-                    <td data-label="Ball"><span class="court">[DAVE]</span></td>
+                    <td data-label="Court"><span class="court">[DAVE]</span></td>
                     <td data-label="Last"><span class="action-text">Site redesigned with VIP gate</span></td>
-                    <td data-label="Next"><span class="next-text">Biz feasibility review</span></td>
+                    <td data-label="Next">
+                        <span class="next-proposed">Biz feasibility review &mdash; /spark or /jsg</span>
+                    </td>
                 </tr>
-                <!-- 5 -->
+                <!-- P5 -->
                 <tr>
-                    <td data-label="#">5</td>
-                    <td data-label="Project"><span class="proj-name">PixiePlanner.ai</span></td>
-                    <td data-label="Status"><span class="status-text">Needs Stripe + Tally</span></td>
+                    <td data-label="Ref"><span class="ref-id">P5</span></td>
+                    <td data-label="Project">
+                        <span class="proj-name">PixiePlanner.ai</span>
+                        <span class="proj-thread">Thread 8 &mdash; Party planning SaaS</span>
+                    </td>
+                    <td data-label="Status"><span class="status-text">Needs Stripe + Tally for payments</span></td>
                     <td data-label="Health"><span class="health">&#9888;&#65039; NEEDS ATTN</span></td>
-                    <td data-label="Ball"><span class="court">[DAVE]</span></td>
+                    <td data-label="Court"><span class="court">[DAVE]</span></td>
                     <td data-label="Last"><span class="action-text">Site live with VIP gate</span></td>
-                    <td data-label="Next"><span class="next-text">Dave sets up Stripe account + Tally form</span></td>
+                    <td data-label="Next">
+                        <span class="next-proposed">Dave sets up Stripe account + beta test &mdash; /spark or /jsg</span>
+                    </td>
                 </tr>
-                <!-- 6 -->
+                <!-- P6 -->
                 <tr>
-                    <td data-label="#">6</td>
-                    <td data-label="Project"><span class="proj-name">HalfFullMorning.ai</span></td>
+                    <td data-label="Ref"><span class="ref-id">P6</span></td>
+                    <td data-label="Project">
+                        <span class="proj-name">HalfFullMorning.ai</span>
+                        <span class="proj-thread">Thread 16 &mdash; Daily wellness</span>
+                    </td>
                     <td data-label="Status"><span class="status-text">Greenlit, domains needed</span></td>
                     <td data-label="Health"><span class="health">&#9888;&#65039; NEEDS ATTN</span></td>
-                    <td data-label="Ball"><span class="court">[CLAIRE]</span></td>
-                    <td data-label="Last"><span class="action-text">Dave greenlit in Sam email</span></td>
-                    <td data-label="Next"><span class="next-text">Claire buys domains on whois.com</span></td>
+                    <td data-label="Court"><span class="court">[CLAIRE]</span></td>
+                    <td data-label="Last"><span class="action-text">Dave greenlit &mdash; redirected to Claire for domains</span></td>
+                    <td data-label="Next">
+                        <span class="next-proposed">Claire buys domains on whois.com &rarr; Claude builds first version</span>
+                    </td>
                 </tr>
-                <!-- 7 -->
+                <!-- P7 -->
                 <tr>
-                    <td data-label="#">7</td>
-                    <td data-label="Project"><span class="proj-name">UDOR Studios</span></td>
-                    <td data-label="Status"><span class="status-text">Need deck for LG Friday</span></td>
+                    <td data-label="Ref"><span class="ref-id">P7</span></td>
+                    <td data-label="Project">
+                        <span class="proj-name">UDOR Studios</span>
+                        <span class="proj-thread">Thread 3 &mdash; Venture studio</span>
+                    </td>
+                    <td data-label="Status"><span class="status-text">Need deck if Dave sees LG Friday</span></td>
                     <td data-label="Health"><span class="health">&#9888;&#65039; NEEDS ATTN</span></td>
-                    <td data-label="Ball"><span class="court">[COLLAB]</span></td>
-                    <td data-label="Last"><span class="action-text">Dave says riff with JSG</span></td>
-                    <td data-label="Next"><span class="next-text">JSG collab on state officials deck</span></td>
+                    <td data-label="Court"><span class="court">[COLLAB]</span></td>
+                    <td data-label="Last"><span class="action-text">Dave says riff with JSG on state officials deck</span></td>
+                    <td data-label="Next">
+                        <span class="next-proposed">JSG + Claude collab on deck &mdash; /jsg</span>
+                        <div class="connections">Connects to P4 (TagSale as portfolio example)</div>
+                    </td>
                 </tr>
-                <!-- 8 -->
+                <!-- P8 -->
                 <tr>
-                    <td data-label="#">8</td>
-                    <td data-label="Project"><span class="proj-name">AI Agent Org Chart</span></td>
-                    <td data-label="Status"><span class="status-text">Architecture designed</span></td>
+                    <td data-label="Ref"><span class="ref-id">P8</span></td>
+                    <td data-label="Project">
+                        <span class="proj-name">AI Agent Org Chart</span>
+                        <span class="proj-thread">Thread 15 &mdash; Cabinet system</span>
+                    </td>
+                    <td data-label="Status"><span class="status-text">Architecture designed, COS page live</span></td>
                     <td data-label="Health"><span class="health">&#9888;&#65039; NEEDS ATTN</span></td>
-                    <td data-label="Ball"><span class="court">[CLAUDE]</span></td>
-                    <td data-label="Last"><span class="action-text">Cabinet spec written, dashboard built (2/15)</span></td>
-                    <td data-label="Next"><span class="next-text">Build /cio and /cso agents</span></td>
+                    <td data-label="Court"><span class="court">[CLAUDE]</span></td>
+                    <td data-label="Last"><span class="action-text">Cabinet spec + COS page built (2/15)</span></td>
+                    <td data-label="Next">
+                        <span class="next-proposed">Build /cio and /cso agents first &mdash; enables P2 and P9</span>
+                        <div class="connections">Predecessor to P2 (Family Office), P9 (Fontaine AI)</div>
+                    </td>
                 </tr>
-                <!-- 9 -->
+                <!-- P9 -->
                 <tr>
-                    <td data-label="#">9</td>
-                    <td data-label="Project"><span class="proj-name">Fontaine AI OS</span></td>
+                    <td data-label="Ref"><span class="ref-id">P9</span></td>
+                    <td data-label="Project">
+                        <span class="proj-name">Fontaine AI OS</span>
+                        <span class="proj-thread">Thread 18 &mdash; AI roadmap for Fontaine Bros</span>
+                    </td>
                     <td data-label="Status"><span class="status-text">Vision locked, needs first module</span></td>
-                    <td data-label="Health"><span class="health">&#9199;&#65039; PARKED</span></td>
-                    <td data-label="Ball"><span class="court">[DAVE]</span></td>
+                    <td data-label="Health"><span class="health">&#9888;&#65039; NEEDS ATTN</span></td>
+                    <td data-label="Court"><span class="court">[DAVE]</span></td>
                     <td data-label="Last"><span class="action-text">Vision locked Session 10</span></td>
-                    <td data-label="Next"><span class="next-text">Dave picks first module (rec: Risk Escalation)</span></td>
+                    <td data-label="Next">
+                        <span class="next-proposed">Dave picks first module (rec: Risk Escalation) &mdash; /spark</span>
+                        <div class="connections">Predecessor to P12 (LinkedIn) &mdash; do it, THEN talk about it</div>
+                    </td>
                 </tr>
-                <!-- 10 -->
+                <!-- P10 -->
                 <tr>
-                    <td data-label="#">10</td>
-                    <td data-label="Project"><span class="proj-name">TechTransition.ai</span></td>
-                    <td data-label="Status"><span class="status-text">Jay Hackett test case</span></td>
+                    <td data-label="Ref"><span class="ref-id">P10</span></td>
+                    <td data-label="Project">
+                        <span class="proj-name">TechTransition.ai</span>
+                        <span class="proj-thread">Thread 21 &mdash; Jay Hackett</span>
+                    </td>
+                    <td data-label="Status"><span class="status-text">Jay needs ProScan. Domains needed.</span></td>
                     <td data-label="Health"><span class="health">&#9888;&#65039; NEEDS ATTN</span></td>
-                    <td data-label="Ball"><span class="court">[CLAIRE]</span></td>
-                    <td data-label="Last"><span class="action-text">Dave added domain buys to email</span></td>
-                    <td data-label="Next"><span class="next-text">Claire buys techtransition.ai + techtal.ai</span></td>
+                    <td data-label="Court"><span class="court">[CLAIRE]</span></td>
+                    <td data-label="Last"><span class="action-text">Dave added domain buys to Sam email. Check in with DL.</span></td>
+                    <td data-label="Next">
+                        <span class="next-proposed">Claire buys techtransition.ai + techtal.ai &rarr; Sam checks in with DL</span>
+                    </td>
                 </tr>
-                <!-- 11 -->
+                <!-- P11 -->
                 <tr>
-                    <td data-label="#">11</td>
-                    <td data-label="Project"><span class="proj-name">Personal CRM</span></td>
-                    <td data-label="Status"><span class="status-text">UI prototype exists</span></td>
-                    <td data-label="Health"><span class="health">&#9199;&#65039; PARKED</span></td>
-                    <td data-label="Ball"><span class="court">[DAVE]</span></td>
-                    <td data-label="Last"><span class="action-text">Prototype in Claude.ai</span></td>
-                    <td data-label="Next"><span class="next-text">Dave decides priority</span></td>
-                </tr>
-                <!-- 12 -->
-                <tr>
-                    <td data-label="#">12</td>
-                    <td data-label="Project"><span class="proj-name">Data Center Advisory</span></td>
-                    <td data-label="Status"><span class="status-text">Tiger21 post drafted</span></td>
-                    <td data-label="Health"><span class="health">&#9199;&#65039; PARKED</span></td>
-                    <td data-label="Ball"><span class="court">[DAVE]</span></td>
-                    <td data-label="Last"><span class="action-text">1-pager + post drafted</span></td>
-                    <td data-label="Next"><span class="next-text">Dave posts in Tiger21 forum</span></td>
-                </tr>
-                <!-- 13 -->
-                <tr>
-                    <td data-label="#">13</td>
-                    <td data-label="Project"><span class="proj-name">Construction AI Agents</span></td>
-                    <td data-label="Status"><span class="status-text">Bid Review Agent first</span></td>
-                    <td data-label="Health"><span class="health">&#9199;&#65039; PARKED</span></td>
-                    <td data-label="Ball"><span class="court">[DAVE]</span></td>
-                    <td data-label="Last"><span class="action-text">Concept defined</span></td>
-                    <td data-label="Next"><span class="next-text">Dave picks which agent</span></td>
-                </tr>
-                <!-- 14 -->
-                <tr>
-                    <td data-label="#">14</td>
-                    <td data-label="Project"><span class="proj-name">AI Meal Prep</span></td>
-                    <td data-label="Status"><span class="status-text">Bean Group pilot</span></td>
-                    <td data-label="Health"><span class="health">&#9199;&#65039; PARKED</span></td>
-                    <td data-label="Ball"><span class="court">[DAVE]</span></td>
-                    <td data-label="Last"><span class="action-text">Concept defined</span></td>
-                    <td data-label="Next"><span class="next-text">Dave pitches Bean Group</span></td>
-                </tr>
-                <!-- 15 -->
-                <tr>
-                    <td data-label="#">15</td>
-                    <td data-label="Project"><span class="proj-name">FileThis.ai</span></td>
-                    <td data-label="Status"><span class="status-text">Route to JSG</span></td>
-                    <td data-label="Health"><span class="health">&#9199;&#65039; PARKED</span></td>
-                    <td data-label="Ball"><span class="court">[JSG]</span></td>
-                    <td data-label="Last"><span class="action-text">Dave says route to TrailMix Spark</span></td>
-                    <td data-label="Next"><span class="next-text">Trademark check + JSG discussion</span></td>
-                </tr>
-                <!-- 16 -->
-                <tr>
-                    <td data-label="#">16</td>
-                    <td data-label="Project"><span class="proj-name">The Book</span></td>
-                    <td data-label="Status"><span class="status-text">Passive capture</span></td>
-                    <td data-label="Health"><span class="health">&#9989; LIVE</span></td>
-                    <td data-label="Ball"><span class="court">[CLAUDE]</span></td>
-                    <td data-label="Last"><span class="action-text">book-notes.md growing</span></td>
-                    <td data-label="Next"><span class="next-text">Emerges naturally from sessions</span></td>
-                </tr>
-                <!-- 17 -->
-                <tr>
-                    <td data-label="#">17</td>
-                    <td data-label="Project"><span class="proj-name">The Umbrella</span></td>
-                    <td data-label="Status"><span class="status-text">Name brainstormed</span></td>
-                    <td data-label="Health"><span class="health">&#9199;&#65039; PARKED</span></td>
-                    <td data-label="Ball"><span class="court">[DAVE]</span></td>
-                    <td data-label="Last"><span class="action-text">4 name options presented</span></td>
-                    <td data-label="Next"><span class="next-text">Dave sits with options (whiteboard)</span></td>
-                </tr>
-                <!-- 18 -->
-                <tr>
-                    <td data-label="#">18</td>
-                    <td data-label="Project"><span class="proj-name">LinkedIn Engine</span></td>
-                    <td data-label="Status"><span class="status-text">3 posts drafted</span></td>
-                    <td data-label="Health"><span class="health">&#9199;&#65039; PARKED</span></td>
-                    <td data-label="Ball"><span class="court">[DAVE]</span></td>
-                    <td data-label="Last"><span class="action-text">Posts drafted, not published</span></td>
-                    <td data-label="Next"><span class="next-text">Dave reviews + publishes first post</span></td>
-                </tr>
-                <!-- 19 -->
-                <tr>
-                    <td data-label="#">19</td>
-                    <td data-label="Project"><span class="proj-name">_INBOX</span></td>
-                    <td data-label="Status"><span class="status-text">119 files</span></td>
+                    <td data-label="Ref"><span class="ref-id">P11</span></td>
+                    <td data-label="Project">
+                        <span class="proj-name">_INBOX</span>
+                        <span class="proj-thread">119 files to process</span>
+                    </td>
+                    <td data-label="Status"><span class="status-text">119 files, partially processed</span></td>
                     <td data-label="Health"><span class="health">&#9888;&#65039; NEEDS ATTN</span></td>
-                    <td data-label="Ball"><span class="court">[CLAUDE]</span></td>
+                    <td data-label="Court"><span class="court">[CLAUDE]</span></td>
                     <td data-label="Last"><span class="action-text">Sam email processed (2/15)</span></td>
-                    <td data-label="Next"><span class="next-text">Continue processing inbox items</span></td>
+                    <td data-label="Next">
+                        <span class="next-proposed">Continue processing inbox items into threads</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- =============================== -->
+        <!-- ===== PARKED — NOT NOW ===== -->
+        <!-- =============================== -->
+        <div class="section-header">&#9199;&#65039; PARKED — NOT NOW (acknowledged, not lost)</div>
+        <table class="project-table">
+            <thead>
+                <tr>
+                    <th>REF</th>
+                    <th>Project</th>
+                    <th>Status</th>
+                    <th>Health</th>
+                    <th>Court</th>
+                    <th>Last Action</th>
+                    <th>Next Step</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- P12 -->
+                <tr>
+                    <td data-label="Ref"><span class="ref-id">P12</span></td>
+                    <td data-label="Project">
+                        <span class="proj-name">LinkedIn Engine</span>
+                        <span class="proj-thread">Thread 14 &mdash; 3,445 followers</span>
+                    </td>
+                    <td data-label="Status"><span class="status-text">3 posts drafted, not published</span></td>
+                    <td data-label="Health"><span class="health">&#9199;&#65039; PARKED</span></td>
+                    <td data-label="Court"><span class="court">[DAVE]</span></td>
+                    <td data-label="Last"><span class="action-text">Posts drafted, /cmo should push on automation</span></td>
+                    <td data-label="Next">
+                        <span class="next-proposed">Dave reviews + publishes first post. /cmo to build automation agent.</span>
+                        <div class="connections">Successor to P9 (do Fontaine AI first, THEN talk about it)</div>
+                    </td>
+                </tr>
+                <!-- P13 -->
+                <tr>
+                    <td data-label="Ref"><span class="ref-id">P13</span></td>
+                    <td data-label="Project">
+                        <span class="proj-name">Personal CRM</span>
+                        <span class="proj-thread">Thread 12 &mdash; Contact management</span>
+                    </td>
+                    <td data-label="Status"><span class="status-text">UI prototype exists in Claude.ai</span></td>
+                    <td data-label="Health"><span class="health">&#9199;&#65039; PARKED</span></td>
+                    <td data-label="Court"><span class="court">[DAVE]</span></td>
+                    <td data-label="Last"><span class="action-text">Prototype in Claude.ai</span></td>
+                    <td data-label="Next">
+                        <span class="next-proposed">Dave decides priority &mdash; /spark to scope MVP</span>
+                    </td>
+                </tr>
+                <!-- P14 -->
+                <tr>
+                    <td data-label="Ref"><span class="ref-id">P14</span></td>
+                    <td data-label="Project">
+                        <span class="proj-name">Data Center Advisory</span>
+                        <span class="proj-thread">Thread 22 &mdash; Tiger21 post</span>
+                    </td>
+                    <td data-label="Status"><span class="status-text">1-pager + Tiger21 post drafted</span></td>
+                    <td data-label="Health"><span class="health">&#9199;&#65039; PARKED</span></td>
+                    <td data-label="Court"><span class="court">[DAVE]</span></td>
+                    <td data-label="Last"><span class="action-text">1-pager drafted</span></td>
+                    <td data-label="Next">
+                        <span class="next-proposed">Dave posts in Tiger21 forum</span>
+                    </td>
+                </tr>
+                <!-- P15 -->
+                <tr>
+                    <td data-label="Ref"><span class="ref-id">P15</span></td>
+                    <td data-label="Project">
+                        <span class="proj-name">Construction AI Agents</span>
+                        <span class="proj-thread">Thread 19 &mdash; Bid review first</span>
+                    </td>
+                    <td data-label="Status"><span class="status-text">Concept defined</span></td>
+                    <td data-label="Health"><span class="health">&#9199;&#65039; PARKED</span></td>
+                    <td data-label="Court"><span class="court">[DAVE]</span></td>
+                    <td data-label="Last"><span class="action-text">Concept defined</span></td>
+                    <td data-label="Next">
+                        <span class="next-proposed">Dave picks which agent to build first &mdash; /spark</span>
+                        <div class="connections">Related to P9 (Fontaine AI OS)</div>
+                    </td>
+                </tr>
+                <!-- P16 -->
+                <tr>
+                    <td data-label="Ref"><span class="ref-id">P16</span></td>
+                    <td data-label="Project">
+                        <span class="proj-name">AI Meal Prep</span>
+                        <span class="proj-thread">Thread 20 &mdash; Bean Group</span>
+                    </td>
+                    <td data-label="Status"><span class="status-text">Bean Group pilot concept</span></td>
+                    <td data-label="Health"><span class="health">&#9199;&#65039; PARKED</span></td>
+                    <td data-label="Court"><span class="court">[DAVE]</span></td>
+                    <td data-label="Last"><span class="action-text">Concept defined</span></td>
+                    <td data-label="Next">
+                        <span class="next-proposed">Dave pitches Bean Group &mdash; /spark to prep pitch</span>
+                    </td>
+                </tr>
+                <!-- P17 -->
+                <tr>
+                    <td data-label="Ref"><span class="ref-id">P17</span></td>
+                    <td data-label="Project">
+                        <span class="proj-name">FileThis.ai</span>
+                        <span class="proj-thread">Routed to JSG / TrailMix</span>
+                    </td>
+                    <td data-label="Status"><span class="status-text">Route to TrailMix Spark / JSG discussion</span></td>
+                    <td data-label="Health"><span class="health">&#9199;&#65039; PARKED</span></td>
+                    <td data-label="Court"><span class="court">[JSG]</span></td>
+                    <td data-label="Last"><span class="action-text">Dave says route to TrailMix Spark</span></td>
+                    <td data-label="Next">
+                        <span class="next-proposed">Trademark check + JSG discussion &mdash; /jsg</span>
+                    </td>
+                </tr>
+                <!-- P18 -->
+                <tr>
+                    <td data-label="Ref"><span class="ref-id">P18</span></td>
+                    <td data-label="Project">
+                        <span class="proj-name">The Book</span>
+                        <span class="proj-thread">Thread 17 &mdash; Passive capture</span>
+                    </td>
+                    <td data-label="Status"><span class="status-text">book-notes.md growing from sessions</span></td>
+                    <td data-label="Health"><span class="health">&#9989; LIVE</span></td>
+                    <td data-label="Court"><span class="court">[CLAUDE]</span></td>
+                    <td data-label="Last"><span class="action-text">Emerges naturally</span></td>
+                    <td data-label="Next">
+                        <span class="next-proposed">Continues passively. No action needed.</span>
+                    </td>
+                </tr>
+                <!-- P19 -->
+                <tr>
+                    <td data-label="Ref"><span class="ref-id">P19</span></td>
+                    <td data-label="Project">
+                        <span class="proj-name">The Umbrella</span>
+                        <span class="proj-thread">Thread 10 &mdash; Naming</span>
+                    </td>
+                    <td data-label="Status"><span class="status-text">4 name options presented</span></td>
+                    <td data-label="Health"><span class="health">&#9199;&#65039; PARKED</span></td>
+                    <td data-label="Court"><span class="court">[DAVE]</span></td>
+                    <td data-label="Last"><span class="action-text">4 name options presented</span></td>
+                    <td data-label="Next">
+                        <span class="next-proposed">Dave sits with options &mdash; /whiteboard when ready</span>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -796,29 +842,44 @@
                     <td><span class="meeting-name">/dsu</span><br><span class="action-text">Daily Standup</span></td>
                     <td>Daily</td>
                     <td><span class="action-text">Status updates, blockers, what's hot today</span></td>
-                    <td><span class="next-text">Monday 2/17</span></td>
+                    <td><span class="next-text" style="font-size:12px;font-weight:700;">Monday 2/17</span></td>
                 </tr>
                 <tr>
                     <td><span class="meeting-name">/tactical</span><br><span class="action-text">Weekly Tactical</span></td>
                     <td>Weekly</td>
                     <td><span class="action-text">Review all active threads, decisions, delegations</span></td>
-                    <td><span class="next-text">TBD</span></td>
+                    <td><span class="action-text">TBD</span></td>
                 </tr>
                 <tr>
                     <td><span class="meeting-name">/financial</span><br><span class="action-text">Monthly Financial</span></td>
                     <td>Monthly</td>
                     <td><span class="action-text">Cash position, investment decisions, burn rate</span></td>
-                    <td><span class="next-text">TBD</span></td>
+                    <td><span class="action-text">TBD</span></td>
                 </tr>
             </tbody>
         </table>
+
+        <!-- ===== SAM'S INPUT ===== -->
+        <div class="sam-section">
+            <h3>&#128172; SAM'S NOTES</h3>
+            <div class="sam-desc">Sam: add comments on any item by reference ID (P1, P2, etc). Notes saved locally and visible to Dave.</div>
+            <div class="sam-input-row">
+                <input type="text" class="sam-ref-input" id="sam-ref" placeholder="P1" maxlength="4">
+                <input type="text" class="sam-text-input" id="sam-text" placeholder="Type a note, update, or question for Dave...">
+                <button class="sam-submit-btn" id="sam-submit">Add Note</button>
+            </div>
+            <div class="sam-notes-list" id="sam-notes-list">
+                <!-- Notes rendered by JS -->
+            </div>
+        </div>
 
     </main>
 
     <!-- ===== FOOTER ===== -->
     <div class="footer">
-        <strong>Updated: Feb 15, 2026 &mdash; Session 11</strong><br>
-        davefontaine.ai/cos &nbsp;|&nbsp; Password: shared with team
+        <strong>Updated: Feb 15, 2026 &mdash; Session 12</strong><br>
+        davefontaine.ai/cos &nbsp;|&nbsp; Password: shared with team<br>
+        <span style="color:#444;">REF IDs: P1-P19 &mdash; use in Claude Code to authorize, connect, or delegate</span>
     </div>
 
     <!-- ===== FLOATING BUTTONS ===== -->
@@ -857,7 +918,6 @@
         }
     }
 
-    // Check session on load
     if (sessionStorage.getItem(SESSION_KEY) === 'true') {
         overlay.style.display = 'none';
         overlay.style.transition = 'none';
@@ -866,17 +926,8 @@
     }
 
     btn.addEventListener('click', checkPassword);
-
-    input.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') {
-            checkPassword();
-        }
-    });
-
-    // Clear error on typing
-    input.addEventListener('input', function() {
-        errorMsg.classList.remove('visible');
-    });
+    input.addEventListener('keydown', function(e) { if (e.key === 'Enter') checkPassword(); });
+    input.addEventListener('input', function() { errorMsg.classList.remove('visible'); });
 
     // ===== CLOCK =====
     function updateClock() {
@@ -889,14 +940,85 @@
 
     // ===== MOTTO ROTATION =====
     var mottos = [
-        "Everything is accounted for.",
-        "All threads tracked. Nothing lost.",
-        "19 projects. Zero surprises.",
-        "Trust the system. Work the thread.",
-        "Organized chaos, managed beautifully.",
-        "The empire grows quietly."
+        "Dave is the gate. Nothing moves without authorization.",
+        "19 projects. 3 authorized. Strategy is choosing.",
+        "Proposed \u2260 Authorized. Only GO items move.",
+        "Trust the system. Pick your battles.",
+        "Everything accounted for. Nothing lost. Dave decides."
     ];
     document.getElementById('motto').textContent = mottos[Math.floor(Math.random() * mottos.length)];
+
+    // ===== SAM'S NOTES (localStorage) =====
+    var NOTES_KEY = 'cos_sam_notes';
+    var notesList = document.getElementById('sam-notes-list');
+    var samRef = document.getElementById('sam-ref');
+    var samText = document.getElementById('sam-text');
+    var samSubmit = document.getElementById('sam-submit');
+
+    function loadNotes() {
+        try { return JSON.parse(localStorage.getItem(NOTES_KEY)) || []; }
+        catch(e) { return []; }
+    }
+
+    function saveNotes(notes) {
+        localStorage.setItem(NOTES_KEY, JSON.stringify(notes));
+    }
+
+    function renderNotes() {
+        var notes = loadNotes();
+        notesList.innerHTML = '';
+        if (notes.length === 0) {
+            notesList.innerHTML = '<div style="font-size:12px;color:#444;padding:8px 0;">No notes yet.</div>';
+            return;
+        }
+        notes.forEach(function(note, i) {
+            var div = document.createElement('div');
+            div.className = 'sam-note';
+            div.innerHTML = '<span class="sam-note-ref">' + escHTML(note.ref) + '</span>' +
+                '<span class="sam-note-text">' + escHTML(note.text) + '</span>' +
+                '<span class="sam-note-time">' + escHTML(note.time) + '</span>' +
+                '<button class="sam-note-del" data-idx="' + i + '" title="Delete">&times;</button>';
+            notesList.appendChild(div);
+        });
+        // Delete handlers
+        notesList.querySelectorAll('.sam-note-del').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var idx = parseInt(this.getAttribute('data-idx'));
+                var notes = loadNotes();
+                notes.splice(idx, 1);
+                saveNotes(notes);
+                renderNotes();
+            });
+        });
+    }
+
+    function escHTML(s) {
+        var d = document.createElement('div');
+        d.textContent = s;
+        return d.innerHTML;
+    }
+
+    samSubmit.addEventListener('click', function() {
+        var ref = samRef.value.trim().toUpperCase() || '—';
+        var text = samText.value.trim();
+        if (!text) return;
+        var notes = loadNotes();
+        var now = new Date();
+        var time = (now.getMonth()+1) + '/' + now.getDate() + ' ' +
+            now.toLocaleTimeString('en-US', {hour:'numeric', minute:'2-digit'});
+        notes.unshift({ ref: ref, text: text, time: time });
+        saveNotes(notes);
+        renderNotes();
+        samText.value = '';
+        samRef.value = '';
+        samRef.focus();
+    });
+
+    samText.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') { samSubmit.click(); }
+    });
+
+    renderNotes();
 })();
 </script>
 
