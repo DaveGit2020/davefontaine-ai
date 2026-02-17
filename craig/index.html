@@ -377,81 +377,51 @@ const MODE_INFO = {
 })();
 
 // ============================================================
-// Smart context: search PDFs locally, send only relevant chunks
-// Keeps API calls under 10K tokens (~8K chars of PDF context)
+// Build full PDF context — send ALL text, cap at 120K chars
+// Tier 3 rate limit (200K tokens/min) supports this easily
 // ============================================================
-function findRelevantContext(question, maxChars) {
-  maxChars = maxChars || 8000;
-  const qWords = question.toLowerCase().split(/\s+/).filter(w => w.length > 2);
-
-  // Score each PDF by keyword relevance
-  const scored = allPdfs.map(p => {
-    const textLower = p.text.toLowerCase();
-    let score = 0;
-    qWords.forEach(w => {
-      const matches = textLower.split(w).length - 1;
-      score += matches;
-    });
-    return { ...p, score };
-  }).filter(p => p.score > 0).sort((a, b) => b.score - a.score);
-
-  // If no keyword matches, send a brief summary from each PDF
-  if (scored.length === 0) {
-    return allPdfs.map(p => '=== ' + p.name + ' ===\n' + p.text.slice(0, 600)).join('\n\n').slice(0, maxChars);
+function buildPdfContext() {
+  const chunks = allPdfs.map(p => '=== ' + p.name + ' ===\n' + p.text);
+  let context = chunks.join('\n\n');
+  if (context.length > 120000) {
+    context = context.slice(0, 120000) + '\n\n[Some content truncated for length]';
   }
-
-  // Build context from top-scoring PDFs, extracting relevant paragraphs
-  let context = '';
-  for (const pdf of scored) {
-    if (context.length >= maxChars) break;
-
-    // Find paragraphs containing query words
-    const paras = pdf.text.split(/\n{2,}/);
-    const relevantParas = paras.filter(para => {
-      const paraLower = para.toLowerCase();
-      return qWords.some(w => paraLower.includes(w));
-    });
-
-    if (relevantParas.length > 0) {
-      const excerpt = relevantParas.join('\n\n').slice(0, 3000);
-      context += '=== ' + pdf.name + ' ===\n' + excerpt + '\n\n';
-    } else {
-      // Fallback: first 600 chars of the matching PDF
-      context += '=== ' + pdf.name + ' ===\n' + pdf.text.slice(0, 600) + '\n\n';
-    }
-  }
-
-  return context.slice(0, maxChars);
+  return context;
 }
 
 // ============================================================
 // System prompts
 // ============================================================
-const PDF_SYSTEM = `You are "Ask Bob," an expert assistant on Bob Doane's Chinese medicine teachings.
-You have access to Bob's complete collection of teaching materials, herbal formulas, pulse diagnosis guides, and workshop notes.
-Answer questions ONLY based on the PDF content provided. If the information isn't in the PDFs, say so clearly.
-Be specific — cite which document the information comes from when possible.
-Use clear, practitioner-friendly language.`;
+const PDF_SYSTEM = `You are "Ask Bob," an expert assistant on Bob Doane's Chinese medicine teachings. You have Bob's COMPLETE collection of teaching materials loaded — herbal formulas, pulse diagnosis guides, cardiology workshop, top 10 disorders, Secrets of the Left Cun, and more.
+
+RULES:
+- Answer confidently and directly based on the PDF content. You have ALL of Bob's materials — do not say "I don't have the complete info" or "I would need access to more." Just answer from what's there.
+- Be specific: name the herbs, formulas, pulse positions, and clinical details. Craig is a practitioner — give him practitioner-level answers.
+- Cite which document the info comes from (e.g. "From Bob's Herbal Formulas 2023..." or "In the Top 10 Disorders document...").
+- Keep answers clean and organized. Use bullet points or numbered lists for formulas and protocols.
+- If something genuinely isn't covered in any of the PDFs, say so briefly and move on — don't over-explain what's missing.
+- Never ask Craig if he has access to documents — he does, through you.`;
 
 const WEB_SYSTEM = `You are "Ask the Web," a research assistant helping Craig Kelley explore Chinese medicine topics.
 Search the web to find current information, research, and perspectives on Chinese medicine topics.
 Always cite your sources. Be thorough but concise.`;
 
-const COMPARE_SYSTEM = `You are a comparative analysis assistant for Chinese medicine.
-You will provide TWO separate analyses, then a synthesis:
-1. FROM BOB'S PDFS: What Bob Doane's materials say about this topic
-2. FROM THE WEB: What current web sources say about this topic
-3. SYNTHESIS: Key agreements, disagreements, and notable insights
+const COMPARE_SYSTEM = `You are a comparative analysis assistant for Chinese medicine. You have Bob Doane's complete teaching library loaded. Answer confidently — you have ALL his materials.
 
-Format your response EXACTLY as:
+Provide THREE sections:
+1. FROM BOB'S PDFS — What Bob's materials say. Be specific: name herbs, formulas, pulse positions.
+2. FROM THE WEB — What current sources say. Cite specifics.
+3. SYNTHESIS — Where they agree, disagree, and key takeaways.
+
+Format EXACTLY as:
 [PDF]
-(Bob's PDF analysis here)
+(Bob's analysis)
 
 [WEB]
-(Web research here)
+(Web analysis)
 
 [SYNTHESIS]
-(Comparative synthesis here)`;
+(Comparison)`;
 
 // ============================================================
 // Mode switching
@@ -569,11 +539,11 @@ async function send(question) {
       default: systemPrompt = PDF_SYSTEM;
     }
 
-    // Build user message — include RELEVANT PDF context (smart search, not full dump)
+    // Build user message — include FULL PDF context (Tier 3 supports 200K tokens/min)
     let userMsg = q;
     if ((mode === 'pdf' || mode === 'compare') && allPdfs.length > 0) {
-      const relevantContext = findRelevantContext(q, 8000);
-      userMsg = "Here are relevant excerpts from Bob Doane's teaching materials:\n\n" + relevantContext + "\n\n---\n\nQuestion: " + q;
+      const fullContext = buildPdfContext();
+      userMsg = "Here is Bob Doane's complete teaching library:\n\n" + fullContext + "\n\n---\n\nQuestion: " + q;
     }
 
     const body = {
