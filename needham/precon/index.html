@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Precon Dashboard — Pollard Middle School</title>
+    <title>MSBA Conceptual Estimating Dashboard — Pollard Middle School</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap');
         :root {
             --navy: #1a2744;
             --navy-dark: #0f1a2e;
@@ -13,7 +13,9 @@
             --orange: #e87722;
             --orange-light: #f59b4d;
             --green: #16a34a;
+            --green-light: #dcfce7;
             --amber: #d97706;
+            --amber-light: #fef3c7;
             --red: #dc2626;
             --dark: #1a1d23;
             --warm-bg: #f7f8fa;
@@ -33,96 +35,119 @@
         .nav-links a:hover { color:var(--navy); }
         .draft-flag { background:var(--amber); color:#fff; font-size:9px; font-weight:800; letter-spacing:1px; padding:3px 8px; border-radius:4px; }
 
-        .hero { margin-top:52px; background:linear-gradient(135deg, var(--navy-dark), var(--navy)); color:#fff; padding:48px 40px 36px; }
-        .hero-inner { max-width:1200px; margin:0 auto; }
-        .hero-label { font-size:10px; letter-spacing:4px; color:var(--orange-light); font-weight:700; margin-bottom:8px; }
-        .hero h1 { font-size:32px; font-weight:900; line-height:1.1; margin-bottom:8px; }
-        .hero p { font-size:15px; color:rgba(255,255,255,0.6); max-width:700px; }
+        .hero { margin-top:52px; background:linear-gradient(135deg, var(--navy-dark), var(--navy)); color:#fff; padding:40px 40px 32px; }
+        .hero-inner { max-width:1100px; margin:0 auto; }
+        .hero-label { font-size:10px; letter-spacing:4px; color:var(--orange-light); font-weight:700; margin-bottom:6px; }
+        .hero h1 { font-size:28px; font-weight:900; line-height:1.1; margin-bottom:6px; }
+        .hero p { font-size:14px; color:rgba(255,255,255,0.55); max-width:800px; }
+        .hero-legend { display:flex; gap:20px; margin-top:16px; flex-wrap:wrap; }
+        .legend-item { display:flex; align-items:center; gap:6px; font-size:11px; color:rgba(255,255,255,0.7); }
+        .legend-dot { width:12px; height:12px; border-radius:3px; }
+        .legend-dot.verified { background:var(--navy-light); border:1px solid rgba(255,255,255,0.2); }
+        .legend-dot.assumed { background:var(--amber); }
+        .legend-dot.reimbursable { background:var(--green); }
+        .legend-dot.not-reimbursable { background:var(--red); opacity:0.7; }
 
-        .dashboard { max-width:1200px; margin:0 auto; padding:32px 28px; }
+        .dashboard { max-width:1100px; margin:0 auto; padding:28px 24px; }
 
-        /* METRIC ROW */
-        .metric-row { display:grid; grid-template-columns:repeat(5,1fr); gap:14px; margin-bottom:28px; }
-        .metric-card { background:var(--card); border-radius:12px; padding:18px 16px; text-align:center; border:1px solid var(--border); }
-        .metric-card .mc-val { font-size:28px; font-weight:900; color:var(--navy); line-height:1; }
-        .metric-card .mc-lbl { font-size:10px; color:var(--text-light); font-weight:600; letter-spacing:0.5px; margin-top:3px; }
-        .metric-card.highlight { background:var(--navy); border-color:var(--navy); }
-        .metric-card.highlight .mc-val { color:var(--orange-light); }
-        .metric-card.highlight .mc-lbl { color:rgba(255,255,255,0.6); }
+        /* TOP SUMMARY */
+        .summary-row { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:12px; margin-bottom:24px; }
+        .summary-card { background:var(--card); border-radius:10px; padding:16px; border:1px solid var(--border); text-align:center; }
+        .summary-card.total { background:var(--navy); border-color:var(--navy); }
+        .summary-card .sc-label { font-size:9px; font-weight:700; letter-spacing:1.5px; color:var(--text-light); }
+        .summary-card.total .sc-label { color:rgba(255,255,255,0.5); }
+        .summary-card .sc-val { font-size:24px; font-weight:900; color:var(--navy); font-family:'JetBrains Mono',monospace; margin-top:2px; }
+        .summary-card.total .sc-val { color:var(--orange-light); }
+        .summary-card .sc-note { font-size:10px; color:var(--text-light); margin-top:2px; }
+        .summary-card.total .sc-note { color:rgba(255,255,255,0.4); }
 
-        /* SECTION */
-        .dash-section { margin-bottom:32px; }
-        .ds-label { font-size:10px; letter-spacing:3px; color:var(--navy); font-weight:700; margin-bottom:6px; }
-        .ds-title { font-size:22px; font-weight:900; color:var(--dark); margin-bottom:4px; }
-        .ds-sub { font-size:13px; color:var(--text-light); margin-bottom:16px; }
+        /* MAIN ESTIMATE TABLE */
+        .estimate-section { margin-bottom:24px; }
+        .es-header { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-radius:10px 10px 0 0; cursor:pointer; }
+        .es-header h3 { font-size:15px; font-weight:800; }
+        .es-header .es-total { font-size:18px; font-weight:900; font-family:'JetBrains Mono',monospace; }
+        .es-header.cat1 { background:var(--navy); color:#fff; }
+        .es-header.cat1 .es-total { color:var(--orange-light); }
+        .es-header.cat2 { background:var(--navy-light); color:#fff; }
+        .es-header.cat2 .es-total { color:var(--orange-light); }
+        .es-header.cat3 { background:#475569; color:#fff; }
+        .es-header.cat3 .es-total { color:var(--orange-light); }
+        .es-header.cat4 { background:#64748b; color:#fff; }
+        .es-header.cat4 .es-total { color:var(--orange-light); }
+        .es-header.cat5 { background:#78716c; color:#fff; }
+        .es-header.cat5 .es-total { color:var(--orange-light); }
+        .es-header.cat6 { background:#92400e; color:#fff; }
+        .es-header.cat6 .es-total { color:#fde68a; }
+        .es-header.cat7 { background:var(--dark); color:#fff; }
+        .es-header.cat7 .es-total { color:var(--orange-light); }
 
-        /* COMP TABLE */
-        .comp-table { width:100%; border-collapse:collapse; background:var(--card); border-radius:12px; overflow:hidden; border:1px solid var(--border); margin-bottom:16px; }
-        .comp-table th { text-align:left; padding:10px 14px; font-size:10px; font-weight:700; letter-spacing:1px; color:var(--text-light); background:#f0f1f4; border-bottom:2px solid var(--border); }
-        .comp-table th.num { text-align:right; }
-        .comp-table td { padding:10px 14px; font-size:13px; color:var(--text); border-bottom:1px solid rgba(0,0,0,0.03); }
-        .comp-table td.num { text-align:right; font-weight:700; font-variant-numeric:tabular-nums; }
-        .comp-table tr:last-child td { border:none; }
-        .comp-table tr.pollard { background:rgba(26,39,68,0.04); }
-        .comp-table tr.pollard td { font-weight:700; color:var(--navy); }
-        .comp-table .tag { font-size:9px; font-weight:700; letter-spacing:0.5px; padding:2px 6px; border-radius:3px; }
-        .tag-jv { background:rgba(232,119,34,0.12); color:var(--orange); }
-        .tag-fontaine { background:rgba(140,0,50,0.1); color:#8c0032; }
-        .tag-dimeo { background:rgba(26,39,68,0.08); color:var(--navy); }
-        .tag-other { background:rgba(107,114,128,0.1); color:#6b7280; }
-        .comp-table .tbd { color:#999; font-style:italic; }
+        .es-body { background:var(--card); border:1px solid var(--border); border-top:none; border-radius:0 0 10px 10px; overflow:hidden; }
+        .es-row { display:grid; grid-template-columns:1fr 140px 140px 100px; align-items:center; padding:8px 16px; border-bottom:1px solid rgba(0,0,0,0.03); font-size:13px; }
+        .es-row:last-child { border:none; }
+        .es-row:hover { background:rgba(26,39,68,0.02); }
+        .es-item { color:var(--text); }
+        .es-item .sub { font-size:11px; color:var(--text-light); }
+        .es-cost { text-align:right; font-weight:700; font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--navy); }
+        .es-cost.assumed { color:var(--amber); background:var(--amber-light); padding:2px 8px; border-radius:4px; border:1.5px dashed var(--amber); }
+        .es-psf { text-align:right; font-size:11px; color:var(--text-light); font-family:'JetBrains Mono',monospace; }
+        .es-reimb { text-align:center; }
+        .es-reimb .badge { font-size:9px; font-weight:700; letter-spacing:0.5px; padding:2px 6px; border-radius:3px; }
+        .badge-yes { background:var(--green-light); color:var(--green); }
+        .badge-no { background:#fee2e2; color:var(--red); }
+        .badge-partial { background:var(--amber-light); color:var(--amber); }
 
-        /* AUDITORIUM TABLE */
-        .aud-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:16px; }
-        .aud-card { background:var(--card); border-radius:12px; padding:20px; border:1px solid var(--border); }
-        .aud-card h4 { font-size:15px; font-weight:800; color:var(--dark); margin-bottom:2px; }
-        .aud-card .ac-loc { font-size:11px; color:var(--text-light); margin-bottom:10px; }
-        .aud-card .ac-row { display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px solid rgba(0,0,0,0.04); }
-        .aud-card .ac-row:last-child { border:none; }
-        .aud-card .ac-label { font-size:12px; color:var(--text-light); }
-        .aud-card .ac-val { font-size:12px; font-weight:700; color:var(--dark); }
-        .aud-card.pollard { border:2px solid var(--navy); }
-        .aud-card.pollard h4 { color:var(--navy); }
+        .es-subtotal { display:grid; grid-template-columns:1fr 140px 140px 100px; padding:8px 16px; background:rgba(26,39,68,0.04); font-weight:700; font-size:13px; border-top:2px solid var(--border); }
+        .es-subtotal .es-cost { color:var(--navy); font-size:14px; }
 
-        /* EARTHWORK */
-        .earth-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
-        .earth-card { background:var(--card); border-radius:12px; padding:20px; border:1px solid var(--border); text-align:center; }
-        .earth-card .ec-phase { font-size:10px; font-weight:700; letter-spacing:1px; color:var(--orange); }
-        .earth-card .ec-val { font-size:32px; font-weight:900; color:var(--navy); margin:6px 0 2px; }
-        .earth-card .ec-unit { font-size:11px; color:var(--text-light); }
-        .earth-card .ec-note { font-size:11px; color:var(--text-light); margin-top:6px; }
+        /* REIMBURSEMENT ANALYSIS */
+        .reimb-section { background:var(--card); border-radius:12px; border:1px solid var(--border); padding:24px; margin-bottom:24px; }
+        .reimb-section h3 { font-size:18px; font-weight:900; color:var(--dark); margin-bottom:4px; }
+        .reimb-section .rs-sub { font-size:13px; color:var(--text-light); margin-bottom:16px; }
+        .reimb-bar { display:flex; height:40px; border-radius:8px; overflow:hidden; margin-bottom:12px; }
+        .reimb-bar .rb-seg { display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:#fff; }
+        .reimb-bar .rb-msba { background:var(--green); }
+        .reimb-bar .rb-town { background:var(--navy); }
+        .reimb-bar .rb-nonreimb { background:var(--red); opacity:0.7; }
+        .reimb-legend { display:flex; gap:24px; flex-wrap:wrap; }
+        .reimb-legend-item { display:flex; align-items:center; gap:6px; }
+        .reimb-legend-item .rl-dot { width:12px; height:12px; border-radius:3px; }
+        .reimb-legend-item .rl-label { font-size:12px; color:var(--text-light); }
+        .reimb-legend-item .rl-val { font-size:14px; font-weight:800; color:var(--dark); font-family:'JetBrains Mono',monospace; }
 
-        /* COST AREAS */
-        .cost-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
-        .cost-card { background:var(--card); border-radius:12px; padding:20px; border:1px solid var(--border); border-top:3px solid var(--navy); }
-        .cost-card h4 { font-size:15px; font-weight:800; color:var(--dark); margin-bottom:4px; }
-        .cost-card .cc-sub { font-size:11px; color:var(--text-light); margin-bottom:12px; }
-        .cost-card .cc-row { display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px solid rgba(0,0,0,0.04); font-size:13px; }
-        .cost-card .cc-row:last-child { border:none; }
-        .cost-card .cc-val { font-weight:700; color:var(--navy); }
-        .cost-card .cc-tbd { color:#999; font-style:italic; }
+        /* NOTES */
+        .notes-box { background:var(--amber-light); border:2px dashed var(--amber); border-radius:10px; padding:16px 20px; margin-bottom:24px; }
+        .notes-box h4 { font-size:13px; font-weight:800; color:var(--amber); margin-bottom:6px; }
+        .notes-box ul { font-size:12px; color:var(--text); line-height:1.8; padding-left:16px; }
 
         /* DATA GAPS */
-        .gap-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
-        .gap-card { background:var(--card); border-radius:12px; padding:20px; border:1px solid var(--border); border-left:4px solid var(--orange); }
-        .gap-card h4 { font-size:14px; font-weight:700; color:var(--dark); margin-bottom:4px; }
-        .gap-card p { font-size:12px; color:var(--text-light); line-height:1.5; }
-        .gap-card .gc-source { font-size:10px; font-weight:700; color:var(--orange); letter-spacing:1px; margin-bottom:4px; }
+        .gap-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:16px; }
+        .gap-card { background:var(--card); border-radius:10px; padding:16px; border:1px solid var(--border); border-left:3px solid var(--orange); }
+        .gap-card h4 { font-size:13px; font-weight:700; color:var(--dark); margin-bottom:2px; }
+        .gap-card p { font-size:11px; color:var(--text-light); line-height:1.5; }
+        .gap-card .gc-source { font-size:9px; font-weight:700; color:var(--orange); letter-spacing:1px; margin-bottom:3px; }
 
         .page-bottom { height:40px; }
 
         @media (max-width:900px) {
-            .metric-row { grid-template-columns:repeat(3,1fr); }
-            .aud-grid, .earth-grid, .gap-grid { grid-template-columns:1fr; }
-            .cost-grid { grid-template-columns:1fr; }
+            .summary-row { grid-template-columns:repeat(2,1fr); }
+            .es-row, .es-subtotal { grid-template-columns:1fr 100px 80px 70px; font-size:12px; }
+            .gap-grid { grid-template-columns:1fr; }
         }
         @media (max-width:600px) {
-            .metric-row { grid-template-columns:repeat(2,1fr); }
-            .dashboard { padding:24px 16px; }
-            .hero { padding:36px 20px 28px; }
-            .hero h1 { font-size:24px; }
-            .comp-table { font-size:11px; }
-            .comp-table th, .comp-table td { padding:8px 10px; }
+            .summary-row { grid-template-columns:1fr 1fr; }
+            .dashboard { padding:16px 12px; }
+            .hero { padding:28px 16px 20px; }
+            .hero h1 { font-size:22px; }
+            .hero-legend { gap:12px; }
+            .es-row, .es-subtotal { grid-template-columns:1fr 90px; }
+            .es-psf, .es-reimb { display:none; }
+            .es-header { flex-wrap:wrap; gap:4px; }
+            .es-header h3 { font-size:13px; }
+            .es-header .es-total { font-size:15px; }
+            .reimb-bar .rb-seg { font-size:9px; }
+            nav { padding:0 12px; }
+            .nav-links { gap:8px; }
+            .nav-links a { font-size:10px; }
         }
     </style>
 </head>
@@ -130,11 +155,11 @@
 
 <nav>
     <div>
-        <span class="nav-title">Precon Dashboard</span>
+        <span class="nav-title">MSBA Conceptual Estimate</span>
         <span style="font-size:10px;letter-spacing:2px;color:var(--orange);font-weight:700;margin-left:8px;">POLLARD MS</span>
     </div>
     <div class="nav-links">
-        <span class="draft-flag">DRAFT — INTERNAL</span>
+        <span class="draft-flag">DRAFT — COSTS ARE ASSUMPTIONS</span>
         <a href="/needham/modular/">Modular Solution</a>
         <a href="/needham/">Main Proposal</a>
     </div>
@@ -142,349 +167,531 @@
 
 <div class="hero">
     <div class="hero-inner">
-        <div class="hero-label">FONTAINE + DIMEO — PRECONSTRUCTION</div>
-        <h1>Pollard Middle School — Cost Benchmarking Dashboard</h1>
-        <p>Comparable school projects, auditorium costs, earthwork volumes, and data gaps for interview preparation. Internal working document.</p>
+        <div class="hero-label">FONTAINE + DIMEO — CONCEPTUAL ESTIMATING DASHBOARD</div>
+        <h1>Pollard Middle School — Layered Cost Estimate</h1>
+        <p>Structured per Mark Abdella's MSBA framework: Base scope (MSBA guidelines) → community add-ons → site → renewables → temporary facilities → MBTA → CM fees. Every line shows MSBA reimbursability and flags assumptions.</p>
+        <div class="hero-legend">
+            <div class="legend-item"><div class="legend-dot assumed"></div>Assumed cost — needs verification</div>
+            <div class="legend-item"><div class="legend-dot reimbursable"></div>MSBA reimbursable</div>
+            <div class="legend-item"><div class="legend-dot not-reimbursable"></div>Not reimbursable</div>
+        </div>
     </div>
 </div>
 
 <div class="dashboard">
 
-    <!-- TOP METRICS -->
-    <div class="metric-row">
-        <div class="metric-card highlight"><div class="mc-val">750</div><div class="mc-lbl">Auditorium Seats</div></div>
-        <div class="metric-card"><div class="mc-val">160-185K</div><div class="mc-lbl">Phase 1 SF</div></div>
-        <div class="metric-card"><div class="mc-val">70-95K</div><div class="mc-lbl">Phase 2 SF</div></div>
-        <div class="metric-card"><div class="mc-val">~50K</div><div class="mc-lbl">Phase 1 Excavation (CY)</div></div>
-        <div class="metric-card"><div class="mc-val">~120</div><div class="mc-lbl">Geothermal Boreholes</div></div>
+    <!-- ASSUMPTION WARNING -->
+    <div class="notes-box">
+        <h4>&#9888; ALL COSTS ARE WORKING ESTIMATES — NOT VERIFIED</h4>
+        <ul>
+            <li>Orange dashed boxes = <strong>assumptions</strong> that need verification from GMP docs, SOVs, or vendor quotes</li>
+            <li>MSBA reimbursement rates are approximate — actual rates depend on MSBA's approved project scope and community's reimbursement rate</li>
+            <li>Building size assumed at <strong>~250,000 SF</strong> (Phase 1: 175K + Phase 2: 75K) for $/SF calculations</li>
+            <li>Need: Walpole GMP, Clinton GMP, Peck SOV, Agawam geothermal actuals, recent HS auditorium breakouts</li>
+        </ul>
     </div>
 
-    <!-- COMPARABLE SCHOOL PROJECTS -->
-    <div class="dash-section">
-        <div class="ds-label">COMPARABLE SCHOOL PROJECTS</div>
-        <div class="ds-title">How Pollard Stacks Up</div>
-        <div class="ds-sub">Recent MSBA and non-MSBA school projects built by Fontaine, Dimeo, and other firms. Where we have data, cost/SF and key features are shown.</div>
-
-        <table class="comp-table">
-            <tr>
-                <th>PROJECT</th>
-                <th>LOCATION</th>
-                <th>TEAM</th>
-                <th class="num">SIZE (SF)</th>
-                <th class="num">VALUE</th>
-                <th>AUDITORIUM</th>
-                <th>GEOTHERMAL</th>
-                <th>NOTES</th>
-            </tr>
-            <tr class="pollard">
-                <td><strong>Pollard Middle School</strong></td>
-                <td>Needham, MA</td>
-                <td><span class="tag tag-jv">F+D JV</span></td>
-                <td class="num">250-280K</td>
-                <td class="num tbd">TBD (GMP)</td>
-                <td>750 seats</td>
-                <td>~120 wells</td>
-                <td>2-phase, occupied campus, MBTA adjacent</td>
-            </tr>
-            <tr>
-                <td>Doherty Memorial HS</td>
-                <td>Worcester, MA</td>
-                <td><span class="tag tag-jv">F+D JV</span></td>
-                <td class="num">~285,000</td>
-                <td class="num">$268M</td>
-                <td>Yes — large</td>
-                <td>No</td>
-                <td>Active JV project, dance floor auditorium method</td>
-            </tr>
-            <tr>
-                <td>South High Community School</td>
-                <td>Worcester, MA</td>
-                <td><span class="tag tag-fontaine">Fontaine</span></td>
-                <td class="num">~280,000</td>
-                <td class="num tbd">—</td>
-                <td>Yes</td>
-                <td>No</td>
-                <td>Auditorium with dance floor method</td>
-            </tr>
-            <tr>
-                <td>Agawam High School</td>
-                <td>Agawam, MA</td>
-                <td><span class="tag tag-fontaine">Fontaine</span></td>
-                <td class="num">235,075</td>
-                <td class="num tbd">—</td>
-                <td>Yes</td>
-                <td>150 wells (redesigned from 180)</td>
-                <td>Geothermal optimization saved $1M+</td>
-            </tr>
-            <tr>
-                <td>Newton North HS</td>
-                <td>Newton, MA</td>
-                <td><span class="tag tag-fontaine">Fontaine</span></td>
-                <td class="num">412,000</td>
-                <td class="num tbd">—</td>
-                <td>Yes — theater</td>
-                <td>No</td>
-                <td>Largest comparable, similar affluent community</td>
-            </tr>
-            <tr>
-                <td>Springfield HS</td>
-                <td>Springfield, MA</td>
-                <td><span class="tag tag-fontaine">Fontaine</span></td>
-                <td class="num">257,525</td>
-                <td class="num tbd">—</td>
-                <td>Yes</td>
-                <td>No</td>
-                <td>—</td>
-            </tr>
-            <tr>
-                <td>Duxbury MS/HS</td>
-                <td>Duxbury, MA</td>
-                <td><span class="tag tag-fontaine">Fontaine</span></td>
-                <td class="num">322,000</td>
-                <td class="num tbd">—</td>
-                <td>Yes</td>
-                <td>No</td>
-                <td>Middle/High combo</td>
-            </tr>
-            <tr>
-                <td>Mountain View K-8</td>
-                <td>East Hampton, MA</td>
-                <td><span class="tag tag-fontaine">Fontaine</span></td>
-                <td class="num">177,000</td>
-                <td class="num tbd">—</td>
-                <td>No</td>
-                <td>No</td>
-                <td>2-phased, 14ft from existing school — closest ops comp</td>
-            </tr>
-            <tr>
-                <td>Walpole Middle School</td>
-                <td>Walpole, MA</td>
-                <td><span class="tag tag-fontaine">Fontaine</span></td>
-                <td class="num tbd">—</td>
-                <td class="num tbd">—</td>
-                <td>Yes</td>
-                <td>No</td>
-                <td>Griffin Couture PM, 3 years, dance floor auditorium</td>
-            </tr>
-            <tr>
-                <td>East Longmeadow HS</td>
-                <td>E. Longmeadow, MA</td>
-                <td><span class="tag tag-fontaine">Fontaine</span></td>
-                <td class="num tbd">—</td>
-                <td class="num tbd">—</td>
-                <td>Yes</td>
-                <td>No</td>
-                <td>Includes natatorium</td>
-            </tr>
-            <tr>
-                <td>Westhill HS</td>
-                <td>Stamford, CT</td>
-                <td><span class="tag tag-dimeo">Dimeo</span></td>
-                <td class="num tbd">—</td>
-                <td class="num">$376M</td>
-                <td>Yes</td>
-                <td>—</td>
-                <td>Dimeo's largest school project</td>
-            </tr>
-            <tr>
-                <td>Pilgrim + Toll Gate HS</td>
-                <td>Warwick, RI</td>
-                <td><span class="tag tag-dimeo">Dimeo</span></td>
-                <td class="num tbd">—</td>
-                <td class="num">$311.7M</td>
-                <td>Yes</td>
-                <td>—</td>
-                <td>Two-school program</td>
-            </tr>
-        </table>
-    </div>
-
-    <!-- AUDITORIUM COMPS -->
-    <div class="dash-section">
-        <div class="ds-label">AUDITORIUM COMPARISONS</div>
-        <div class="ds-title">750-Seat Theater Benchmarking</div>
-        <div class="ds-sub">Pollard's 750-seat performing arts auditorium is a major scope item. Here's how our team's recent auditorium experience stacks up — all built using Matt Wilder's "dance floor" method.</div>
-
-        <div class="aud-grid">
-            <div class="aud-card pollard">
-                <h4>Pollard Middle School</h4>
-                <div class="ac-loc">Needham, MA — Fontaine + Dimeo</div>
-                <div class="ac-row"><span class="ac-label">Seats</span><span class="ac-val">750</span></div>
-                <div class="ac-row"><span class="ac-label">Construction Method</span><span class="ac-val">Dance Floor (planned)</span></div>
-                <div class="ac-row"><span class="ac-label">Phase</span><span class="ac-val">Phase 1 (included)</span></div>
-                <div class="ac-row"><span class="ac-label">Budget</span><span class="ac-val" style="color:var(--orange);">TBD — Need Comps</span></div>
-                <div class="ac-row"><span class="ac-label">Specialty</span><span class="ac-val">Full performing arts</span></div>
-                <div class="ac-row"><span class="ac-label">Superintendent</span><span class="ac-val">Matt Wilder</span></div>
-            </div>
-            <div class="aud-card">
-                <h4>Doherty Memorial HS</h4>
-                <div class="ac-loc">Worcester, MA — F+D JV</div>
-                <div class="ac-row"><span class="ac-label">Seats</span><span class="ac-val">Large (1000+)</span></div>
-                <div class="ac-row"><span class="ac-label">Construction Method</span><span class="ac-val">Dance Floor</span></div>
-                <div class="ac-row"><span class="ac-label">Budget</span><span class="ac-val" style="color:var(--orange);">Need GMP Breakout</span></div>
-                <div class="ac-row"><span class="ac-label">Status</span><span class="ac-val">Under Construction</span></div>
-                <div class="ac-row"><span class="ac-label">Total Project</span><span class="ac-val">$268M</span></div>
-                <div class="ac-row"><span class="ac-label">Relevance</span><span class="ac-val">Same JV, same method</span></div>
-            </div>
-            <div class="aud-card">
-                <h4>Walpole Middle School</h4>
-                <div class="ac-loc">Walpole, MA — Fontaine</div>
-                <div class="ac-row"><span class="ac-label">Seats</span><span class="ac-val">TBD</span></div>
-                <div class="ac-row"><span class="ac-label">Construction Method</span><span class="ac-val">Dance Floor</span></div>
-                <div class="ac-row"><span class="ac-label">Budget</span><span class="ac-val" style="color:var(--orange);">Need GMP Breakout</span></div>
-                <div class="ac-row"><span class="ac-label">PM</span><span class="ac-val">Griffin Couture</span></div>
-                <div class="ac-row"><span class="ac-label">Duration</span><span class="ac-val">3 years</span></div>
-                <div class="ac-row"><span class="ac-label">Relevance</span><span class="ac-val">Middle school, same PM</span></div>
-            </div>
+    <!-- TOP SUMMARY -->
+    <div class="summary-row">
+        <div class="summary-card total">
+            <div class="sc-label">TOTAL ESTIMATED PROJECT COST</div>
+            <div class="sc-val">$195–225M</div>
+            <div class="sc-note">All-in conceptual range</div>
         </div>
-        <div class="aud-grid">
-            <div class="aud-card">
-                <h4>South High Community School</h4>
-                <div class="ac-loc">Worcester, MA — Fontaine</div>
-                <div class="ac-row"><span class="ac-label">Construction Method</span><span class="ac-val">Dance Floor</span></div>
-                <div class="ac-row"><span class="ac-label">Budget</span><span class="ac-val" style="color:var(--orange);">Need Breakout</span></div>
-                <div class="ac-row"><span class="ac-label">Relevance</span><span class="ac-val">Urban school, auditorium</span></div>
+        <div class="summary-card">
+            <div class="sc-label">EST. MSBA REIMBURSEMENT</div>
+            <div class="sc-val" style="color:var(--green);">$75–95M</div>
+            <div class="sc-note">~40-45% of eligible costs</div>
+        </div>
+        <div class="summary-card">
+            <div class="sc-label">EST. COST TO NEEDHAM</div>
+            <div class="sc-val" style="color:var(--navy);">$115–140M</div>
+            <div class="sc-note">After MSBA reimbursement</div>
+        </div>
+        <div class="summary-card">
+            <div class="sc-label">BUILDING SIZE</div>
+            <div class="sc-val">~250K SF</div>
+            <div class="sc-note">Ph1: 175K + Ph2: 75K</div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- LAYER 1: BASE MIDDLE SCHOOL SCOPE (MSBA)    -->
+    <!-- ============================================ -->
+    <div class="estimate-section">
+        <div class="es-header cat1" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
+            <h3>1. Base Middle School Scope — MSBA Space Guidelines</h3>
+            <div class="es-total">$125–145M</div>
+        </div>
+        <div class="es-body">
+            <div class="es-row" style="background:#f0f1f4;font-weight:700;font-size:11px;color:var(--text-light);">
+                <div>LINE ITEM</div>
+                <div style="text-align:right;">ESTIMATED COST</div>
+                <div style="text-align:right;">$/SF</div>
+                <div style="text-align:center;">MSBA</div>
             </div>
-            <div class="aud-card">
-                <h4>West Springfield HS</h4>
-                <div class="ac-loc">West Springfield, MA — Fontaine</div>
-                <div class="ac-row"><span class="ac-label">Construction Method</span><span class="ac-val">Dance Floor</span></div>
-                <div class="ac-row"><span class="ac-label">Budget</span><span class="ac-val" style="color:var(--orange);">Need Breakout</span></div>
-                <div class="ac-row"><span class="ac-label">Relevance</span><span class="ac-val">HS auditorium comp</span></div>
+            <div class="es-row">
+                <div class="es-item">Structural / Foundations / Superstructure<div class="sub">Steel, concrete, metal deck — both phases</div></div>
+                <div class="es-cost assumed">$28–32M</div>
+                <div class="es-psf">$112–128</div>
+                <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
             </div>
-            <div class="aud-card">
-                <h4>Middleborough HS</h4>
-                <div class="ac-loc">Middleborough, MA — Fontaine</div>
-                <div class="ac-row"><span class="ac-label">Construction Method</span><span class="ac-val">Dance Floor</span></div>
-                <div class="ac-row"><span class="ac-label">Budget</span><span class="ac-val" style="color:var(--orange);">Need Breakout</span></div>
-                <div class="ac-row"><span class="ac-label">Relevance</span><span class="ac-val">HS auditorium comp</span></div>
+            <div class="es-row">
+                <div class="es-item">Building Envelope<div class="sub">Exterior walls, curtain wall, windows, roofing, waterproofing</div></div>
+                <div class="es-cost assumed">$18–22M</div>
+                <div class="es-psf">$72–88</div>
+                <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Interior Construction<div class="sub">Partitions, doors, finishes, ceilings, flooring — classrooms, corridors, admin</div></div>
+                <div class="es-cost assumed">$22–26M</div>
+                <div class="es-psf">$88–104</div>
+                <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Mechanical / HVAC (Base Building)<div class="sub">Air handling, distribution, controls, BAS — excludes geothermal heat source</div></div>
+                <div class="es-cost assumed">$18–22M</div>
+                <div class="es-psf">$72–88</div>
+                <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Electrical<div class="sub">Power distribution, lighting, fire alarm, low voltage, data</div></div>
+                <div class="es-cost assumed">$14–16M</div>
+                <div class="es-psf">$56–64</div>
+                <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Plumbing &amp; Fire Protection<div class="sub">Domestic water, waste, fixtures, sprinkler system</div></div>
+                <div class="es-cost assumed">$8–10M</div>
+                <div class="es-psf">$32–40</div>
+                <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Elevator(s)<div class="sub">Permanent building elevator(s) — ADA compliance</div></div>
+                <div class="es-cost assumed">$400–600K</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Kitchen / Food Service Equipment<div class="sub">Commercial kitchen, serving lines, walk-in coolers, cafeteria</div></div>
+                <div class="es-cost assumed">$3–4M</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Gymnasium<div class="sub">Gym structure, flooring, bleachers, scoreboard, MEP</div></div>
+                <div class="es-cost assumed">$4–5M</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Technology &amp; AV Infrastructure<div class="sub">Classroom AV, network backbone, wireless, security cameras</div></div>
+                <div class="es-cost assumed">$3–4M</div>
+                <div class="es-psf">$12–16</div>
+                <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Furnishings, Fixtures &amp; Equipment (FF&amp;E)<div class="sub">Classroom furniture, lab casework, signage</div></div>
+                <div class="es-cost assumed">$4–5M</div>
+                <div class="es-psf">$16–20</div>
+                <div class="es-reimb"><span class="badge badge-partial">Partial</span></div>
+            </div>
+            <div class="es-subtotal">
+                <div><strong>Subtotal — Base Middle School</strong></div>
+                <div class="es-cost">$125–145M</div>
+                <div class="es-psf">$500–580/SF</div>
+                <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
             </div>
         </div>
     </div>
 
-    <!-- EARTHWORK -->
-    <div class="dash-section">
-        <div class="ds-label">EARTHWORK &amp; SITE</div>
-        <div class="ds-title">Excavation Volumes</div>
-        <div class="ds-sub">Curtis Ruotolo, PE is pricing every cubic yard from real data. These are the key volumes identified in the proposal.</div>
-
-        <div class="earth-grid">
-            <div class="earth-card">
-                <div class="ec-phase">PHASE 1</div>
-                <div class="ec-val">50,000</div>
-                <div class="ec-unit">Cubic Yards — Excavation</div>
-                <div class="ec-note">Lower level @ 130.0, Upper @ 160.0</div>
-            </div>
-            <div class="earth-card">
-                <div class="ec-phase">PHASE 2</div>
-                <div class="ec-val">13,000</div>
-                <div class="ec-unit">Cubic Yards — Excavation</div>
-                <div class="ec-note">Grade 6 Academy wing + sitework</div>
-            </div>
-            <div class="earth-card">
-                <div class="ec-phase">EXCESS SOIL</div>
-                <div class="ec-val">25-30K</div>
-                <div class="ec-unit">Cubic Yards — Export</div>
-                <div class="ec-note">Incl. footings, utilities, geo, drainage</div>
-            </div>
+    <!-- ============================================ -->
+    <!-- LAYER 2: COMMUNITY ADD-ONS (SPECIALTY)       -->
+    <!-- ============================================ -->
+    <div class="estimate-section">
+        <div class="es-header cat2" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
+            <h3>2. Specialty Program Spaces — Community Add-Ons</h3>
+            <div class="es-total">$12–16M</div>
         </div>
-        <div style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:14px;">
-            <div class="earth-card" style="text-align:left;">
-                <div class="ec-phase" style="text-align:left;">PHASE 1 BACKFILL</div>
-                <div style="font-size:24px;font-weight:900;color:var(--navy);margin:4px 0;">~15,000 CY</div>
-                <div class="ec-note">Structural fill, utility bedding</div>
+        <div class="es-body">
+            <div class="es-row" style="background:#f0f1f4;font-weight:700;font-size:11px;color:var(--text-light);">
+                <div>LINE ITEM</div>
+                <div style="text-align:right;">ESTIMATED COST</div>
+                <div style="text-align:right;">$/SF</div>
+                <div style="text-align:center;">MSBA</div>
             </div>
-            <div class="earth-card" style="text-align:left;">
-                <div class="ec-phase" style="text-align:left;">PHASE 2 BACKFILL</div>
-                <div style="font-size:24px;font-weight:900;color:var(--navy);margin:4px 0;">~30,000 CY</div>
-                <div class="ec-note">Finish grades, field restoration</div>
+            <div class="es-row">
+                <div class="es-item">750-Seat Performing Arts Auditorium<div class="sub">Structure, sloped seating, stage, fly loft, dance floor construction method</div></div>
+                <div class="es-cost assumed">$8–10M</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-no">Not Reimb</span></div>
             </div>
-        </div>
-    </div>
-
-    <!-- KEY COST AREAS -->
-    <div class="dash-section">
-        <div class="ds-label">KEY COST AREAS</div>
-        <div class="ds-title">Budget Categories Requiring Comp Data</div>
-        <div class="ds-sub">These are the major cost buckets where comparable GMP data from Walpole, Clinton, Peck, and recent HS projects would sharpen our estimates significantly.</div>
-
-        <div class="cost-grid">
-            <div class="cost-card">
-                <h4>Auditorium / Theater</h4>
-                <div class="cc-sub">750-seat performing arts venue — Phase 1</div>
-                <div class="cc-row"><span>Structural steel / long-span</span><span class="cc-tbd">Need comp data</span></div>
-                <div class="cc-row"><span>Dance floor temp platform</span><span class="cc-tbd">Need comp data</span></div>
-                <div class="cc-row"><span>Theatrical systems (lighting, rigging, sound)</span><span class="cc-tbd">Need comp data</span></div>
-                <div class="cc-row"><span>Seating (fixed, sloped)</span><span class="cc-tbd">Need comp data</span></div>
-                <div class="cc-row"><span>Acoustics &amp; finishes</span><span class="cc-tbd">Need comp data</span></div>
+            <div class="es-row">
+                <div class="es-item">Theatrical Systems<div class="sub">Stage lighting, rigging, sound system, curtains, AV control room</div></div>
+                <div class="es-cost assumed">$2–3M</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-no">Not Reimb</span></div>
             </div>
-            <div class="cost-card">
-                <h4>Geothermal System</h4>
-                <div class="cc-sub">~120 boreholes, Warner Field consolidation</div>
-                <div class="cc-row"><span>Borehole drilling (per well)</span><span class="cc-tbd">Need comp data</span></div>
-                <div class="cc-row"><span>Lateral piping to vault</span><span class="cc-tbd">Need comp data</span></div>
-                <div class="cc-row"><span>MBTA tunnel crossing</span><span class="cc-tbd">Need comp data</span></div>
-                <div class="cc-row"><span>Heat pump equipment</span><span class="cc-tbd">Need comp data</span></div>
-                <div class="cc-row"><span>Agawam reference</span><span class="cc-val">Saved $1M+ (180→150 wells)</span></div>
+            <div class="es-row">
+                <div class="es-item">Acoustics &amp; Specialty Finishes<div class="sub">Acoustic panels, specialized wall/ceiling treatments, lobby finishes</div></div>
+                <div class="es-cost assumed">$1–1.5M</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-no">Not Reimb</span></div>
             </div>
-            <div class="cost-card">
-                <h4>Temporary Modulars</h4>
-                <div class="cc-sub">20 classrooms, 4 bath, 1 admin — 2-story</div>
-                <div class="cc-row"><span>Modular units (Option 1)</span><span class="cc-val">~$4M</span></div>
-                <div class="cc-row"><span>Modular units (Option 3)</span><span class="cc-val">~$8M+</span></div>
-                <div class="cc-row"><span>Infrastructure</span><span class="cc-val">~$1.5–3M</span></div>
-                <div class="cc-row"><span>Removal</span><span class="cc-tbd">Need comp data</span></div>
-                <div class="cc-row"><span>See detail →</span><span><a href="/needham/modular/" style="color:var(--orange);font-weight:700;font-size:12px;">Modular Solution Page</a></span></div>
+            <div class="es-row">
+                <div class="es-item">Other Community Enhancements<div class="sub">Extended lobby, community meeting spaces, enhanced athletic facilities</div></div>
+                <div class="es-cost assumed">$1–1.5M</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-partial">Partial</span></div>
             </div>
-            <div class="cost-card">
-                <h4>Site &amp; Civil</h4>
-                <div class="cc-sub">Earthwork, SOE, utilities, retaining walls</div>
-                <div class="cc-row"><span>Excavation (~63K CY total)</span><span class="cc-tbd">Need unit costs</span></div>
-                <div class="cc-row"><span>Support of excavation</span><span class="cc-tbd">Need comp data</span></div>
-                <div class="cc-row"><span>Retaining walls</span><span class="cc-tbd">Need comp data</span></div>
-                <div class="cc-row"><span>Site utilities</span><span class="cc-tbd">Need comp data</span></div>
-                <div class="cc-row"><span>Dewatering</span><span class="cc-tbd">Need comp data</span></div>
+            <div class="es-subtotal">
+                <div><strong>Subtotal — Community Add-Ons</strong></div>
+                <div class="es-cost">$12–16M</div>
+                <div></div>
+                <div class="es-reimb"><span class="badge badge-no">Mostly Not</span></div>
             </div>
         </div>
     </div>
 
-    <!-- DATA GAPS -->
-    <div class="dash-section">
-        <div class="ds-label">DATA GAPS — WHAT MARK NEEDS</div>
-        <div class="ds-title">Cost Data Required to Finalize Estimates</div>
-        <div class="ds-sub">These are the specific documents and data points needed from recent Fontaine projects. Once collected, we can populate this dashboard with real numbers.</div>
+    <!-- ============================================ -->
+    <!-- LAYER 3: SITE DEVELOPMENT                    -->
+    <!-- ============================================ -->
+    <div class="estimate-section">
+        <div class="es-header cat3" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
+            <h3>3. Site Development Costs</h3>
+            <div class="es-total">$18–24M</div>
+        </div>
+        <div class="es-body">
+            <div class="es-row" style="background:#f0f1f4;font-weight:700;font-size:11px;color:var(--text-light);">
+                <div>LINE ITEM</div>
+                <div style="text-align:right;">ESTIMATED COST</div>
+                <div style="text-align:right;">QUANTITY</div>
+                <div style="text-align:center;">MSBA</div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Demolition — Existing Pollard Building<div class="sub">Phase 2 — complete demo of existing school, abatement, haul-off</div></div>
+                <div class="es-cost assumed">$3–4M</div>
+                <div class="es-psf">~120K SF</div>
+                <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Excavation — Phase 1<div class="sub">Mass excavation, lower level @ el. 130, upper @ el. 160</div></div>
+                <div class="es-cost assumed">$3–4M</div>
+                <div class="es-psf">~50,000 CY</div>
+                <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Excavation — Phase 2<div class="sub">Grade 6 Academy wing, remaining sitework</div></div>
+                <div class="es-cost assumed">$800K–1.2M</div>
+                <div class="es-psf">~13,000 CY</div>
+                <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Support of Excavation (SOE)<div class="sub">Sheeting, shoring, soldier piles — grade differential</div></div>
+                <div class="es-cost assumed">$2–3M</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Retaining Walls<div class="sub">Permanent retaining structures, grade changes</div></div>
+                <div class="es-cost assumed">$1.5–2.5M</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Soil Export &amp; Backfill<div class="sub">25-30K CY excess soil export + structural backfill</div></div>
+                <div class="es-cost assumed">$2–3M</div>
+                <div class="es-psf">25-30K CY out</div>
+                <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Site Utilities<div class="sub">Water, sewer, storm, electric, gas, data — new connections</div></div>
+                <div class="es-cost assumed">$2–3M</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Parking, Roadways, Walkways<div class="sub">Permanent parking, bus loop, drop-off, sidewalks, curbing</div></div>
+                <div class="es-cost assumed">$1.5–2M</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Landscaping &amp; Athletic Fields<div class="sub">Finish grading, Warner Field restoration, plantings, irrigation</div></div>
+                <div class="es-cost assumed">$1–1.5M</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-partial">Partial</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Stormwater Management<div class="sub">Detention/infiltration, sediment basins, SWPPP, EPA NPDES</div></div>
+                <div class="es-cost assumed">$1–1.5M</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
+            </div>
+            <div class="es-subtotal">
+                <div><strong>Subtotal — Site Development</strong></div>
+                <div class="es-cost">$18–24M</div>
+                <div></div>
+                <div class="es-reimb"><span class="badge badge-yes">Mostly Reimb</span></div>
+            </div>
+        </div>
+    </div>
 
-        <div class="gap-grid">
-            <div class="gap-card">
-                <div class="gc-source">FROM CHELSEY / PRECON</div>
-                <h4>Walpole MS — GMP Docs</h4>
-                <p>Full GMP breakdown. Auditorium line items, modular costs, site/civil, MEP. Griffin's project — he has the context.</p>
+    <!-- ============================================ -->
+    <!-- LAYER 4: RENEWABLE ENERGY / GEOTHERMAL       -->
+    <!-- ============================================ -->
+    <div class="estimate-section">
+        <div class="es-header cat4" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
+            <h3>4. Renewable Energy — Solar &amp; Geothermal</h3>
+            <div class="es-total">$10–14M</div>
+        </div>
+        <div class="es-body">
+            <div class="es-row" style="background:#f0f1f4;font-weight:700;font-size:11px;color:var(--text-light);">
+                <div>LINE ITEM</div>
+                <div style="text-align:right;">ESTIMATED COST</div>
+                <div style="text-align:right;">QUANTITY</div>
+                <div style="text-align:center;">MSBA</div>
             </div>
-            <div class="gap-card">
-                <div class="gc-source">FROM CHELSEY / PRECON</div>
-                <h4>Clinton — GMP Docs</h4>
-                <p>GMP data including modular procurement approach, unit costs, and infrastructure spending. Middle school comp.</p>
+            <div class="es-row">
+                <div class="es-item">Geothermal Borehole Drilling<div class="sub">~120 boreholes at Warner Field — single-phase mobilization</div></div>
+                <div class="es-cost assumed">$4–6M</div>
+                <div class="es-psf">~120 wells</div>
+                <div class="es-reimb"><span class="badge badge-partial">Green Incentive</span></div>
             </div>
-            <div class="gap-card">
-                <div class="gc-source">FROM CHELSEY / PRECON</div>
-                <h4>Peck — Schedule of Values</h4>
-                <p>SOV to benchmark classroom unit costs, auditorium costs, and installation pricing. Line-item detail needed.</p>
+            <div class="es-row">
+                <div class="es-item">Geothermal Loop Piping &amp; Vaults<div class="sub">Lateral piping from boreholes to vault, MBTA tunnel crossing, headers</div></div>
+                <div class="es-cost assumed">$2–3M</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-partial">Green Incentive</span></div>
             </div>
-            <div class="gap-card">
-                <div class="gc-source">FROM JOEL / ESTIMATING</div>
-                <h4>Recent HS Auditorium Costs</h4>
-                <p>Doherty, South High, West Springfield, East Bridgewater — auditorium-specific cost breakouts (structural, theatrical, seating, acoustics).</p>
+            <div class="es-row">
+                <div class="es-item">Heat Pump Equipment<div class="sub">Ground-source heat pump units, controls, integration with BAS</div></div>
+                <div class="es-cost assumed">$2–3M</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-partial">Green Incentive</span></div>
             </div>
-            <div class="gap-card">
-                <div class="gc-source">FROM JOEL / ESTIMATING</div>
-                <h4>Recent HS Site/Civil Costs</h4>
-                <p>Earthwork unit costs, SOE costs, retaining wall costs from recent projects. Need $/CY for excavation, backfill, export.</p>
+            <div class="es-row">
+                <div class="es-item">Solar / Photovoltaic Arrays<div class="sub">Rooftop or parking canopy PV — Net Zero readiness</div></div>
+                <div class="es-cost assumed">$2–3M</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-partial">Green Incentive</span></div>
             </div>
-            <div class="gap-card">
-                <div class="gc-source">FROM TRACY / SUSTAINABILITY</div>
-                <h4>Agawam Geothermal Actuals</h4>
-                <p>Actual cost data from Agawam HS geothermal: per-well drilling cost, lateral piping, heat pump equipment. The redesign that saved $1M+.</p>
+            <div class="es-subtotal">
+                <div><strong>Subtotal — Renewables</strong></div>
+                <div class="es-cost">$10–14M</div>
+                <div></div>
+                <div class="es-reimb"><span class="badge badge-partial">Green $</span></div>
             </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- LAYER 5: TEMPORARY STRUCTURES (MODULARS)     -->
+    <!-- ============================================ -->
+    <div class="estimate-section">
+        <div class="es-header cat5" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
+            <h3>5. Temporary Structures — Modular Classrooms</h3>
+            <div class="es-total">$5.5–10M</div>
+        </div>
+        <div class="es-body">
+            <div class="es-row" style="background:#f0f1f4;font-weight:700;font-size:11px;color:var(--text-light);">
+                <div>LINE ITEM</div>
+                <div style="text-align:right;">ESTIMATED COST</div>
+                <div style="text-align:right;">NOTES</div>
+                <div style="text-align:center;">MSBA</div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Modular Units — 20 Classrooms + 4 Bath + Admin<div class="sub">Option 1 (relocate/supplement) to Option 3 (new). See <a href="/needham/modular/" style="color:var(--orange);font-weight:600;">Modular Solution page</a></div></div>
+                <div class="es-cost assumed">$4–8M</div>
+                <div class="es-psf">2-story config</div>
+                <div class="es-reimb"><span class="badge badge-no">Not Reimb</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Modular Infrastructure<div class="sub">Site prep, utilities (3 elec, 3 drain), fire safety, elevator + stairs, data</div></div>
+                <div class="es-cost assumed">$1.5–2M</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-no">Not Reimb</span></div>
+            </div>
+            <div class="es-subtotal">
+                <div><strong>Subtotal — Temporary Structures</strong></div>
+                <div class="es-cost">$5.5–10M</div>
+                <div></div>
+                <div class="es-reimb"><span class="badge badge-no">Not Reimb</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- LAYER 6: MBTA                                -->
+    <!-- ============================================ -->
+    <div class="estimate-section">
+        <div class="es-header cat6" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
+            <h3>6. MBTA — Rail Adjacency Costs</h3>
+            <div class="es-total">$1.5–3M</div>
+        </div>
+        <div class="es-body">
+            <div class="es-row" style="background:#f0f1f4;font-weight:700;font-size:11px;color:var(--text-light);">
+                <div>LINE ITEM</div>
+                <div style="text-align:right;">ESTIMATED COST</div>
+                <div style="text-align:right;">NOTES</div>
+                <div style="text-align:center;">MSBA</div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Flagging &amp; Inspector Services<div class="sub">Required for all work within fouling distance of tracks — at contractor expense</div></div>
+                <div class="es-cost assumed">$500K–1M</div>
+                <div class="es-psf">Multi-year</div>
+                <div class="es-reimb"><span class="badge badge-partial">Unclear</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">MBTA Insurance (RPLI)<div class="sub">Railroad Protective Liability — $5M/$10M required within 50ft of track</div></div>
+                <div class="es-cost assumed">$200–400K</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-partial">Unclear</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">MBTA Licenses, Easements, Deposits<div class="sub">License for entry, advance deposits, legal/admin fees</div></div>
+                <div class="es-cost assumed">$200–400K</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-partial">Unclear</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Rail-Interface Construction Measures<div class="sub">Protection fencing, vibration monitoring, track protection, tunnel work for geothermal</div></div>
+                <div class="es-cost assumed">$500K–1M</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-partial">Unclear</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Police Details &amp; Security<div class="sub">Required for traffic control/security near active rail</div></div>
+                <div class="es-cost assumed">$100–200K</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-partial">Unclear</span></div>
+            </div>
+            <div class="es-subtotal">
+                <div><strong>Subtotal — MBTA</strong></div>
+                <div class="es-cost">$1.5–3M</div>
+                <div></div>
+                <div class="es-reimb"><span class="badge badge-partial">TBD</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- LAYER 7: CM FEES / GEN CONDITIONS / INSURANCE -->
+    <!-- ============================================ -->
+    <div class="estimate-section">
+        <div class="es-header cat7" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
+            <h3>7. CM Fee, General Conditions, Gen Requirements &amp; Insurance</h3>
+            <div class="es-total">$18–22M</div>
+        </div>
+        <div class="es-body">
+            <div class="es-row" style="background:#f0f1f4;font-weight:700;font-size:11px;color:var(--text-light);">
+                <div>LINE ITEM</div>
+                <div style="text-align:right;">ESTIMATED COST</div>
+                <div style="text-align:right;">% OF BUDGET</div>
+                <div style="text-align:center;">MSBA</div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">General Conditions<div class="sub">Project staff, field office, temp facilities, equipment, utilities, dumpsters</div></div>
+                <div class="es-cost assumed">$10–12M</div>
+                <div class="es-psf">~6-7%</div>
+                <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">General Requirements<div class="sub">Bonds, permits, testing, commissioning, closeout</div></div>
+                <div class="es-cost assumed">$4–5M</div>
+                <div class="es-psf">~2-3%</div>
+                <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">CM Fee<div class="sub">Construction management fee — percentage of construction cost</div></div>
+                <div class="es-cost assumed">$3–4M</div>
+                <div class="es-psf">~2%</div>
+                <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Insurance (Builders Risk, GL, etc.)<div class="sub">Project insurance program — based on total construction value</div></div>
+                <div class="es-cost assumed">$1.5–2M</div>
+                <div class="es-psf">~1%</div>
+                <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
+            </div>
+            <div class="es-subtotal">
+                <div><strong>Subtotal — CM/GC/Insurance</strong></div>
+                <div class="es-cost">$18–22M</div>
+                <div class="es-psf">~11-12%</div>
+                <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- REIMBURSEMENT ANALYSIS                       -->
+    <!-- ============================================ -->
+    <div class="reimb-section">
+        <h3>Cost to Needham — After MSBA Reimbursement</h3>
+        <div class="rs-sub">This is Dave's "checking account" view — what does each decision actually cost the Town after MSBA's share? Every project decision should be evaluated through this lens.</div>
+
+        <div class="reimb-bar">
+            <div class="rb-seg rb-msba" style="width:40%;">MSBA ~$80–95M</div>
+            <div class="rb-seg rb-town" style="width:42%;">Town Share ~$85–95M</div>
+            <div class="rb-seg rb-nonreimb" style="width:18%;">100% Town ~$30–35M</div>
+        </div>
+        <div class="reimb-legend">
+            <div class="reimb-legend-item"><div class="rl-dot" style="background:var(--green);"></div><div><div class="rl-label">MSBA Reimbursement</div><div class="rl-val">~$80–95M</div></div></div>
+            <div class="reimb-legend-item"><div class="rl-dot" style="background:var(--navy);"></div><div><div class="rl-label">Town Share of Reimbursable</div><div class="rl-val">~$85–95M</div></div></div>
+            <div class="reimb-legend-item"><div class="rl-dot" style="background:var(--red);opacity:0.7;"></div><div><div class="rl-label">Non-Reimbursable (100% Town)</div><div class="rl-val">~$30–35M</div></div></div>
+        </div>
+
+        <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div style="background:rgba(220,38,38,0.06);border:1px solid rgba(220,38,38,0.15);border-radius:10px;padding:16px;">
+                <div style="font-size:11px;font-weight:700;letter-spacing:1px;color:var(--red);margin-bottom:6px;">NOT REIMBURSABLE — 100% TOWN COST</div>
+                <div style="font-size:13px;color:var(--text);line-height:1.8;">
+                    &bull; 750-seat auditorium + theatrical: <strong>$11–14.5M</strong><br>
+                    &bull; Temporary modulars: <strong>$5.5–10M</strong><br>
+                    &bull; Community enhancements: <strong>$1–1.5M</strong><br>
+                    &bull; Portions of MBTA costs: <strong>TBD</strong>
+                </div>
+            </div>
+            <div style="background:rgba(22,163,74,0.06);border:1px solid rgba(22,163,74,0.15);border-radius:10px;padding:16px;">
+                <div style="font-size:11px;font-weight:700;letter-spacing:1px;color:var(--green);margin-bottom:6px;">KEY REIMBURSABLE DECISIONS</div>
+                <div style="font-size:13px;color:var(--text);line-height:1.8;">
+                    &bull; Extended gen conditions (longer schedule) = <strong>reimbursable</strong><br>
+                    &bull; Site development / earthwork = <strong>reimbursable</strong><br>
+                    &bull; Base building MEP/structure = <strong>reimbursable</strong><br>
+                    &bull; Geothermal = <strong>Green School incentive</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ASSUMPTIONS / DATA GAPS -->
+    <div class="notes-box" style="margin-bottom:16px;">
+        <h4>DATA NEEDED TO VERIFY THESE ESTIMATES</h4>
+        <ul>
+            <li><strong>Walpole MS GMP</strong> — auditorium breakout, modular costs, site/civil line items</li>
+            <li><strong>Clinton GMP</strong> — middle school modular procurement, infrastructure costs</li>
+            <li><strong>Peck Schedule of Values</strong> — classroom unit costs, auditorium, installation pricing</li>
+            <li><strong>Agawam HS geothermal actuals</strong> — per-well cost, laterals, heat pumps (from Tracy)</li>
+            <li><strong>Recent HS auditorium cost breakouts</strong> — Doherty, South High, West Springfield (from Joel)</li>
+            <li><strong>MSBA Space Guidelines</strong> — public doc, confirms base vs. above-base program</li>
+            <li><strong>MSBA reimbursement rate for Needham</strong> — community-specific %, applied to eligible costs</li>
+        </ul>
+    </div>
+
+    <div class="gap-grid" style="margin-bottom:24px;">
+        <div class="gap-card">
+            <div class="gc-source">FROM CHELSEY / PRECON</div>
+            <h4>Walpole &amp; Clinton GMPs</h4>
+            <p>Full GMP breakdowns — auditorium, modular, site/civil, MEP. Best comps we have for Pollard's scope.</p>
+        </div>
+        <div class="gap-card">
+            <div class="gc-source">FROM JOEL / ESTIMATING</div>
+            <h4>Auditorium &amp; Site Unit Costs</h4>
+            <p>Doherty, South High, West Springfield — auditorium-specific breakouts + earthwork $/CY from recent projects.</p>
+        </div>
+        <div class="gap-card">
+            <div class="gc-source">FUTURE ENHANCEMENT</div>
+            <h4>MSBA Reimbursement Calculator</h4>
+            <p>Pull MSBA Space Guidelines (public doc) and Needham's reimbursement rate to show real cost-to-town for every decision.</p>
         </div>
     </div>
 
