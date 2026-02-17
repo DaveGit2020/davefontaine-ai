@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Precon Dashboard — Pollard Middle School</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        :root {
+            --navy: #1a2744;
+            --navy-dark: #0f1a2e;
+            --navy-light: #2a3d5f;
+            --orange: #e87722;
+            --orange-light: #f59b4d;
+            --green: #16a34a;
+            --amber: #d97706;
+            --red: #dc2626;
+            --dark: #1a1d23;
+            --warm-bg: #f7f8fa;
+            --card: #ffffff;
+            --text: #2c2e33;
+            --text-light: #5a5e68;
+            --border: rgba(26,39,68,0.08);
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior:smooth; }
+        body { font-family:'Inter',sans-serif; background:var(--warm-bg); color:var(--text); line-height:1.6; }
+
+        nav { position:fixed; top:0; left:0; right:0; height:52px; background:rgba(255,255,255,0.95); backdrop-filter:blur(12px); display:flex; align-items:center; justify-content:space-between; padding:0 28px; z-index:500; border-bottom:1px solid var(--border); }
+        .nav-title { font-size:14px; font-weight:800; color:var(--dark); }
+        .nav-links { display:flex; gap:16px; align-items:center; }
+        .nav-links a { font-size:12px; font-weight:600; color:var(--text-light); text-decoration:none; }
+        .nav-links a:hover { color:var(--navy); }
+        .draft-flag { background:var(--amber); color:#fff; font-size:9px; font-weight:800; letter-spacing:1px; padding:3px 8px; border-radius:4px; }
+
+        .hero { margin-top:52px; background:linear-gradient(135deg, var(--navy-dark), var(--navy)); color:#fff; padding:48px 40px 36px; }
+        .hero-inner { max-width:1200px; margin:0 auto; }
+        .hero-label { font-size:10px; letter-spacing:4px; color:var(--orange-light); font-weight:700; margin-bottom:8px; }
+        .hero h1 { font-size:32px; font-weight:900; line-height:1.1; margin-bottom:8px; }
+        .hero p { font-size:15px; color:rgba(255,255,255,0.6); max-width:700px; }
+
+        .dashboard { max-width:1200px; margin:0 auto; padding:32px 28px; }
+
+        /* METRIC ROW */
+        .metric-row { display:grid; grid-template-columns:repeat(5,1fr); gap:14px; margin-bottom:28px; }
+        .metric-card { background:var(--card); border-radius:12px; padding:18px 16px; text-align:center; border:1px solid var(--border); }
+        .metric-card .mc-val { font-size:28px; font-weight:900; color:var(--navy); line-height:1; }
+        .metric-card .mc-lbl { font-size:10px; color:var(--text-light); font-weight:600; letter-spacing:0.5px; margin-top:3px; }
+        .metric-card.highlight { background:var(--navy); border-color:var(--navy); }
+        .metric-card.highlight .mc-val { color:var(--orange-light); }
+        .metric-card.highlight .mc-lbl { color:rgba(255,255,255,0.6); }
+
+        /* SECTION */
+        .dash-section { margin-bottom:32px; }
+        .ds-label { font-size:10px; letter-spacing:3px; color:var(--navy); font-weight:700; margin-bottom:6px; }
+        .ds-title { font-size:22px; font-weight:900; color:var(--dark); margin-bottom:4px; }
+        .ds-sub { font-size:13px; color:var(--text-light); margin-bottom:16px; }
+
+        /* COMP TABLE */
+        .comp-table { width:100%; border-collapse:collapse; background:var(--card); border-radius:12px; overflow:hidden; border:1px solid var(--border); margin-bottom:16px; }
+        .comp-table th { text-align:left; padding:10px 14px; font-size:10px; font-weight:700; letter-spacing:1px; color:var(--text-light); background:#f0f1f4; border-bottom:2px solid var(--border); }
+        .comp-table th.num { text-align:right; }
+        .comp-table td { padding:10px 14px; font-size:13px; color:var(--text); border-bottom:1px solid rgba(0,0,0,0.03); }
+        .comp-table td.num { text-align:right; font-weight:700; font-variant-numeric:tabular-nums; }
+        .comp-table tr:last-child td { border:none; }
+        .comp-table tr.pollard { background:rgba(26,39,68,0.04); }
+        .comp-table tr.pollard td { font-weight:700; color:var(--navy); }
+        .comp-table .tag { font-size:9px; font-weight:700; letter-spacing:0.5px; padding:2px 6px; border-radius:3px; }
+        .tag-jv { background:rgba(232,119,34,0.12); color:var(--orange); }
+        .tag-fontaine { background:rgba(140,0,50,0.1); color:#8c0032; }
+        .tag-dimeo { background:rgba(26,39,68,0.08); color:var(--navy); }
+        .tag-other { background:rgba(107,114,128,0.1); color:#6b7280; }
+        .comp-table .tbd { color:#999; font-style:italic; }
+
+        /* AUDITORIUM TABLE */
+        .aud-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:16px; }
+        .aud-card { background:var(--card); border-radius:12px; padding:20px; border:1px solid var(--border); }
+        .aud-card h4 { font-size:15px; font-weight:800; color:var(--dark); margin-bottom:2px; }
+        .aud-card .ac-loc { font-size:11px; color:var(--text-light); margin-bottom:10px; }
+        .aud-card .ac-row { display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px solid rgba(0,0,0,0.04); }
+        .aud-card .ac-row:last-child { border:none; }
+        .aud-card .ac-label { font-size:12px; color:var(--text-light); }
+        .aud-card .ac-val { font-size:12px; font-weight:700; color:var(--dark); }
+        .aud-card.pollard { border:2px solid var(--navy); }
+        .aud-card.pollard h4 { color:var(--navy); }
+
+        /* EARTHWORK */
+        .earth-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
+        .earth-card { background:var(--card); border-radius:12px; padding:20px; border:1px solid var(--border); text-align:center; }
+        .earth-card .ec-phase { font-size:10px; font-weight:700; letter-spacing:1px; color:var(--orange); }
+        .earth-card .ec-val { font-size:32px; font-weight:900; color:var(--navy); margin:6px 0 2px; }
+        .earth-card .ec-unit { font-size:11px; color:var(--text-light); }
+        .earth-card .ec-note { font-size:11px; color:var(--text-light); margin-top:6px; }
+
+        /* COST AREAS */
+        .cost-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+        .cost-card { background:var(--card); border-radius:12px; padding:20px; border:1px solid var(--border); border-top:3px solid var(--navy); }
+        .cost-card h4 { font-size:15px; font-weight:800; color:var(--dark); margin-bottom:4px; }
+        .cost-card .cc-sub { font-size:11px; color:var(--text-light); margin-bottom:12px; }
+        .cost-card .cc-row { display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px solid rgba(0,0,0,0.04); font-size:13px; }
+        .cost-card .cc-row:last-child { border:none; }
+        .cost-card .cc-val { font-weight:700; color:var(--navy); }
+        .cost-card .cc-tbd { color:#999; font-style:italic; }
+
+        /* DATA GAPS */
+        .gap-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+        .gap-card { background:var(--card); border-radius:12px; padding:20px; border:1px solid var(--border); border-left:4px solid var(--orange); }
+        .gap-card h4 { font-size:14px; font-weight:700; color:var(--dark); margin-bottom:4px; }
+        .gap-card p { font-size:12px; color:var(--text-light); line-height:1.5; }
+        .gap-card .gc-source { font-size:10px; font-weight:700; color:var(--orange); letter-spacing:1px; margin-bottom:4px; }
+
+        .page-bottom { height:40px; }
+
+        @media (max-width:900px) {
+            .metric-row { grid-template-columns:repeat(3,1fr); }
+            .aud-grid, .earth-grid, .gap-grid { grid-template-columns:1fr; }
+            .cost-grid { grid-template-columns:1fr; }
+        }
+        @media (max-width:600px) {
+            .metric-row { grid-template-columns:repeat(2,1fr); }
+            .dashboard { padding:24px 16px; }
+            .hero { padding:36px 20px 28px; }
+            .hero h1 { font-size:24px; }
+            .comp-table { font-size:11px; }
+            .comp-table th, .comp-table td { padding:8px 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div>
+        <span class="nav-title">Precon Dashboard</span>
+        <span style="font-size:10px;letter-spacing:2px;color:var(--orange);font-weight:700;margin-left:8px;">POLLARD MS</span>
+    </div>
+    <div class="nav-links">
+        <span class="draft-flag">DRAFT — INTERNAL</span>
+        <a href="/needham/modular/">Modular Solution</a>
+        <a href="/needham/">Main Proposal</a>
+    </div>
+</nav>
+
+<div class="hero">
+    <div class="hero-inner">
+        <div class="hero-label">FONTAINE + DIMEO — PRECONSTRUCTION</div>
+        <h1>Pollard Middle School — Cost Benchmarking Dashboard</h1>
+        <p>Comparable school projects, auditorium costs, earthwork volumes, and data gaps for interview preparation. Internal working document.</p>
+    </div>
+</div>
+
+<div class="dashboard">
+
+    <!-- TOP METRICS -->
+    <div class="metric-row">
+        <div class="metric-card highlight"><div class="mc-val">750</div><div class="mc-lbl">Auditorium Seats</div></div>
+        <div class="metric-card"><div class="mc-val">160-185K</div><div class="mc-lbl">Phase 1 SF</div></div>
+        <div class="metric-card"><div class="mc-val">70-95K</div><div class="mc-lbl">Phase 2 SF</div></div>
+        <div class="metric-card"><div class="mc-val">~50K</div><div class="mc-lbl">Phase 1 Excavation (CY)</div></div>
+        <div class="metric-card"><div class="mc-val">~120</div><div class="mc-lbl">Geothermal Boreholes</div></div>
+    </div>
+
+    <!-- COMPARABLE SCHOOL PROJECTS -->
+    <div class="dash-section">
+        <div class="ds-label">COMPARABLE SCHOOL PROJECTS</div>
+        <div class="ds-title">How Pollard Stacks Up</div>
+        <div class="ds-sub">Recent MSBA and non-MSBA school projects built by Fontaine, Dimeo, and other firms. Where we have data, cost/SF and key features are shown.</div>
+
+        <table class="comp-table">
+            <tr>
+                <th>PROJECT</th>
+                <th>LOCATION</th>
+                <th>TEAM</th>
+                <th class="num">SIZE (SF)</th>
+                <th class="num">VALUE</th>
+                <th>AUDITORIUM</th>
+                <th>GEOTHERMAL</th>
+                <th>NOTES</th>
+            </tr>
+            <tr class="pollard">
+                <td><strong>Pollard Middle School</strong></td>
+                <td>Needham, MA</td>
+                <td><span class="tag tag-jv">F+D JV</span></td>
+                <td class="num">250-280K</td>
+                <td class="num tbd">TBD (GMP)</td>
+                <td>750 seats</td>
+                <td>~120 wells</td>
+                <td>2-phase, occupied campus, MBTA adjacent</td>
+            </tr>
+            <tr>
+                <td>Doherty Memorial HS</td>
+                <td>Worcester, MA</td>
+                <td><span class="tag tag-jv">F+D JV</span></td>
+                <td class="num">~285,000</td>
+                <td class="num">$268M</td>
+                <td>Yes — large</td>
+                <td>No</td>
+                <td>Active JV project, dance floor auditorium method</td>
+            </tr>
+            <tr>
+                <td>South High Community School</td>
+                <td>Worcester, MA</td>
+                <td><span class="tag tag-fontaine">Fontaine</span></td>
+                <td class="num">~280,000</td>
+                <td class="num tbd">—</td>
+                <td>Yes</td>
+                <td>No</td>
+                <td>Auditorium with dance floor method</td>
+            </tr>
+            <tr>
+                <td>Agawam High School</td>
+                <td>Agawam, MA</td>
+                <td><span class="tag tag-fontaine">Fontaine</span></td>
+                <td class="num">235,075</td>
+                <td class="num tbd">—</td>
+                <td>Yes</td>
+                <td>150 wells (redesigned from 180)</td>
+                <td>Geothermal optimization saved $1M+</td>
+            </tr>
+            <tr>
+                <td>Newton North HS</td>
+                <td>Newton, MA</td>
+                <td><span class="tag tag-fontaine">Fontaine</span></td>
+                <td class="num">412,000</td>
+                <td class="num tbd">—</td>
+                <td>Yes — theater</td>
+                <td>No</td>
+                <td>Largest comparable, similar affluent community</td>
+            </tr>
+            <tr>
+                <td>Springfield HS</td>
+                <td>Springfield, MA</td>
+                <td><span class="tag tag-fontaine">Fontaine</span></td>
+                <td class="num">257,525</td>
+                <td class="num tbd">—</td>
+                <td>Yes</td>
+                <td>No</td>
+                <td>—</td>
+            </tr>
+            <tr>
+                <td>Duxbury MS/HS</td>
+                <td>Duxbury, MA</td>
+                <td><span class="tag tag-fontaine">Fontaine</span></td>
+                <td class="num">322,000</td>
+                <td class="num tbd">—</td>
+                <td>Yes</td>
+                <td>No</td>
+                <td>Middle/High combo</td>
+            </tr>
+            <tr>
+                <td>Mountain View K-8</td>
+                <td>East Hampton, MA</td>
+                <td><span class="tag tag-fontaine">Fontaine</span></td>
+                <td class="num">177,000</td>
+                <td class="num tbd">—</td>
+                <td>No</td>
+                <td>No</td>
+                <td>2-phased, 14ft from existing school — closest ops comp</td>
+            </tr>
+            <tr>
+                <td>Walpole Middle School</td>
+                <td>Walpole, MA</td>
+                <td><span class="tag tag-fontaine">Fontaine</span></td>
+                <td class="num tbd">—</td>
+                <td class="num tbd">—</td>
+                <td>Yes</td>
+                <td>No</td>
+                <td>Griffin Couture PM, 3 years, dance floor auditorium</td>
+            </tr>
+            <tr>
+                <td>East Longmeadow HS</td>
+                <td>E. Longmeadow, MA</td>
+                <td><span class="tag tag-fontaine">Fontaine</span></td>
+                <td class="num tbd">—</td>
+                <td class="num tbd">—</td>
+                <td>Yes</td>
+                <td>No</td>
+                <td>Includes natatorium</td>
+            </tr>
+            <tr>
+                <td>Westhill HS</td>
+                <td>Stamford, CT</td>
+                <td><span class="tag tag-dimeo">Dimeo</span></td>
+                <td class="num tbd">—</td>
+                <td class="num">$376M</td>
+                <td>Yes</td>
+                <td>—</td>
+                <td>Dimeo's largest school project</td>
+            </tr>
+            <tr>
+                <td>Pilgrim + Toll Gate HS</td>
+                <td>Warwick, RI</td>
+                <td><span class="tag tag-dimeo">Dimeo</span></td>
+                <td class="num tbd">—</td>
+                <td class="num">$311.7M</td>
+                <td>Yes</td>
+                <td>—</td>
+                <td>Two-school program</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- AUDITORIUM COMPS -->
+    <div class="dash-section">
+        <div class="ds-label">AUDITORIUM COMPARISONS</div>
+        <div class="ds-title">750-Seat Theater Benchmarking</div>
+        <div class="ds-sub">Pollard's 750-seat performing arts auditorium is a major scope item. Here's how our team's recent auditorium experience stacks up — all built using Matt Wilder's "dance floor" method.</div>
+
+        <div class="aud-grid">
+            <div class="aud-card pollard">
+                <h4>Pollard Middle School</h4>
+                <div class="ac-loc">Needham, MA — Fontaine + Dimeo</div>
+                <div class="ac-row"><span class="ac-label">Seats</span><span class="ac-val">750</span></div>
+                <div class="ac-row"><span class="ac-label">Construction Method</span><span class="ac-val">Dance Floor (planned)</span></div>
+                <div class="ac-row"><span class="ac-label">Phase</span><span class="ac-val">Phase 1 (included)</span></div>
+                <div class="ac-row"><span class="ac-label">Budget</span><span class="ac-val" style="color:var(--orange);">TBD — Need Comps</span></div>
+                <div class="ac-row"><span class="ac-label">Specialty</span><span class="ac-val">Full performing arts</span></div>
+                <div class="ac-row"><span class="ac-label">Superintendent</span><span class="ac-val">Matt Wilder</span></div>
+            </div>
+            <div class="aud-card">
+                <h4>Doherty Memorial HS</h4>
+                <div class="ac-loc">Worcester, MA — F+D JV</div>
+                <div class="ac-row"><span class="ac-label">Seats</span><span class="ac-val">Large (1000+)</span></div>
+                <div class="ac-row"><span class="ac-label">Construction Method</span><span class="ac-val">Dance Floor</span></div>
+                <div class="ac-row"><span class="ac-label">Budget</span><span class="ac-val" style="color:var(--orange);">Need GMP Breakout</span></div>
+                <div class="ac-row"><span class="ac-label">Status</span><span class="ac-val">Under Construction</span></div>
+                <div class="ac-row"><span class="ac-label">Total Project</span><span class="ac-val">$268M</span></div>
+                <div class="ac-row"><span class="ac-label">Relevance</span><span class="ac-val">Same JV, same method</span></div>
+            </div>
+            <div class="aud-card">
+                <h4>Walpole Middle School</h4>
+                <div class="ac-loc">Walpole, MA — Fontaine</div>
+                <div class="ac-row"><span class="ac-label">Seats</span><span class="ac-val">TBD</span></div>
+                <div class="ac-row"><span class="ac-label">Construction Method</span><span class="ac-val">Dance Floor</span></div>
+                <div class="ac-row"><span class="ac-label">Budget</span><span class="ac-val" style="color:var(--orange);">Need GMP Breakout</span></div>
+                <div class="ac-row"><span class="ac-label">PM</span><span class="ac-val">Griffin Couture</span></div>
+                <div class="ac-row"><span class="ac-label">Duration</span><span class="ac-val">3 years</span></div>
+                <div class="ac-row"><span class="ac-label">Relevance</span><span class="ac-val">Middle school, same PM</span></div>
+            </div>
+        </div>
+        <div class="aud-grid">
+            <div class="aud-card">
+                <h4>South High Community School</h4>
+                <div class="ac-loc">Worcester, MA — Fontaine</div>
+                <div class="ac-row"><span class="ac-label">Construction Method</span><span class="ac-val">Dance Floor</span></div>
+                <div class="ac-row"><span class="ac-label">Budget</span><span class="ac-val" style="color:var(--orange);">Need Breakout</span></div>
+                <div class="ac-row"><span class="ac-label">Relevance</span><span class="ac-val">Urban school, auditorium</span></div>
+            </div>
+            <div class="aud-card">
+                <h4>West Springfield HS</h4>
+                <div class="ac-loc">West Springfield, MA — Fontaine</div>
+                <div class="ac-row"><span class="ac-label">Construction Method</span><span class="ac-val">Dance Floor</span></div>
+                <div class="ac-row"><span class="ac-label">Budget</span><span class="ac-val" style="color:var(--orange);">Need Breakout</span></div>
+                <div class="ac-row"><span class="ac-label">Relevance</span><span class="ac-val">HS auditorium comp</span></div>
+            </div>
+            <div class="aud-card">
+                <h4>Middleborough HS</h4>
+                <div class="ac-loc">Middleborough, MA — Fontaine</div>
+                <div class="ac-row"><span class="ac-label">Construction Method</span><span class="ac-val">Dance Floor</span></div>
+                <div class="ac-row"><span class="ac-label">Budget</span><span class="ac-val" style="color:var(--orange);">Need Breakout</span></div>
+                <div class="ac-row"><span class="ac-label">Relevance</span><span class="ac-val">HS auditorium comp</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- EARTHWORK -->
+    <div class="dash-section">
+        <div class="ds-label">EARTHWORK &amp; SITE</div>
+        <div class="ds-title">Excavation Volumes</div>
+        <div class="ds-sub">Curtis Ruotolo, PE is pricing every cubic yard from real data. These are the key volumes identified in the proposal.</div>
+
+        <div class="earth-grid">
+            <div class="earth-card">
+                <div class="ec-phase">PHASE 1</div>
+                <div class="ec-val">50,000</div>
+                <div class="ec-unit">Cubic Yards — Excavation</div>
+                <div class="ec-note">Lower level @ 130.0, Upper @ 160.0</div>
+            </div>
+            <div class="earth-card">
+                <div class="ec-phase">PHASE 2</div>
+                <div class="ec-val">13,000</div>
+                <div class="ec-unit">Cubic Yards — Excavation</div>
+                <div class="ec-note">Grade 6 Academy wing + sitework</div>
+            </div>
+            <div class="earth-card">
+                <div class="ec-phase">EXCESS SOIL</div>
+                <div class="ec-val">25-30K</div>
+                <div class="ec-unit">Cubic Yards — Export</div>
+                <div class="ec-note">Incl. footings, utilities, geo, drainage</div>
+            </div>
+        </div>
+        <div style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+            <div class="earth-card" style="text-align:left;">
+                <div class="ec-phase" style="text-align:left;">PHASE 1 BACKFILL</div>
+                <div style="font-size:24px;font-weight:900;color:var(--navy);margin:4px 0;">~15,000 CY</div>
+                <div class="ec-note">Structural fill, utility bedding</div>
+            </div>
+            <div class="earth-card" style="text-align:left;">
+                <div class="ec-phase" style="text-align:left;">PHASE 2 BACKFILL</div>
+                <div style="font-size:24px;font-weight:900;color:var(--navy);margin:4px 0;">~30,000 CY</div>
+                <div class="ec-note">Finish grades, field restoration</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- KEY COST AREAS -->
+    <div class="dash-section">
+        <div class="ds-label">KEY COST AREAS</div>
+        <div class="ds-title">Budget Categories Requiring Comp Data</div>
+        <div class="ds-sub">These are the major cost buckets where comparable GMP data from Walpole, Clinton, Peck, and recent HS projects would sharpen our estimates significantly.</div>
+
+        <div class="cost-grid">
+            <div class="cost-card">
+                <h4>Auditorium / Theater</h4>
+                <div class="cc-sub">750-seat performing arts venue — Phase 1</div>
+                <div class="cc-row"><span>Structural steel / long-span</span><span class="cc-tbd">Need comp data</span></div>
+                <div class="cc-row"><span>Dance floor temp platform</span><span class="cc-tbd">Need comp data</span></div>
+                <div class="cc-row"><span>Theatrical systems (lighting, rigging, sound)</span><span class="cc-tbd">Need comp data</span></div>
+                <div class="cc-row"><span>Seating (fixed, sloped)</span><span class="cc-tbd">Need comp data</span></div>
+                <div class="cc-row"><span>Acoustics &amp; finishes</span><span class="cc-tbd">Need comp data</span></div>
+            </div>
+            <div class="cost-card">
+                <h4>Geothermal System</h4>
+                <div class="cc-sub">~120 boreholes, Warner Field consolidation</div>
+                <div class="cc-row"><span>Borehole drilling (per well)</span><span class="cc-tbd">Need comp data</span></div>
+                <div class="cc-row"><span>Lateral piping to vault</span><span class="cc-tbd">Need comp data</span></div>
+                <div class="cc-row"><span>MBTA tunnel crossing</span><span class="cc-tbd">Need comp data</span></div>
+                <div class="cc-row"><span>Heat pump equipment</span><span class="cc-tbd">Need comp data</span></div>
+                <div class="cc-row"><span>Agawam reference</span><span class="cc-val">Saved $1M+ (180→150 wells)</span></div>
+            </div>
+            <div class="cost-card">
+                <h4>Temporary Modulars</h4>
+                <div class="cc-sub">20 classrooms, 4 bath, 1 admin — 2-story</div>
+                <div class="cc-row"><span>Modular units (Option 1)</span><span class="cc-val">~$4M</span></div>
+                <div class="cc-row"><span>Modular units (Option 3)</span><span class="cc-val">~$8M+</span></div>
+                <div class="cc-row"><span>Infrastructure</span><span class="cc-val">~$1.5–3M</span></div>
+                <div class="cc-row"><span>Removal</span><span class="cc-tbd">Need comp data</span></div>
+                <div class="cc-row"><span>See detail →</span><span><a href="/needham/modular/" style="color:var(--orange);font-weight:700;font-size:12px;">Modular Solution Page</a></span></div>
+            </div>
+            <div class="cost-card">
+                <h4>Site &amp; Civil</h4>
+                <div class="cc-sub">Earthwork, SOE, utilities, retaining walls</div>
+                <div class="cc-row"><span>Excavation (~63K CY total)</span><span class="cc-tbd">Need unit costs</span></div>
+                <div class="cc-row"><span>Support of excavation</span><span class="cc-tbd">Need comp data</span></div>
+                <div class="cc-row"><span>Retaining walls</span><span class="cc-tbd">Need comp data</span></div>
+                <div class="cc-row"><span>Site utilities</span><span class="cc-tbd">Need comp data</span></div>
+                <div class="cc-row"><span>Dewatering</span><span class="cc-tbd">Need comp data</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DATA GAPS -->
+    <div class="dash-section">
+        <div class="ds-label">DATA GAPS — WHAT MARK NEEDS</div>
+        <div class="ds-title">Cost Data Required to Finalize Estimates</div>
+        <div class="ds-sub">These are the specific documents and data points needed from recent Fontaine projects. Once collected, we can populate this dashboard with real numbers.</div>
+
+        <div class="gap-grid">
+            <div class="gap-card">
+                <div class="gc-source">FROM CHELSEY / PRECON</div>
+                <h4>Walpole MS — GMP Docs</h4>
+                <p>Full GMP breakdown. Auditorium line items, modular costs, site/civil, MEP. Griffin's project — he has the context.</p>
+            </div>
+            <div class="gap-card">
+                <div class="gc-source">FROM CHELSEY / PRECON</div>
+                <h4>Clinton — GMP Docs</h4>
+                <p>GMP data including modular procurement approach, unit costs, and infrastructure spending. Middle school comp.</p>
+            </div>
+            <div class="gap-card">
+                <div class="gc-source">FROM CHELSEY / PRECON</div>
+                <h4>Peck — Schedule of Values</h4>
+                <p>SOV to benchmark classroom unit costs, auditorium costs, and installation pricing. Line-item detail needed.</p>
+            </div>
+            <div class="gap-card">
+                <div class="gc-source">FROM JOEL / ESTIMATING</div>
+                <h4>Recent HS Auditorium Costs</h4>
+                <p>Doherty, South High, West Springfield, East Bridgewater — auditorium-specific cost breakouts (structural, theatrical, seating, acoustics).</p>
+            </div>
+            <div class="gap-card">
+                <div class="gc-source">FROM JOEL / ESTIMATING</div>
+                <h4>Recent HS Site/Civil Costs</h4>
+                <p>Earthwork unit costs, SOE costs, retaining wall costs from recent projects. Need $/CY for excavation, backfill, export.</p>
+            </div>
+            <div class="gap-card">
+                <div class="gc-source">FROM TRACY / SUSTAINABILITY</div>
+                <h4>Agawam Geothermal Actuals</h4>
+                <p>Actual cost data from Agawam HS geothermal: per-well drilling cost, lateral piping, heat pump equipment. The redesign that saved $1M+.</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="page-bottom"></div>
+</body>
+</html>
