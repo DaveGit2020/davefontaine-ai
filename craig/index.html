@@ -336,7 +336,8 @@ if (!API_KEY) {
 
 let mode = 'pdf';
 let loading = false;
-let pdfContext = ''; // loaded from pdf-content.json
+let allPdfs = []; // raw PDF objects from json
+let pdfContext = ''; // full context (fallback)
 
 const MODE_INFO = {
   pdf: {
@@ -362,17 +363,10 @@ const MODE_INFO = {
 (async function loadPdfs() {
   try {
     const resp = await fetch('pdf-content.json');
-    const pdfs = await resp.json();
-    // Build context string from all PDFs, cap each at 40K chars
-    const chunks = pdfs.map(p => '=== ' + p.name + ' ===\n' + p.text.slice(0, 40000));
-    pdfContext = chunks.join('\n\n');
-    // Cap total at 150K chars to stay within token limits
-    if (pdfContext.length > 150000) {
-      pdfContext = pdfContext.slice(0, 150000) + '\n\n[Content truncated for length]';
-    }
+    allPdfs = await resp.json();
     const badge = document.getElementById('pdf-badge');
     badge.classList.remove('loading');
-    document.getElementById('pdf-count').textContent = pdfs.length + ' PDFs loaded';
+    document.getElementById('pdf-count').textContent = allPdfs.length + ' PDFs loaded';
   } catch(e) {
     const badge = document.getElementById('pdf-badge');
     badge.classList.remove('loading');
@@ -381,6 +375,54 @@ const MODE_INFO = {
     console.error('Failed to load PDFs:', e);
   }
 })();
+
+// ============================================================
+// Smart context: search PDFs locally, send only relevant chunks
+// Keeps API calls under 10K tokens (~8K chars of PDF context)
+// ============================================================
+function findRelevantContext(question, maxChars) {
+  maxChars = maxChars || 8000;
+  const qWords = question.toLowerCase().split(/\s+/).filter(w => w.length > 2);
+
+  // Score each PDF by keyword relevance
+  const scored = allPdfs.map(p => {
+    const textLower = p.text.toLowerCase();
+    let score = 0;
+    qWords.forEach(w => {
+      const matches = textLower.split(w).length - 1;
+      score += matches;
+    });
+    return { ...p, score };
+  }).filter(p => p.score > 0).sort((a, b) => b.score - a.score);
+
+  // If no keyword matches, send a brief summary from each PDF
+  if (scored.length === 0) {
+    return allPdfs.map(p => '=== ' + p.name + ' ===\n' + p.text.slice(0, 600)).join('\n\n').slice(0, maxChars);
+  }
+
+  // Build context from top-scoring PDFs, extracting relevant paragraphs
+  let context = '';
+  for (const pdf of scored) {
+    if (context.length >= maxChars) break;
+
+    // Find paragraphs containing query words
+    const paras = pdf.text.split(/\n{2,}/);
+    const relevantParas = paras.filter(para => {
+      const paraLower = para.toLowerCase();
+      return qWords.some(w => paraLower.includes(w));
+    });
+
+    if (relevantParas.length > 0) {
+      const excerpt = relevantParas.join('\n\n').slice(0, 3000);
+      context += '=== ' + pdf.name + ' ===\n' + excerpt + '\n\n';
+    } else {
+      // Fallback: first 600 chars of the matching PDF
+      context += '=== ' + pdf.name + ' ===\n' + pdf.text.slice(0, 600) + '\n\n';
+    }
+  }
+
+  return context.slice(0, maxChars);
+}
 
 // ============================================================
 // System prompts
@@ -527,10 +569,11 @@ async function send(question) {
       default: systemPrompt = PDF_SYSTEM;
     }
 
-    // Build user message — include PDF context for pdf and compare modes
+    // Build user message — include RELEVANT PDF context (smart search, not full dump)
     let userMsg = q;
-    if ((mode === 'pdf' || mode === 'compare') && pdfContext) {
-      userMsg = "Here are Bob Doane's teaching materials:\n\n" + pdfContext + "\n\n---\n\nQuestion: " + q;
+    if ((mode === 'pdf' || mode === 'compare') && allPdfs.length > 0) {
+      const relevantContext = findRelevantContext(q, 8000);
+      userMsg = "Here are relevant excerpts from Bob Doane's teaching materials:\n\n" + relevantContext + "\n\n---\n\nQuestion: " + q;
     }
 
     const body = {
