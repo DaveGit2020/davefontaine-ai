@@ -377,15 +377,43 @@ const MODE_INFO = {
 })();
 
 // ============================================================
-// Build full PDF context — send ALL text, cap at 120K chars
-// Tier 3 rate limit (200K tokens/min) supports this easily
+// Build PDF context — prioritize formula-dense docs, cap per-doc
+// Sends ~160K chars total (~40K tokens) — fits Tier 3 easily
 // ============================================================
 function buildPdfContext() {
-  const chunks = allPdfs.map(p => '=== ' + p.name + ' ===\n' + p.text);
-  let context = chunks.join('\n\n');
-  if (context.length > 120000) {
-    context = context.slice(0, 120000) + '\n\n[Some content truncated for length]';
+  // Prioritize shorter, formula-dense PDFs first so they don't get truncated
+  const priority = [
+    'Bob-Doanes-Herbal-Formulas',    // 7K - core formulas
+    'Pulses-Herbs-Reference-Guide',   // 33K - pulse/herb reference
+    'top10disorders',                  // 105K - top 10 clinical disorders
+    'DXHERBACUforFAD',               // 47K - fatigue/anxiety/depression herbs
+    'Secrets of the Left Cun 2019 Notes', // 39K - clinical notes
+    'Secrets of the Left Cun 2019',   // 54K - full left cun
+    'MPD Hands On Poulsbo',           // 56K - hands-on workshop
+    'Essentials of Proper Pulse',     // 34K - pulse diagnosis
+    'Cardiology-Workshop',            // 70K - cardiology
+    'MPD-101-Herbs-Formulas',         // 391K - huge ebook (cap this one)
+  ];
+
+  // Sort PDFs by priority order
+  const sorted = [...allPdfs].sort((a, b) => {
+    const aIdx = priority.findIndex(p => a.name.includes(p));
+    const bIdx = priority.findIndex(p => b.name.includes(p));
+    return (aIdx === -1 ? 999 : aIdx) - (bIdx === -1 ? 999 : bIdx);
+  });
+
+  let context = '';
+  const MAX_TOTAL = 180000;
+  const MAX_PER_DOC = 50000; // cap huge docs so more fit
+
+  for (const pdf of sorted) {
+    const remaining = MAX_TOTAL - context.length;
+    if (remaining < 500) break; // stop when nearly full
+    const capSize = Math.min(pdf.text.length, MAX_PER_DOC, remaining - 100);
+    if (capSize < 100) continue; // skip if barely any room
+    context += '=== ' + pdf.name + ' ===\n' + pdf.text.slice(0, capSize) + '\n\n';
   }
+
   return context;
 }
 
