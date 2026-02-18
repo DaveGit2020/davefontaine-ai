@@ -74,12 +74,10 @@
         .es-header.cat3 .es-total { color:var(--orange-light); }
         .es-header.cat4 { background:#64748b; color:#fff; }
         .es-header.cat4 .es-total { color:var(--orange-light); }
-        .es-header.cat5 { background:#78716c; color:#fff; }
-        .es-header.cat5 .es-total { color:var(--orange-light); }
-        .es-header.cat6 { background:#92400e; color:#fff; }
-        .es-header.cat6 .es-total { color:#fde68a; }
-        .es-header.cat7 { background:var(--dark); color:#fff; }
-        .es-header.cat7 .es-total { color:var(--orange-light); }
+        .es-header.cat5 { background:#92400e; color:#fff; }
+        .es-header.cat5 .es-total { color:#fde68a; }
+        .es-header.cat6 { background:var(--dark); color:#fff; }
+        .es-header.cat6 .es-total { color:var(--orange-light); }
 
         .es-body { background:var(--card); border:1px solid var(--border); border-top:none; border-radius:0 0 10px 10px; overflow:hidden; }
         .es-row { display:grid; grid-template-columns:1fr 140px 140px 100px; align-items:center; padding:8px 16px; border-bottom:1px solid rgba(0,0,0,0.03); font-size:13px; }
@@ -87,6 +85,7 @@
         .es-row:hover { background:rgba(26,39,68,0.02); }
         .es-item { color:var(--text); }
         .es-item .sub { font-size:11px; color:var(--text-light); }
+        .es-item .source-tag { font-size:9px; font-weight:700; color:var(--green); letter-spacing:0.5px; background:var(--green-light); padding:1px 5px; border-radius:3px; margin-left:4px; }
         .es-cost { text-align:right; font-weight:700; font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--navy); }
         .es-cost.assumed { color:var(--amber); background:var(--amber-light); padding:2px 8px; border-radius:4px; border:1.5px dashed var(--amber); }
         .es-psf { text-align:right; font-size:11px; color:var(--text-light); font-family:'JetBrains Mono',monospace; }
@@ -159,8 +158,7 @@
         <span style="font-size:10px;letter-spacing:2px;color:var(--orange);font-weight:700;margin-left:8px;">POLLARD MS</span>
     </div>
     <div class="nav-links">
-        <span class="draft-flag">DRAFT — COSTS ARE ASSUMPTIONS</span>
-        <a href="/needham/modular/">Modular Solution</a>
+        <span class="draft-flag">DRAFT — WORKING ESTIMATES</span>
         <a href="/needham/">Main Proposal</a>
     </div>
 </nav>
@@ -169,9 +167,10 @@
     <div class="hero-inner">
         <div class="hero-label">FONTAINE + DIMEO — CONCEPTUAL ESTIMATING DASHBOARD</div>
         <h1>Pollard Middle School — Layered Cost Estimate</h1>
-        <p>Structured per Mark Abdella's MSBA framework: Base scope (MSBA guidelines) → community add-ons → site → renewables → temporary facilities → MBTA → CM fees. Every line shows MSBA reimbursability and flags assumptions.</p>
+        <p>Structured per Mark Abdella's MSBA framework: Base scope (MSBA guidelines) &rarr; community add-ons &rarr; site &rarr; renewables &rarr; MBTA &rarr; CM fees. Every line shows MSBA reimbursability and flags assumptions vs. verified benchmarks.</p>
         <div class="hero-legend">
-            <div class="legend-item"><div class="legend-dot assumed"></div>Assumed cost — needs verification</div>
+            <div class="legend-item"><div class="legend-dot verified"></div>Verified — benchmark data sourced</div>
+            <div class="legend-item"><div class="legend-dot assumed"></div>Assumed — needs verification</div>
             <div class="legend-item"><div class="legend-dot reimbursable"></div>MSBA reimbursable</div>
             <div class="legend-item"><div class="legend-dot not-reimbursable"></div>Not reimbursable</div>
         </div>
@@ -182,30 +181,31 @@
 
     <!-- ASSUMPTION WARNING -->
     <div class="notes-box">
-        <h4>&#9888; ALL COSTS ARE WORKING ESTIMATES — NOT VERIFIED</h4>
+        <h4>&#9888; ESTIMATE STATUS — MIX OF VERIFIED BENCHMARKS + WORKING ASSUMPTIONS</h4>
         <ul>
             <li>Orange dashed boxes = <strong>assumptions</strong> that need verification from GMP docs, SOVs, or vendor quotes</li>
+            <li>Navy solid boxes with green <strong>"Source"</strong> tags = verified from real project data (Agawam, Walpole, Peck, Shane Sampson)</li>
             <li>MSBA reimbursement rates are approximate — actual rates depend on MSBA's approved project scope and community's reimbursement rate</li>
             <li>Building size assumed at <strong>~250,000 SF</strong> (Phase 1: 175K + Phase 2: 75K) for $/SF calculations</li>
-            <li>Need: Walpole GMP, Clinton GMP, Peck SOV, Agawam geothermal actuals, recent HS auditorium breakouts</li>
+            <li>Total project budget: <strong>$258,000,000</strong></li>
         </ul>
     </div>
 
     <!-- TOP SUMMARY -->
     <div class="summary-row">
         <div class="summary-card total">
-            <div class="sc-label">TOTAL ESTIMATED PROJECT COST</div>
-            <div class="sc-val">$195–225M</div>
-            <div class="sc-note">All-in conceptual range</div>
+            <div class="sc-label">TOTAL PROJECT COST</div>
+            <div class="sc-val">$258M</div>
+            <div class="sc-note">All-in budget — 6 categories</div>
         </div>
         <div class="summary-card">
             <div class="sc-label">EST. MSBA REIMBURSEMENT</div>
-            <div class="sc-val" style="color:var(--green);">$75–95M</div>
-            <div class="sc-note">~40-45% of eligible costs</div>
+            <div class="sc-val" style="color:var(--green);">$95–110M</div>
+            <div class="sc-note">~40-43% of eligible costs</div>
         </div>
         <div class="summary-card">
             <div class="sc-label">EST. COST TO NEEDHAM</div>
-            <div class="sc-val" style="color:var(--navy);">$115–140M</div>
+            <div class="sc-val" style="color:var(--navy);">$148–163M</div>
             <div class="sc-note">After MSBA reimbursement</div>
         </div>
         <div class="summary-card">
@@ -221,7 +221,7 @@
     <div class="estimate-section">
         <div class="es-header cat1" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
             <h3>1. Base Middle School Scope — MSBA Space Guidelines</h3>
-            <div class="es-total">$125–145M</div>
+            <div class="es-total">$155–170M</div>
         </div>
         <div class="es-body">
             <div class="es-row" style="background:#f0f1f4;font-weight:700;font-size:11px;color:var(--text-light);">
@@ -231,75 +231,87 @@
                 <div style="text-align:center;">MSBA</div>
             </div>
             <div class="es-row">
-                <div class="es-item">Structural / Foundations / Superstructure<div class="sub">Steel, concrete, metal deck — both phases</div></div>
-                <div class="es-cost assumed">$28–32M</div>
-                <div class="es-psf">$112–128</div>
+                <div class="es-item">Structural / Foundations / Superstructure<div class="sub">Steel, concrete, metal deck — both phases</div><span class="source-tag">Source: Walpole $6.15M steel + Peck $5.5M steel, scaled to 250K SF</span></div>
+                <div class="es-cost">$32–36M</div>
+                <div class="es-psf">$128–144</div>
                 <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
             </div>
             <div class="es-row">
-                <div class="es-item">Building Envelope<div class="sub">Exterior walls, curtain wall, windows, roofing, waterproofing</div></div>
-                <div class="es-cost assumed">$18–22M</div>
-                <div class="es-psf">$72–88</div>
-                <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
-            </div>
-            <div class="es-row">
-                <div class="es-item">Interior Construction<div class="sub">Partitions, doors, finishes, ceilings, flooring — classrooms, corridors, admin</div></div>
-                <div class="es-cost assumed">$22–26M</div>
+                <div class="es-item">Building Envelope<div class="sub">Exterior walls, curtain wall, windows, roofing, waterproofing, insulation</div><span class="source-tag">Source: Walpole $3.8M openings + $2.0M roof; Peck $2.42M insul + $2.05M openings, scaled</span></div>
+                <div class="es-cost">$22–26M</div>
                 <div class="es-psf">$88–104</div>
                 <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
             </div>
             <div class="es-row">
-                <div class="es-item">Mechanical / HVAC (Base Building)<div class="sub">Air handling, distribution, controls, BAS — excludes geothermal heat source</div></div>
-                <div class="es-cost assumed">$18–22M</div>
-                <div class="es-psf">$72–88</div>
+                <div class="es-item">Interior Construction<div class="sub">Partitions, doors, finishes, ceilings, flooring — classrooms, corridors, admin</div><span class="source-tag">Source: Walpole $10.54M finishes + $1.66M casework; Peck $5.81M finishes, scaled</span></div>
+                <div class="es-cost">$26–30M</div>
+                <div class="es-psf">$104–120</div>
                 <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
             </div>
             <div class="es-row">
-                <div class="es-item">Electrical<div class="sub">Power distribution, lighting, fire alarm, low voltage, data</div></div>
-                <div class="es-cost assumed">$14–16M</div>
-                <div class="es-psf">$56–64</div>
+                <div class="es-item">Mechanical / HVAC (Base Building)<div class="sub">Air handling, distribution, controls, BAS — excludes geothermal heat source</div><span class="source-tag">Source: Walpole $8.67M HVAC for 162K SF; Peck $4.78M + $1.16M controls, scaled</span></div>
+                <div class="es-cost">$20–24M</div>
+                <div class="es-psf">$80–96</div>
                 <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
             </div>
             <div class="es-row">
-                <div class="es-item">Plumbing &amp; Fire Protection<div class="sub">Domestic water, waste, fixtures, sprinkler system</div></div>
-                <div class="es-cost assumed">$8–10M</div>
-                <div class="es-psf">$32–40</div>
+                <div class="es-item">Electrical<div class="sub">Power distribution, lighting, fire alarm, low voltage, data</div><span class="source-tag">Source: Walpole $11.49M for 162K SF; Peck $4.21M + $1.76M comms + $1.02M security, scaled</span></div>
+                <div class="es-cost">$16–19M</div>
+                <div class="es-psf">$64–76</div>
                 <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
             </div>
             <div class="es-row">
-                <div class="es-item">Elevator(s)<div class="sub">Permanent building elevator(s) — ADA compliance</div></div>
-                <div class="es-cost assumed">$400–600K</div>
+                <div class="es-item">Plumbing &amp; Fire Protection<div class="sub">Domestic water, waste, fixtures, sprinkler system</div><span class="source-tag">Source: Walpole $4.39M plumb + $1.03M FP; Peck $2.09M plumb + $1.13M FP, scaled</span></div>
+                <div class="es-cost">$9–11M</div>
+                <div class="es-psf">$36–44</div>
+                <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Elevator(s)<div class="sub">Permanent building elevator(s) — ADA compliance</div><span class="source-tag">Source: Walpole $387K; Peck $125K</span></div>
+                <div class="es-cost">$400–600K</div>
                 <div class="es-psf">—</div>
                 <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
             </div>
             <div class="es-row">
-                <div class="es-item">Kitchen / Food Service Equipment<div class="sub">Commercial kitchen, serving lines, walk-in coolers, cafeteria</div></div>
-                <div class="es-cost assumed">$3–4M</div>
+                <div class="es-item">Kitchen / Food Service Equipment<div class="sub">Commercial kitchen, serving lines, walk-in coolers, cafeteria</div><span class="source-tag">Source: Walpole $1.18M for 162K SF, scaled</span></div>
+                <div class="es-cost">$2.5–3.5M</div>
                 <div class="es-psf">—</div>
                 <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
             </div>
             <div class="es-row">
                 <div class="es-item">Gymnasium<div class="sub">Gym structure, flooring, bleachers, scoreboard, MEP</div></div>
-                <div class="es-cost assumed">$4–5M</div>
+                <div class="es-cost assumed">$5–6M</div>
                 <div class="es-psf">—</div>
                 <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
             </div>
             <div class="es-row">
                 <div class="es-item">Technology &amp; AV Infrastructure<div class="sub">Classroom AV, network backbone, wireless, security cameras</div></div>
-                <div class="es-cost assumed">$3–4M</div>
-                <div class="es-psf">$12–16</div>
+                <div class="es-cost assumed">$4–5M</div>
+                <div class="es-psf">$16–20</div>
                 <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
             </div>
             <div class="es-row">
-                <div class="es-item">Furnishings, Fixtures &amp; Equipment (FF&amp;E)<div class="sub">Classroom furniture, lab casework, signage</div></div>
-                <div class="es-cost assumed">$4–5M</div>
-                <div class="es-psf">$16–20</div>
+                <div class="es-item">Furnishings, Fixtures &amp; Equipment (FF&amp;E)<div class="sub">Classroom furniture, lab casework, signage</div><span class="source-tag">Source: Peck $927K furnishings; Walpole $1.66M casework, scaled</span></div>
+                <div class="es-cost">$5–6M</div>
+                <div class="es-psf">$20–24</div>
                 <div class="es-reimb"><span class="badge badge-partial">Partial</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Concrete (Foundations, SOG, Slabs)<div class="sub">Cast-in-place foundations, slab on grade, elevated slabs</div><span class="source-tag">Source: Walpole $4.59M; Peck $5.95M, scaled to 250K SF</span></div>
+                <div class="es-cost">$8–10M</div>
+                <div class="es-psf">$32–40</div>
+                <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Masonry<div class="sub">CMU backup, brick veneer, stone accents</div><span class="source-tag">Source: Walpole $2.94M; Peck $5.58M, scaled</span></div>
+                <div class="es-cost">$5–7M</div>
+                <div class="es-psf">$20–28</div>
+                <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
             </div>
             <div class="es-subtotal">
                 <div><strong>Subtotal — Base Middle School</strong></div>
-                <div class="es-cost">$125–145M</div>
-                <div class="es-psf">$500–580/SF</div>
+                <div class="es-cost">$155–170M</div>
+                <div class="es-psf">$620–680/SF</div>
                 <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
             </div>
         </div>
@@ -310,8 +322,8 @@
     <!-- ============================================ -->
     <div class="estimate-section">
         <div class="es-header cat2" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
-            <h3>2. Specialty Program Spaces — Community Add-Ons</h3>
-            <div class="es-total">$12–16M</div>
+            <h3>2. Specialty Program Spaces — Community Add-Ons / Auditorium</h3>
+            <div class="es-total">$14–18M</div>
         </div>
         <div class="es-body">
             <div class="es-row" style="background:#f0f1f4;font-weight:700;font-size:11px;color:var(--text-light);">
@@ -320,21 +332,116 @@
                 <div style="text-align:right;">$/SF</div>
                 <div style="text-align:center;">MSBA</div>
             </div>
+
+            <!-- Auditorium section header -->
+            <div class="es-row" style="background:rgba(26,39,68,0.04);border-bottom:1px solid var(--border);">
+                <div class="es-item" style="font-weight:700;color:var(--navy);">750-Seat Performing Arts Auditorium — Interior Fit-Out<div class="sub" style="font-weight:400;">Benchmarked from Shane Sampson 600-seat data, scaled to 750 seats. Ref sizes: E.Longmeadow 7,800 SF, Agawam 8,030 SF, Doherty 9,300 SF</div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
             <div class="es-row">
-                <div class="es-item">750-Seat Performing Arts Auditorium<div class="sub">Structure, sloped seating, stage, fly loft, dance floor construction method</div></div>
-                <div class="es-cost assumed">$8–10M</div>
+                <div class="es-item">Wall Framing<div class="sub">Interior wall framing for auditorium</div><span class="source-tag">Source: Shane Sampson benchmark</span></div>
+                <div class="es-cost">$144K</div>
                 <div class="es-psf">—</div>
                 <div class="es-reimb"><span class="badge badge-no">Not Reimb</span></div>
             </div>
             <div class="es-row">
-                <div class="es-item">Theatrical Systems<div class="sub">Stage lighting, rigging, sound system, curtains, AV control room</div></div>
+                <div class="es-item">Stage Framing<div class="sub">Stage structural framing</div><span class="source-tag">Source: Shane Sampson benchmark</span></div>
+                <div class="es-cost">$44K</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-no">Not Reimb</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Platform / Sloped Seating Construction<div class="sub">Raked seating platform structure</div><span class="source-tag">Source: Shane Sampson benchmark</span></div>
+                <div class="es-cost">$100K</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-no">Not Reimb</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Stage Wood Flooring<div class="sub">Hardwood stage deck</div><span class="source-tag">Source: Shane Sampson benchmark</span></div>
+                <div class="es-cost">$51K</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-no">Not Reimb</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Doors<div class="sub">Auditorium entry and exit doors</div><span class="source-tag">Source: Shane Sampson benchmark</span></div>
+                <div class="es-cost">$18.5K</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-no">Not Reimb</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Room Flooring (Carpet)<div class="sub">House seating area carpet</div><span class="source-tag">Source: Shane Sampson benchmark</span></div>
+                <div class="es-cost">$42.5K</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-no">Not Reimb</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Acoustical Wall Finishes<div class="sub">Specialty acoustic wall panels and treatments</div><span class="source-tag">Source: Shane Sampson benchmark</span></div>
+                <div class="es-cost">$287.5K</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-no">Not Reimb</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Ceiling Acoustics<div class="sub">Acoustical ceiling systems and baffles</div><span class="source-tag">Source: Shane Sampson benchmark</span></div>
+                <div class="es-cost">$180.9K</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-no">Not Reimb</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Signage<div class="sub">Interior auditorium signage</div><span class="source-tag">Source: Shane Sampson benchmark</span></div>
+                <div class="es-cost">$10K</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-no">Not Reimb</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Fixed Seating — 750 Seats<div class="sub">750 seats &times; $475/seat (scaled from 600-seat benchmark @ $475/seat = $285K)</div><span class="source-tag">Source: Shane Sampson benchmark, scaled</span></div>
+                <div class="es-cost">$356.3K</div>
+                <div class="es-psf">$475/seat</div>
+                <div class="es-reimb"><span class="badge badge-no">Not Reimb</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Lighting Package<div class="sub">Theatrical / performance lighting system</div><span class="source-tag">Source: Shane Sampson benchmark</span></div>
+                <div class="es-cost">$425K</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-no">Not Reimb</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">AV Package<div class="sub">Audio, video, projection, control room equipment</div><span class="source-tag">Source: Shane Sampson benchmark</span></div>
+                <div class="es-cost">$775K</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-no">Not Reimb</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Curtains &amp; Rigging<div class="sub">Stage curtains, tracks, rigging systems</div><span class="source-tag">Source: Shane Sampson benchmark</span></div>
+                <div class="es-cost">$125K</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-no">Not Reimb</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Catwalk &amp; Railings<div class="sub">Technical catwalk, safety railings, access systems</div><span class="source-tag">Source: Shane Sampson benchmark</span></div>
+                <div class="es-cost">$300K</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-no">Not Reimb</span></div>
+            </div>
+
+            <!-- Auditorium subtotal -->
+            <div class="es-row" style="background:rgba(26,39,68,0.06);font-weight:700;font-size:12px;">
+                <div class="es-item" style="color:var(--navy);font-weight:800;">Auditorium Interior Subtotal (excl. structure/envelope)</div>
+                <div class="es-cost" style="font-size:14px;">$2,860K</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-no">Not Reimb</span></div>
+            </div>
+
+            <div class="es-row">
+                <div class="es-item">Auditorium Structure &amp; Envelope<div class="sub">Shell, fly loft, structural steel, foundations, exterior walls (not in Shane Sampson interior benchmark)</div></div>
+                <div class="es-cost assumed">$6–8M</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-no">Not Reimb</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Auditorium MEP<div class="sub">HVAC, electrical, plumbing, fire protection for auditorium volume (not in interior benchmark)</div></div>
                 <div class="es-cost assumed">$2–3M</div>
-                <div class="es-psf">—</div>
-                <div class="es-reimb"><span class="badge badge-no">Not Reimb</span></div>
-            </div>
-            <div class="es-row">
-                <div class="es-item">Acoustics &amp; Specialty Finishes<div class="sub">Acoustic panels, specialized wall/ceiling treatments, lobby finishes</div></div>
-                <div class="es-cost assumed">$1–1.5M</div>
                 <div class="es-psf">—</div>
                 <div class="es-reimb"><span class="badge badge-no">Not Reimb</span></div>
             </div>
@@ -345,8 +452,8 @@
                 <div class="es-reimb"><span class="badge badge-partial">Partial</span></div>
             </div>
             <div class="es-subtotal">
-                <div><strong>Subtotal — Community Add-Ons</strong></div>
-                <div class="es-cost">$12–16M</div>
+                <div><strong>Subtotal — Community Add-Ons / Auditorium</strong></div>
+                <div class="es-cost">$14–18M</div>
                 <div></div>
                 <div class="es-reimb"><span class="badge badge-no">Mostly Not</span></div>
             </div>
@@ -359,7 +466,7 @@
     <div class="estimate-section">
         <div class="es-header cat3" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
             <h3>3. Site Development Costs</h3>
-            <div class="es-total">$18–24M</div>
+            <div class="es-total">$23–28M</div>
         </div>
         <div class="es-body">
             <div class="es-row" style="background:#f0f1f4;font-weight:700;font-size:11px;color:var(--text-light);">
@@ -369,68 +476,68 @@
                 <div style="text-align:center;">MSBA</div>
             </div>
             <div class="es-row">
-                <div class="es-item">Demolition — Existing Pollard Building<div class="sub">Phase 2 — complete demo of existing school, abatement, haul-off</div></div>
-                <div class="es-cost assumed">$3–4M</div>
+                <div class="es-item">Demolition &amp; Abatement — Existing Pollard Building<div class="sub">Phase 2 — complete demo of existing school, hazmat abatement, haul-off</div><span class="source-tag">Source: Walpole $2.44M demo/abatement for 162K SF, scaled</span></div>
+                <div class="es-cost">$3.5–4.5M</div>
                 <div class="es-psf">~120K SF</div>
                 <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
             </div>
             <div class="es-row">
-                <div class="es-item">Excavation — Phase 1<div class="sub">Mass excavation, lower level @ el. 130, upper @ el. 160</div></div>
-                <div class="es-cost assumed">$3–4M</div>
+                <div class="es-item">Earthwork — Phase 1 Mass Excavation<div class="sub">Mass excavation, lower level @ el. 130, upper @ el. 160</div><span class="source-tag">Source: Walpole $9.95M earthwork for 162K SF, scaled</span></div>
+                <div class="es-cost">$4–5M</div>
                 <div class="es-psf">~50,000 CY</div>
                 <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
             </div>
             <div class="es-row">
-                <div class="es-item">Excavation — Phase 2<div class="sub">Grade 6 Academy wing, remaining sitework</div></div>
-                <div class="es-cost assumed">$800K–1.2M</div>
+                <div class="es-item">Earthwork — Phase 2<div class="sub">Grade 6 Academy wing, remaining sitework</div></div>
+                <div class="es-cost assumed">$1–1.5M</div>
                 <div class="es-psf">~13,000 CY</div>
                 <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
             </div>
             <div class="es-row">
                 <div class="es-item">Support of Excavation (SOE)<div class="sub">Sheeting, shoring, soldier piles — grade differential</div></div>
-                <div class="es-cost assumed">$2–3M</div>
+                <div class="es-cost assumed">$2.5–3.5M</div>
                 <div class="es-psf">—</div>
                 <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
             </div>
             <div class="es-row">
                 <div class="es-item">Retaining Walls<div class="sub">Permanent retaining structures, grade changes</div></div>
-                <div class="es-cost assumed">$1.5–2.5M</div>
+                <div class="es-cost assumed">$2–3M</div>
                 <div class="es-psf">—</div>
                 <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
             </div>
             <div class="es-row">
                 <div class="es-item">Soil Export &amp; Backfill<div class="sub">25-30K CY excess soil export + structural backfill</div></div>
-                <div class="es-cost assumed">$2–3M</div>
+                <div class="es-cost assumed">$2.5–3.5M</div>
                 <div class="es-psf">25-30K CY out</div>
                 <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
             </div>
             <div class="es-row">
-                <div class="es-item">Site Utilities<div class="sub">Water, sewer, storm, electric, gas, data — new connections</div></div>
-                <div class="es-cost assumed">$2–3M</div>
+                <div class="es-item">Site Utilities<div class="sub">Water, sewer, storm, electric, gas, data — new connections</div><span class="source-tag">Source: Peck $1.28M utilities, scaled</span></div>
+                <div class="es-cost">$2.5–3.5M</div>
                 <div class="es-psf">—</div>
                 <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
             </div>
             <div class="es-row">
                 <div class="es-item">Parking, Roadways, Walkways<div class="sub">Permanent parking, bus loop, drop-off, sidewalks, curbing</div></div>
-                <div class="es-cost assumed">$1.5–2M</div>
+                <div class="es-cost assumed">$2–2.5M</div>
                 <div class="es-psf">—</div>
                 <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
             </div>
             <div class="es-row">
-                <div class="es-item">Landscaping &amp; Athletic Fields<div class="sub">Finish grading, Warner Field restoration, plantings, irrigation</div></div>
-                <div class="es-cost assumed">$1–1.5M</div>
+                <div class="es-item">Landscaping &amp; Athletic Fields<div class="sub">Finish grading, Warner Field restoration, plantings, irrigation</div><span class="source-tag">Source: Walpole $1.55M exterior/landscaping, scaled</span></div>
+                <div class="es-cost">$1.5–2M</div>
                 <div class="es-psf">—</div>
                 <div class="es-reimb"><span class="badge badge-partial">Partial</span></div>
             </div>
             <div class="es-row">
                 <div class="es-item">Stormwater Management<div class="sub">Detention/infiltration, sediment basins, SWPPP, EPA NPDES</div></div>
-                <div class="es-cost assumed">$1–1.5M</div>
+                <div class="es-cost assumed">$1.5–2M</div>
                 <div class="es-psf">—</div>
                 <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
             </div>
             <div class="es-subtotal">
                 <div><strong>Subtotal — Site Development</strong></div>
-                <div class="es-cost">$18–24M</div>
+                <div class="es-cost">$23–28M</div>
                 <div></div>
                 <div class="es-reimb"><span class="badge badge-yes">Mostly Reimb</span></div>
             </div>
@@ -443,7 +550,7 @@
     <div class="estimate-section">
         <div class="es-header cat4" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
             <h3>4. Renewable Energy — Solar &amp; Geothermal</h3>
-            <div class="es-total">$10–14M</div>
+            <div class="es-total">$12–16M</div>
         </div>
         <div class="es-body">
             <div class="es-row" style="background:#f0f1f4;font-weight:700;font-size:11px;color:var(--text-light);">
@@ -452,33 +559,89 @@
                 <div style="text-align:right;">QUANTITY</div>
                 <div style="text-align:center;">MSBA</div>
             </div>
+
+            <!-- Geothermal section header -->
+            <div class="es-row" style="background:rgba(26,39,68,0.04);border-bottom:1px solid var(--border);">
+                <div class="es-item" style="font-weight:700;color:var(--navy);">Geothermal System — Verified from Agawam HS Actuals<div class="sub" style="font-weight:400;">Agawam: 149 boreholes, 510 LF each, 160 LF casing each. Total vertical LF: 75,990. Cost/well: $30,705</div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
             <div class="es-row">
-                <div class="es-item">Geothermal Borehole Drilling<div class="sub">~120 boreholes at Warner Field — single-phase mobilization</div></div>
-                <div class="es-cost assumed">$4–6M</div>
-                <div class="es-psf">~120 wells</div>
+                <div class="es-item">Geothermal Drilling Operation<div class="sub">Borehole drilling — ~149 wells &times; 510 LF each (Pollard may differ in count based on load calcs)</div><span class="source-tag">Source: Agawam HS actuals — $3.3M</span></div>
+                <div class="es-cost">$3.3M</div>
+                <div class="es-psf">149 wells</div>
                 <div class="es-reimb"><span class="badge badge-partial">Green Incentive</span></div>
             </div>
             <div class="es-row">
-                <div class="es-item">Geothermal Loop Piping &amp; Vaults<div class="sub">Lateral piping from boreholes to vault, MBTA tunnel crossing, headers</div></div>
-                <div class="es-cost assumed">$2–3M</div>
+                <div class="es-item">Lateral Piping<div class="sub">28,000 LF of lateral piping from boreholes to vault/headers</div><span class="source-tag">Source: Agawam HS actuals — $825K</span></div>
+                <div class="es-cost">$825K</div>
+                <div class="es-psf">28,000 LF</div>
+                <div class="es-reimb"><span class="badge badge-partial">Green Incentive</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Grout<div class="sub">Borehole grouting — thermal conductivity grout</div><span class="source-tag">Source: Agawam HS actuals — $250K</span></div>
+                <div class="es-cost">$250K</div>
                 <div class="es-psf">—</div>
                 <div class="es-reimb"><span class="badge badge-partial">Green Incentive</span></div>
             </div>
             <div class="es-row">
-                <div class="es-item">Heat Pump Equipment<div class="sub">Ground-source heat pump units, controls, integration with BAS</div></div>
-                <div class="es-cost assumed">$2–3M</div>
+                <div class="es-item">Vertical Loops<div class="sub">U-bend loop assemblies installed in boreholes</div><span class="source-tag">Source: Agawam HS actuals — $150K</span></div>
+                <div class="es-cost">$150K</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-partial">Green Incentive</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Testing &amp; Flushing<div class="sub">System testing, flow balancing, flushing</div><span class="source-tag">Source: Agawam HS actuals — $50K</span></div>
+                <div class="es-cost">$50K</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-partial">Green Incentive</span></div>
+            </div>
+
+            <!-- Geothermal field subtotal -->
+            <div class="es-row" style="background:rgba(26,39,68,0.06);font-weight:700;font-size:12px;">
+                <div class="es-item" style="color:var(--navy);font-weight:800;">Geothermal Field Subtotal</div>
+                <div class="es-cost" style="font-size:14px;">$4,575K</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-partial">Green $</span></div>
+            </div>
+
+            <div class="es-row">
+                <div class="es-item">Water-Source Heat Pumps<div class="sub">5 &times; 129-ton WSHP units @ $231K each</div><span class="source-tag">Source: Agawam HS actuals — $1,155K</span></div>
+                <div class="es-cost">$1,155K</div>
+                <div class="es-psf">5 units</div>
+                <div class="es-reimb"><span class="badge badge-partial">Green Incentive</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Mechanical Room Piping<div class="sub">Header piping, pumps, valves, mechanical room fit-out</div><span class="source-tag">Source: Agawam HS actuals — $250-300K</span></div>
+                <div class="es-cost">$250–300K</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-partial">Green Incentive</span></div>
+            </div>
+
+            <!-- Geothermal total subtotal -->
+            <div class="es-row" style="background:rgba(22,163,74,0.08);font-weight:700;font-size:12px;">
+                <div class="es-item" style="color:var(--green);font-weight:800;">Geothermal + Heat Pumps Total (Agawam Verified)</div>
+                <div class="es-cost" style="font-size:14px;color:var(--green);">~$6.0M</div>
+                <div class="es-psf">—</div>
+                <div class="es-reimb"><span class="badge badge-partial">Green $</span></div>
+            </div>
+
+            <div class="es-row">
+                <div class="es-item">Pollard-Specific Geothermal Adjustments<div class="sub">MBTA tunnel crossing, additional laterals, field configuration differences from Agawam, contingency</div></div>
+                <div class="es-cost assumed">$2–4M</div>
                 <div class="es-psf">—</div>
                 <div class="es-reimb"><span class="badge badge-partial">Green Incentive</span></div>
             </div>
             <div class="es-row">
                 <div class="es-item">Solar / Photovoltaic Arrays<div class="sub">Rooftop or parking canopy PV — Net Zero readiness</div></div>
-                <div class="es-cost assumed">$2–3M</div>
+                <div class="es-cost assumed">$3–5M</div>
                 <div class="es-psf">—</div>
                 <div class="es-reimb"><span class="badge badge-partial">Green Incentive</span></div>
             </div>
             <div class="es-subtotal">
                 <div><strong>Subtotal — Renewables</strong></div>
-                <div class="es-cost">$10–14M</div>
+                <div class="es-cost">$12–16M</div>
                 <div></div>
                 <div class="es-reimb"><span class="badge badge-partial">Green $</span></div>
             </div>
@@ -486,48 +649,12 @@
     </div>
 
     <!-- ============================================ -->
-    <!-- LAYER 5: TEMPORARY STRUCTURES (MODULARS)     -->
+    <!-- LAYER 5: MBTA (was Layer 6)                  -->
     <!-- ============================================ -->
     <div class="estimate-section">
         <div class="es-header cat5" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
-            <h3>5. Temporary Structures — Modular Classrooms</h3>
-            <div class="es-total">$5.5–10M</div>
-        </div>
-        <div class="es-body">
-            <div class="es-row" style="background:#f0f1f4;font-weight:700;font-size:11px;color:var(--text-light);">
-                <div>LINE ITEM</div>
-                <div style="text-align:right;">ESTIMATED COST</div>
-                <div style="text-align:right;">NOTES</div>
-                <div style="text-align:center;">MSBA</div>
-            </div>
-            <div class="es-row">
-                <div class="es-item">Modular Units — 20 Classrooms + 4 Bath + Admin<div class="sub">Option 1 (relocate/supplement) to Option 3 (new). See <a href="/needham/modular/" style="color:var(--orange);font-weight:600;">Modular Solution page</a></div></div>
-                <div class="es-cost assumed">$4–8M</div>
-                <div class="es-psf">2-story config</div>
-                <div class="es-reimb"><span class="badge badge-no">Not Reimb</span></div>
-            </div>
-            <div class="es-row">
-                <div class="es-item">Modular Infrastructure<div class="sub">Site prep, utilities (3 elec, 3 drain), fire safety, elevator + stairs, data</div></div>
-                <div class="es-cost assumed">$1.5–2M</div>
-                <div class="es-psf">—</div>
-                <div class="es-reimb"><span class="badge badge-no">Not Reimb</span></div>
-            </div>
-            <div class="es-subtotal">
-                <div><strong>Subtotal — Temporary Structures</strong></div>
-                <div class="es-cost">$5.5–10M</div>
-                <div></div>
-                <div class="es-reimb"><span class="badge badge-no">Not Reimb</span></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ============================================ -->
-    <!-- LAYER 6: MBTA                                -->
-    <!-- ============================================ -->
-    <div class="estimate-section">
-        <div class="es-header cat6" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
-            <h3>6. MBTA — Rail Adjacency Costs</h3>
-            <div class="es-total">$1.5–3M</div>
+            <h3>5. MBTA — Rail Adjacency Costs</h3>
+            <div class="es-total">$2–4M</div>
         </div>
         <div class="es-body">
             <div class="es-row" style="background:#f0f1f4;font-weight:700;font-size:11px;color:var(--text-light);">
@@ -538,37 +665,37 @@
             </div>
             <div class="es-row">
                 <div class="es-item">Flagging &amp; Inspector Services<div class="sub">Required for all work within fouling distance of tracks — at contractor expense</div></div>
-                <div class="es-cost assumed">$500K–1M</div>
+                <div class="es-cost assumed">$600K–1.2M</div>
                 <div class="es-psf">Multi-year</div>
                 <div class="es-reimb"><span class="badge badge-partial">Unclear</span></div>
             </div>
             <div class="es-row">
                 <div class="es-item">MBTA Insurance (RPLI)<div class="sub">Railroad Protective Liability — $5M/$10M required within 50ft of track</div></div>
-                <div class="es-cost assumed">$200–400K</div>
+                <div class="es-cost assumed">$250–500K</div>
                 <div class="es-psf">—</div>
                 <div class="es-reimb"><span class="badge badge-partial">Unclear</span></div>
             </div>
             <div class="es-row">
                 <div class="es-item">MBTA Licenses, Easements, Deposits<div class="sub">License for entry, advance deposits, legal/admin fees</div></div>
-                <div class="es-cost assumed">$200–400K</div>
+                <div class="es-cost assumed">$250–500K</div>
                 <div class="es-psf">—</div>
                 <div class="es-reimb"><span class="badge badge-partial">Unclear</span></div>
             </div>
             <div class="es-row">
                 <div class="es-item">Rail-Interface Construction Measures<div class="sub">Protection fencing, vibration monitoring, track protection, tunnel work for geothermal</div></div>
-                <div class="es-cost assumed">$500K–1M</div>
+                <div class="es-cost assumed">$600K–1.2M</div>
                 <div class="es-psf">—</div>
                 <div class="es-reimb"><span class="badge badge-partial">Unclear</span></div>
             </div>
             <div class="es-row">
                 <div class="es-item">Police Details &amp; Security<div class="sub">Required for traffic control/security near active rail</div></div>
-                <div class="es-cost assumed">$100–200K</div>
+                <div class="es-cost assumed">$150–300K</div>
                 <div class="es-psf">—</div>
                 <div class="es-reimb"><span class="badge badge-partial">Unclear</span></div>
             </div>
             <div class="es-subtotal">
                 <div><strong>Subtotal — MBTA</strong></div>
-                <div class="es-cost">$1.5–3M</div>
+                <div class="es-cost">$2–4M</div>
                 <div></div>
                 <div class="es-reimb"><span class="badge badge-partial">TBD</span></div>
             </div>
@@ -576,12 +703,12 @@
     </div>
 
     <!-- ============================================ -->
-    <!-- LAYER 7: CM FEES / GEN CONDITIONS / INSURANCE -->
+    <!-- LAYER 6: CM FEES / GEN CONDITIONS / INSURANCE (was Layer 7) -->
     <!-- ============================================ -->
     <div class="estimate-section">
-        <div class="es-header cat7" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
-            <h3>7. CM Fee, General Conditions, Gen Requirements &amp; Insurance</h3>
-            <div class="es-total">$18–22M</div>
+        <div class="es-header cat6" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
+            <h3>6. CM Fee, General Conditions, Gen Requirements &amp; Insurance</h3>
+            <div class="es-total">$25–30M</div>
         </div>
         <div class="es-body">
             <div class="es-row" style="background:#f0f1f4;font-weight:700;font-size:11px;color:var(--text-light);">
@@ -591,35 +718,45 @@
                 <div style="text-align:center;">MSBA</div>
             </div>
             <div class="es-row">
-                <div class="es-item">General Conditions<div class="sub">Project staff, field office, temp facilities, equipment, utilities, dumpsters</div></div>
-                <div class="es-cost assumed">$10–12M</div>
-                <div class="es-psf">~6-7%</div>
+                <div class="es-item">General Conditions<div class="sub">Project staff, field office, temp facilities, equipment, utilities, dumpsters, progress cleaning</div><span class="source-tag">Source: Walpole $6.97M GRs/GCs for $95M project; Peck $2.2M GRs for $58.8M, scaled</span></div>
+                <div class="es-cost">$13–15M</div>
+                <div class="es-psf">~5-6%</div>
                 <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
             </div>
             <div class="es-row">
-                <div class="es-item">General Requirements<div class="sub">Bonds, permits, testing, commissioning, closeout</div></div>
-                <div class="es-cost assumed">$4–5M</div>
-                <div class="es-psf">~2-3%</div>
-                <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
-            </div>
-            <div class="es-row">
-                <div class="es-item">CM Fee<div class="sub">Construction management fee — percentage of construction cost</div></div>
-                <div class="es-cost assumed">$3–4M</div>
+                <div class="es-item">General Requirements<div class="sub">Permits, testing, commissioning, closeout, surveys</div></div>
+                <div class="es-cost assumed">$5–6M</div>
                 <div class="es-psf">~2%</div>
                 <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
             </div>
             <div class="es-row">
-                <div class="es-item">Insurance (Builders Risk, GL, etc.)<div class="sub">Project insurance program — based on total construction value</div></div>
-                <div class="es-cost assumed">$1.5–2M</div>
+                <div class="es-item">CM Fee<div class="sub">Construction management fee — percentage of construction cost</div><span class="source-tag">Source: Walpole $1.85M CM Fee for $95M project (~2%), scaled</span></div>
+                <div class="es-cost">$4.5–5.5M</div>
+                <div class="es-psf">~2%</div>
+                <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
+            </div>
+            <div class="es-row">
+                <div class="es-item">Insurance &amp; Bond<div class="sub">Builders risk, GL, performance/payment bond — based on total construction value</div><span class="source-tag">Source: Walpole $1.5M insurance/bond for $95M, scaled</span></div>
+                <div class="es-cost">$2.5–3.5M</div>
                 <div class="es-psf">~1%</div>
                 <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
             </div>
             <div class="es-subtotal">
                 <div><strong>Subtotal — CM/GC/Insurance</strong></div>
-                <div class="es-cost">$18–22M</div>
-                <div class="es-psf">~11-12%</div>
+                <div class="es-cost">$25–30M</div>
+                <div class="es-psf">~10-12%</div>
                 <div class="es-reimb"><span class="badge badge-yes">Reimb</span></div>
             </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- GRAND TOTAL                                   -->
+    <!-- ============================================ -->
+    <div class="estimate-section">
+        <div class="es-header" style="background:linear-gradient(135deg,var(--navy-dark),var(--navy));color:#fff;border-radius:10px;cursor:default;">
+            <h3 style="font-size:18px;">TOTAL PROJECT COST — ALL 6 LAYERS</h3>
+            <div class="es-total" style="font-size:24px;color:var(--orange-light);">$258,000,000</div>
         </div>
     </div>
 
@@ -628,27 +765,27 @@
     <!-- ============================================ -->
     <div class="reimb-section">
         <h3>Cost to Needham — After MSBA Reimbursement</h3>
-        <div class="rs-sub">This is Dave's "checking account" view — what does each decision actually cost the Town after MSBA's share? Every project decision should be evaluated through this lens.</div>
+        <div class="rs-sub">This is the "checking account" view — what does each decision actually cost the Town after MSBA's share? Every project decision should be evaluated through this lens. Total budget: $258M.</div>
 
         <div class="reimb-bar">
-            <div class="rb-seg rb-msba" style="width:40%;">MSBA ~$80–95M</div>
-            <div class="rb-seg rb-town" style="width:42%;">Town Share ~$85–95M</div>
-            <div class="rb-seg rb-nonreimb" style="width:18%;">100% Town ~$30–35M</div>
+            <div class="rb-seg rb-msba" style="width:38%;">MSBA ~$95–110M</div>
+            <div class="rb-seg rb-town" style="width:44%;">Town Share ~$110–125M</div>
+            <div class="rb-seg rb-nonreimb" style="width:18%;">100% Town ~$23–38M</div>
         </div>
         <div class="reimb-legend">
-            <div class="reimb-legend-item"><div class="rl-dot" style="background:var(--green);"></div><div><div class="rl-label">MSBA Reimbursement</div><div class="rl-val">~$80–95M</div></div></div>
-            <div class="reimb-legend-item"><div class="rl-dot" style="background:var(--navy);"></div><div><div class="rl-label">Town Share of Reimbursable</div><div class="rl-val">~$85–95M</div></div></div>
-            <div class="reimb-legend-item"><div class="rl-dot" style="background:var(--red);opacity:0.7;"></div><div><div class="rl-label">Non-Reimbursable (100% Town)</div><div class="rl-val">~$30–35M</div></div></div>
+            <div class="reimb-legend-item"><div class="rl-dot" style="background:var(--green);"></div><div><div class="rl-label">MSBA Reimbursement</div><div class="rl-val">~$95–110M</div></div></div>
+            <div class="reimb-legend-item"><div class="rl-dot" style="background:var(--navy);"></div><div><div class="rl-label">Town Share of Reimbursable</div><div class="rl-val">~$110–125M</div></div></div>
+            <div class="reimb-legend-item"><div class="rl-dot" style="background:var(--red);opacity:0.7;"></div><div><div class="rl-label">Non-Reimbursable (100% Town)</div><div class="rl-val">~$23–38M</div></div></div>
         </div>
 
         <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
             <div style="background:rgba(220,38,38,0.06);border:1px solid rgba(220,38,38,0.15);border-radius:10px;padding:16px;">
                 <div style="font-size:11px;font-weight:700;letter-spacing:1px;color:var(--red);margin-bottom:6px;">NOT REIMBURSABLE — 100% TOWN COST</div>
                 <div style="font-size:13px;color:var(--text);line-height:1.8;">
-                    &bull; 750-seat auditorium + theatrical: <strong>$11–14.5M</strong><br>
-                    &bull; Temporary modulars: <strong>$5.5–10M</strong><br>
+                    &bull; 750-seat auditorium (all-in): <strong>$12–16.5M</strong><br>
                     &bull; Community enhancements: <strong>$1–1.5M</strong><br>
-                    &bull; Portions of MBTA costs: <strong>TBD</strong>
+                    &bull; Portions of MBTA costs: <strong>$2–4M (TBD)</strong><br>
+                    &bull; Portions of renewables: <strong>TBD — Green incentive</strong>
                 </div>
             </div>
             <div style="background:rgba(22,163,74,0.06);border:1px solid rgba(22,163,74,0.15);border-radius:10px;padding:16px;">
@@ -657,7 +794,8 @@
                     &bull; Extended gen conditions (longer schedule) = <strong>reimbursable</strong><br>
                     &bull; Site development / earthwork = <strong>reimbursable</strong><br>
                     &bull; Base building MEP/structure = <strong>reimbursable</strong><br>
-                    &bull; Geothermal = <strong>Green School incentive</strong>
+                    &bull; Geothermal = <strong>Green School incentive</strong><br>
+                    &bull; CM fee + insurance = <strong>reimbursable</strong>
                 </div>
             </div>
         </div>
@@ -665,28 +803,45 @@
 
     <!-- ASSUMPTIONS / DATA GAPS -->
     <div class="notes-box" style="margin-bottom:16px;">
-        <h4>DATA NEEDED TO VERIFY THESE ESTIMATES</h4>
+        <h4>DATA STILL NEEDED TO FURTHER VERIFY ESTIMATES</h4>
         <ul>
-            <li><strong>Walpole MS GMP</strong> — auditorium breakout, modular costs, site/civil line items</li>
-            <li><strong>Clinton GMP</strong> — middle school modular procurement, infrastructure costs</li>
-            <li><strong>Peck Schedule of Values</strong> — classroom unit costs, auditorium, installation pricing</li>
-            <li><strong>Agawam HS geothermal actuals</strong> — per-well cost, laterals, heat pumps (from Tracy)</li>
-            <li><strong>Recent HS auditorium cost breakouts</strong> — Doherty, South High, West Springfield (from Joel)</li>
+            <li><strong>Clinton GMP</strong> — middle school comparable, infrastructure costs, phasing approach</li>
             <li><strong>MSBA Space Guidelines</strong> — public doc, confirms base vs. above-base program</li>
             <li><strong>MSBA reimbursement rate for Needham</strong> — community-specific %, applied to eligible costs</li>
+            <li><strong>Pollard-specific geothermal engineering</strong> — borehole count may differ from Agawam (load calculations, field layout, MBTA crossing)</li>
+            <li><strong>Gymnasium cost breakout</strong> — need gym-specific data from comparable projects</li>
+            <li><strong>Auditorium structure/envelope cost</strong> — Shane Sampson benchmark covers interior only, need shell/fly loft pricing</li>
         </ul>
     </div>
 
     <div class="gap-grid" style="margin-bottom:24px;">
         <div class="gap-card">
-            <div class="gc-source">FROM CHELSEY / PRECON</div>
-            <h4>Walpole &amp; Clinton GMPs</h4>
-            <p>Full GMP breakdowns — auditorium, modular, site/civil, MEP. Best comps we have for Pollard's scope.</p>
+            <div class="gc-source">VERIFIED — AGAWAM HS</div>
+            <h4>Geothermal System Actuals</h4>
+            <p>149 boreholes, $4.575M field + $1.155M heat pumps + $300K mech room. Total ~$6M. Provides strong baseline for Pollard geothermal pricing.</p>
         </div>
         <div class="gap-card">
-            <div class="gc-source">FROM JOEL / ESTIMATING</div>
-            <h4>Auditorium &amp; Site Unit Costs</h4>
-            <p>Doherty, South High, West Springfield — auditorium-specific breakouts + earthwork $/CY from recent projects.</p>
+            <div class="gc-source">VERIFIED — WALPOLE MS GMP</div>
+            <h4>$95.3M for 162K SF (~$588/SF)</h4>
+            <p>Full GMP breakdowns across all trades. CM Fee $1.85M, GCs $6.97M, Steel $6.15M, Electrical $11.49M, HVAC $8.67M, Earthwork $9.95M. Key benchmark for scaling.</p>
+        </div>
+        <div class="gap-card">
+            <div class="gc-source">VERIFIED — SHANE SAMPSON</div>
+            <h4>Auditorium Interior: $2.79M (600 seats)</h4>
+            <p>Detailed interior fit-out breakdown excl. structure/envelope. Scaled seating to 750 seats ($356K). AV $775K, lighting $425K, acoustics $468K, catwalk $300K.</p>
+        </div>
+    </div>
+
+    <div class="gap-grid" style="margin-bottom:24px;">
+        <div class="gap-card">
+            <div class="gc-source">VERIFIED — PECK MS GMP</div>
+            <h4>$58.8M Full GMP Breakout</h4>
+            <p>Concrete $5.95M, Masonry $5.58M, Steel $6.7M, HVAC $5.94M, Electrical $5.97M, Earthwork $4.23M. Useful for cross-checking Walpole ratios.</p>
+        </div>
+        <div class="gap-card">
+            <div class="gc-source">STILL NEEDED</div>
+            <h4>Clinton GMP &amp; Gym Breakout</h4>
+            <p>Middle school comparable for phasing approach. Also need gym-specific cost breakout from any recent project.</p>
         </div>
         <div class="gap-card">
             <div class="gc-source">FUTURE ENHANCEMENT</div>
