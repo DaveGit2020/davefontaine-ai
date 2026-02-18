@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eudore's Sidekick — Caleb's AI Learning Path</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    min-height: 100vh;
+    background: #0F172A;
+    color: #E2E8F0;
+    font-family: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+  }
+  .header {
+    background: linear-gradient(135deg, #1E293B 0%, #0F172A 50%, #1a1a2e 100%);
+    border-bottom: 1px solid #334155;
+    padding: 32px 24px 24px;
+  }
+  .header-inner { max-width: 720px; margin: 0 auto; }
+  .header-top { display: flex; align-items: center; gap: 14px; margin-bottom: 8px; }
+  .logo {
+    width: 48px; height: 48px; border-radius: 12px;
+    background: linear-gradient(135deg, #D97706, #F59E0B);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; font-weight: 800; color: #0F172A; letter-spacing: -1px;
+  }
+  .header-label {
+    font-size: 11px; font-weight: 600; letter-spacing: 2.5px;
+    text-transform: uppercase; color: #D97706; margin-bottom: 2px;
+  }
+  .header h1 {
+    font-size: 26px; font-weight: 700; color: #F8FAFC; letter-spacing: -0.5px;
+  }
+  .header p {
+    font-size: 14px; color: #94A3B8; margin: 12px 0 16px; line-height: 1.6;
+  }
+  .progress-box {
+    background: #1E293B; border-radius: 8px; padding: 12px 16px;
+    border: 1px solid #334155;
+  }
+  .progress-top {
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;
+  }
+  .progress-label { font-size: 12px; font-weight: 600; color: #94A3B8; }
+  .progress-value { font-size: 13px; font-weight: 700; color: #D97706; }
+  .progress-value.complete { color: #10B981; }
+  .progress-track { height: 6px; background: #334155; border-radius: 3px; overflow: hidden; }
+  .progress-fill {
+    height: 100%; border-radius: 3px; transition: width 0.4s ease;
+    background: linear-gradient(90deg, #D97706, #F59E0B);
+  }
+  .progress-fill.complete { background: linear-gradient(90deg, #059669, #10B981); }
+  .content { max-width: 720px; margin: 0 auto; padding: 24px 24px 0; }
+  .milestones { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 28px; }
+  .milestone {
+    background: #1E293B; border: 1px solid #334155; border-radius: 10px;
+    padding: 14px 12px; text-align: center;
+  }
+  .milestone-icon { font-size: 20px; margin-bottom: 6px; }
+  .milestone-day {
+    font-size: 11px; font-weight: 700; color: #D97706;
+    letter-spacing: 1px; margin-bottom: 4px;
+  }
+  .milestone-label { font-size: 11px; color: #94A3B8; line-height: 1.4; }
+  .phase {
+    margin-bottom: 16px; border: 1px solid #334155; border-radius: 14px;
+    overflow: hidden; background: #0F172A; transition: all 0.2s;
+  }
+  .phase.expanded { background: #1E293B; }
+  .phase.expanded.amber { border-color: rgba(217, 119, 6, 0.38); }
+  .phase.expanded.blue { border-color: rgba(37, 99, 235, 0.38); }
+  .phase.expanded.green { border-color: rgba(5, 150, 105, 0.38); }
+  .phase-header {
+    width: 100%; display: flex; align-items: center; gap: 14px;
+    padding: 18px 20px; background: none; border: none; cursor: pointer;
+    color: #E2E8F0; text-align: left; font-family: inherit;
+  }
+  .phase-icon {
+    width: 44px; height: 44px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; flex-shrink: 0;
+  }
+  .phase-icon.amber { background: rgba(217, 119, 6, 0.13); }
+  .phase-icon.blue { background: rgba(37, 99, 235, 0.13); }
+  .phase-icon.green { background: rgba(5, 150, 105, 0.13); }
+  .phase-week {
+    font-size: 10px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; margin-bottom: 2px;
+  }
+  .phase-week.amber { color: #D97706; }
+  .phase-week.blue { color: #2563EB; }
+  .phase-week.green { color: #059669; }
+  .phase-title { font-size: 17px; font-weight: 700; color: #F8FAFC; }
+  .phase-subtitle { font-size: 12px; color: #64748B; font-style: italic; }
+  .phase-meta { display: flex; align-items: center; gap: 8px; }
+  .phase-count { font-size: 12px; font-weight: 600; color: #64748B; }
+  .phase-count.done { color: #10B981; }
+  .phase-arrow {
+    font-size: 18px; color: #64748B; transition: transform 0.2s; display: inline-block;
+  }
+  .phase-arrow.open { transform: rotate(180deg); }
+  .phase-body { padding: 0 20px 20px; }
+  .task {
+    background: #0F172A; border: 1px solid #334155; border-radius: 10px;
+    padding: 16px; margin-bottom: 10px; transition: all 0.2s;
+  }
+  .task:last-child { margin-bottom: 0; }
+  .task.checked { background: rgba(5, 150, 105, 0.08); border-color: rgba(5, 150, 105, 0.25); }
+  .task-row { display: flex; align-items: flex-start; gap: 12px; }
+  .checkbox {
+    width: 22px; height: 22px; border-radius: 6px;
+    border: 2px solid #475569; background: transparent; cursor: pointer;
+    flex-shrink: 0; margin-top: 1px; display: flex; align-items: center;
+    justify-content: center; color: #0F172A; font-size: 13px; font-weight: 800;
+    transition: all 0.15s; font-family: inherit;
+  }
+  .checkbox.checked { border-color: #10B981; background: #10B981; }
+  .task-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .task-name { font-size: 14px; font-weight: 700; color: #F8FAFC; }
+  .task-name.checked { color: #10B981; text-decoration: line-through; opacity: 0.7; }
+  .task-hours {
+    font-size: 11px; font-weight: 600; color: #64748B;
+    background: #1E293B; padding: 2px 8px; border-radius: 4px;
+  }
+  .task-desc { font-size: 13px; color: #94A3B8; line-height: 1.55; margin: 0 0 10px; }
+  .task-deliverable { font-size: 12px; font-weight: 600; }
+  .task-deliverable.amber { color: #D97706; }
+  .task-deliverable.blue { color: #2563EB; }
+  .task-deliverable.green { color: #059669; }
+  .footer {
+    margin-top: 24px; padding: 20px; background: #1E293B;
+    border: 1px solid #334155; border-radius: 12px; margin-bottom: 32px;
+  }
+  .footer-title { font-size: 13px; font-weight: 700; color: #D97706; margin-bottom: 8px; letter-spacing: 0.5px; }
+  .footer p { font-size: 13px; color: #94A3B8; line-height: 1.6; }
+  .footer-sig {
+    margin-top: 14px; padding-top: 14px; border-top: 1px solid #334155;
+    font-size: 11px; color: #475569; font-style: italic;
+  }
+  @media (max-width: 600px) {
+    .milestones { grid-template-columns: repeat(2, 1fr); }
+    .header h1 { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-inner">
+    <div class="header-top">
+      <div class="logo">U</div>
+      <div>
+        <div class="header-label">EUDORE'S SIDEKICK</div>
+        <h1>Caleb's AI Learning Path</h1>
+      </div>
+    </div>
+    <p>30-day program to go from AI-curious to Fontaine Brothers' internal AI quarterback. Each week builds on the last. Check items off as you complete them.</p>
+    <div class="progress-box">
+      <div class="progress-top">
+        <span class="progress-label">OVERALL PROGRESS</span>
+        <span class="progress-value" id="progressText">0/12 complete — 0%</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="content">
+  <div class="milestones">
+    <div class="milestone">
+      <div class="milestone-icon">✅</div>
+      <div class="milestone-day">Day 7</div>
+      <div class="milestone-label">Can use Claude confidently for daily tasks</div>
+    </div>
+    <div class="milestone">
+      <div class="milestone-icon">🎯</div>
+      <div class="milestone-day">Day 14</div>
+      <div class="milestone-label">First live demo to leadership team</div>
+    </div>
+    <div class="milestone">
+      <div class="milestone-icon">📊</div>
+      <div class="milestone-day">Day 21</div>
+      <div class="milestone-label">Eudore problem tracker operational</div>
+    </div>
+    <div class="milestone">
+      <div class="milestone-icon">🚀</div>
+      <div class="milestone-day">Day 30</div>
+      <div class="milestone-label">30-day report delivered — ready to scale</div>
+    </div>
+  </div>
+  <div id="phases"></div>
+  <div class="footer">
+    <div class="footer-title">THE MISSION</div>
+    <p>By Day 30, Caleb should be able to take any problem from the Eudore inbox, prototype a solution with Claude, and demo it to the team. Not an AI expert — an AI translator who speaks both "Fontaine" and "machine." That's the sidekick role: keep the initiatives moving, show people what's possible, and bridge the gap between Dave's vision and the team's daily reality.</p>
+    <div class="footer-sig">Eudore at Fontaine Bros — Solving problems since 1933</div>
+  </div>
+</div>
+<script>
+const phases = [
+  {
+    week: "Week 1", title: "The Foundation", subtitle: "From zero to dangerous",
+    icon: "🧱", colorClass: "amber",
+    items: [
+      { name: "Day 1-2: Meet Claude", hours: "3 hrs",
+        desc: "Create your Claude account. Learn the chat interface. Ask it 20 questions about things you actually need help with at work — formatting emails, summarizing a document, explaining a concept. Get comfortable talking to it like a person.",
+        deliverable: "Screenshot your 3 most useful conversations" },
+      { name: "Day 3: Prompting 101", hours: "2 hrs",
+        desc: "Learn the difference between a bad prompt and a great one. Practice: give Claude context, tell it who it is, tell it what you want, give it examples. The formula: Role + Context + Task + Format = great output.",
+        deliverable: "Rewrite 3 bad prompts into great ones, compare outputs" },
+      { name: "Day 4-5: Claude Code Setup", hours: "3 hrs",
+        desc: "Work with Blazer to install Claude Code, GitHub, and set up your secure local folder. Understand: what goes IN the folder (safe to access), what stays OUT (everything else). This is your sandbox.",
+        deliverable: "Claude Code running on your machine with test folder" },
+      { name: "Day 6-7: Real Work, Real Results", hours: "4 hrs",
+        desc: "Take 3 actual tasks from your week — an email to draft, data to organize, a document to summarize — and do them with Claude. Time yourself: how long without AI vs. with AI. Document the difference.",
+        deliverable: "Time comparison log for 3 tasks" }
+    ]
+  },
+  {
+    week: "Week 2", title: "The Builder", subtitle: "From user to creator",
+    icon: "🔨", colorClass: "blue",
+    items: [
+      { name: "Projects & Context Windows", hours: "3 hrs",
+        desc: "Learn how Claude Projects work — upload documents, set instructions, create a persistent workspace. Build your first Project: 'Caleb's Fontaine Workspace' with key company docs loaded.",
+        deliverable: "Working Claude Project with 5+ relevant documents" },
+      { name: "Document Analysis", hours: "3 hrs",
+        desc: "Feed Claude real Fontaine documents — a subcontract, a change order, a schedule update. Ask it to summarize, flag risks, compare versions. Learn how it handles PDFs, spreadsheets, and long documents.",
+        deliverable: "Analysis of one real Fontaine document with Claude" },
+      { name: "Email & Communication Workflows", hours: "2 hrs",
+        desc: "Practice using Claude to draft emails, summarize email threads, extract action items from long chains. Build a prompt template for 'summarize this email chain and tell me what needs my attention.'",
+        deliverable: "Prompt template library (3-5 reusable prompts)" },
+      { name: "First Demo", hours: "2 hrs",
+        desc: "Pick your single best 'wow' moment from the past 2 weeks. Prepare a 3-minute live demo for the leadership team. Show: the problem, what you did with Claude, and the result. Keep it real — show something that actually saved time.",
+        deliverable: "3-minute live demo delivered to leadership" }
+    ]
+  },
+  {
+    week: "Weeks 3-4", title: "The Quarterback", subtitle: "From creator to catalyst",
+    icon: "🏈", colorClass: "green",
+    items: [
+      { name: "Build the Eudore Problem Tracker", hours: "5 hrs",
+        desc: "Create a system to process what comes into eudore@fontainebros.com. Categorize problems by department, theme, and urgency. Use Claude to analyze patterns across submissions. Build a simple dashboard or report format.",
+        deliverable: "Working problem intake + categorization system" },
+      { name: "Prototype: Joel's Email Digest", hours: "4 hrs",
+        desc: "Work with Dave to build a proof-of-concept for Joel's email risk-flagging tool. Start simple: take a batch of Joel's CC'd emails, feed them to Claude, get back a 'risk / no risk / action needed' classification. Show Joel the output.",
+        deliverable: "Sample email digest output for Joel to review" },
+      { name: "Teach One, Learn Two", hours: "3 hrs",
+        desc: "Sit with one non-leadership employee. Show them Claude. Walk them through solving one of THEIR problems with it. Document: what they were skeptical about, what surprised them, what they'd use it for. This is your field research.",
+        deliverable: "Written debrief on one employee AI session" },
+      { name: "The 30-Day Report", hours: "4 hrs",
+        desc: "Compile everything: what you learned, what you built, what worked, what didn't, time saved across all tasks, and your top 3 recommendations for what to build next. Present to leadership.",
+        deliverable: "30-day report + presentation to leadership team" }
+    ]
+  }
+];
+let checkedState = {};
+try {
+  const saved = window.sessionStorage || {};
+} catch(e) {}
+function updateProgress() {
+  const total = phases.reduce((s, p) => s + p.items.length, 0);
+  const checked = Object.values(checkedState).filter(Boolean).length;
+  const pct = Math.round((checked / total) * 100);
+  const el = document.getElementById('progressText');
+  const bar = document.getElementById('progressBar');
+  el.textContent = `${checked}/${total} complete — ${pct}%`;
+  el.className = pct === 100 ? 'progress-value complete' : 'progress-value';
+  bar.style.width = pct + '%';
+  bar.className = pct === 100 ? 'progress-fill complete' : 'progress-fill';
+  phases.forEach((phase, pi) => {
+    const phaseChecked = phase.items.filter((_, ii) => checkedState[`${pi}-${ii}`]).length;
+    const countEl = document.getElementById(`count-${pi}`);
+    if (countEl) {
+      countEl.textContent = `${phaseChecked}/${phase.items.length}`;
+      countEl.className = phaseChecked === phase.items.length ? 'phase-count done' : 'phase-count';
+    }
+  });
+}
+function togglePhase(idx) {
+  const body = document.getElementById(`body-${idx}`);
+  const arrow = document.getElementById(`arrow-${idx}`);
+  const phase = document.getElementById(`phase-${idx}`);
+  if (body.style.display === 'none') {
+    body.style.display = 'block';
+    arrow.className = 'phase-arrow open';
+    phase.classList.add('expanded');
+  } else {
+    body.style.display = 'none';
+    arrow.className = 'phase-arrow';
+    phase.classList.remove('expanded');
+  }
+}
+function toggleCheck(pi, ii) {
+  const key = `${pi}-${ii}`;
+  checkedState[key] = !checkedState[key];
+  const task = document.getElementById(`task-${pi}-${ii}`);
+  const cb = document.getElementById(`cb-${pi}-${ii}`);
+  const name = document.getElementById(`name-${pi}-${ii}`);
+  if (checkedState[key]) {
+    task.classList.add('checked');
+    cb.classList.add('checked');
+    cb.textContent = '✓';
+    name.classList.add('checked');
+  } else {
+    task.classList.remove('checked');
+    cb.classList.remove('checked');
+    cb.textContent = '';
+    name.classList.remove('checked');
+  }
+  updateProgress();
+}
+const container = document.getElementById('phases');
+phases.forEach((phase, pi) => {
+  const expanded = pi === 0;
+  let html = `
+    <div class="phase ${expanded ? 'expanded' : ''} ${phase.colorClass}" id="phase-${pi}">
+      <button class="phase-header" onclick="togglePhase(${pi})">
+        <div class="phase-icon ${phase.colorClass}">${phase.icon}</div>
+        <div style="flex:1">
+          <div class="phase-week ${phase.colorClass}">${phase.week}</div>
+          <div class="phase-title">${phase.title}</div>
+          <div class="phase-subtitle">${phase.subtitle}</div>
+        </div>
+        <div class="phase-meta">
+          <span class="phase-count" id="count-${pi}">0/${phase.items.length}</span>
+          <span class="phase-arrow ${expanded ? 'open' : ''}" id="arrow-${pi}">▾</span>
+        </div>
+      </button>
+      <div class="phase-body" id="body-${pi}" style="display:${expanded ? 'block' : 'none'}">`;
+  phase.items.forEach((item, ii) => {
+    html += `
+        <div class="task" id="task-${pi}-${ii}">
+          <div class="task-row">
+            <button class="checkbox" id="cb-${pi}-${ii}" onclick="toggleCheck(${pi},${ii})"></button>
+            <div style="flex:1">
+              <div class="task-top">
+                <span class="task-name" id="name-${pi}-${ii}">${item.name}</span>
+                <span class="task-hours">${item.hours}</span>
+              </div>
+              <p class="task-desc">${item.desc}</p>
+              <div class="task-deliverable ${phase.colorClass}">📎 Deliverable: ${item.deliverable}</div>
+            </div>
+          </div>
+        </div>`;
+  });
+  html += `</div></div>`;
+  container.innerHTML += html;
+});
+updateProgress();
+</script>
+</body>
+</html>
