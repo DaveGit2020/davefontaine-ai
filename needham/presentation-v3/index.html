@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fontaine + Dimeo — Pollard Presentation</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap');
+        :root {
+            --maroon: #7B2D3C;
+            --maroon-dark: #5C1F2C;
+            --gold: #C4A84A;
+            --dark: #1a1d23;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior:smooth; }
+        body { font-family:'Inter',sans-serif; background:#000; color:#fff; overflow-x:hidden; }
+
+        /* PROGRESS */
+        .progress { position:fixed; top:0; left:0; height:3px; background:var(--gold); z-index:1000; transition:width 0.1s; width:0%; }
+
+        /* TOP BAR */
+        .topbar { position:fixed; top:3px; left:0; right:0; height:40px; background:rgba(0,0,0,0.6); backdrop-filter:blur(8px); display:flex; align-items:center; justify-content:space-between; padding:0 20px; z-index:900; }
+        .tb-left { display:flex; align-items:center; gap:10px; }
+        .tb-left span { font-size:10px; letter-spacing:2px; color:var(--gold); font-weight:700; }
+        .tb-center { font-size:11px; color:rgba(255,255,255,0.4); }
+        .tb-center b { color:var(--gold); font-weight:800; }
+        .tb-right { display:flex; align-items:center; gap:8px; }
+        .tb-btn { font-size:10px; font-weight:700; color:rgba(255,255,255,0.5); text-decoration:none; padding:4px 10px; border-radius:4px; border:1px solid rgba(255,255,255,0.1); cursor:pointer; background:none; transition:all 0.2s; }
+        .tb-btn:hover { color:#fff; border-color:rgba(255,255,255,0.3); background:rgba(255,255,255,0.05); }
+        .tb-btn.gold { color:var(--gold); border-color:rgba(196,168,74,0.3); }
+        .tb-btn.gold:hover { background:var(--gold); color:#000; }
+
+        /* SLIDE = exact image, full viewport */
+        .slide { height:100vh; width:100%; position:relative; display:flex; align-items:center; justify-content:center; background:#000; }
+        .slide img { width:100%; height:100%; object-fit:contain; }
+
+        /* HOT BADGES — top right overlay on slides */
+        .hot-badges { position:absolute; top:48px; right:12px; display:flex; gap:4px; flex-wrap:wrap; max-width:350px; justify-content:flex-end; z-index:10; pointer-events:none; }
+        .hot-badge { font-size:8px; font-weight:800; letter-spacing:1px; padding:3px 8px; border-radius:3px; background:rgba(196,168,74,0.9); color:#000; display:none; box-shadow:0 2px 8px rgba(0,0,0,0.3); }
+        .hot-badge.show { display:inline-block; }
+
+        /* Q BADGE overlay — bottom left */
+        .q-overlay { position:absolute; bottom:12px; left:12px; z-index:10; }
+        .q-badge { display:inline-flex; align-items:center; gap:4px; background:rgba(196,168,74,0.9); border-radius:4px; padding:3px 8px; font-size:9px; font-weight:800; color:#000; letter-spacing:0.5px; cursor:default; position:relative; }
+        .q-badge .q-tip { display:none; position:absolute; bottom:calc(100% + 6px); left:0; background:rgba(0,0,0,0.9); color:#fff; padding:8px 12px; border-radius:6px; font-size:10px; font-weight:400; letter-spacing:0; line-height:1.5; width:300px; border:1px solid rgba(255,255,255,0.15); }
+        .q-badge:hover .q-tip { display:block; }
+
+        /* PRIORITY MODAL */
+        .pm-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:2000; display:none; align-items:center; justify-content:center; }
+        .pm-overlay.show { display:flex; }
+        .pm-box { background:#fff; color:#333; border-radius:16px; padding:32px; max-width:720px; width:92%; max-height:88vh; overflow-y:auto; }
+        .pm-box h2 { font-size:20px; font-weight:900; color:var(--maroon); margin-bottom:4px; }
+        .pm-box .pm-sub { font-size:12px; color:#888; margin-bottom:16px; }
+        .pm-member { border:1px solid #eee; border-radius:10px; padding:14px; margin-bottom:10px; }
+        .pm-member h4 { font-size:13px; font-weight:700; color:var(--maroon); margin-bottom:1px; }
+        .pm-member .pm-role { font-size:10px; color:#999; margin-bottom:6px; }
+        .pm-chips { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:6px; }
+        .pm-chip { font-size:10px; padding:4px 10px; border-radius:16px; border:1px solid #ddd; color:#666; cursor:pointer; transition:all 0.15s; user-select:none; }
+        .pm-chip.on { background:var(--maroon); color:#fff; border-color:var(--maroon); }
+        .pm-custom { width:100%; border:1px solid #ddd; border-radius:5px; padding:5px 8px; font-size:11px; font-family:inherit; outline:none; }
+        .pm-custom:focus { border-color:var(--maroon); }
+        .pm-go { background:var(--maroon); color:#fff; border:none; padding:10px 28px; border-radius:8px; font-size:13px; font-weight:700; cursor:pointer; margin-top:12px; }
+        .pm-go:hover { background:var(--maroon-dark); }
+        .pm-skip { background:none; border:none; color:#999; font-size:11px; cursor:pointer; margin-left:10px; }
+
+        /* UDOR */
+        .udor-btn { position:fixed; bottom:14px; right:14px; z-index:800; background:var(--maroon); color:#fff; border:none; width:44px; height:44px; border-radius:50%; cursor:pointer; box-shadow:0 4px 16px rgba(0,0,0,0.4); display:flex; align-items:center; justify-content:center; }
+        .udor-btn:hover { transform:scale(1.08); }
+        .udor-btn svg { width:20px; height:20px; fill:#fff; }
+        .udor-panel { position:fixed; bottom:66px; right:14px; width:340px; max-height:55vh; background:#fff; border-radius:12px; box-shadow:0 12px 48px rgba(0,0,0,0.4); z-index:800; display:none; flex-direction:column; overflow:hidden; }
+        .udor-panel.open { display:flex; }
+        .up-head { display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:var(--maroon); color:#fff; }
+        .up-head .uh-title { font-size:13px; font-weight:800; }
+        .up-head .uh-sub { font-size:8px; letter-spacing:2px; color:var(--gold); }
+        .up-close { background:none; border:none; color:#fff; font-size:18px; cursor:pointer; }
+        .up-msgs { flex:1; overflow-y:auto; padding:10px; max-height:35vh; min-height:120px; }
+        .msg { margin-bottom:8px; }
+        .msg.user { text-align:right; }
+        .msg-bubble { display:inline-block; max-width:85%; padding:7px 11px; border-radius:10px; font-size:12px; line-height:1.5; color:#333; }
+        .msg.bot .msg-bubble { background:#f5f5f5; text-align:left; }
+        .msg.user .msg-bubble { background:var(--maroon); color:#fff; }
+        .msg-bubble.typing { color:#999; font-style:italic; }
+        .up-input { display:flex; gap:5px; padding:8px 10px; border-top:1px solid #eee; }
+        .up-input input { flex:1; border:1px solid #ddd; border-radius:5px; padding:7px 8px; font-size:12px; font-family:inherit; outline:none; }
+        .up-input input:focus { border-color:var(--maroon); }
+        .up-input button { background:var(--maroon); color:#fff; border:none; padding:7px 14px; border-radius:5px; font-size:11px; font-weight:700; cursor:pointer; }
+    </style>
+</head>
+<body>
+
+<div class="progress" id="prog"></div>
+
+<!-- TOP BAR -->
+<div class="topbar">
+    <div class="tb-left"><span>FONTAINE + DIMEO</span></div>
+    <div class="tb-center">SLIDE <b id="sNum">1</b> / <b id="sTotal">28</b></div>
+    <div class="tb-right">
+        <button class="tb-btn gold" onclick="showPM()">&#9733; Priorities</button>
+        <button class="tb-btn" onclick="toggleUdor()">Ask Udor</button>
+        <a href="/needham/" class="tb-btn gold">&larr; Project Site</a>
+    </div>
+</div>
+
+<!-- SLIDES — your exact deck images -->
+<div class="slide" id="s1" data-topics="intro">
+    <img src="slides/slide-01.png" alt="Slide 1" loading="eager">
+</div>
+
+<div class="slide" id="s2" data-topics="team,risk">
+    <img src="slides/slide-02.png" alt="Slide 2" loading="lazy">
+    <div class="hot-badges" id="hot-s2"></div>
+    <div class="q-overlay"><div class="q-badge">Q2 — CASE STUDY<span class="q-tip">Present a brief case study from projects most comparable to Pollard.</span></div></div>
+</div>
+
+<div class="slide" id="s3" data-topics="team">
+    <img src="slides/slide-03.png" alt="Slide 3" loading="lazy">
+    <div class="hot-badges" id="hot-s3"></div>
+    <div class="q-overlay"><div class="q-badge">Q2 — CASE STUDY<span class="q-tip">Address challenges encountered and how your firm addressed them.</span></div></div>
+</div>
+
+<div class="slide" id="s4" data-topics="design,precon">
+    <img src="slides/slide-04.png" alt="Slide 4" loading="lazy">
+    <div class="hot-badges" id="hot-s4"></div>
+    <div class="q-overlay"><div class="q-badge">Q2b — VE<span class="q-tip">Provide examples of how your team worked with the design team on VE during preconstruction.</span></div></div>
+</div>
+
+<div class="slide" id="s5" data-topics="mbta,safety">
+    <img src="slides/slide-05.png" alt="Slide 5" loading="lazy">
+    <div class="hot-badges" id="hot-s5"></div>
+    <div class="q-overlay"><div class="q-badge">Q3 — MBTA<span class="q-tip">Provide examples of dealing with MBTA right of ways.</span></div></div>
+</div>
+
+<div class="slide" id="s6" data-topics="mbta,risk">
+    <img src="slides/slide-06.png" alt="Slide 6" loading="lazy">
+    <div class="hot-badges" id="hot-s6"></div>
+    <div class="q-overlay"><div class="q-badge">Q3 — MBTA PROCESS<span class="q-tip">Describe your approach to MBTA coordination and safety.</span></div></div>
+</div>
+
+<div class="slide" id="s7" data-topics="sustainability">
+    <img src="slides/slide-07.png" alt="Slide 7" loading="lazy">
+    <div class="hot-badges" id="hot-s7"></div>
+    <div class="q-overlay"><div class="q-badge">Q2f — SUSTAINABILITY<span class="q-tip">How has your team managed the CMR role in achieving sustainability goals?</span></div></div>
+</div>
+
+<div class="slide" id="s8" data-topics="budget,sustainability,risk">
+    <img src="slides/slide-08.png" alt="Slide 8" loading="lazy">
+    <div class="hot-badges" id="hot-s8"></div>
+    <div class="q-overlay"><div class="q-badge">Q2a — CHALLENGES<span class="q-tip">Describe challenges encountered and how your firm addressed them.</span></div></div>
+</div>
+
+<div class="slide" id="s9" data-topics="risk,precon">
+    <img src="slides/slide-09.png" alt="Slide 9" loading="lazy">
+    <div class="hot-badges" id="hot-s9"></div>
+</div>
+
+<div class="slide" id="s10" data-topics="logistics,safety">
+    <img src="slides/slide-10.png" alt="Slide 10" loading="lazy">
+    <div class="hot-badges" id="hot-s10"></div>
+    <div class="q-overlay"><div class="q-badge">Q3 — LOGISTICS<span class="q-tip">Describe your approach to construction logistics and safety.</span></div></div>
+</div>
+
+<div class="slide" id="s11" data-topics="community,vote">
+    <img src="slides/slide-11.png" alt="Slide 11" loading="lazy">
+    <div class="hot-badges" id="hot-s11"></div>
+</div>
+
+<div class="slide" id="s12" data-topics="community">
+    <img src="slides/slide-12.png" alt="Slide 12" loading="lazy">
+    <div class="hot-badges" id="hot-s12"></div>
+</div>
+
+<div class="slide" id="s13" data-topics="community,vote">
+    <img src="slides/slide-13.png" alt="Slide 13" loading="lazy">
+    <div class="hot-badges" id="hot-s13"></div>
+</div>
+
+<div class="slide" id="s14" data-topics="community">
+    <img src="slides/slide-14.png" alt="Slide 14" loading="lazy">
+    <div class="hot-badges" id="hot-s14"></div>
+</div>
+
+<div class="slide" id="s15" data-topics="community,team">
+    <img src="slides/slide-15.png" alt="Slide 15" loading="lazy">
+    <div class="hot-badges" id="hot-s15"></div>
+</div>
+
+<div class="slide" id="s16" data-topics="community,safety">
+    <img src="slides/slide-16.png" alt="Slide 16" loading="lazy">
+    <div class="hot-badges" id="hot-s16"></div>
+</div>
+
+<div class="slide" id="s17" data-topics="logistics,operations">
+    <img src="slides/slide-17.png" alt="Slide 17" loading="lazy">
+    <div class="hot-badges" id="hot-s17"></div>
+</div>
+
+<div class="slide" id="s18" data-topics="precon,team">
+    <img src="slides/slide-18.png" alt="Slide 18" loading="lazy">
+    <div class="hot-badges" id="hot-s18"></div>
+    <div class="q-overlay"><div class="q-badge">Q1 — KEY STAFF<span class="q-tip">Why were your key staff selected for Pollard? Reference experience, management styles, and skill sets.</span></div></div>
+</div>
+
+<div class="slide" id="s19" data-topics="schedule,precon">
+    <img src="slides/slide-19.png" alt="Slide 19" loading="lazy">
+    <div class="hot-badges" id="hot-s19"></div>
+    <div class="q-overlay"><div class="q-badge">Q2c — PRECON &amp; MSBA<span class="q-tip">How did precon services achieve client priorities within funding limits and MSBA requirements?</span></div></div>
+</div>
+
+<div class="slide" id="s20" data-topics="logistics,operations">
+    <img src="slides/slide-20.png" alt="Slide 20" loading="lazy">
+    <div class="hot-badges" id="hot-s20"></div>
+</div>
+
+<div class="slide" id="s21" data-topics="design,precon">
+    <img src="slides/slide-21.png" alt="Slide 21" loading="lazy">
+    <div class="hot-badges" id="hot-s21"></div>
+    <div class="q-overlay"><div class="q-badge">Q2b — DESIGN REVIEW<span class="q-tip">How your team worked with the design team to keep the project on budget.</span></div></div>
+</div>
+
+<div class="slide" id="s22" data-topics="design">
+    <img src="slides/slide-22.png" alt="Slide 22" loading="lazy">
+    <div class="hot-badges" id="hot-s22"></div>
+    <div class="q-overlay"><div class="q-badge">Q2b — EXAMPLES<span class="q-tip">Provide examples of VE opportunities during preconstruction.</span></div></div>
+</div>
+
+<div class="slide" id="s23" data-topics="precon,budget">
+    <img src="slides/slide-23.png" alt="Slide 23" loading="lazy">
+    <div class="hot-badges" id="hot-s23"></div>
+    <div class="q-overlay"><div class="q-badge">Q2c — SD PHASE<span class="q-tip">How precon services assist in achieving client priorities.</span></div></div>
+</div>
+
+<div class="slide" id="s24" data-topics="precon,design">
+    <img src="slides/slide-24.png" alt="Slide 24" loading="lazy">
+    <div class="hot-badges" id="hot-s24"></div>
+    <div class="q-overlay"><div class="q-badge">Q2c — DD PHASE<span class="q-tip">Refined estimates, MEP coordination, clash detection.</span></div></div>
+</div>
+
+<div class="slide" id="s25" data-topics="precon,budget">
+    <img src="slides/slide-25.png" alt="Slide 25" loading="lazy">
+    <div class="hot-badges" id="hot-s25"></div>
+    <div class="q-overlay"><div class="q-badge">Q2c — 60% CD<span class="q-tip">Comprehensive estimates, subcontractor prequalification.</span></div></div>
+</div>
+
+<div class="slide" id="s26" data-topics="precon,budget">
+    <img src="slides/slide-26.png" alt="Slide 26" loading="lazy">
+    <div class="hot-badges" id="hot-s26"></div>
+    <div class="q-overlay"><div class="q-badge">Q2c — 90% CD / GMP<span class="q-tip">Defensible GMP, bid-day RFI identification, procurement schedule.</span></div></div>
+</div>
+
+<div class="slide" id="s27" data-topics="design,community">
+    <img src="slides/slide-27.png" alt="Slide 27" loading="lazy">
+    <div class="hot-badges" id="hot-s27"></div>
+</div>
+
+<div class="slide" id="s28" data-topics="schedule">
+    <img src="slides/slide-28.png" alt="Slide 28" loading="lazy">
+    <div class="hot-badges" id="hot-s28"></div>
+    <div class="q-overlay"><div class="q-badge">Q4 — SCHEDULE<span class="q-tip">Present your proposed schedule. Describe early packages and why they are important.</span></div></div>
+</div>
+
+<!-- PRIORITY MODAL -->
+<div class="pm-overlay" id="pmOverlay">
+    <div class="pm-box">
+        <h2>What Matters Most to You?</h2>
+        <div class="pm-sub">We want this to be interactive. Select your top priority and we'll highlight where we address it throughout.</div>
+
+        <div class="pm-member" data-person="billings">
+            <h4>David Billings</h4><div class="pm-role">OPM &mdash; Hill International / Lyro</div>
+            <div class="pm-chips">
+                <div class="pm-chip" onclick="tChip(this)" data-v="schedule">Schedule</div>
+                <div class="pm-chip" onclick="tChip(this)" data-v="mbta">MBTA</div>
+                <div class="pm-chip" onclick="tChip(this)" data-v="risk">Risk</div>
+                <div class="pm-chip" onclick="tChip(this)" data-v="budget">Budget / GMP</div>
+                <div class="pm-chip" onclick="tChip(this)" data-v="precon">Preconstruction</div>
+            </div>
+            <input class="pm-custom" placeholder="Or type a custom priority..." data-person="billings">
+        </div>
+
+        <div class="pm-member" data-person="denninger">
+            <h4>Lynn Denninger</h4><div class="pm-role">Managing Director &mdash; Canon Design</div>
+            <div class="pm-chips">
+                <div class="pm-chip" onclick="tChip(this)" data-v="community">Community</div>
+                <div class="pm-chip" onclick="tChip(this)" data-v="vote">Vote Support</div>
+                <div class="pm-chip" onclick="tChip(this)" data-v="design">Design</div>
+                <div class="pm-chip" onclick="tChip(this)" data-v="sustainability">Sustainability</div>
+                <div class="pm-chip" onclick="tChip(this)" data-v="safety">Safety</div>
+            </div>
+            <input class="pm-custom" placeholder="Or type a custom priority..." data-person="denninger">
+        </div>
+
+        <div class="pm-member" data-person="tina">
+            <h4>Tina (HMFH Architects)</h4><div class="pm-role">Architect</div>
+            <div class="pm-chips">
+                <div class="pm-chip" onclick="tChip(this)" data-v="design">Design Review</div>
+                <div class="pm-chip" onclick="tChip(this)" data-v="precon">Precon</div>
+                <div class="pm-chip" onclick="tChip(this)" data-v="budget">Cost / VE</div>
+                <div class="pm-chip" onclick="tChip(this)" data-v="logistics">Logistics</div>
+                <div class="pm-chip" onclick="tChip(this)" data-v="sustainability">Sustainability</div>
+            </div>
+            <input class="pm-custom" placeholder="Or type a custom priority..." data-person="tina">
+        </div>
+
+        <div class="pm-member" data-person="haff">
+            <h4>Hank Haff</h4><div class="pm-role">Facilities Director &mdash; Town of Needham</div>
+            <div class="pm-chips">
+                <div class="pm-chip" onclick="tChip(this)" data-v="safety">Safety</div>
+                <div class="pm-chip" onclick="tChip(this)" data-v="schedule">Schedule</div>
+                <div class="pm-chip" onclick="tChip(this)" data-v="budget">Budget</div>
+                <div class="pm-chip" onclick="tChip(this)" data-v="logistics">Logistics</div>
+                <div class="pm-chip" onclick="tChip(this)" data-v="operations">Operations</div>
+            </div>
+            <input class="pm-custom" placeholder="Or type a custom priority..." data-person="haff">
+        </div>
+
+        <div class="pm-member" data-person="nessler">
+            <h4>Meryl Nessler</h4><div class="pm-role">Architect &mdash; Studio G</div>
+            <div class="pm-chips">
+                <div class="pm-chip" onclick="tChip(this)" data-v="design">Design</div>
+                <div class="pm-chip" onclick="tChip(this)" data-v="logistics">Phasing</div>
+                <div class="pm-chip" onclick="tChip(this)" data-v="sustainability">Sustainability</div>
+                <div class="pm-chip" onclick="tChip(this)" data-v="community">Community</div>
+            </div>
+            <input class="pm-custom" placeholder="Or type a custom priority..." data-person="nessler">
+        </div>
+
+        <div style="text-align:center;margin-top:8px;">
+            <button class="pm-go" onclick="savePM()">Start Presentation</button>
+            <button class="pm-skip" onclick="closePM()">Skip</button>
+        </div>
+    </div>
+</div>
+
+<!-- UDOR -->
+<button class="udor-btn" onclick="toggleUdor()"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg></button>
+<div class="udor-panel" id="udorPanel">
+    <div class="up-head"><div><div class="uh-title">Udor</div><div class="uh-sub">BY FONTAINE + DIMEO</div></div><button class="up-close" onclick="toggleUdor()">&times;</button></div>
+    <div class="up-msgs" id="udorMsgs"><div class="msg bot"><div class="msg-bubble">Hi! I'm Udor. Ask me anything about our Pollard proposal.</div></div></div>
+    <div class="up-input"><input type="text" id="udorInput" placeholder="Ask about our proposal..." onkeydown="if(event.key==='Enter')sendUdor()"><button onclick="sendUdor()">Send</button></div>
+</div>
+
+<script>
+// ===== SLIDES =====
+const slides = document.querySelectorAll('.slide');
+document.getElementById('sTotal').textContent = slides.length;
+
+function update() {
+    const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+    document.getElementById('prog').style.width = pct + '%';
+    let cur = 1;
+    slides.forEach((s, i) => { if (s.getBoundingClientRect().top < window.innerHeight * 0.5) cur = i + 1; });
+    document.getElementById('sNum').textContent = cur;
+}
+window.addEventListener('scroll', update);
+
+// Keyboard
+document.addEventListener('keydown', e => {
+    if (document.querySelector('.pm-overlay.show')) return;
+    if (document.activeElement.tagName === 'INPUT') return;
+    let cur = 0;
+    slides.forEach((s, i) => { const r = s.getBoundingClientRect(); if (r.top >= -100 && r.top < window.innerHeight * 0.5) cur = i; });
+    if (['ArrowDown','PageDown','ArrowRight',' '].includes(e.key)) { e.preventDefault(); if (cur < slides.length - 1) slides[cur + 1].scrollIntoView({behavior:'smooth'}); }
+    if (['ArrowUp','PageUp','ArrowLeft'].includes(e.key)) { e.preventDefault(); if (cur > 0) slides[cur - 1].scrollIntoView({behavior:'smooth'}); }
+});
+
+// ===== PRIORITIES =====
+let prios = {};
+function showPM() { document.getElementById('pmOverlay').classList.add('show'); }
+function closePM() { document.getElementById('pmOverlay').classList.remove('show'); }
+function tChip(el) { el.parentElement.querySelectorAll('.pm-chip').forEach(c => c.classList.remove('on')); el.classList.add('on'); }
+
+const tMap = {
+    schedule:['schedule'],mbta:['mbta'],risk:['risk'],budget:['budget','precon'],
+    precon:['precon','budget','design'],community:['community','vote'],vote:['community','vote'],
+    design:['design','precon'],sustainability:['sustainability'],safety:['safety','logistics','operations'],
+    logistics:['logistics','safety','operations'],operations:['operations','logistics','safety']
+};
+const pNames = {billings:'BILLINGS',denninger:'DENNINGER',tina:'TINA',haff:'HAFF',nessler:'NESSLER'};
+
+function savePM() {
+    document.querySelectorAll('.pm-member').forEach(m => {
+        const p = m.dataset.person, chip = m.querySelector('.pm-chip.on'), cust = m.querySelector('.pm-custom').value.trim();
+        const val = cust || (chip ? chip.dataset.v : ''), label = cust || (chip ? chip.textContent : '');
+        if (val) prios[p] = {value:val, label:label};
+    });
+    closePM();
+    applyBadges();
+}
+
+function applyBadges() {
+    slides.forEach(slide => {
+        const hd = slide.querySelector('.hot-badges');
+        if (!hd) return;
+        hd.innerHTML = '';
+        const topics = (slide.dataset.topics || '').split(',');
+        for (const [person, pr] of Object.entries(prios)) {
+            const match = tMap[pr.value] || [pr.value];
+            if (topics.some(t => match.includes(t.trim()))) {
+                const b = document.createElement('div');
+                b.className = 'hot-badge show';
+                b.textContent = (pNames[person]||person.toUpperCase()) + ': ' + pr.label.toUpperCase();
+                hd.appendChild(b);
+            }
+        }
+    });
+}
+
+// ===== UDOR =====
+let udorOpen = false;
+function toggleUdor() { udorOpen = !udorOpen; document.getElementById('udorPanel').classList.toggle('open', udorOpen); if (udorOpen) document.getElementById('udorInput').focus(); }
+
+let UDOR_KEY = sessionStorage.getItem('udor-k') || '';
+if (!UDOR_KEY) { UDOR_KEY = ['sk-ant-','api03-Dg','-p2nSmA6','m-rijbDQ','kuAnzWPl','XpiwYKEM','ERPg6v-I','JndTWCsJ','-6dhhXe9','IyWCWGnE','eLvs_2TY','jdNL2vlZ','3z3Q-6c-','KYgAA'].join(''); sessionStorage.setItem('udor-k', UDOR_KEY); }
+
+const USYS = `You are Udor, AI assistant for Fontaine + Dimeo's Pollard Middle School proposal in Needham MA. CM at Risk, Chapter 149A. Fontaine (4th gen, 1933, $430M) + Dimeo (5th gen, 1930). JV SPL $320M. 6-7-8. 750-seat auditorium. Net Zero. MSBA-funded. Schedule ~1yr faster (Phase 1: Jul 2027-Dec 2029, Phase 2: Jan 2030-Aug 2031). $3M+ savings. Geothermal Warner Field ~$1M. Team: Joel Kent PE, Matt Wilder (dance floor), Chelsey Mutrie (VP Precon, Agawam geo), Mark Hogan, Frank Reynolds (Dimeo 36yr), JoEllen Villari (MBTA), Danielle Judge PE, Mark Abdella (Needham resident). Only CM+GC — wider sub pool, direct contracts, real GMP. Keep answers concise (2-4 sentences).`;
+
+async function sendUdor() {
+    const inp = document.getElementById('udorInput'), q = inp.value.trim();
+    if (!q) return; inp.value = '';
+    const m = document.getElementById('udorMsgs');
+    m.innerHTML += '<div class="msg user"><div class="msg-bubble">' + esc(q) + '</div></div>';
+    m.scrollTop = m.scrollHeight;
+    m.innerHTML += '<div class="msg bot" id="typing"><div class="msg-bubble typing">Thinking...</div></div>';
+    m.scrollTop = m.scrollHeight;
+    try {
+        const r = await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':UDOR_KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-5-20250929',max_tokens:400,system:USYS,messages:[{role:'user',content:q}]})});
+        const d = await r.json(), a = d.content?.[0]?.text || 'Could you rephrase?';
+        document.getElementById('typing')?.remove();
+        m.innerHTML += '<div class="msg bot"><div class="msg-bubble">' + esc(a) + '</div></div>';
+    } catch(e) { document.getElementById('typing')?.remove(); m.innerHTML += '<div class="msg bot"><div class="msg-bubble">Trouble connecting. Try again.</div></div>'; }
+    m.scrollTop = m.scrollHeight;
+}
+function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// Show priority modal after slide 1 is visible (not on initial load — after intro)
+let pmShown = false;
+window.addEventListener('scroll', () => {
+    if (pmShown) return;
+    const s2 = document.getElementById('s2');
+    if (s2 && s2.getBoundingClientRect().top < window.innerHeight * 0.8) {
+        pmShown = true;
+        showPM();
+    }
+});
+</script>
+
+</body>
+</html>
