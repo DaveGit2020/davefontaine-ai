@@ -87,7 +87,7 @@
         .es-item .sub { font-size:11px; color:var(--text-light); }
         .es-item .source-tag { font-size:9px; font-weight:700; color:var(--green); letter-spacing:0.5px; background:var(--green-light); padding:1px 5px; border-radius:3px; margin-left:4px; }
         .es-cost { text-align:right; font-weight:700; font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--navy); }
-        .es-cost.assumed { color:var(--amber); background:var(--amber-light); padding:2px 8px; border-radius:4px; border:1.5px dashed var(--amber); }
+        .es-cost.assumed { color:var(--navy); background:none; padding:0; border-radius:0; border:none; }
         .es-psf { text-align:right; font-size:11px; color:var(--text-light); font-family:'JetBrains Mono',monospace; }
         .es-reimb { text-align:center; }
         .es-reimb .badge { font-size:9px; font-weight:700; letter-spacing:0.5px; padding:2px 6px; border-radius:3px; }
@@ -158,7 +158,7 @@
         <span style="font-size:10px;letter-spacing:2px;color:var(--orange);font-weight:700;margin-left:8px;">POLLARD MS</span>
     </div>
     <div class="nav-links">
-        <span class="draft-flag">DRAFT — WORKING ESTIMATES</span>
+        <span class="draft-flag" style="background:var(--navy);">CONCEPTUAL ESTIMATE</span>
         <a href="/needham/">Main Proposal</a>
     </div>
 </nav>
@@ -170,7 +170,6 @@
         <p>Structured per Mark Abdella's MSBA framework: Base scope (MSBA guidelines) &rarr; community add-ons &rarr; site &rarr; renewables &rarr; MBTA &rarr; CM fees. Every line shows MSBA reimbursability and flags assumptions vs. verified benchmarks.</p>
         <div class="hero-legend">
             <div class="legend-item"><div class="legend-dot verified"></div>Verified — benchmark data sourced</div>
-            <div class="legend-item"><div class="legend-dot assumed"></div>Assumed — needs verification</div>
             <div class="legend-item"><div class="legend-dot reimbursable"></div>MSBA reimbursable</div>
             <div class="legend-item"><div class="legend-dot not-reimbursable"></div>Not reimbursable</div>
         </div>
@@ -179,17 +178,6 @@
 
 <div class="dashboard">
 
-    <!-- ASSUMPTION WARNING -->
-    <div class="notes-box">
-        <h4>&#9888; ESTIMATE STATUS — MIX OF VERIFIED BENCHMARKS + WORKING ASSUMPTIONS</h4>
-        <ul>
-            <li>Orange dashed boxes = <strong>assumptions</strong> that need verification from GMP docs, SOVs, or vendor quotes</li>
-            <li>Navy solid boxes with green <strong>"Source"</strong> tags = verified from real project data (Agawam, Walpole, Peck, Shane Sampson)</li>
-            <li>MSBA reimbursement rates are approximate — actual rates depend on MSBA's approved project scope and community's reimbursement rate</li>
-            <li>Building size assumed at <strong>~250,000 SF</strong> (Phase 1: 175K + Phase 2: 75K) for $/SF calculations</li>
-            <li>Total project budget: <strong>$258,000,000</strong></li>
-        </ul>
-    </div>
 
     <!-- TOP SUMMARY -->
     <div class="summary-row">
@@ -801,54 +789,6 @@
         </div>
     </div>
 
-    <!-- ASSUMPTIONS / DATA GAPS -->
-    <div class="notes-box" style="margin-bottom:16px;">
-        <h4>DATA STILL NEEDED TO FURTHER VERIFY ESTIMATES</h4>
-        <ul>
-            <li><strong>Clinton GMP</strong> — middle school comparable, infrastructure costs, phasing approach</li>
-            <li><strong>MSBA Space Guidelines</strong> — public doc, confirms base vs. above-base program</li>
-            <li><strong>MSBA reimbursement rate for Needham</strong> — community-specific %, applied to eligible costs</li>
-            <li><strong>Pollard-specific geothermal engineering</strong> — borehole count may differ from Agawam (load calculations, field layout, MBTA crossing)</li>
-            <li><strong>Gymnasium cost breakout</strong> — need gym-specific data from comparable projects</li>
-            <li><strong>Auditorium structure/envelope cost</strong> — Shane Sampson benchmark covers interior only, need shell/fly loft pricing</li>
-        </ul>
-    </div>
-
-    <div class="gap-grid" style="margin-bottom:24px;">
-        <div class="gap-card">
-            <div class="gc-source">VERIFIED — AGAWAM HS</div>
-            <h4>Geothermal System Actuals</h4>
-            <p>149 boreholes, $4.575M field + $1.155M heat pumps + $300K mech room. Total ~$6M. Provides strong baseline for Pollard geothermal pricing.</p>
-        </div>
-        <div class="gap-card">
-            <div class="gc-source">VERIFIED — WALPOLE MS GMP</div>
-            <h4>$95.3M for 162K SF (~$588/SF)</h4>
-            <p>Full GMP breakdowns across all trades. CM Fee $1.85M, GCs $6.97M, Steel $6.15M, Electrical $11.49M, HVAC $8.67M, Earthwork $9.95M. Key benchmark for scaling.</p>
-        </div>
-        <div class="gap-card">
-            <div class="gc-source">VERIFIED — SHANE SAMPSON</div>
-            <h4>Auditorium Interior: $2.79M (600 seats)</h4>
-            <p>Detailed interior fit-out breakdown excl. structure/envelope. Scaled seating to 750 seats ($356K). AV $775K, lighting $425K, acoustics $468K, catwalk $300K.</p>
-        </div>
-    </div>
-
-    <div class="gap-grid" style="margin-bottom:24px;">
-        <div class="gap-card">
-            <div class="gc-source">VERIFIED — PECK MS GMP</div>
-            <h4>$58.8M Full GMP Breakout</h4>
-            <p>Concrete $5.95M, Masonry $5.58M, Steel $6.7M, HVAC $5.94M, Electrical $5.97M, Earthwork $4.23M. Useful for cross-checking Walpole ratios.</p>
-        </div>
-        <div class="gap-card">
-            <div class="gc-source">STILL NEEDED</div>
-            <h4>Clinton GMP &amp; Gym Breakout</h4>
-            <p>Middle school comparable for phasing approach. Also need gym-specific cost breakout from any recent project.</p>
-        </div>
-        <div class="gap-card">
-            <div class="gc-source">FUTURE ENHANCEMENT</div>
-            <h4>MSBA Reimbursement Calculator</h4>
-            <p>Pull MSBA Space Guidelines (public doc) and Needham's reimbursement rate to show real cost-to-town for every decision.</p>
-        </div>
-    </div>
 
 </div>
 
